@@ -1,5 +1,18 @@
 @tailwind base;
 
+:root{
+--color-dark-blue: #013188;
+--color-teal-blue: #005fb7;
+--color-azure-blue: #0093ff;
+--color-light-blue: #bce0fd;
+--color-yellow-orange: #ffb100;
+--color-outer-space: #343D40;
+--color-medium-grey: #7f7f7f;
+--color-light-grey: #ededed;
+}
+body{
+  font-family: 'Source Sans Pro', sans-serif;
+}
 a {
   @apply text-blue-700;
 }
@@ -19,3 +32,15 @@ a:hover {
 .content ul {
   @apply my-6;
 }
+
+.bg-dark-blue{
+  background: var(--color-dark-blue)
+}
+
+.bg-light-grey{
+  background: var(--color-light-grey)
+}
+.bg-medium-grey{
+  background: var(--color-medium-grey)
+}
+
