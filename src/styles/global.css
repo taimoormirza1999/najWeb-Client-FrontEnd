@@ -9,6 +9,7 @@
 --color-outer-space: #343D40;
 --color-medium-grey: #7f7f7f;
 --color-light-grey: #ededed;
+--color-hover-grey: #e0e0e0;
 }
 body{
   font-family: 'Source Sans Pro', sans-serif;
@@ -42,5 +43,17 @@ a:hover {
 }
 .bg-medium-grey{
   background: var(--color-medium-grey)
+}
+.bg-hover-grey{
+  background: var(--color-hover-grey)
+}
+.text-medium-gray{
+  color: var(--color-medium-grey)
+}
+.text-yellow-orange{
+  color: var(--color-yellow-orange)
+}
+.text-dark-blue{
+  color: var(--color-dark-blue)
 }
 

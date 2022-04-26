@@ -1,14 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
-import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  MenuIcon,
-  UsersIcon,
-  XIcon,
-} from '@heroicons/react/outline';
+import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
 
 type IMainProps = {
@@ -17,17 +9,16 @@ type IMainProps = {
 };
 
 const navigation = [
-  { name: 'Statement', href: '#', icon: HomeIcon, current: true },
-  { name: 'Summaries', href: '#', icon: UsersIcon, current: false },
-  { name: 'Price Lists', href: '#', icon: FolderIcon, current: false },
+  { name: 'Summaries', href: '#', gicon: '&#xe14f;', current: true },
+  { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
+  { name: 'Price Lists', href: '#', gicon: '&#xe14f;', current: false },
   {
     name: 'Estimate Calculator',
     href: '#',
-    icon: CalendarIcon,
+    gicon: 'e14f',
     current: false,
   },
-  { name: 'Terms & Conditions', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
 ];
 
 function classNames(...classes) {
@@ -36,6 +27,8 @@ function classNames(...classes) {
 
 const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data, status } = useSession();
+  console.log(data);
 
   return (
     <>
@@ -102,8 +95,8 @@ const Layout = (props: IMainProps) => {
                   <div className="flex shrink-0 items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                      alt="Workflow"
+                      src="/assets/images/logo-en.png"
+                      alt="Nejoum Al Jazeera"
                     />
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
@@ -118,15 +111,9 @@ const Layout = (props: IMainProps) => {
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}
                       >
-                        <item.icon
-                          className={classNames(
-                            item.current
-                              ? 'text-gray-500'
-                              : 'text-gray-400 group-hover:text-gray-500',
-                            'mr-4 flex-shrink-0 h-6 w-6'
-                          )}
-                          aria-hidden="true"
-                        />
+                        <i className="material-icons lg:mr-2 text-xs">
+                          &#xe14f;
+                        </i>
                         {item.name}
                       </a>
                     ))}
@@ -136,17 +123,16 @@ const Layout = (props: IMainProps) => {
                   <a href="#" className="group block shrink-0">
                     <div className="flex items-center">
                       <div>
-                        <img
-                          className="inline-block h-10 w-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
+                        <i className="material-icons lg:mr-2 text-xs color-yellow-orange">
+                          &#xe853;
+                        </i>
                       </div>
                       <div className="ml-3">
-                        <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
+                        <p className="text-xl font-medium text-gray-700 group-hover:text-gray-900 ">
                           Ali Turkey
                         </p>
-                        <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">
+                        <p className="text-medium-gray text-xs font-medium group-hover:text-gray-700">
+                          <i className="material-icons lg:mr-2 text-xs">&#xe9ba;</i>
                           Sign out
                         </p>
                       </div>
@@ -162,15 +148,15 @@ const Layout = (props: IMainProps) => {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col lg:w-96">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-gray-100">
+          <div className="bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200">
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-              <div className="mb-24 flex shrink-0 items-center px-4">
+              <div className="mb-24 mt-4 flex shrink-0 items-center pl-8 pr-11">
                 <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                  alt="Workflow"
+                  className="h-[82px] w-auto"
+                  src="/assets/images/logo-en.png"
+                  alt="Nejoum Al Jazeera"
                 />
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-2">
@@ -180,49 +166,48 @@ const Layout = (props: IMainProps) => {
                     href={item.href}
                     className={classNames(
                       item.current
-                        ? 'bg-gray-100 text-gray-900'
+                        ? 'bg-hover-grey text-gray-900'
                         : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      'group flex items-center px-2 py-2 font-medium rounded-md hover:border-inherit text-3xl '
                     )}
                   >
-                    <item.icon
-                      className={classNames(
-                        item.current
-                          ? 'text-gray-500'
-                          : 'text-gray-400 group-hover:text-gray-500',
-                        'mr-3 flex-shrink-0 h-6 w-6'
-                      )}
-                      aria-hidden="true"
-                    />
+                    <i className="material-icons lg:mr-2 text-3xl">&#xe14f;</i>
                     {item.name}
                   </a>
                 ))}
               </nav>
             </div>
             <div className="flex shrink-0 border-t border-gray-200 p-4">
-              <a href="#" className="group block w-full shrink-0">
-                <div className="flex items-center">
-                  <div>
-                    <img
-                      className="inline-block h-9 w-9 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+              <div className="flex items-center">
+                <div>
+                  <i className="material-icons lg:mr-2 text-xs color-yellow-orange">
+                    &#xe853;
+                  </i>
+                </div>
+                <div className="ml-3">
+                  <a
+                    href="#"
+                    className="group block w-full shrink-0 hover:border-inherit"
+                  >
+                    <p className="text-xl font-medium text-gray-700 group-hover:text-gray-900 ">
                       Ali Turkey
                     </p>
-                    <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                  </a>
+                  <a
+                    href="#"
+                    className="group block w-full shrink-0 hover:border-inherit"
+                  >
+                    <p className="text-medium-gray text-xs font-medium group-hover:text-gray-700">
+                      <i className="material-icons lg:mr-2 text-xs">&#xe9ba;</i>
                       Sign out
                     </p>
-                  </div>
+                  </a>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col md:pl-64">
+        <div className="flex flex-1 flex-col md:pl-64 lg:pl-96">
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"
@@ -234,10 +219,10 @@ const Layout = (props: IMainProps) => {
             </button>
           </div>
           <main className="flex-1">
-            <div className="bg-dark-blue">
+            <div className="bg-dark-blue pb-5 pt-8">
               <div className="ml-6 max-w-7xl py-8 px-4 sm:py-12 sm:px-6 lg:flex lg:justify-between lg:px-6">
                 <div className="max-w-xl">
-                  <h2 className="text-3xl font-bold text-white sm:text-2xl sm:tracking-tight lg:text-4xl">
+                  <h2 className="text-3xl font-normal text-white sm:text-5xl sm:tracking-tight">
                     Welcome Mr. Ali
                   </h2>
                 </div>
