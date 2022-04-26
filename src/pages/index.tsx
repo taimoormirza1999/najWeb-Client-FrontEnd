@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
@@ -8,6 +10,8 @@ const Index = () => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
   const router = useRouter();
+
+  const { t } = useTranslation('common');
 
   /* useEffect(() => {
     if(!loading && !session) {
@@ -18,7 +22,7 @@ const Index = () => {
   return (
     <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
       <div className="home-banner relative">
-        <img src="assets/images/slider-bg.jpg" className="" alt="banner" />
+        <img src="/assets/images/slider-bg.jpg" className="" alt="banner" />
         <div
           style={{ backgroundColor: 'rgba(0,61,117, .6)' }}
           className="absolute top-[8rem] right-[8rem] flex h-[45rem] w-[35rem] flex-col justify-center rounded-[25px] p-4 opacity-100"
@@ -34,7 +38,7 @@ const Index = () => {
                 href="#"
                 className="rounded-sm bg-blue-500 py-3 px-4 text-[1.5em] font-medium text-white hover:border-0 hover:bg-blue-400"
               >
-                Ship cars
+                {t('Ship cars')}
               </a>
               <a
                 href="#"
@@ -55,7 +59,7 @@ const Index = () => {
           <div className="basis-1/2">
             <img
               className="mx-auto h-[470px]"
-              src="assets/images/ship-cars.png"
+              src="/assets/images/ship-cars.png"
               alt="Shipping Cars"
             />
           </div>
@@ -90,7 +94,7 @@ const Index = () => {
             <div className="basis-1/2">
               <img
                 className="mx-auto"
-                src="assets/images/app-landing.png"
+                src="/assets/images/app-landing.png"
                 alt="Mobile App"
               />
             </div>
@@ -103,7 +107,7 @@ const Index = () => {
           <div className="basis-1/2">
             <img
               className="mx-auto h-[600px]"
-              src="assets/images/car-tracking.png"
+              src="/assets/images/car-tracking.png"
               alt="Tracking Cars"
             />
           </div>
@@ -122,9 +126,9 @@ const Index = () => {
 
       <div className="container mx-auto">
         <div className="flex gap-16">
-          <img src="assets/images/service-auction.png" alt="Tracking Cars" />
-          <img src="assets/images/service-shipping.png" alt="Car Shipping" />
-          <img src="assets/images/service-car-sell.png" alt="Car Sell" />
+          <img src="/assets/images/service-auction.png" alt="Tracking Cars" />
+          <img src="/assets/images/service-shipping.png" alt="Car Shipping" />
+          <img src="/assets/images/service-car-sell.png" alt="Car Sell" />
         </div>
       </div>
 
@@ -132,7 +136,7 @@ const Index = () => {
         <h3 className="block-heading text-center !text-6xl">Contact Us</h3>
         <img
           className="relative -z-10 mx-auto max-w-[80%] pt-8"
-          src="assets/images/contact-us.jpg"
+          src="/assets/images/contact-us.jpg"
           alt="Contact Us"
         />
         <div className="bg-light-grey mx-auto -mt-16 max-w-[80%] rounded-b-[60px] p-8 text-center">
@@ -155,14 +159,14 @@ const Index = () => {
           <li className="inline-block">
             <img
               className="h-24"
-              src="assets/images/apple-store-icon.png"
+              src="/assets/images/apple-store-icon.png"
               alt="iOS App"
             />
           </li>
           <li className="ml-24 inline-block">
             <img
               className="h-24"
-              src="assets/images/google-store-icon.png"
+              src="/assets/images/google-store-icon.png"
               alt="Andriod App"
             />
           </li>
@@ -173,14 +177,18 @@ const Index = () => {
         <h3 className="block-heading !text-6xl ">Trusted By</h3>
         <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
           <div className="flex justify-center gap-[13rem] px-16 py-2">
-            <img className="h-24" src="assets/images/copart.png" alt="Copart" />
-            <img className="h-24" src="assets/images/iaai.png" alt="IAAI" />
             <img
               className="h-24"
-              src="assets/images/manheim.png"
+              src="/assets/images/copart.png"
+              alt="Copart"
+            />
+            <img className="h-24" src="/assets/images/iaai.png" alt="IAAI" />
+            <img
+              className="h-24"
+              src="/assets/images/manheim.png"
               alt="Manheim"
             />
-            <img className="h-24" src="assets/images/adesa.png" alt="ADESA" />
+            <img className="h-24" src="/assets/images/adesa.png" alt="ADESA" />
           </div>
         </div>
       </div>
@@ -189,5 +197,13 @@ const Index = () => {
     </Layout>
   );
 };
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+}
 
 export default Index;

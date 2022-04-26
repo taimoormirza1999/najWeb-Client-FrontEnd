@@ -1,6 +1,8 @@
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
@@ -64,5 +66,13 @@ const Career = () => (
     </div>
   </Layout>
 );
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+}
 
 export default Career;

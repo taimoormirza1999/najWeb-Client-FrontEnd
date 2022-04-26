@@ -5,7 +5,7 @@ import {
   faTwitterSquare,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Menu, Popover, Transition } from '@headlessui/react';
+import { Popover, Transition } from '@headlessui/react';
 import {
   ChartBarIcon,
   CursorClickIcon,
@@ -16,9 +16,10 @@ import {
   ViewGridIcon,
   XIcon,
 } from '@heroicons/react/outline';
-import { ChevronDownIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import { Fragment } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
@@ -104,12 +105,16 @@ const resources = [
   },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 const Layout = (props: IMainProps) => {
   const { data: session } = useSession();
+  const router = useRouter();
+  const { locale } = router;
+  const { t } = useTranslation('common');
+
+  const changeLanguage = (e) => {
+    const selectedLocale = e.target.value;
+    router.push(router.pathname, router.asPath, { locale: selectedLocale });
+  };
 
   return (
     <div>
@@ -118,8 +123,8 @@ const Layout = (props: IMainProps) => {
         <div className="py-10"></div>
         <div className="mb-7 flex items-center justify-between md:justify-start md:space-x-10">
           <div className="flex justify-end lg:w-0 lg:basis-1/5">
-            <Link href={'/'}>
-              <a href="#" className="hover:border-0">
+            <Link href="/">
+              <a className="hover:border-0">
                 <span className="sr-only">{AppConfig.title}</span>
                 <img
                   className="h-10 w-auto sm:h-14"
@@ -140,13 +145,11 @@ const Layout = (props: IMainProps) => {
               <div className="flex items-center justify-center">
                 <div className="hidden space-x-6 lg:block">
                   {navigation.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      className="text-base font-medium text-white hover:text-indigo-50"
-                    >
-                      {link.name}
-                    </a>
+                    <Link href={link.href} key={link.name}>
+                      <a className="text-base font-medium text-white hover:text-indigo-50">
+                        {t(link.name)}
+                      </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -175,47 +178,18 @@ const Layout = (props: IMainProps) => {
                   Sign up
                 </a>
               </Link>
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="ml-4 inline-flex justify-center text-white focus:outline-none">
-                    En
-                    <ChevronDownIcon
-                      className="-mr-1 ml-1 mt-1 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
-
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="absolute right-0 mt-2 origin-top-right divide-y bg-white shadow-lg">
-                    <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-700',
-                              'block px-4 py-2 text-sm hover:border-0'
-                            )}
-                          >
-                            AR
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+              <select
+                onChange={changeLanguage}
+                defaultValue={locale}
+                className="ml-2 border-0 bg-transparent text-white focus:outline-none"
+              >
+                <option value="en" className="text-black">
+                  EN
+                </option>
+                <option value="ar" className="text-black">
+                  AR
+                </option>
+              </select>
             </div>
           </div>
         </div>

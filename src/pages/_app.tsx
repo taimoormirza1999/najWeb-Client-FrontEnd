@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
+import { appWithTranslation } from 'next-i18next';
 
 config.autoAddCss = false;
 
@@ -16,4 +17,4 @@ const MyApp = ({
   </SessionProvider>
 );
 
-export default MyApp;
+export default appWithTranslation(MyApp);
