@@ -1,5 +1,4 @@
-import Breadcrumbs from '@components/Breadcrumbs';
-
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 
