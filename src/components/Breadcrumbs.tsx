@@ -45,7 +45,7 @@ const Breadcrumbs = () => {
             <a className="text-medium-grey hover:border-0">Home</a>
           </Link>
         </li>
-        {breadcrumbs.map((breadcrumb, i) => {
+        {breadcrumbs.map((breadcrumb) => {
           const linkText = convertBreadcrumb(breadcrumb.breadcrumb);
           if (['', '#'].includes(linkText)) {
             return null;
@@ -63,4 +63,4 @@ const Breadcrumbs = () => {
   );
 };
 
-export default Breadcrumbs;
+export { Breadcrumbs };

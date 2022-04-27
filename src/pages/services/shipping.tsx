@@ -8,10 +8,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-
-import Breadcrumbs from '../components/Breadcrumbs';
 
 const Shipping = () => (
   <Layout

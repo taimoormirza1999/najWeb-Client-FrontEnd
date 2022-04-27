@@ -1,13 +1,11 @@
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-
-import Breadcrumbs from './components/Breadcrumbs';
 
 const Career = () => (
   <Layout
