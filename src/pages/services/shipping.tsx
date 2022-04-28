@@ -8,17 +8,21 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-
-import Breadcrumbs from '../components/Breadcrumbs';
 
 const Shipping = () => (
   <Layout
     meta={<Meta title="Shipping Services" description="Shipping Services" />}
   >
     <div className="container mx-auto">
-      <Breadcrumbs />
+      <Breadcrumbs
+        breadcrumbs={[
+          { name: 'Services', href: '#' },
+          { name: 'Shipping', href: '/services/shipping' },
+        ]}
+      />
     </div>
 
     <div className="container mx-auto">
@@ -142,8 +146,8 @@ const Shipping = () => (
           alt="Contact Us"
         />
         <div className="bg-light-grey mx-auto -mt-16 rounded-b-[60px] p-12 text-center">
-          <Link href={'#'}>
-            <a className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-3xl font-medium text-white hover:border-0 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <Link href="https://wa.me/+97165440202?text=Hi" passHref>
+            <a target="_blank" className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-3xl font-medium text-white hover:border-0 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Text Nejoum
             </a>
           </Link>

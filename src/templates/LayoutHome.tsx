@@ -31,77 +31,10 @@ type IMainProps = {
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Services', href: '/services/shipping' },
-  { name: 'Cars Showroom', href: '#' },
+  { name: 'Cars Showroom', href: '/cars/showroom' },
   { name: 'Career', href: '/career' },
   { name: 'About Nejoum', href: '/about/story' },
-  { name: 'Contact Us', href: '#' },
-];
-
-const solutions = [
-  {
-    name: 'Analytics',
-    description:
-      'Get a better understanding of where your traffic is coming from.',
-    href: '#',
-    icon: ChartBarIcon,
-  },
-  {
-    name: 'Engagement',
-    description: 'Speak directly to your customers in a more meaningful way.',
-    href: '#',
-    icon: CursorClickIcon,
-  },
-  {
-    name: 'Security',
-    description: "Your customers' data will be safe and secure.",
-    href: '#',
-    icon: ShieldCheckIcon,
-  },
-  {
-    name: 'Integrations',
-    description: "Connect with third-party tools that you're already using.",
-    href: '#',
-    icon: ViewGridIcon,
-  },
-  {
-    name: 'Automations',
-    description:
-      'Build strategic funnels that will drive your customers to convert',
-    href: '#',
-    icon: RefreshIcon,
-  },
-  {
-    name: 'Reports',
-    description:
-      'Get detailed reports that will help you make more informed decisions ',
-    href: '#',
-    icon: DocumentReportIcon,
-  },
-];
-const resources = [
-  {
-    name: 'Help Center',
-    description:
-      'Get all of your questions answered in our forums or contact support.',
-    href: '#',
-  },
-  {
-    name: 'Guides',
-    description:
-      'Learn how to maximize our platform to get the most out of it.',
-    href: '#',
-  },
-  {
-    name: 'Events',
-    description:
-      'See what meet-ups and other events we might be planning near you.',
-    href: '#',
-  },
-  {
-    name: 'Security',
-    description: 'Understand how we take your privacy seriously.',
-    href: '#',
-  },
+  { name: 'Contact Us', href: '/contact' },
 ];
 
 function classNames(...classes) {
@@ -114,17 +47,36 @@ const Layout = (props: IMainProps) => {
   return (
     <div>
       {props.meta}
+      <div className="bg-light-grey mb-5 lg:flex">
+        <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
+          <div className="top-0 right-0 inline-block hidden w-[90px] overflow-hidden lg:absolute lg:block">
+            <div className="bg-light-grey h-[130px] origin-top-left -rotate-45"></div>
+          </div>
+          <h3 className="text-center text-3xl font-semibold text-white">
+            Important Anouncements
+          </h3>
+        </div>
+        <div className="text-dark-blue basis-2/3">
+          <p className="p-2 text-2xl">
+            <span className="font-bold">
+              Stop shipping cars model 2020 to Iraq.
+            </span>
+            Nejoum Aljazeera has a team with years of experience and dedication
+            to the used car sales market. Nejoum Aljazeera has a team with years
+            of experience and dedication to the used car sales market.
+          </p>
+        </div>
+      </div>
       <Popover className="relative bg-white">
-        <div className="py-10"></div>
         <div className="mb-7 flex items-center justify-between md:justify-start md:space-x-10">
           <div className="flex justify-end lg:w-0 lg:basis-1/5">
-            <Link href={'/'}>
-              <a href="#" className="hover:border-0">
+            <Link href="/">
+              <a className="hover:border-0">
                 <span className="sr-only">{AppConfig.title}</span>
                 <img
                   className="h-10 w-auto sm:h-14"
                   src="/assets/images/logo-en.png"
-                  alt=""
+                  alt={AppConfig.title}
                 />
               </a>
             </Link>
@@ -170,7 +122,7 @@ const Layout = (props: IMainProps) => {
                   Sign in
                 </a>
               </Link>
-              <Link href="#">
+              <Link href="/auth/newAccount">
                 <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500">
                   Sign up
                 </a>
@@ -231,7 +183,7 @@ const Layout = (props: IMainProps) => {
         >
           <Popover.Panel
             focus
-            className="absolute inset-x-0 top-0 origin-top-right p-2 transition md:hidden"
+            className="absolute inset-x-0 top-0 origin-top-right p-2 transition md:hidden z-10"
           >
             <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="px-5 pt-5 pb-6">
@@ -239,8 +191,8 @@ const Layout = (props: IMainProps) => {
                   <div>
                     <img
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt="Workflow"
+                      src="/assets/images/logo-en.png"
+                      alt={AppConfig.title}
                     />
                   </div>
                   <div className="-mr-2">
@@ -252,20 +204,14 @@ const Layout = (props: IMainProps) => {
                 </div>
                 <div className="mt-6">
                   <nav className="grid grid-cols-1 gap-7">
-                    {solutions.map((solution) => (
+                    {navigation.map((link) => (
                       <a
-                        key={solution.name}
-                        href={solution.href}
+                        key={link.name}
+                        href={link.href}
                         className="-m-3 flex items-center rounded-lg p-3 hover:bg-gray-50"
                       >
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-500 text-white">
-                          <solution.icon
-                            className="h-6 w-6"
-                            aria-hidden="true"
-                          />
-                        </div>
                         <div className="ml-4 text-base font-medium text-gray-900">
-                          {solution.name}
+                          {link.name}
                         </div>
                       </a>
                     ))}
@@ -273,37 +219,6 @@ const Layout = (props: IMainProps) => {
                 </div>
               </div>
               <div className="py-6 px-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <a
-                    href="#"
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Pricing
-                  </a>
-
-                  <a
-                    href="#"
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Docs
-                  </a>
-
-                  <a
-                    href="#"
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Enterprise
-                  </a>
-                  {resources.map((resource) => (
-                    <a
-                      key={resource.name}
-                      href={resource.href}
-                      className="text-base font-medium text-gray-900 hover:text-gray-700"
-                    >
-                      {resource.name}
-                    </a>
-                  ))}
-                </div>
                 <div className="mt-6">
                   <a
                     href="#"
@@ -313,12 +228,14 @@ const Layout = (props: IMainProps) => {
                   </a>
                   <p className="mt-6 text-center text-base font-medium text-gray-500">
                     Existing customer?{' '}
-                    <a
-                      href="#"
+                    <Link href="/login">
+                    <a 
+                      
                       className="text-indigo-600 hover:text-indigo-500"
                     >
                       Sign in
                     </a>
+                    </Link>
                   </p>
                 </div>
               </div>
@@ -376,10 +293,14 @@ const Layout = (props: IMainProps) => {
                   <h4 className="text-xl font-semibold">Company</h4>
                   <ul>
                     <li>
-                      <a href="#">Our Story</a>
+                      <Link href="/story">
+                        <a>Our Story</a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">About Nejoum</a>
+                      <Link href="/vision">
+                        <a>About Nejoum</a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -393,7 +314,9 @@ const Layout = (props: IMainProps) => {
                       <a href="#">Nejoum Branches</a>
                     </li>
                     <li>
-                      <a href="#">Career</a>
+                      <Link href="/career">
+                        <a>Career</a>
+                      </Link>
                     </li>
                   </ul>
                 </div>

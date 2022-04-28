@@ -1,8 +1,11 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+
+import DownloadApps from '../components/DownloadApps';
 
 const Index = () => {
   const { data: session, status } = useSession();
@@ -17,7 +20,7 @@ const Index = () => {
 
   return (
     <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
-      <div className="home-banner relative">
+      <div className="relative">
         <img src="assets/images/slider-bg.jpg" className="" alt="banner" />
         <div
           style={{ backgroundColor: 'rgba(0,61,117, .6)' }}
@@ -65,9 +68,9 @@ const Index = () => {
               Nejoum Aljazeera has a team with years of experience and
               dedication to the used car sales market.
             </p>
-            <a href="#" className="block-more-link">
-              Learn more...
-            </a>
+            <Link href="/services/shipping">
+              <a className="block-more-link">Learn more...</a>
+            </Link>
           </div>
         </div>
       </div>
@@ -113,18 +116,66 @@ const Index = () => {
               Track your vehicle whereever it is around the world. Once you
               purchased your car.
             </p>
-            <a href="#" className="block-more-link">
-              Learn more...
-            </a>
+            <Link href="/services/cargo">
+              <a className="block-more-link">Learn more...</a>
+            </Link>
           </div>
         </div>
       </div>
 
       <div className="container mx-auto">
         <div className="flex gap-16">
-          <img src="assets/images/service-auction.png" alt="Tracking Cars" />
-          <img src="assets/images/service-shipping.png" alt="Car Shipping" />
-          <img src="assets/images/service-car-sell.png" alt="Car Sell" />
+          <div className="group relative">
+            <img
+              src="assets/images/service-auction.png"
+              alt="Buy from auction"
+            />
+            <div className="absolute inset-x-0 bottom-4 left-[1%] -mb-2 w-[98%] rounded-b-2xl bg-[#ebebeb]/[.6] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100">
+              <h3 className="text-dark-blue text-4xl font-semibold">
+                Buy from auction
+              </h3>
+              <p className="text-teal-blue py-2 text-3xl font-semibold">
+                Get to know the features of buying from US auctions
+              </p>
+              <Link href="/">
+                <a className="text-azure-blue py-2 text-2xl italic hover:border-0">
+                  Learn more...
+                </a>
+              </Link>
+            </div>
+          </div>
+          <div className="group relative">
+            <img src="assets/images/service-shipping.png" alt="Cars Shipping" />
+            <div className="absolute inset-x-0 bottom-4 left-[1%] -mb-2 w-[98%] rounded-b-2xl bg-[#ebebeb]/[.6] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100">
+              <h3 className="text-dark-blue text-4xl font-semibold">
+                Ship a car
+              </h3>
+              <p className="text-teal-blue py-2 text-3xl font-semibold">
+                Get to know the features of shipping cars from USA
+              </p>
+              <Link href="/">
+                <a className="text-azure-blue py-2 text-2xl italic hover:border-0">
+                  Learn more...
+                </a>
+              </Link>
+            </div>
+          </div>
+          <div className="group relative">
+            <img src="assets/images/service-car-sell.png" alt="Car Sell" />
+            <div className="absolute inset-x-0 bottom-4 left-[1%] -mb-2 w-[98%] rounded-b-2xl bg-[#ebebeb]/[.6] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100">
+              <h3 className="text-dark-blue text-4xl font-semibold">
+                Sell your car
+              </h3>
+              <p className="text-teal-blue py-2 text-3xl font-semibold">
+                Get to know the features of selling cars in our yard
+              </p>
+              <Link href="/">
+                <a className="text-azure-blue py-2 text-2xl italic hover:border-0">
+                  Learn more...
+                </a>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -139,35 +190,18 @@ const Index = () => {
           <p className="block-text !max-w-none">
             You may always text us on WhatsApp
           </p>
-          <a className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-xl font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <a
+            href="https://wa.me/+97165440202?text=Hi"
+            target="_blank"
+            rel="noreferrer"
+            className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-xl font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
             Text Nejoum
           </a>
         </div>
       </div>
 
-      <div className="container mx-auto text-center">
-        <h3 className="block-heading !text-6xl ">Download Application</h3>
-        <p className="block-text !max-w-none py-8">
-          Download <span className="font-bold">NEJOUM</span> ALJAZEERA
-          application for complete logistics&apos; services experience
-        </p>
-        <ul className="py-20">
-          <li className="inline-block">
-            <img
-              className="h-24"
-              src="assets/images/apple-store-icon.png"
-              alt="iOS App"
-            />
-          </li>
-          <li className="ml-24 inline-block">
-            <img
-              className="h-24"
-              src="assets/images/google-store-icon.png"
-              alt="Andriod App"
-            />
-          </li>
-        </ul>
-      </div>
+      <DownloadApps />
 
       <div className="container mx-auto text-center">
         <h3 className="block-heading !text-6xl ">Trusted By</h3>

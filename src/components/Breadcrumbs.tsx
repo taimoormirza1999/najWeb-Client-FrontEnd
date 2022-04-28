@@ -10,8 +10,8 @@ const convertBreadcrumb = (string) => {
     .replace(/ue/g, 'ü');
 };
 
-const Breadcrumbs = () => {
-  const router = useRouter();
+const Breadcrumbs = ({ breadcrumbs }) => {
+  /* const router = useRouter();
   const [breadcrumbs, setBreadcrumbs] = useState<any | null>(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Breadcrumbs = () => {
 
       setBreadcrumbs(pathArray);
     }
-  }, [router]);
+  }, [router]); */
 
   if (!breadcrumbs) {
     return null;
@@ -46,14 +46,15 @@ const Breadcrumbs = () => {
           </Link>
         </li>
         {breadcrumbs.map((breadcrumb, i) => {
-          const linkText = convertBreadcrumb(breadcrumb.breadcrumb);
-          if (['', '#'].includes(linkText)) {
+          /* if (['', '#'].includes(linkText)) {
             return null;
-          }
+          } */
           return (
             <li key={breadcrumb.href} className="inline">
               <Link href={breadcrumb.href}>
-                <a className="text-medium-grey hover:border-0">{linkText}</a>
+                <a className="text-medium-grey hover:border-0">
+                  {breadcrumb.name}
+                </a>
               </Link>
             </li>
           );
