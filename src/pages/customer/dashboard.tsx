@@ -1,224 +1,157 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { Popover, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { Fragment } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import { withRouter } from 'next/router';
+import { getSession } from 'next-auth/react';
+import React from 'react';
 
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-];
+import { NewCarTab } from '@/components/dashboard/newCarTab';
+import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
+import { Layout } from '@/templates/Layout2';
 
-export default function Dashboard() {
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
+export async function getServerSideProps(context) {
+  const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
+  const type = context.query.type ? context.query.type : '';
+  const session = await getSession(context);
+
+  let carsData = {};
+  let apiTab = 'newCars';
+  if (tab === 'tabs-warehouse') {
+    apiTab = 'warehouseCars';
+  }
+  let apiUrl = process.env.API_URL + apiTab;
+  if (apiTab === 'newCars' && type) {
+    if (type === 'paid' || type === 'unpaid' || type === 'paid_bycustomer') {
+      apiUrl += `?${type}=1`;
+    }
+    if (type === 'towing') {
+      apiUrl = `${process.env.API_URL}towingCars`;
+    }
+  }
+  if (session && session.token && session.token.access_token) {
+    axios.defaults.headers.common.Authorization = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMGYzMjQ4YTcyY2U0MmYxOWJjOTIyNWMzODgwNDUzZWZmMTczNDU3MDA1ZTY4ZmRjM2UxN2U0NmU3NWMyYjU2YWVlYWExMmYyYzI5ZWFjMzYiLCJpYXQiOjE2NTEwNTYzOTcsIm5iZiI6MTY1MTA1NjM5NywiZXhwIjoxNjUyMzUyMzk3LCJzdWIiOiIzNiIsInNjb3BlcyI6WyIqIl19.Zwp7xN2Fb1gFhEfrVIJe6IBc-U-GDWMnEhOS0CZe01MOpVLZZ2MClsvofswkREBbmz8IgZ4LMKUbl817_NSJStLVzK0GZW3oAcmy2x8PDK4zmv6q1yLbl-KxjInbc0ewqFt6w32ZcCDpoGkoVPemlUOfCgidsvcIHZMs1iL3HANVduHbl6rrUqyh5i5pKAmkIdBOv7s4SS87ZoEeElNFpr1Ka1KtOiCUxbiZ0eF2rl9dN27Mx-V6dhleH8l_WTV8sA3mtKsc6lCz-lc7_tORmjxwzPN42zJJ6Q3UUtXHdeDrUCyP87X51LTgLitfMLW48Wovxo5JV4vCygtL8s__u4WNxA9NntZUZjEqi5BNGybV3ojKQas1Hz_vP544Qm-z-I-ej8NKDoL3QIW3tcDPb6jT6Pfw2mkr--lltC09rHTZ6O4r5UIVG2bgFoAFG9GDWGPQs372ZQRRN8ZFf8ti7HFHI66Wowh7g2OiIVgQV55gam83In601aJyh-1EHW2mKYc--uWqZEOJj3LiOK10ige3VZ8T7kDWpYmHm3Xj-3Scq4qotW9NbSFSI_xpniKcbmzRa-UZ3Qi5ahvZvPUaRB6Fn5uLlFsG0iqtKy6h39QDqt3wJgrjqH8ryrM49VYX4cj4LGbfrpcbZZuTt60m1u8dEx1aYESo02k9ousvJ7M`;
+    const res = await axios.get(`${apiUrl}`);
+    carsData = res.data;
+  }
+  return {
+    props: { carsData },
+  };
+}
+const Dashboard = ({ router, carsData }) => {
+  const {
+    query: { tab, type },
+  } = router;
+  const tabs = [
+    {
+      name: 'New  Cars',
+      href: 'tabs-newcar',
+      current: tab === 'tabs-newcar' || tab == null,
+    },
+    {
+      name: 'At Warehouse',
+      href: 'tabs-warehouse',
+      current: tab === 'tabs-warehouse',
+    },
+    {
+      name: 'In shipping',
+      href: 'tabs-shipping',
+      current: tab === 'tabs-shipping',
+    },
+    {
+      name: 'Arrived',
+      href: 'tabs-arrived',
+      current: tab === 'tabs-arrived',
+    },
+    {
+      name: 'Delivered',
+      href: 'tabs-delivered',
+      current: tab === 'tabs-delivered',
+    },
+    {
+      name: 'States',
+      href: 'tabs-states',
+      current: tab === 'tabs-states',
+    },
+  ];
+  const carsRecords = carsData.data;
+  const { totalRecords } = carsData;
   return (
-    <div className="relative overflow-hidden bg-gray-50">
-      <div
-        className="hidden sm:absolute sm:inset-y-0 sm:block sm:h-full sm:w-full"
-        aria-hidden="true"
-      >
-        <div className="relative mx-auto h-full max-w-7xl">
-          <svg
-            className="absolute right-full translate-y-1/4 translate-x-1/4 lg:translate-x-1/2"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="f210dbf6-a58d-4871-961e-36d5016a0f49"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  className="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"
-            />
-          </svg>
-          <svg
-            className="absolute left-full -translate-y-3/4 -translate-x-1/4 md:-translate-y-1/2 lg:-translate-x-1/2"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="5d0dd344-b041-4d26-bec4-8d33ea57ec9b"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  className="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)"
-            />
-          </svg>
-        </div>
-      </div>
-
-      <div className="relative pt-6 pb-16 sm:pb-24">
-        <Popover>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <nav
-              className="relative flex items-center justify-between sm:h-10 md:justify-center"
-              aria-label="Global"
-            >
-              <div className="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
-                <div className="flex w-full items-center justify-between md:w-auto">
-                  <a href="#">
-                    <span className="sr-only">Workflow</span>
-                    <img
-                      className="h-8 w-auto sm:h-10"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt=""
-                    />
-                  </a>
-                  <div className="-mr-2 flex items-center md:hidden">
-                    <Popover.Button className="inline-flex items-center justify-center rounded-md bg-gray-50 p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                      <span className="sr-only">Open main menu</span>
-                      <MenuIcon className="h-6 w-6" aria-hidden="true" />
-                    </Popover.Button>
-                  </div>
-                </div>
-              </div>
-              <div className="hidden md:flex md:space-x-10">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="font-medium text-gray-500 hover:text-gray-900"
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-              {/* <div className="hidden md:absolute md:inset-y-0 md:right-0 md:flex md:items-center md:justify-end">
-                <span className="inline-flex rounded-md shadow">
-                  <a
-                    href="#"
-                    className="inline-flex items-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-indigo-600 hover:bg-gray-50"
-                  >
-                    Log in
-                  </a>
-                </span>
-              </div> */}
-            </nav>
+    <Layout meta="">
+      <div>
+        <div className="m-4">
+          <div>
+            <h4 className="text-dark-blue pb-8 text-xl sm:text-2xl">
+              <i className="material-icons  text-yellow-orange align-middle">
+                &#xe14f;
+              </i>
+              Cars Summary
+            </h4>
           </div>
-
-          <Transition
-            as={Fragment}
-            enter="duration-150 ease-out"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="duration-100 ease-in"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
-            <Popover.Panel
-              focus
-              className="absolute inset-x-0 top-0 z-10 origin-top-right p-2 transition md:hidden"
-            >
-              <div className="overflow-hidden rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
-                <div className="flex items-center justify-between px-5 pt-4">
-                  <div>
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt=""
-                    />
-                  </div>
-                  <div className="-mr-2">
-                    <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                      <span className="sr-only">Close menu</span>
-                      <XIcon className="h-6 w-6" aria-hidden="true" />
-                    </Popover.Button>
-                  </div>
-                </div>
-                <div className="px-2 pt-2 pb-3">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-                <a
-                  href="#"
-                  className="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-indigo-600 hover:bg-gray-100"
+          <div>
+            <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
+              {tabs.map((tab) => (
+                <Link
+                  key={tab.name}
+                  href={{
+                    pathname: '/customer/dashboard/',
+                    query: { tab: tab.href },
+                  }}
                 >
-                  Log in
-                </a>
-              </div>
-            </Popover.Panel>
-          </Transition>
-        </Popover>
-
-        <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-              <span className="block xl:inline">Data to enrich your</span>{' '}
-              <span className="block text-indigo-600 xl:inline">
-                online business
-              </span>
-            </h1>
-            <p className="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-              lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-              fugiat aliqua.
-            </p>
-            <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
-                <a
-                  href="#"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
-                >
-                  Get started
-                </a>
-              </div>
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <a
-                  href="#"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-indigo-600 hover:bg-gray-50 md:py-4 md:px-10 md:text-lg"
-                >
-                  Live demo
-                </a>
-              </div>
+                  <a
+                    key={tab.name}
+                    className={classNames(
+                      tab.current
+                        ? 'bg-blue-700 text-white'
+                        : 'text-blue-600 hover:text-gray-700',
+                      'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                    )}
+                    aria-current={tab.current ? 'page' : undefined}
+                  >
+                    {tab.name}
+                  </a>
+                </Link>
+              ))}
+            </nav>
+            <div>
+              {(tab === 'tabs-newcar' || tab == null) && (
+                <React.Fragment>
+                  <NewCarTab carsRecords={carsRecords} type={type}></NewCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-warehouse' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-shipping' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-arrived' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-delivered' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-states' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
             </div>
           </div>
-        </main>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
-}
+};
+
+export default withRouter(Dashboard);

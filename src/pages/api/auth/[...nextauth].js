@@ -1,16 +1,14 @@
-import NextAuth from 'next-auth'
-import CredentialsProvider from "next-auth/providers/credentials"
-
-const API_URL = 'https://nejoumaljazeera.tech/NAljazeera_API/api/';
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 const options = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       authorize: async (credentials) => {
         const { email, password } = credentials;
-        
-        let formData = new URLSearchParams({
+
+        const formData = new URLSearchParams({
           client_id: process.env.API_CLIENT_ID,
           client_secret: process.env.API_CLIENT_SECRET,
           primary_email: email,
@@ -19,36 +17,36 @@ const options = {
         });
 
         let user = null;
-        await fetch(`${API_URL}login`, {
-          method: 'POST',
+        await fetch(`${process.env.API_URL}login`, {
+          method: "POST",
           body: formData,
-          redirect: 'follow'
+          redirect: "follow",
         })
           .then(response => response.text())
           .then(data => {
             data = JSON.parse(data);
 
-            if(data.access_token){
-              user = data
+            if (data.access_token) {
+              user = data;
             }
-
           })
           .catch((error) => {
             // const errorMessage = e.response.data.message
-            //throw new Error(errorMessage + '&email=' + credentials.email)
-            console.error('Error:', error);
+            // throw new Error(errorMessage + '&email=' + credentials.email)
+            console.error("Error:", error);
           });
 
-          return user;
-      }
-    })
+        return user;
+      },
+    }),
   ],
   secret: process.env.JWT_SECRET,
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   callbacks: {
     async session({ session, token }) {
+      session.token = token;
       return session;
     },
     async jwt({ token, user }) {
@@ -63,7 +61,7 @@ const options = {
         return token
       }
 
-      return refreshAccessToken(token)
+      return refreshAccessToken(token);
     },
   },
   pages: {
@@ -73,9 +71,9 @@ const options = {
 
 async function refreshAccessToken(token) {
   try {
-    const url =`${API_URL}refresh`;
+    const url =`${process.env.API_URL}refresh`;
 
-    let formData = new URLSearchParams({
+    const formData = new URLSearchParams({
       client_id: process.env.API_CLIENT_ID,
       client_secret: process.env.API_CLIENT_SECRET,
       grant_type: "refresh_token",
@@ -87,7 +85,7 @@ async function refreshAccessToken(token) {
       method: "POST",
     })
 
-    const refreshedTokens = await response.json()
+    const refreshedTokens = await response.json();
 
     if (!response.ok) {
       throw refreshedTokens
