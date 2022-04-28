@@ -43,12 +43,16 @@ const Meta = (props: IMetaProps) => {
         />
         <link
           rel="icon"
-          href={`${router.basePath}/favicon.ico`}
+          href={`${router.basePath}/favicon.png`}
           key="favicon"
         />
       </Head>
       <NextSeo
-        title={props.title}
+        title={
+          props.title !== ''
+            ? `${props.title} - ${AppConfig.title}`
+            : AppConfig.title
+        }
         description={props.description}
         canonical={props.canonical}
         openGraph={{
