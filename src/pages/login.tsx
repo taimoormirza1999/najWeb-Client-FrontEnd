@@ -2,12 +2,6 @@ import { useRouter } from 'next/router';
 import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
-export default function Login() {
-  
-  const { data: session, status } = useSession()
-  const loading = status === "loading"
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
 const errors = {
   Signin: 'Try signing with a different account.',
   OAuthSignin: 'Try signing with a different account.',
