@@ -1,103 +1,97 @@
-/* This example requires Tailwind CSS v2.0+ */
-
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import axios from 'axios';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import React from 'react';
 
+import { NewCarTab } from '@/components/dashboard/newCarTab';
+import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
 import { Layout } from '@/templates/Layout2';
-
-const tabs = [
-  { name: 'New  Cars', href: 'tabs-newcar', current: true },
-  { name: 'At Warehouse', href: 'tabs-warehouse', current: false },
-  { name: 'In shipping', href: '', current: false },
-  { name: 'Arrived', href: '', current: false },
-  { name: 'Delivered', href: '', current: false },
-];
-const newCarTableHeader = [
-  { name: 'No' },
-  { name: 'Auction Photo' },
-  { name: 'Detail' },
-  { name: 'Lot & Vin' },
-  { name: 'Auction' },
-  { name: 'Destination' },
-  { name: 'Purchase Date' },
-  { name: 'Last Day To Pay' },
-  { name: 'Days Off' },
-  { name: 'Date Extra' },
-  { name: 'Days Remaining' },
-  { name: 'Start Storage' },
-  { name: 'Car' },
-  { name: 'Storage Late' },
-  { name: 'Total Cost Storage' },
-  { name: 'Total' },
-];
-
-const cars = [
-  { name: 'No' },
-  { name: 'Auction Photo' },
-  { name: 'Detail' },
-  { name: 'Lot & Vin' },
-  { name: 'Auction' },
-  { name: 'Destination' },
-  { name: 'Purchase Date' },
-  { name: 'Last Day To Pay' },
-  { name: 'Days Off' },
-  { name: 'Date Extra' },
-  { name: 'Days Remaining' },
-  { name: 'Start Storage' },
-  { name: 'Car' },
-  { name: 'Storage Late' },
-  { name: 'Total Cost Storage' },
-  { name: 'Total' },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export async function getServerSideProps(context) {
-  context.params = {};
+  const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
+  const type = context.query.type ? context.query.type : '';
   const session = await getSession(context);
+
   let carsData = {};
+  let apiTab = 'newCars';
+  if (tab === 'tabs-warehouse') {
+    apiTab = 'warehouseCars';
+  }
+  let apiUrl = process.env.API_URL + apiTab;
+  if (apiTab === 'newCars' && type) {
+    if (type === 'paid' || type === 'unpaid' || type === 'paid_bycustomer') {
+      apiUrl += `?${type}=1`;
+    }
+    if (type === 'towing') {
+      apiUrl = `${process.env.API_URL}towingCars`;
+    }
+  }
   if (session && session.token && session.token.access_token) {
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session.token.access_token}`,
-      },
-    };
-    await fetch(`${process.env.API_URL}newCars`, requestOptions)
-      .then((result) => {
-        console.log(carsData);
-        carsData = result.json();
-      })
-      .then((resJson) => {
-        console.log(resJson);
-      });
+    axios.defaults.headers.common.Authorization = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMGYzMjQ4YTcyY2U0MmYxOWJjOTIyNWMzODgwNDUzZWZmMTczNDU3MDA1ZTY4ZmRjM2UxN2U0NmU3NWMyYjU2YWVlYWExMmYyYzI5ZWFjMzYiLCJpYXQiOjE2NTEwNTYzOTcsIm5iZiI6MTY1MTA1NjM5NywiZXhwIjoxNjUyMzUyMzk3LCJzdWIiOiIzNiIsInNjb3BlcyI6WyIqIl19.Zwp7xN2Fb1gFhEfrVIJe6IBc-U-GDWMnEhOS0CZe01MOpVLZZ2MClsvofswkREBbmz8IgZ4LMKUbl817_NSJStLVzK0GZW3oAcmy2x8PDK4zmv6q1yLbl-KxjInbc0ewqFt6w32ZcCDpoGkoVPemlUOfCgidsvcIHZMs1iL3HANVduHbl6rrUqyh5i5pKAmkIdBOv7s4SS87ZoEeElNFpr1Ka1KtOiCUxbiZ0eF2rl9dN27Mx-V6dhleH8l_WTV8sA3mtKsc6lCz-lc7_tORmjxwzPN42zJJ6Q3UUtXHdeDrUCyP87X51LTgLitfMLW48Wovxo5JV4vCygtL8s__u4WNxA9NntZUZjEqi5BNGybV3ojKQas1Hz_vP544Qm-z-I-ej8NKDoL3QIW3tcDPb6jT6Pfw2mkr--lltC09rHTZ6O4r5UIVG2bgFoAFG9GDWGPQs372ZQRRN8ZFf8ti7HFHI66Wowh7g2OiIVgQV55gam83In601aJyh-1EHW2mKYc--uWqZEOJj3LiOK10ige3VZ8T7kDWpYmHm3Xj-3Scq4qotW9NbSFSI_xpniKcbmzRa-UZ3Qi5ahvZvPUaRB6Fn5uLlFsG0iqtKy6h39QDqt3wJgrjqH8ryrM49VYX4cj4LGbfrpcbZZuTt60m1u8dEx1aYESo02k9ousvJ7M`;
+    const res = await axios.get(`${apiUrl}`);
+    carsData = res.data;
   }
   return {
-    props: {
-      carsD: carsData,
-    },
+    props: { carsData },
   };
 }
-const Dashboard = ({ router }) => {
+const Dashboard = ({ router, carsData }) => {
   const {
-    query: { tab },
+    query: { tab, type },
   } = router;
-
-  const isTabOne = tab === 'tabs-newcar' || tab == null;
-  const isTabTwo = tab === 'tabs-warehouse';
+  const tabs = [
+    {
+      name: 'New  Cars',
+      href: 'tabs-newcar',
+      current: tab === 'tabs-newcar' || tab == null,
+    },
+    {
+      name: 'At Warehouse',
+      href: 'tabs-warehouse',
+      current: tab === 'tabs-warehouse',
+    },
+    {
+      name: 'In shipping',
+      href: 'tabs-shipping',
+      current: tab === 'tabs-shipping',
+    },
+    {
+      name: 'Arrived',
+      href: 'tabs-arrived',
+      current: tab === 'tabs-arrived',
+    },
+    {
+      name: 'Delivered',
+      href: 'tabs-delivered',
+      current: tab === 'tabs-delivered',
+    },
+    {
+      name: 'States',
+      href: 'tabs-states',
+      current: tab === 'tabs-states',
+    },
+  ];
+  const carsRecords = carsData.data;
+  const { totalRecords } = carsData;
   return (
     <Layout meta="">
       <div>
         <div className="m-4">
-          <div className="hidden sm:block">
-            <nav className="flex flex-wrap gap-4 " aria-label="Tabs">
+          <div>
+            <h4 className="text-dark-blue pb-8 text-xl sm:text-2xl">
+              <i className="material-icons  text-yellow-orange align-middle">
+                &#xe14f;
+              </i>
+              Cars Summary
+            </h4>
+          </div>
+          <div>
+            <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
               {tabs.map((tab) => (
                 <Link
                   key={tab.name}
@@ -112,7 +106,7 @@ const Dashboard = ({ router }) => {
                       tab.current
                         ? 'bg-blue-700 text-white'
                         : 'text-blue-600 hover:text-gray-700',
-                      'px-3 py-2 font-medium text-2xl rounded-md hover:border-inherit border-2 border-blue-600'
+                      'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                     )}
                     aria-current={tab.current ? 'page' : undefined}
                   >
@@ -122,143 +116,35 @@ const Dashboard = ({ router }) => {
               ))}
             </nav>
             <div>
-              {isTabOne && (
+              {(tab === 'tabs-newcar' || tab == null) && (
                 <React.Fragment>
-                  <div
-                    className=""
-                    id="tabs-newcar"
-                    role="tabpanel"
-                    aria-labelledby="tabs-home-tab"
-                  >
-                    <div className="pt-14">
-                      <div className="sm:flex sm:items-center">
-                        <div className="sm:flex-auto">
-                          <h1 className="text-dark-blue text-xl font-semibold">
-                            New Cars
-                          </h1>
-                        </div>
-                      </div>
-                      <div className="mt-8 flex flex-col">
-                        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                              <table className="min-w-full divide-y divide-gray-300 border border-[#005fb7]">
-                                <thead className="bg-white">
-                                  <tr>
-                                    {newCarTableHeader.map((th) => (
-                                      <th
-                                        key={th.name}
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-2xl font-semibold text-blue-600"
-                                      >
-                                        {th.name}
-                                      </th>
-                                    ))}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr className="bg-light-grey">
-                                    {cars.map((car) => (
-                                      <td
-                                        key={car.name}
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-[17px] font-semibold text-[#1C1C1C]"
-                                      >
-                                        {car.name}
-                                      </td>
-                                    ))}
-                                  </tr>
-                                  <tr className="bg-white">
-                                    {cars.map((car) => (
-                                      <td
-                                        key={car.name}
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-sm font-semibold text-[#1C1C1C]"
-                                      >
-                                        {car.name}
-                                      </td>
-                                    ))}
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="float-right mt-3">
-                        <nav
-                          className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm"
-                          aria-label="Pagination"
-                        >
-                          <a
-                            href="#"
-                            className="bg-dark-blue relative inline-flex items-center rounded-l-md border border-gray-300 p-2 text-sm font-medium text-white hover:bg-gray-50"
-                          >
-                            <span className="sr-only">Previous</span>
-                            <ChevronLeftIcon
-                              className="h-5 w-5"
-                              aria-hidden="true"
-                            />
-                          </a>
-                          {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-                          <a
-                            href="#"
-                            aria-current="page"
-                            className="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600"
-                          >
-                            1
-                          </a>
-                          <a
-                            href="#"
-                            className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
-                          >
-                            2
-                          </a>
-                          <a
-                            href="#"
-                            className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 md:inline-flex"
-                          >
-                            3
-                          </a>
-                          <span className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
-                            ...
-                          </span>
-                          <a
-                            href="#"
-                            className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 md:inline-flex"
-                          >
-                            8
-                          </a>
-                          <a
-                            href="#"
-                            className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
-                          >
-                            9
-                          </a>
-                          <a
-                            href="#"
-                            className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
-                          >
-                            10
-                          </a>
-                          <a
-                            href="#"
-                            className="bg-dark-blue relative inline-flex items-center rounded-r-md border border-gray-300 p-2 text-sm font-medium text-white hover:bg-gray-50"
-                          >
-                            <span className="sr-only">Next</span>
-                            <ChevronRightIcon
-                              className="h-5 w-5"
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </nav>
-                      </div>
-                    </div>
-                  </div>
+                  <NewCarTab carsRecords={carsRecords} type={type}></NewCarTab>
                 </React.Fragment>
               )}
-              {isTabTwo && (
-                <React.Fragment>This is tab two content</React.Fragment>
+              {tab === 'tabs-warehouse' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-shipping' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-arrived' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-delivered' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-states' && (
+                <React.Fragment>
+                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                </React.Fragment>
               )}
             </div>
           </div>

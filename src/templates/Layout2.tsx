@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
 
 type IMainProps = {
@@ -27,19 +27,9 @@ function classNames(...classes) {
 
 const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data, status } = useSession();
-  console.log(data);
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -111,7 +101,7 @@ const Layout = (props: IMainProps) => {
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}
                       >
-                        <i className="material-icons lg:mr-2 text-xs">
+                        <i className="material-icons text-xs lg:mr-2">
                           &#xe14f;
                         </i>
                         {item.name}
@@ -121,18 +111,27 @@ const Layout = (props: IMainProps) => {
                 </div>
                 <div className="flex shrink-0 border-t border-gray-200 p-4">
                   <a href="#" className="group block shrink-0">
-                    <div className="flex items-center">
+                    <div className="flex">
                       <div>
-                        <i className="material-icons lg:mr-2 text-xs color-yellow-orange">
+                        <i className="material-icons text-yellow-orange text-2xl">
                           &#xe853;
                         </i>
                       </div>
-                      <div className="ml-3">
-                        <p className="text-xl font-medium text-gray-700 group-hover:text-gray-900 ">
+                      <div className="">
+                        <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl">
                           Ali Turkey
                         </p>
-                        <p className="text-medium-gray text-xs font-medium group-hover:text-gray-700">
-                          <i className="material-icons lg:mr-2 text-xs">&#xe9ba;</i>
+                        <p
+                          className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
+                          onClick={() =>
+                            signOut({
+                              callbackUrl: `${window.location.origin}`,
+                            })
+                          }
+                        >
+                          <i className="material-icons text-xs lg:mr-2">
+                            &#xe9ba;
+                          </i>
                           Sign out
                         </p>
                       </div>
@@ -148,18 +147,18 @@ const Layout = (props: IMainProps) => {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col lg:w-96">
+        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col lg:w-64">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200">
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-              <div className="mb-24 mt-4 flex shrink-0 items-center pl-8 pr-11">
+              <div className="mb-12 mt-4 flex shrink-0 items-center px-2">
                 <img
-                  className="h-[82px] w-auto"
+                  className="w-auto"
                   src="/assets/images/logo-en.png"
                   alt="Nejoum Al Jazeera"
                 />
               </div>
-              <nav className="mt-5 flex-1 space-y-1 px-2">
+              <nav className="mt-5 flex-1 space-y-1 px-1">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
@@ -168,28 +167,28 @@ const Layout = (props: IMainProps) => {
                       item.current
                         ? 'bg-hover-grey text-gray-900'
                         : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                      'group flex items-center px-2 py-2 font-medium rounded-md hover:border-inherit text-3xl '
+                      'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl'
                     )}
                   >
-                    <i className="material-icons lg:mr-2 text-3xl">&#xe14f;</i>
+                    <i className="material-icons text-3xl lg:mr-2">&#xe14f;</i>
                     {item.name}
                   </a>
                 ))}
               </nav>
             </div>
             <div className="flex shrink-0 border-t border-gray-200 p-4">
-              <div className="flex items-center">
+              <div className="flex">
                 <div>
-                  <i className="material-icons lg:mr-2 text-xs color-yellow-orange">
+                  <i className="material-icons text-yellow-orange text-3xl">
                     &#xe853;
                   </i>
                 </div>
-                <div className="ml-3">
+                <div className="">
                   <a
                     href="#"
                     className="group block w-full shrink-0 hover:border-inherit"
                   >
-                    <p className="text-xl font-medium text-gray-700 group-hover:text-gray-900 ">
+                    <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
                       Ali Turkey
                     </p>
                   </a>
@@ -197,8 +196,15 @@ const Layout = (props: IMainProps) => {
                     href="#"
                     className="group block w-full shrink-0 hover:border-inherit"
                   >
-                    <p className="text-medium-gray text-xs font-medium group-hover:text-gray-700">
-                      <i className="material-icons lg:mr-2 text-xs">&#xe9ba;</i>
+                    <p
+                      className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
+                      onClick={() =>
+                        signOut({
+                          callbackUrl: `${window.location.origin}`,
+                        })
+                      }
+                    >
+                      <i className="material-icons text-xs lg:mr-2">&#xe9ba;</i>
                       Sign out
                     </p>
                   </a>
@@ -207,7 +213,7 @@ const Layout = (props: IMainProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col md:pl-64 lg:pl-96">
+        <div className="flex flex-1 flex-col md:pl-64 lg:pl-64">
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"
@@ -220,9 +226,9 @@ const Layout = (props: IMainProps) => {
           </div>
           <main className="flex-1">
             <div className="bg-dark-blue pb-5 pt-8">
-              <div className="ml-6 max-w-7xl py-8 px-4 sm:py-12 sm:px-6 lg:flex lg:justify-between lg:px-6">
+              <div className="ml-6 max-w-7xl px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
                 <div className="max-w-xl">
-                  <h2 className="text-3xl font-normal text-white sm:text-5xl sm:tracking-tight">
+                  <h2 className="text-3xl font-normal text-white sm:tracking-tight">
                     Welcome Mr. Ali
                   </h2>
                 </div>
