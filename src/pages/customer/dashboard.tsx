@@ -6,7 +6,7 @@ import React from 'react';
 
 import { NewCarTab } from '@/components/dashboard/newCarTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
-import { Layout } from '@/templates/Layout2';
+import { Layout } from '@/templates/LayoutDashboard';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -14,7 +14,7 @@ function classNames(...classes) {
 
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
-  const type = context.query.type ? context.query.type : '';
+  let type = context.query.type ? context.query.type : '';
   const session = await getSession(context);
 
   let carsData = {};
@@ -23,12 +23,18 @@ export async function getServerSideProps(context) {
     apiTab = 'warehouseCars';
   }
   let apiUrl = process.env.API_URL + apiTab;
-  if (apiTab === 'newCars' && type) {
+  if (apiTab === 'newCars') {
+    if (!type) {
+      type = 'unpaid';
+    }
     if (type === 'paid' || type === 'unpaid' || type === 'paid_bycustomer') {
       apiUrl += `?${type}=1`;
     }
     if (type === 'towing') {
       apiUrl = `${process.env.API_URL}towingCars`;
+    }
+    if (type === 'cancelled') {
+      apiUrl = `${process.env.API_URL}customer/allCancelledCars`;
     }
   }
   if (session && session.token && session.token.access_token) {
