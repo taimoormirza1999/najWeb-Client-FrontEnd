@@ -64,40 +64,16 @@ const PaidByCustomer = ({ carsRecords }) => {
         scope="col"
         className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
-        {car.extraDate}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.remainingDays}
+        {car.total_paida}
       </td>
       <td
         scope="col"
         className="min-w-[63px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.startStorage}
-      </td>
+      ></td>
       <td
         scope="col"
         className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       ></td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.fineTotalCost}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.totalUSD} $ <br /> {car.totalAED}
-      </td>
     </tr>
   ));
 };

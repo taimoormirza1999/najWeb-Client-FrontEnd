@@ -6,6 +6,7 @@ import React from 'react';
 
 import { NewCarTab } from '@/components/dashboard/newCarTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
+import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
 import { Layout } from '@/templates/LayoutDashboard';
 
 function classNames(...classes) {
@@ -21,6 +22,9 @@ export async function getServerSideProps(context) {
   let apiTab = 'newCars';
   if (tab === 'tabs-warehouse') {
     apiTab = 'warehouseCars';
+  }
+  if (tab === 'tabs-shipping') {
+    apiTab = 'onWayCars';
   }
   let apiUrl = process.env.API_URL + apiTab;
   if (apiTab === 'newCars') {
@@ -140,7 +144,7 @@ const Dashboard = ({ router, carsData }) => {
               )}
               {tab === 'tabs-shipping' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <ShippingCarTab carsRecords={carsRecords}></ShippingCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-arrived' && (
