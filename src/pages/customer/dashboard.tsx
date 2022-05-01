@@ -32,7 +32,8 @@ export async function getServerSideProps(context) {
     }
   }
   if (session && session.token && session.token.access_token) {
-    axios.defaults.headers.common.Authorization = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMGYzMjQ4YTcyY2U0MmYxOWJjOTIyNWMzODgwNDUzZWZmMTczNDU3MDA1ZTY4ZmRjM2UxN2U0NmU3NWMyYjU2YWVlYWExMmYyYzI5ZWFjMzYiLCJpYXQiOjE2NTEwNTYzOTcsIm5iZiI6MTY1MTA1NjM5NywiZXhwIjoxNjUyMzUyMzk3LCJzdWIiOiIzNiIsInNjb3BlcyI6WyIqIl19.Zwp7xN2Fb1gFhEfrVIJe6IBc-U-GDWMnEhOS0CZe01MOpVLZZ2MClsvofswkREBbmz8IgZ4LMKUbl817_NSJStLVzK0GZW3oAcmy2x8PDK4zmv6q1yLbl-KxjInbc0ewqFt6w32ZcCDpoGkoVPemlUOfCgidsvcIHZMs1iL3HANVduHbl6rrUqyh5i5pKAmkIdBOv7s4SS87ZoEeElNFpr1Ka1KtOiCUxbiZ0eF2rl9dN27Mx-V6dhleH8l_WTV8sA3mtKsc6lCz-lc7_tORmjxwzPN42zJJ6Q3UUtXHdeDrUCyP87X51LTgLitfMLW48Wovxo5JV4vCygtL8s__u4WNxA9NntZUZjEqi5BNGybV3ojKQas1Hz_vP544Qm-z-I-ej8NKDoL3QIW3tcDPb6jT6Pfw2mkr--lltC09rHTZ6O4r5UIVG2bgFoAFG9GDWGPQs372ZQRRN8ZFf8ti7HFHI66Wowh7g2OiIVgQV55gam83In601aJyh-1EHW2mKYc--uWqZEOJj3LiOK10ige3VZ8T7kDWpYmHm3Xj-3Scq4qotW9NbSFSI_xpniKcbmzRa-UZ3Qi5ahvZvPUaRB6Fn5uLlFsG0iqtKy6h39QDqt3wJgrjqH8ryrM49VYX4cj4LGbfrpcbZZuTt60m1u8dEx1aYESo02k9ousvJ7M`;
+    axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
+    console.log(apiUrl);
     const res = await axios.get(`${apiUrl}`);
     carsData = res.data;
   }
@@ -76,7 +77,12 @@ const Dashboard = ({ router, carsData }) => {
       current: tab === 'tabs-states',
     },
   ];
-  const carsRecords = carsData.data;
+  let carsRecords;
+  if (carsData.data) {
+    carsRecords = carsData.data;
+  } else {
+    carsRecords = [];
+  }
   const { totalRecords } = carsData;
   return (
     <Layout meta="">
