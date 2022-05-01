@@ -26,7 +26,7 @@ const Branches = () => (
       </div>
 
       <div className="text-dark-blue container mx-auto mb-[10rem]">
-        <div className="mx-auto sm:flex flex-wrap sm:w-3/4 w-full justify-around">
+        <div className="mx-auto w-full flex-wrap justify-around sm:flex sm:w-3/4">
           <div>
             <h4 className="text-dark-blue py-3 text-3xl font-semibold">
               UAE HQ Office
@@ -110,47 +110,7 @@ const Branches = () => (
           </div>
           <div>
             <h4 className="text-dark-blue py-3 text-3xl font-semibold">
-            Jordan Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
-
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
-            Jordan Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
-
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
-            Jordan Office
+              Jordan Office
               <div className="border-yellow-orange w-10 border"></div>
             </h4>
             <p className="text-outer-space w-full text-2xl sm:w-2/3">
@@ -188,7 +148,47 @@ const Branches = () => (
             >
               info@naj.ae
             </a>
-          </div>          
+
+            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
+              Jordan Office
+              <div className="border-yellow-orange w-10 border"></div>
+            </h4>
+            <p className="text-outer-space w-full text-2xl sm:w-2/3">
+              Nejoum Aljazeera Group Sharjah, Industrial Area 4
+            </p>
+            <a
+              href="tel:+971 65 440 202"
+              className="text-azure-blue my-2 block text-2xl hover:border-0"
+            >
+              Tel: +971 65 440 202
+            </a>
+            <a
+              href="mailto:info@naj.ae"
+              className="text-azure-blue block text-2xl hover:border-0"
+            >
+              info@naj.ae
+            </a>
+
+            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
+              Jordan Office
+              <div className="border-yellow-orange w-10 border"></div>
+            </h4>
+            <p className="text-outer-space w-full text-2xl sm:w-2/3">
+              Nejoum Aljazeera Group Sharjah, Industrial Area 4
+            </p>
+            <a
+              href="tel:+971 65 440 202"
+              className="text-azure-blue my-2 block text-2xl hover:border-0"
+            >
+              Tel: +971 65 440 202
+            </a>
+            <a
+              href="mailto:info@naj.ae"
+              className="text-azure-blue block text-2xl hover:border-0"
+            >
+              info@naj.ae
+            </a>
+          </div>
         </div>
       </div>
 

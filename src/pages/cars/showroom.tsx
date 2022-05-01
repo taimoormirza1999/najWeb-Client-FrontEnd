@@ -386,7 +386,7 @@ const Showroom = () => {
           {dummyCars.map((i) => {
             return (
               <Link href="/cars/profile" key={i}>
-                <a>
+                <a className="hover:border-0">
                   <div>
                     <img
                       src="/assets/images/placeholder.jpg"
@@ -422,16 +422,16 @@ const Showroom = () => {
           partners with our customers, in addition to that we provide a wide
           variety of used cars at our outlets.
         </p>
+      </div>
 
-        <ApplyForAccount />
+      <ApplyForAccount />
 
-        <div className="text-dark-blue container mx-auto py-8">
-          <h2 className="text-center text-5xl font-semibold">Contact Us</h2>
-          <p className="py-4 text-center text-3xl">
-            You’re Welcome to call, text or email us on the following details
-          </p>
-          <ContactDetails />
-        </div>
+      <div className="text-dark-blue container mx-auto py-8">
+        <h2 className="text-center text-5xl font-semibold">Contact Us</h2>
+        <p className="py-4 text-center text-3xl">
+          You’re Welcome to call, text or email us on the following details
+        </p>
+        <ContactDetails />
       </div>
     </Layout>
   );

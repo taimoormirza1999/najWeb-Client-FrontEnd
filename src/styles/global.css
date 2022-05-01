@@ -119,28 +119,6 @@ a:hover {
   color: var(--color-light-grey)
 }
 
-.block-heading{
-  font-size: 2.6rem;
-  font-weight: 600;
-  color: var(--color-dark-blue);
-  padding: 12px 0;
-}
-
-.block-text{
-  font-size: 2.2rem;
-  color: var(--color-dark-blue);
-  padding: 12px 0;
-  max-width: 75%;
-}
-
-.block-more-link{
-  display: block;
-  font-size: 1.6rem;
-  color: var(--color-azure-blue);
-  padding: 12px 0;
-  border-bottom: none;
-}
-
 .partners-logo-box{
   box-shadow: 0px 2px 4px #eee, 0px -1px 4px #eee
 }
@@ -168,4 +146,8 @@ footer .footer-menu li a{
   font-weight:lighter;
   font-size: 1.2em;
   border-bottom:none;
+}
+
+.container{
+  max-width: 90%;
 }

@@ -52,12 +52,12 @@ const Layout = (props: IMainProps) => {
           <div className="top-0 right-0 inline-block hidden w-[90px] overflow-hidden lg:absolute lg:block">
             <div className="bg-light-grey h-[130px] origin-top-left -rotate-45"></div>
           </div>
-          <h3 className="text-center text-3xl font-semibold text-white">
+          <h3 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white">
             Important Anouncements
           </h3>
         </div>
         <div className="text-dark-blue basis-2/3">
-          <p className="p-2 text-2xl">
+          <p className="p-2 text-[16px] md:text-2xl">
             <span className="font-bold">
               Stop shipping cars model 2020 to Iraq.
             </span>
@@ -248,7 +248,7 @@ const Layout = (props: IMainProps) => {
 
       <footer className="bg-outer-space py-12">
         <div className="container mx-auto">
-          <div className="flex justify-center">
+          <div className="sm:flex flex-wrap sm:flex-row flex-col justify-center">
             <div className="basis-[10%]">
               <Link href="/">
                 <a>
@@ -260,8 +260,8 @@ const Layout = (props: IMainProps) => {
                 </a>
               </Link>
             </div>
-            <div className="basis-[65%] pl-8">
-              <div className="footer-menu flex justify-between pt-12 text-white">
+            <div className="basis-[65%] pl-4 sm:pl-8">
+              <div className="footer-menu flex sm:flex-row flex-col gap-4 justify-between pt-12 text-white">
                 <div>
                   <h4 className="text-xl font-semibold">Services</h4>
                   <ul>
@@ -324,7 +324,7 @@ const Layout = (props: IMainProps) => {
             </div>
 
             <div className="basis-[25%]">
-              <div className="flex justify-end gap-3">
+              <div className="flex sm:justify-end gap-3">
                 <span className="py-1 text-white">Follow us</span>
                 <a href="#" className="hover:border-0">
                   <FontAwesomeIcon
@@ -354,7 +354,7 @@ const Layout = (props: IMainProps) => {
             </div>
           </div>
 
-          <div className="flex justify-between text-white">
+          <div className="sm:flex flex-wrap justify-between text-white">
             <div className="self-end">
               <h4 className="text-lg font-semibold">We are in</h4>
               <p className="text-lg font-light">
@@ -385,9 +385,9 @@ const Layout = (props: IMainProps) => {
 
           <div className="my-5 border"></div>
 
-          <div className="flex justify-between pt-12">
+          <div className="sm:flex flex-wrap gap-4 justify-between sm:pt-12 pt-2 sm:text-left text-center">
             <div className="text-white">
-              <p className="text-lg font-light">© 20222 Nejoum Aljazeera</p>
+              <p className="text-lg font-light">© 2022 Nejoum Aljazeera</p>
             </div>
 
             <div className="self-end text-white">
