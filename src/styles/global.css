@@ -9,8 +9,8 @@
 --color-outer-space: #343D40;
 --color-medium-grey: #7f7f7f;
 --color-light-grey: #ebebeb;
+--color-hover-grey: #e0e0e0;
 }
-
 body{
   font-family: 'Source Sans Pro', sans-serif;
 }
@@ -38,7 +38,15 @@ a:hover {
 .bg-dark-blue{
   background: var(--color-dark-blue)
 }
-
+.bg-light-grey{
+  background: var(--color-light-grey)
+}
+.bg-medium-grey{
+  background: var(--color-medium-grey)
+}
+.bg-hover-grey{
+  background: var(--color-hover-grey)
+}
 .bg-teal-blue{
   background: var(--color-teal-blue)
 }
@@ -53,14 +61,6 @@ a:hover {
 
 .bg-outer-space{
   background: var(--color-outer-space)
-}
-
-.bg-medium-grey{
-  background: var(--color-medium-space)
-}
-
-.bg-light-grey{
-  background: var(--color-light-grey)
 }
 
 .border-dark-blue{
@@ -90,7 +90,9 @@ a:hover {
 .border-light-grey{
   border-color: var(--color-light-grey)
 }
-
+.text-medium-gray{
+  color: var(--color-medium-grey)
+}
 .text-dark-blue{
   color: var(--color-dark-blue)
 }

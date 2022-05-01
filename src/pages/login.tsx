@@ -30,6 +30,7 @@ export default function Login() {
   const loading = status === 'loading';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const router = useRouter();
   const { error } = useRouter().query;
 
