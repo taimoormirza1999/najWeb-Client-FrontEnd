@@ -1,4 +1,4 @@
-import { Breadcrumbs } from '@/components/Breadcrumbs';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 
@@ -7,7 +7,12 @@ const Vision = () => (
     meta={<Meta title="Vision & Mission" description="Vision & Mission" />}
   >
     <div className="container mx-auto">
-      <Breadcrumbs />
+      <Breadcrumbs
+        breadcrumbs={[
+          { name: 'About', href: '#' },
+          { name: 'Vision', href: '/about/vision' },
+        ]}
+      />
     </div>
 
     <div className="container mx-auto">

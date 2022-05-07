@@ -5,6 +5,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
+import SimpleReactLightbox from 'simple-react-lightbox';
 
 config.autoAddCss = false;
 
@@ -13,7 +14,9 @@ const MyApp = ({
   pageProps: { session, ...pageProps },
 }: AppProps) => (
   <SessionProvider session={session} refetchInterval={300 * 60}>
-    <Component {...pageProps} />
+    <SimpleReactLightbox>
+      <Component {...pageProps} />
+    </SimpleReactLightbox>
   </SessionProvider>
 );
 
