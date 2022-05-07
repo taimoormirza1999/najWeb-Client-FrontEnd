@@ -9,8 +9,18 @@ type IMainProps = {
 };
 
 const navigation = [
-  { name: 'Summaries', href: '#', gicon: '&#xe14f;', current: true },
-  { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
+  {
+    name: 'Summaries',
+    href: '/customer/dashboard',
+    gicon: '&#xe14f;',
+    current: true,
+  },
+  {
+    name: 'Statement',
+    href: '/customer/statement',
+    gicon: '&#xe853;',
+    current: false,
+  },
   { name: 'Price Lists', href: '#', gicon: '&#xe14f;', current: false },
   {
     name: 'Estimate Calculator',
