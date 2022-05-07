@@ -58,7 +58,7 @@ const options = {
       }
 
       if (Date.now() < token.expires_in) {
-        return token
+        return token;
       }
 
       return refreshAccessToken(token);
