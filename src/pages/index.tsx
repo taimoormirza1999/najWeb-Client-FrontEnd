@@ -8,9 +8,6 @@ import { Layout } from '@/templates/LayoutHome';
 import DownloadApps from '../components/DownloadApps';
 
 const Index = () => {
-  const { data: session, status } = useSession();
-  const loading = status === 'loading';
-  const router = useRouter();
 
   return (
     <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
