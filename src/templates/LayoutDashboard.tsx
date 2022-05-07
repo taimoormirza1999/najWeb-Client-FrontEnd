@@ -9,9 +9,19 @@ type IMainProps = {
 };
 
 const navigation = [
-  { name: 'Summaries', href: '#', gicon: '&#xe14f;', current: true },
+  {
+    name: 'Summaries',
+    href: `${process.env.NEXTAUTH_URL}/customer/dashboard`,
+    gicon: '&#xe14f;',
+    current: true,
+  },
   { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
-  { name: 'Price Lists', href: '#', gicon: '&#xe14f;', current: false },
+  {
+    name: 'Price Lists',
+    href: `${process.env.NEXTAUTH_URL}/customer/price-list`,
+    gicon: '&#xe14f;',
+    current: false,
+  },
   {
     name: 'Estimate Calculator',
     href: '#',

@@ -4,9 +4,12 @@ import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import React from 'react';
 
+import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
+import { DeliveredCarTab } from '@/components/dashboard/deliveredCarTab';
 import { NewCarTab } from '@/components/dashboard/newCarTab';
-import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
 import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
+import { StatesTab } from '@/components/dashboard/statesTab';
+import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
 import { Layout } from '@/templates/LayoutDashboard';
 
 function classNames(...classes) {
@@ -26,6 +29,12 @@ export async function getServerSideProps(context) {
   if (tab === 'tabs-shipping') {
     apiTab = 'onWayCars';
   }
+  if (tab === 'tabs-arrived') {
+    apiTab = 'arrivedCars';
+  }
+  if (tab === 'tabs-delivered') {
+    apiTab = 'deliveredCars';
+  }
   let apiUrl = process.env.API_URL + apiTab;
   if (apiTab === 'newCars') {
     if (!type) {
@@ -43,15 +52,14 @@ export async function getServerSideProps(context) {
   }
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
-    console.log(apiUrl);
     const res = await axios.get(`${apiUrl}`);
     carsData = res.data;
   }
   return {
-    props: { carsData },
+    props: { carsData, baseUrl: process.env.NEXTAUTH_URL },
   };
 }
-const Dashboard = ({ router, carsData }) => {
+const Dashboard = ({ router, carsData, baseUrl }) => {
   const {
     query: { tab, type },
   } = router;
@@ -139,7 +147,10 @@ const Dashboard = ({ router, carsData }) => {
               )}
               {tab === 'tabs-warehouse' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <WarehouseCarTab
+                    carsRecords={carsRecords}
+                    baseUrl={baseUrl}
+                  ></WarehouseCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-shipping' && (
@@ -149,17 +160,17 @@ const Dashboard = ({ router, carsData }) => {
               )}
               {tab === 'tabs-arrived' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <ArrivedCarTab carsRecords={carsRecords}></ArrivedCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-delivered' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <DeliveredCarTab carsRecords={carsRecords}></DeliveredCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-states' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <StatesTab carsRecords={carsRecords}></StatesTab>
                 </React.Fragment>
               )}
             </div>

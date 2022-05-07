@@ -140,37 +140,37 @@ const ShippingCarTab = ({ carsRecords }) => {
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img src={car.loaded_date} alt="" />
+                          {car.loaded_date}
                         </td>
                         <td
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img src={car.booking_number} alt="" />
+                          {car.booking_number}
                         </td>
                         <td
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img src={car.container_number} alt="" />
+                          {car.container_number}
                         </td>
                         <td
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img src={car.etd} alt="" />
+                          {car.etd}
                         </td>
                         <td
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img src={car.shipping_date} alt="" />
+                          {car.shipping_date}
                         </td>
                         <td
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img src={car.eta} alt="" />
+                          {car.eta}
                         </td>
                       </tr>
                     ))}
