@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
@@ -28,7 +30,7 @@ const Index = () => {
                 href="#"
                 className="rounded-sm bg-blue-500 p-2 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:py-3 md:px-4 md:text-[1.5em]"
               >
-                Ship cars
+                {t('Ship cars')}
               </a>
               <a
                 href="#"
