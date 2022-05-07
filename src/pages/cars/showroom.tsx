@@ -383,9 +383,9 @@ const Showroom = () => {
         </p>
 
         <div className="my-4 flex flex-wrap justify-between gap-x-8 gap-y-4">
-          {dummyCars.map((i) => {
+          {dummyCars.map((_, index) => {
             return (
-              <Link href="/cars/profile" key={i}>
+              <Link href="./profile" key={index}>
                 <a className="hover:border-0">
                   <div>
                     <img
@@ -399,13 +399,9 @@ const Showroom = () => {
                         <p>AED120,0000</p>
                       </div>
                       <div className="basis-1/5 pt-1 text-right">
-                        <Link href="/">
-                          <a>
-                            <i className="material-icons text-azure-blue align-middle text-2xl">
-                              &#xe6b8;
-                            </i>
-                          </a>
-                        </Link>
+                        <i className="material-icons text-azure-blue align-middle text-2xl">
+                          &#xe6b8;
+                        </i>
                       </div>
                     </div>
                   </div>

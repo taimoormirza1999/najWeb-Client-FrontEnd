@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SRLWrapper } from 'simple-react-lightbox';
 
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
@@ -27,35 +28,37 @@ const CarProfile = () => {
         </p>
 
         <div className="my-8 flex gap-12">
-          <div className="flex basis-1/2 flex-col gap-4">
-            <img
-              src="/assets/images/car-profile-1.jpg"
-              alt="Car profile"
-              className="basis-2/3 object-cover"
-            />
-            <div className="flex basis-1/3 justify-between">
+          <SRLWrapper>
+            <div className="flex basis-1/2 flex-col gap-4">
               <img
                 src="/assets/images/car-profile-1.jpg"
                 alt="Car profile"
-                className="h-[150px]"
+                className="basis-2/3 cursor-pointer object-cover"
               />
-              <img
-                src="/assets/images/car-profile-2.jpg"
-                alt="Car profile"
-                className="h-[150px]"
-              />
-              <img
-                src="/assets/images/car-profile-3.jpg"
-                alt="Car profile"
-                className="h-[150px]"
-              />
-              <img
-                src="/assets/images/car-profile-1.jpg"
-                alt="Car profile"
-                className="h-[150px]"
-              />
+              <div className="flex basis-1/3 justify-between">
+                <img
+                  src="/assets/images/car-profile-1.jpg"
+                  alt="Car profile"
+                  className="h-[150px] cursor-pointer"
+                />
+                <img
+                  src="/assets/images/car-profile-2.jpg"
+                  alt="Car profile"
+                  className="h-[150px] cursor-pointer"
+                />
+                <img
+                  src="/assets/images/car-profile-3.jpg"
+                  alt="Car profile"
+                  className="h-[150px] cursor-pointer"
+                />
+                <img
+                  src="/assets/images/car-profile-1.jpg"
+                  alt="Car profile"
+                  className="h-[150px] cursor-pointer"
+                />
+              </div>
             </div>
-          </div>
+          </SRLWrapper>
           <div className="basis-1/2">
             <div className="text-dark-blue mb-4 bg-white px-12 py-2 shadow-md">
               <h3 className="py-2 text-3xl font-bold">Nissan Altima</h3>
@@ -66,9 +69,7 @@ const CarProfile = () => {
                 <i className="material-icons text-yellow-orange mr-2 self-center text-3xl">
                   &#xe9ef;
                 </i>
-                <h3 className="text-dark-blue py-2 text-3xl font-bold">
-                  VIN
-                </h3>
+                <h3 className="text-dark-blue py-2 text-3xl font-bold">VIN</h3>
               </div>
               <p className="text-azure-blue pl-10 text-2xl font-semibold">
                 5NPE34AF8HH540668

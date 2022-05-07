@@ -6,21 +6,13 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, Popover, Transition } from '@headlessui/react';
-import {
-  ChartBarIcon,
-  CursorClickIcon,
-  DocumentReportIcon,
-  MenuIcon,
-  RefreshIcon,
-  ShieldCheckIcon,
-  ViewGridIcon,
-  XIcon,
-} from '@heroicons/react/outline';
+import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 
+import AnouncementsCarousel from '@/components/AnouncementsCarousel';
 import { AppConfig } from '@/utils/AppConfig';
 
 type IMainProps = {
@@ -42,29 +34,51 @@ function classNames(...classes) {
 }
 
 const Layout = (props: IMainProps) => {
-  const { data: session } = useSession();
 
   return (
     <div>
       {props.meta}
       <div className="bg-light-grey mb-5 lg:flex">
         <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
-          <div className="top-0 right-0 inline-block hidden w-[90px] overflow-hidden lg:absolute lg:block">
+          <div className="top-0 right-0 hidden w-[90px] overflow-hidden sm:inline-block lg:absolute lg:block">
             <div className="bg-light-grey h-[130px] origin-top-left -rotate-45"></div>
           </div>
-          <h3 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white">
+          <h3 className="text-center text-xl font-semibold text-white sm:text-2xl md:text-3xl">
             Important Anouncements
           </h3>
         </div>
         <div className="text-dark-blue basis-2/3">
-          <p className="p-2 text-[16px] md:text-2xl">
-            <span className="font-bold">
-              Stop shipping cars model 2020 to Iraq.
-            </span>
-            Nejoum Aljazeera has a team with years of experience and dedication
-            to the used car sales market. Nejoum Aljazeera has a team with years
-            of experience and dedication to the used car sales market.
-          </p>
+          <AnouncementsCarousel
+            slides={[
+              <p key={1} className="p-2 text-[16px] md:text-2xl">
+                <span className="font-bold">
+                  Stop shipping cars model 2020 to Iraq 1.
+                </span>
+                Nejoum Aljazeera has a team with years of experience and
+                dedication dedication dedication to the used car sales market.
+                Nejoum Aljazeera has a team with years of experience and
+                dedication to the used car sales market.
+              </p>,
+              <p key={2} className="p-2 text-[16px] md:text-2xl">
+                <span className="font-bold">
+                  Stop shipping cars model 2020 to Iraq 2.
+                </span>
+                Nejoum Aljazeera has a team with years of experience and
+                dedication dedication dedication to the used car sales market.
+                Nejoum Aljazeera has a team with years of experience and
+                dedication to the used car sales market.
+              </p>,
+              <p key={3} className="p-2 text-[16px] md:text-2xl">
+                <span className="font-bold">
+                  Stop shipping cars model 2020 to Iraq 3.
+                </span>
+                Nejoum Aljazeera has a team with years of experience and
+                dedication dedication dedication to the used car sales market.
+                Nejoum Aljazeera has a team with years of experience and
+                dedication to the used car sales market.
+              </p>,
+            ]}
+          />
         </div>
       </div>
       <Popover className="relative bg-white">
@@ -183,7 +197,7 @@ const Layout = (props: IMainProps) => {
         >
           <Popover.Panel
             focus
-            className="absolute inset-x-0 top-0 origin-top-right p-2 transition md:hidden z-10"
+            className="absolute inset-x-0 top-0 z-10 origin-top-right p-2 transition md:hidden"
           >
             <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="px-5 pt-5 pb-6">
@@ -229,12 +243,9 @@ const Layout = (props: IMainProps) => {
                   <p className="mt-6 text-center text-base font-medium text-gray-500">
                     Existing customer?{' '}
                     <Link href="/login">
-                    <a 
-                      
-                      className="text-indigo-600 hover:text-indigo-500"
-                    >
-                      Sign in
-                    </a>
+                      <a className="text-indigo-600 hover:text-indigo-500">
+                        Sign in
+                      </a>
                     </Link>
                   </p>
                 </div>
@@ -248,7 +259,7 @@ const Layout = (props: IMainProps) => {
 
       <footer className="bg-outer-space py-12">
         <div className="container mx-auto">
-          <div className="sm:flex flex-wrap sm:flex-row flex-col justify-center">
+          <div className="flex-col flex-wrap justify-center sm:flex sm:flex-row">
             <div className="basis-[10%]">
               <Link href="/">
                 <a>
@@ -261,7 +272,7 @@ const Layout = (props: IMainProps) => {
               </Link>
             </div>
             <div className="basis-[65%] pl-4 sm:pl-8">
-              <div className="footer-menu flex sm:flex-row flex-col gap-4 justify-between pt-12 text-white">
+              <div className="footer-menu flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row">
                 <div>
                   <h4 className="text-xl font-semibold">Services</h4>
                   <ul>
@@ -324,7 +335,7 @@ const Layout = (props: IMainProps) => {
             </div>
 
             <div className="basis-[25%]">
-              <div className="flex sm:justify-end gap-3">
+              <div className="flex gap-3 sm:justify-end">
                 <span className="py-1 text-white">Follow us</span>
                 <a href="#" className="hover:border-0">
                   <FontAwesomeIcon
@@ -354,7 +365,7 @@ const Layout = (props: IMainProps) => {
             </div>
           </div>
 
-          <div className="sm:flex flex-wrap justify-between text-white">
+          <div className="flex-wrap justify-between text-white sm:flex">
             <div className="self-end">
               <h4 className="text-lg font-semibold">We are in</h4>
               <p className="text-lg font-light">
@@ -385,7 +396,7 @@ const Layout = (props: IMainProps) => {
 
           <div className="my-5 border"></div>
 
-          <div className="sm:flex flex-wrap gap-4 justify-between sm:pt-12 pt-2 sm:text-left text-center">
+          <div className="flex-wrap justify-between gap-4 pt-2 text-center sm:flex sm:pt-12 sm:text-left">
             <div className="text-white">
               <p className="text-lg font-light">© 2022 Nejoum Aljazeera</p>
             </div>

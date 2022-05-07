@@ -1,11 +1,9 @@
-import Link from 'next/link';
-
+import ApplyForAccount from '@/components/ApplyForAccount';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactDetails from '@/components/ContactDetails';
 import DownloadApps from '@/components/DownloadApps';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-import ApplyForAccount from "@/components/ApplyForAccount";
 
 const Shipping = () => (
   <Layout
