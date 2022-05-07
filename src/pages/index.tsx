@@ -10,6 +10,7 @@ import { Layout } from '@/templates/LayoutHome';
 import DownloadApps from '../components/DownloadApps';
 
 const Index = () => {
+  const { t } = useTranslation('common');
 
   return (
     <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
@@ -232,5 +233,13 @@ const Index = () => {
     </Layout>
   );
 };
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+}
 
 export default Index;
