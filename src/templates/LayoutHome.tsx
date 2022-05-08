@@ -5,12 +5,11 @@ import {
   faTwitterSquare,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Menu, Popover, Transition } from '@headlessui/react';
+import { Popover, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { ChevronDownIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { Fragment, ReactNode } from 'react';
 
@@ -32,7 +31,6 @@ const navigation = [
 ];
 
 const Layout = (props: IMainProps) => {
-
   const { data: session } = useSession();
   const router = useRouter();
   const { locale } = router;
@@ -41,6 +39,12 @@ const Layout = (props: IMainProps) => {
   const changeLanguage = (e) => {
     const selectedLocale = e.target.value;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
+  };
+
+  const handleSignOut = () => {
+    signOut({
+      callbackUrl: `${window.location.origin}`,
+    });
   };
 
   return (
@@ -137,16 +141,37 @@ const Layout = (props: IMainProps) => {
             </nav>
             <div className="hidden items-center justify-start md:flex md:flex-1 md:basis-[35%] lg:w-0">
               <i className="material-icons text-white lg:mr-2">&#xe7fd;</i>
-              <Link href="/login">
-                <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
-                  Sign in
-                </a>
-              </Link>
-              <Link href="/auth/newAccount">
-                <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500">
-                  Sign up
-                </a>
-              </Link>
+              {session?.token ? (
+                <>
+                  <Link href="/customer/dashboard">
+                    <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
+                      Dashboard
+                    </a>
+                  </Link>
+                  <Link href="/auth/newAccount">
+                    <a
+                      className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500"
+                      onClick={handleSignOut}
+                    >
+                      Sign Out
+                    </a>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
+                      Sign in
+                    </a>
+                  </Link>
+                  <Link href="/auth/newAccount">
+                    <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500">
+                      Sign up
+                    </a>
+                  </Link>
+                </>
+              )}
+
               <select
                 onChange={changeLanguage}
                 defaultValue={locale}
