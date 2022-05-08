@@ -15,6 +15,7 @@ import { Fragment, ReactNode } from 'react';
 
 import AnouncementsCarousel from '@/components/AnouncementsCarousel';
 import { AppConfig } from '@/utils/AppConfig';
+import { classNames } from '@/utils/Functions';
 
 type IMainProps = {
   meta: ReactNode;

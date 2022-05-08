@@ -9,10 +9,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactDetails from '@/components/ContactDetails';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+import { classNames } from '@/utils/Functions';
 
 const Showroom = () => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);

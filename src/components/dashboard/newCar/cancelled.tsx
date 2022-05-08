@@ -1,8 +1,7 @@
 import React from 'react';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+import { classNames } from '@/utils/Functions';
+
 const Cancelled = ({ carsRecords }) => {
   return carsRecords.map((car, index) => (
     <tr
@@ -50,54 +49,28 @@ const Cancelled = ({ carsRecords }) => {
         scope="col"
         className="min-w-[55px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
-        {car.purchasedDate}
+        {car.purchaseDate}
       </td>
       <td
         scope="col"
         className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.cancellationDate}
+      </td>
       <td
         scope="col"
         className="min-w-[30px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.totalAED}
+      </td>
       <td
         scope="col"
         className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.extraDate}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.remainingDays}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[63px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.startStorage}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       ></td>
       <td
         scope="col"
         className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.fineTotalCost}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       ></td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.totalUSD} $ <br /> {car.totalAED}
-      </td>
     </tr>
   ));
 };
