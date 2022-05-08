@@ -18,6 +18,12 @@ const navigation = [
     gicon: 'e14f',
     current: false,
   },
+  {
+    name: 'Complaints',
+    href: '/customer/complaints',
+    gicon: '&#xe14f;',
+    current: false,
+  },
   { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
 ];
 
