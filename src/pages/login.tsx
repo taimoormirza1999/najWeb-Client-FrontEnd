@@ -46,7 +46,7 @@ export default function Login() {
       email,
       password,
       redirect: true,
-      callbackUrl: `${window.location.origin}/`,
+      callbackUrl: `${window.location.origin}/customer/dashboard`,
     });
   };
 
@@ -155,7 +155,7 @@ export default function Login() {
                   Sign in
                 </button>
 
-                <Link href="/">
+                <Link href="/auth/newAccount">
                   <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-lg font-semibold shadow-sm">
                     Apply For Account
                   </a>
