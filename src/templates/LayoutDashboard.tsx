@@ -13,14 +13,14 @@ type IMainProps = {
 const navigation = [
   {
     name: 'Summaries',
-    href: `${process.env.NEXTAUTH_URL}/customer/dashboard`,
+    href: `/customer/dashboard`,
     gicon: '&#xe14f;',
     current: true,
   },
   { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
   {
     name: 'Price Lists',
-    href: `${process.env.NEXTAUTH_URL}/customer/price-list`,
+    href: `/customer/price-list`,
     gicon: '&#xe14f;',
     current: false,
   },
@@ -193,7 +193,7 @@ const Layout = (props: IMainProps) => {
                 </div>
                 <div className="">
                   <a
-                    href="#"
+                    href="/customer/userprofile"
                     className="group block w-full shrink-0 hover:border-inherit"
                   >
                     <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
