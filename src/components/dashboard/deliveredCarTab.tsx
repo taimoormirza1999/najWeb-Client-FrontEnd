@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import React from 'react';
+
+import { classNames } from '@/utils/Functions';
 
 const carTableHeader = [
   { name: 'No' },
@@ -17,9 +18,6 @@ const carTableHeader = [
   { name: 'Images' },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 const DeliveredCarTab = ({ carsRecords }) => {
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">

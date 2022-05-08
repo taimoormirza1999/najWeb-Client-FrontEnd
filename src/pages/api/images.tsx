@@ -25,9 +25,10 @@ export default async function handler(req, res) {
   const carId = req.query.car_id ? req.query.car_id : '';
   const type = req.query.type ? req.query.type : 'warehouse';
   let data = [];
+  console.log(session.token.access_token);
   axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
   await axios
-    .get(`${process.env.API_URL}getImages?type=${type}&car_id=43730`)
+    .get(`${process.env.API_URL}getImages?type=${type}&car_id=${carId}`)
     .then(function (response) {
       // handle success
       data = response.data.images;

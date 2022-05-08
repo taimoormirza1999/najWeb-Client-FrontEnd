@@ -3,6 +3,8 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { signOut } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
 
+import { classNames } from '@/utils/Functions';
+
 type IMainProps = {
   meta: ReactNode;
   children: ReactNode;
@@ -30,10 +32,6 @@ const navigation = [
   },
   { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

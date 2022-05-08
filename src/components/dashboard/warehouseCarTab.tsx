@@ -1,7 +1,9 @@
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Tab, Transition } from '@headlessui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import { Fragment, useRef, useState } from 'react';
+
+import { classNames } from '@/utils/Functions';
 
 const carTableHeader = [
   { name: 'No' },
@@ -18,22 +20,21 @@ const carTableHeader = [
   { name: 'Key' },
   { name: 'Images' },
 ];
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 const WarehouseCarTab = ({ carsRecords, baseUrl }) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
-  const [images, setImages] = useState(null);
+  const [images, setImages] = useState([]);
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  async function getImages(car_id) {
+  async function GetImages(car_id) {
     const res = await axios.get(
       `${baseUrl}/api/images?type=warehouse&car_id=${car_id}`
     );
     setImages(res.data.data);
-    //setImages(res.data);
+    console.log('1');
     setRedirectModalOpen(true);
+    console.log('2');
   }
+
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
       <Transition.Root show={redirectModalOpen} as={Fragment}>
@@ -79,7 +80,84 @@ const WarehouseCarTab = ({ carsRecords, baseUrl }) => {
                       as="h3"
                       className="text-5xl font-bold leading-6"
                     ></Dialog.Title>
-                    <div className="mt-2">{images}</div>
+                    <div className="mt-2">
+                      {/* <SRLWrapper>
+                        {images && (
+                          <div className="flex basis-1/2 flex-col gap-4">
+                            <img
+                              src={images[0]}
+                              alt=""
+                              className="basis-2/3 cursor-pointer object-cover"
+                            />
+                            <div className="flex basis-1/3 flex-wrap justify-between">
+                              {images.map((image, index) => {
+                                return (
+                                  <img
+                                    key={index}
+                                    src={image}
+                                    className="h-[150px] cursor-pointer"
+                                    alt=""
+                                  />
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </SRLWrapper> */}
+                      <Tab.Group as="div" className="flex flex-col-reverse">
+                        {/* Image selector */}
+                        <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
+                          <Tab.List className="grid grid-cols-4 gap-6">
+                            {images.map((image, index) => (
+                              <Tab
+                                key={index}
+                                className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                              >
+                                {({ selected }) => (
+                                  <>
+                                    <span className="sr-only"></span>
+                                    <span className="absolute inset-0 overflow-hidden rounded-md">
+                                      <img
+                                        src={image}
+                                        alt=""
+                                        className="h-full w-full object-cover object-center"
+                                      />
+                                    </span>
+                                    <span
+                                      className={classNames(
+                                        selected
+                                          ? 'ring-indigo-500'
+                                          : 'ring-transparent',
+                                        'absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none'
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                  </>
+                                )}
+                              </Tab>
+                            ))}
+                          </Tab.List>
+                        </div>
+
+                        <Tab.Panels className="aspect-w-1 aspect-h-1 w-full">
+                          {images.map((image, index) => (
+                            <Tab.Panel key={index}>
+                              <img
+                                src={image}
+                                alt=""
+                                className="h-full w-full object-cover object-center sm:rounded-lg"
+                              />
+                            </Tab.Panel>
+                          ))}
+                        </Tab.Panels>
+                      </Tab.Group>
+                      <button
+                        type="button"
+                        className="mt-4 inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      >
+                        Download
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div className="mt-5 flex justify-center gap-4 sm:mt-6">
@@ -216,7 +294,7 @@ const WarehouseCarTab = ({ carsRecords, baseUrl }) => {
                             src={car.image}
                             alt=""
                             onClick={() => {
-                              getImages(car.carId);
+                              GetImages(car.carId);
                               contentRef?.current?.classList.add('blur-sm');
                             }}
                           />

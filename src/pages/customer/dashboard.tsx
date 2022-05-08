@@ -11,10 +11,7 @@ import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
 import { StatesTab } from '@/components/dashboard/statesTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
 import { Layout } from '@/templates/LayoutDashboard';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+import { classNames } from '@/utils/Functions';
 
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
@@ -52,8 +49,15 @@ export async function getServerSideProps(context) {
   }
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
-    const res = await axios.get(`${apiUrl}`);
-    carsData = res.data;
+    await axios
+      .get(`${apiUrl}`)
+      .then(function (response) {
+        // handle success
+        carsData = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   return {
     props: { carsData, baseUrl: process.env.NEXTAUTH_URL },

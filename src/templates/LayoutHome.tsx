@@ -14,6 +14,7 @@ import { Fragment, ReactNode } from 'react';
 
 import AnouncementsCarousel from '@/components/AnouncementsCarousel';
 import { AppConfig } from '@/utils/AppConfig';
+import { classNames } from '@/utils/Functions';
 
 type IMainProps = {
   meta: ReactNode;
@@ -28,10 +29,6 @@ const navigation = [
   { name: 'About Nejoum', href: '/about/story' },
   { name: 'Contact Us', href: '/contact' },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 const Layout = (props: IMainProps) => {
 
