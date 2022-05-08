@@ -24,7 +24,7 @@ const ShippedCars = ({ tableData }) => {
     <>
       <div className="flex justify-between">
         <h3 className="text-dark-blue my-4 self-start py-4 text-2xl font-semibold">
-          Cars Statement
+          Shipped Cars
         </h3>
         <input
           type="text"

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
+import { Deposits } from '@/components/dashboard/carsStatement/deposits';
 import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntries';
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
@@ -56,6 +57,7 @@ const Statement = ({
   shippedCars,
   inAuctionCars,
   generalEntries,
+  deposits,
 }) => {
   /*   const [shippedCarsState, setShippedCars] = useState(shippedCars);
   const [inAuctionCarsState, setInAuctionCars] = useState(inAuctionCars);
@@ -153,74 +155,17 @@ const Statement = ({
           </div>
         </form>
 
-        {shippedCars !== undefined ? (
-          <ShippedCars tableData={shippedCars} />
-        ) : null}
+        {shippedCars.length ? <ShippedCars tableData={shippedCars} /> : null}
 
-        {inAuctionCars.legnth ? (
+        {inAuctionCars.length ? (
           <InAuctionCars tableData={inAuctionCars} />
         ) : null}
 
-        {generalEntries.legnth ? (
+        {generalEntries.length ? (
           <GeneralEntries tableData={generalEntries} />
         ) : null}
 
-        <div className="mt-20 flex justify-between">
-          <h3 className="text-dark-blue my-4 self-start py-4 text-2xl font-semibold">
-            Deposit
-          </h3>
-          <input
-            type="text"
-            placeholder="Search"
-            className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
-          />
-        </div>
-        <div className="border-azure-blue overflow-hidden rounded-xl border">
-          <table className="w-full table-auto">
-            <thead>
-              <tr className="w-full">
-                <td className="text-dark-blue p-4 text-xl font-semibold">
-                  No.
-                </td>
-                <td className="text-dark-blue p-4 text-xl font-semibold">
-                  Serial No.
-                </td>
-                <td className="text-dark-blue p-4 text-xl font-semibold">
-                  Amount
-                </td>
-                <td className="text-dark-blue p-4 text-xl font-semibold">
-                  Paid
-                </td>
-                <td className="text-dark-blue p-4 text-xl font-semibold">
-                  Balance
-                </td>
-                <td className="text-dark-blue p-4 text-xl font-semibold">
-                  Date
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-light-grey">
-                <td className="text-dark-blue px-3 py-1 text-xl font-semibold">
-                  1
-                </td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">1937402384</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">123123</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">123123</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">123123</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">13-4-22</td>
-              </tr>
-              <tr className="">
-                <td className="text-dark-blue p-1 text-xl font-semibold">1</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">1937402384</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">123123</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">123123</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">123123</td>
-                <td className="px-3 py-1 text-lg text-[#1C1C1C]">13-4-22</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {deposits.length ? <Deposits tableData={deposits} /> : null}
       </div>
     </Layout>
   );
@@ -240,26 +185,41 @@ export async function getServerSideProps(context) {
     date_from: formData.date_from || '2021-01-01',
     date_to: '',
   };
-  const [shippedCarsResponse, inAuctionCarsResponse, generalEntriesResponse] =
-    await Promise.all([
-      axios.get(`${apiUrl}carStatement/shippedCars`, {
-        params: selectedParams,
-      }),
-      axios.get(`${apiUrl}carStatement/carsInAuction`, {
-        params: selectedParams,
-      }),
-      axios.get(`${apiUrl}carStatement/generalEntries`, {
-        params: selectedParams,
-      }),
-    ]);
-  const [shippedCars, inAuctionCars, generalEntries] = await Promise.all([
-    shippedCarsResponse.data.data,
-    inAuctionCarsResponse.data.data,
-    generalEntriesResponse.data.data,
+  const [
+    shippedCarsResponse,
+    inAuctionCarsResponse,
+    generalEntriesResponse,
+    depositsResponse,
+  ] = await Promise.all([
+    axios.get(`${apiUrl}carStatement/shippedCars`, {
+      params: selectedParams,
+    }),
+    axios.get(`${apiUrl}carStatement/carsInAuction`, {
+      params: selectedParams,
+    }),
+    axios.get(`${apiUrl}carStatement/generalEntries`, {
+      params: selectedParams,
+    }),
+    axios.get(`${apiUrl}carStatement/deposits`, {
+      params: selectedParams,
+    }),
   ]);
+  const [shippedCars, inAuctionCars, generalEntries, deposits] =
+    await Promise.all([
+      shippedCarsResponse.data.data,
+      inAuctionCarsResponse.data.data,
+      generalEntriesResponse.data.data,
+      depositsResponse.data.data,
+    ]);
 
   return {
-    props: { selectedParams, shippedCars, inAuctionCars, generalEntries },
+    props: {
+      selectedParams,
+      shippedCars,
+      inAuctionCars,
+      generalEntries,
+      deposits,
+    },
   };
 }
 
