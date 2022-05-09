@@ -30,6 +30,12 @@ const navigation = [
     gicon: 'e14f',
     current: false,
   },
+  {
+    name: 'Tracking',
+    href: '/customer/tracking',
+    gicon: '&#xe853;',
+    current: false,
+  },
   { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
 ];
 
