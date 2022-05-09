@@ -48,9 +48,9 @@ const Shipping = () => (
         </div>
         <div className="relative basis-2/5">
           <img
-            src="/assets/images/shipping-car.png"
+            src="/assets/images/usa-warehouse-2.jpg"
             alt="Shipping car"
-            className="w-full"
+            className="border-dark-blue h-full w-full rounded-xl border object-cover"
           />
           <Link href="#receiveService">
             <a className="bg-azure-blue absolute inset-x-0 bottom-[10%] m-auto max-w-max rounded-lg py-3 px-6 text-3xl font-medium text-white hover:border-0">
@@ -145,11 +145,11 @@ const Shipping = () => (
           Receive Service
         </h3>
         <img
-          className="relative -z-10 mx-auto w-full pt-8"
+          className="relative -z-10 mx-auto w-full rounded-t-[30px] pt-8"
           src="/assets/images/receive-service.jpg"
           alt="Contact Us"
         />
-        <div className="bg-light-grey mx-auto -mt-16 rounded-b-[60px] p-12 text-center">
+        <div className="bg-light-grey mx-auto -mt-16 rounded-b-[30px] p-12 text-center">
           <Link href="https://wa.me/+97165440202?text=Hi" passHref>
             <a
               target="_blank"
