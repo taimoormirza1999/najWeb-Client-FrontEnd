@@ -83,7 +83,7 @@ const Layout = (props: IMainProps) => {
       </div>
       <Popover className="relative bg-white">
         <div className="mb-7 flex items-center justify-between md:justify-start md:space-x-10">
-          <div className="flex justify-end lg:w-0 lg:basis-1/5">
+          <div className="flex justify-center lg:w-0 lg:basis-1/5">
             <Link href="/">
               <a className="hover:border-0">
                 <span className="sr-only">{AppConfig.title}</span>
