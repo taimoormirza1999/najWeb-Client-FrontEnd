@@ -12,12 +12,31 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 
-const fetcher =  (url) => fetch(url).then((res) => res.json());
+const fetcher = (url) => fetch(url).then((res) => res.json());
 const PAGE_SIZE = 40;
 
-export default function App() {
-  let carsMakerData = [];
-  let YearData = [];
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
+
+export async function getServerSideProps() {
+  let carsMakerData = {};
+  let YearData = {};
+  let apiTab = 'getMaker';
+  let apiUrl = process.env.API_URL + apiTab;
+  const res = await axios.get(`${apiUrl}`);
+  carsMakerData = (res.data)?res.data.data:res.data;
+  const resY = await axios.get(`${process.env.API_URL + 'getYear'}`);
+  YearData = (resY.data)?resY.data.data:resY.data;
+  return {
+    props: { carsMakerData, YearData,  API_URL: process.env.API_URL },
+  };
+}
+
+export default function App({carsMakerData, YearData, API_URL}) {
+
   const [repo, setRepo] = useState("reactjs/react-a11y");
   const [val, setVal] = useState(repo);
   let apiTab    = 'CarsForSale';
@@ -30,21 +49,21 @@ export default function App() {
       }`,
      fetcher
   );
+
   const [selectedMaker, setSelectedMaker] = useState('');
   const [selectedYear, setselectedYear]   = useState('');
   const [selectedModel, setselectedModel] = useState('');
   const [cars, setCars]                   = useState([]);
 
   const issues = data ? [].concat(...data) : [];
-  
-  console.log(size);
+
   const isLoadingInitialData = !data && !error;
   const isLoadingMore =
     isLoadingInitialData ||
     (size > 0 && data && typeof data[size - 1] === "undefined");
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+    isEmpty || (data && data[data.length - 1].data?.length < PAGE_SIZE);
   const isRefreshing = isValidating && data && data.length === size;
 
 
@@ -434,7 +453,7 @@ export default function App() {
             ? "loading..."
             : isReachingEnd
             ? "no more issues"
-            : "load more"} {size}
+            : "load more"}
             
             </button>
         <p className="text-dark-blue my-24 text-center text-3xl">
