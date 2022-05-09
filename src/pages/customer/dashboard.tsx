@@ -4,17 +4,18 @@ import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import React from 'react';
 
+import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
+import { DeliveredCarTab } from '@/components/dashboard/deliveredCarTab';
 import { NewCarTab } from '@/components/dashboard/newCarTab';
+import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
+import { StatesTab } from '@/components/dashboard/statesTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
-import { Layout } from '@/templates/Layout2';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+import { Layout } from '@/templates/LayoutDashboard';
+import { classNames } from '@/utils/Functions';
 
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
-  const type = context.query.type ? context.query.type : '';
+  let type = context.query.type ? context.query.type : '';
   const session = await getSession(context);
 
   let carsData = {};
@@ -22,26 +23,47 @@ export async function getServerSideProps(context) {
   if (tab === 'tabs-warehouse') {
     apiTab = 'warehouseCars';
   }
+  if (tab === 'tabs-shipping') {
+    apiTab = 'onWayCars';
+  }
+  if (tab === 'tabs-arrived') {
+    apiTab = 'arrivedCars';
+  }
+  if (tab === 'tabs-delivered') {
+    apiTab = 'deliveredCars';
+  }
   let apiUrl = process.env.API_URL + apiTab;
-  if (apiTab === 'newCars' && type) {
+  if (apiTab === 'newCars') {
+    if (!type) {
+      type = 'unpaid';
+    }
     if (type === 'paid' || type === 'unpaid' || type === 'paid_bycustomer') {
       apiUrl += `?${type}=1`;
     }
     if (type === 'towing') {
       apiUrl = `${process.env.API_URL}towingCars`;
     }
+    if (type === 'cancelled') {
+      apiUrl = `${process.env.API_URL}customer/allCancelledCars`;
+    }
   }
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
-    console.log(apiUrl);
-    const res = await axios.get(`${apiUrl}`);
-    carsData = res.data;
+    await axios
+      .get(`${apiUrl}`)
+      .then(function (response) {
+        // handle success
+        carsData = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   return {
-    props: { carsData },
+    props: { carsData, baseUrl: process.env.NEXTAUTH_URL },
   };
 }
-const Dashboard = ({ router, carsData }) => {
+const Dashboard = ({ router, carsData, baseUrl }) => {
   const {
     query: { tab, type },
   } = router;
@@ -129,27 +151,30 @@ const Dashboard = ({ router, carsData }) => {
               )}
               {tab === 'tabs-warehouse' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <WarehouseCarTab
+                    carsRecords={carsRecords}
+                    baseUrl={baseUrl}
+                  ></WarehouseCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-shipping' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <ShippingCarTab carsRecords={carsRecords}></ShippingCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-arrived' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <ArrivedCarTab carsRecords={carsRecords}></ArrivedCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-delivered' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <DeliveredCarTab carsRecords={carsRecords}></DeliveredCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-states' && (
                 <React.Fragment>
-                  <WarehouseCarTab carsRecords={carsRecords}></WarehouseCarTab>
+                  <StatesTab carsRecords={carsRecords}></StatesTab>
                 </React.Fragment>
               )}
             </div>

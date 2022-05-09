@@ -3,15 +3,27 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { signOut } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
 
+import { classNames } from '@/utils/Functions';
+
 type IMainProps = {
   meta: ReactNode;
   children: ReactNode;
 };
 
 const navigation = [
-  { name: 'Summaries', href: '#', gicon: '&#xe14f;', current: true },
+  {
+    name: 'Summaries',
+    href: `/customer/dashboard`,
+    gicon: '&#xe14f;',
+    current: true,
+  },
   { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
-  { name: 'Price Lists', href: '#', gicon: '&#xe14f;', current: false },
+  {
+    name: 'Price Lists',
+    href: `/customer/price-list`,
+    gicon: '&#xe14f;',
+    current: false,
+  },
   {
     name: 'Estimate Calculator',
     href: '#',
@@ -20,10 +32,6 @@ const navigation = [
   },
   { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -185,7 +193,7 @@ const Layout = (props: IMainProps) => {
                 </div>
                 <div className="">
                   <a
-                    href="#"
+                    href="/customer/userprofile"
                     className="group block w-full shrink-0 hover:border-inherit"
                   >
                     <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">

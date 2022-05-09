@@ -5,15 +5,17 @@ import {
   faTwitterSquare,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Menu, Popover, Transition } from '@headlessui/react';
+import { Popover, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { ChevronDownIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import { Fragment, ReactNode } from 'react';
 
 import AnouncementsCarousel from '@/components/AnouncementsCarousel';
 import { AppConfig } from '@/utils/AppConfig';
+import { classNames } from '@/utils/Functions';
 
 type IMainProps = {
   meta: ReactNode;
@@ -29,11 +31,22 @@ const navigation = [
   { name: 'Contact Us', href: '/contact' },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 const Layout = (props: IMainProps) => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const { locale } = router;
+  const { t } = useTranslation('common');
+
+  const changeLanguage = (e) => {
+    const selectedLocale = e.target.value;
+    router.push(router.pathname, router.asPath, { locale: selectedLocale });
+  };
+
+  const handleSignOut = () => {
+    signOut({
+      callbackUrl: `${window.location.origin}`,
+    });
+  };
 
   return (
     <div>
@@ -106,13 +119,11 @@ const Layout = (props: IMainProps) => {
               <div className="flex items-center justify-center">
                 <div className="hidden space-x-6 lg:block">
                   {navigation.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      className="text-base font-medium text-white hover:text-indigo-50"
-                    >
-                      {link.name}
-                    </a>
+                    <Link href={link.href} key={link.name}>
+                      <a className="text-base font-medium text-white hover:text-indigo-50">
+                        {t(link.name)}
+                      </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -131,57 +142,49 @@ const Layout = (props: IMainProps) => {
             </nav>
             <div className="hidden items-center justify-start md:flex md:flex-1 md:basis-[35%] lg:w-0">
               <i className="material-icons text-white lg:mr-2">&#xe7fd;</i>
-              <Link href="/login">
-                <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
-                  Sign in
-                </a>
-              </Link>
-              <Link href="/auth/newAccount">
-                <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500">
-                  Sign up
-                </a>
-              </Link>
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="ml-4 inline-flex justify-center text-white focus:outline-none">
-                    En
-                    <ChevronDownIcon
-                      className="-mr-1 ml-1 mt-1 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
+              {session?.token ? (
+                <>
+                  <Link href="/customer/dashboard">
+                    <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
+                      Dashboard
+                    </a>
+                  </Link>
+                  <Link href="/auth/newAccount">
+                    <a
+                      className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500"
+                      onClick={handleSignOut}
+                    >
+                      Sign Out
+                    </a>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
+                      Sign in
+                    </a>
+                  </Link>
+                  <Link href="/auth/newAccount">
+                    <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500">
+                      Sign up
+                    </a>
+                  </Link>
+                </>
+              )}
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="absolute right-0 mt-2 origin-top-right divide-y bg-white shadow-lg">
-                    <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-700',
-                              'block px-4 py-2 text-sm hover:border-0'
-                            )}
-                          >
-                            AR
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+              <select
+                onChange={changeLanguage}
+                defaultValue={locale}
+                className="ml-2 border-0 bg-transparent text-white focus:outline-none"
+              >
+                <option value="en" className="text-black">
+                  EN
+                </option>
+                <option value="ar" className="text-black">
+                  AR
+                </option>
+              </select>
             </div>
           </div>
         </div>
