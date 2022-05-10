@@ -132,6 +132,9 @@ a:hover {
 .story-cover-text-shadow{
   text-shadow: 4px 4px 8px #333;
 }
+.shadow-lg{
+  box-shadow: 1px 1px 6px 0px #999;
+}
 
 .breadcrumb li:not(:last-child):after{
   content: ' > ';
