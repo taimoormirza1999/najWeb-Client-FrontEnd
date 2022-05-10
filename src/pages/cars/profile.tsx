@@ -8,11 +8,11 @@ import axios from 'axios';
 
 export async function getServerSideProps(context) {
   const car_id = context.query.id;
-  let carData   = {};
-  let apiTab    = 'CarsForSaleDetails';
-  let apiUrl    = process.env.API_URL + apiTab;
-  const res     = await axios.get(`${apiUrl}`, { params: { 'car_id' : car_id }});
-  carData       = (res.data)?res.data.data:res.data;
+  let carData = {};
+  let apiTab = 'CarsForSaleDetails';
+  let apiUrl = process.env.API_URL + apiTab;
+  const res = await axios.get(`${apiUrl}`, { params: { 'car_id' : car_id }});
+  carData = (res.data)?res.data.data:res.data;
   return {
     props: { carData },
   };
@@ -26,7 +26,7 @@ const CarProfile = ({carData}) => {
       <div className="container mx-auto">
         <Breadcrumbs
           breadcrumbs={[
-            { name: 'Cars Showroom', href: '#' },
+            { name: 'Cars Showroom', href: '/cars/showroom' },
             { name: 'Car Profile', href: '/cars/profile' },
           ]}
         />
@@ -43,6 +43,7 @@ const CarProfile = ({carData}) => {
         </p>
 
         <div className="my-8 flex gap-12">
+          <div class="basis-1/2">
           <SRLWrapper>
             <div className="flex basis-1/2 flex-col gap-4">
               <img
@@ -70,6 +71,8 @@ const CarProfile = ({carData}) => {
               </div>
             </div>
           </SRLWrapper>
+          </div>
+          
           <div className="basis-1/2">
             <div className="text-dark-blue mb-4 bg-white px-12 py-2 shadow-md">
               <h3 className="py-2 text-3xl font-bold">{carData.carMakerName} {carData.carModelName}</h3>
@@ -142,7 +145,7 @@ const CarProfile = ({carData}) => {
         </div>
 
         <div className="my-16 text-center">
-          <Link href="" passHref>
+          <Link href="https://wa.me/971561637537" passHref>
             <a
               href="#"
               className="bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"
