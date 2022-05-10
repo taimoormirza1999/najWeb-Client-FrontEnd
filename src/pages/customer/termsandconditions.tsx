@@ -1,9 +1,8 @@
-import { withRouter } from 'next/router';
 import React from 'react';
 
 import { Layout } from '@/templates/LayoutDashboard';
 
-const Dashboard = () => {
+const TermsAndConditions = () => {
   return (
     <Layout meta="">
       <div>
@@ -36,4 +35,4 @@ const Dashboard = () => {
   );
 };
 
-export default withRouter(Dashboard);
+export default TermsAndConditions;
