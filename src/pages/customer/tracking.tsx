@@ -13,12 +13,12 @@ import {
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   return {
     props: { apiUrl: process.env.API_URL },
   };
 }
-const Tracking = ({ apiUrl }) => {
+const Tracking = () => {
   return (
     <Layout meta="">
       <div className="m-4">
@@ -151,7 +151,7 @@ const Tracking = ({ apiUrl }) => {
               </div>
               <div className="flex-1">
                 <MonetizationIcon></MonetizationIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2 -mr-6">
+                <div className="border-dark-blue relative mt-5 -mr-6 border-t-2">
                   <div className="bg-dark-blue absolute bottom-[-3px] left-6 rounded-full p-1"></div>
                 </div>
               </div>
