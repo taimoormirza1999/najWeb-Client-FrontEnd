@@ -8,6 +8,7 @@ import { Layout } from '@/templates/LayoutDashboard';
 import { icon } from "@fortawesome/fontawesome-svg-core";
 import { Dialog } from "@headlessui/react";
 import { title } from "process";
+import { postData } from '@/utils/network';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -30,22 +31,17 @@ const Complaints = ({ apiUrl, complaints }) => {
       message: event.target.message.value,
     };
 
-    await axios
-      .post(`${apiUrl}submitComplaint`, formData)
-      .then(function (response) {
-        if (response.data.success === true) {
-          setSubmitModalOpen(true);
-          contentRef?.current?.classList.add('blur-sm');
-        } else {
-          setErrorModalOpen(true);
-          contentRef?.current?.classList.add('blur-sm');
-        }
-      })
-      .catch(function (apiError) {
-        console.log(apiError);
-      });
+    const response = await postData("/api/customer/complaint", formData);
+    console.log("-> response", response);
 
-    console.log(formData);
+    if (response.success === true) {
+      setSubmitModalOpen(true);
+      contentRef?.current?.classList.add('blur-sm');
+    } else {
+      setErrorModalOpen(true);
+      contentRef?.current?.classList.add('blur-sm');
+    }
+
   };
 
   const getComplaintMessageDetails = async (complaint_id) => {
