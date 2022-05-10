@@ -12,13 +12,10 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactDetails from '@/components/ContactDetails';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { classNames } from '@/utils/Functions';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const PAGE_SIZE = 40; 
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 export async function getServerSideProps() {
   let carsMakerData = {};

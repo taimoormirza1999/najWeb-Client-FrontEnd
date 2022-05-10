@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { getCsrfToken, signIn, useSession } from 'next-auth/react';
+import { getCsrfToken, signIn } from 'next-auth/react';
 import { useState } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
@@ -26,8 +26,6 @@ const SignInError = ({ error, className }) => {
 };
 
 export default function Login() {
-  const { data: session, status } = useSession();
-  const loading = status === 'loading';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -46,7 +44,7 @@ export default function Login() {
       email,
       password,
       redirect: true,
-      callbackUrl: `${window.location.origin}/`,
+      callbackUrl: `${window.location.origin}/customer/dashboard`,
     });
   };
 
@@ -155,7 +153,7 @@ export default function Login() {
                   Sign in
                 </button>
 
-                <Link href="/">
+                <Link href="/auth/newAccount">
                   <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-lg font-semibold shadow-sm">
                     Apply For Account
                   </a>

@@ -1,8 +1,5 @@
-import React from 'react';
+import { classNames } from '@/utils/Functions';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 const Paid = ({ carsRecords }) => {
   return carsRecords.map((car, index) => (
     <tr

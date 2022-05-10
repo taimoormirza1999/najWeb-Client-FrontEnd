@@ -7,10 +7,8 @@ import { Paid } from '@/components/dashboard/newCar/paid';
 import { PaidByCustomer } from '@/components/dashboard/newCar/paid_by_customer';
 import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
+import { classNames } from '@/utils/Functions';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 const NewCarTab = ({ carsRecords, type }) => {
   let carTableData;
   if (!type) {
