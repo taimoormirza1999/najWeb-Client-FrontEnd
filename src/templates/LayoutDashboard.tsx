@@ -36,7 +36,12 @@ const navigation = [
     gicon: '&#xe853;',
     current: false,
   },
-  { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
+  { 
+    name: 'Terms & Conditions', 
+    href: '/customer/termsandconditions',
+    gicon: '&#xe14f;', 
+    current: false 
+  },
 ];
 
 const Layout = (props: IMainProps) => {
