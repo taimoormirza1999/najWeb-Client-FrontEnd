@@ -1,7 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 
-import { classNames } from '@/utils/Functions';
-
 const carTableHeader = [
   { name: 'New Jersey' },
   { name: 'Texas' },
@@ -10,7 +8,7 @@ const carTableHeader = [
   { name: 'California' },
 ];
 
-const StatesTab = ({ carsRecords }) => {
+const StatesTab = () => {
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
       <div className="pt-14">

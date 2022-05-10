@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { getCsrfToken, signIn, useSession } from 'next-auth/react';
+import { getCsrfToken, signIn } from 'next-auth/react';
 import { useState } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
@@ -26,8 +26,6 @@ const SignInError = ({ error, className }) => {
 };
 
 export default function Login() {
-  const { data: session, status } = useSession();
-  const loading = status === 'loading';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

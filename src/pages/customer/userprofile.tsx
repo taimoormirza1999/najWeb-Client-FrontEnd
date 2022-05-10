@@ -5,7 +5,7 @@ import { Fragment, useRef, useState } from 'react';
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   return {
     props: { apiUrl: process.env.API_URL },
   };
