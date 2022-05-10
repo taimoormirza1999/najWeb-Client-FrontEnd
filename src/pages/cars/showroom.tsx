@@ -14,7 +14,7 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 40; 
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
