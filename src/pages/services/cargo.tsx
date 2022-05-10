@@ -28,9 +28,9 @@ const Shipping = () => (
           <div className="basis-4/6 pr-20 leading-[3.5em] tracking-wider">
             <p className="py-6 text-3xl text-white">
               If you are contracted us, you can use{' '}
-              <span className="font-bold">NEJOUM</span> ALJAZEERA Online System
-              to track your vehicle wherever it is around the world. Once you
-              purchased your car.
+              <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA
+              Online System to track your vehicle wherever it is around the
+              world. Once you purchased your car.
             </p>
             <p className="py-6 text-3xl text-white">
               You can use our system from your mobile devices and PC. Get

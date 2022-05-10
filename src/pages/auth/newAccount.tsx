@@ -28,7 +28,7 @@ const NewAccount = () => (
           <span className="font-bold">NAJ Account</span> Form
         </p>
         <p className="mb-8 py-6 text-2xl">
-          We’re determined at <span className="font-bold">NEJOUM</span>{' '}
+          We’re determined at <span className="font-sen font-bold">NEJOUM</span>{' '}
           ALJAZEERA to provide you the means of convenience to receive our you
           business needs as soon as possible. Please fill up the form below to
           apply for NAJ Account

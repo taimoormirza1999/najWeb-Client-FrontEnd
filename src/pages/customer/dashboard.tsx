@@ -16,7 +16,7 @@ import { classNames } from '@/utils/Functions';
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
   let type = context.query.type ? context.query.type : '';
-  const session = await getSession(context);
+  const session: any = await getSession(context);
 
   let carsData = {};
   let apiTab = 'newCars';
@@ -105,7 +105,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
   } else {
     carsRecords = [];
   }
-  const { totalRecords } = carsData;
   return (
     <Layout meta="">
       <div>
@@ -120,25 +119,24 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
           </div>
           <div>
             <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
-              {tabs.map((tab) => (
+              {tabs.map((tabData) => (
                 <Link
-                  key={tab.name}
+                  key={tabData.name}
                   href={{
                     pathname: '/customer/dashboard/',
-                    query: { tab: tab.href },
+                    query: { tab: tabData.href },
                   }}
                 >
                   <a
-                    key={tab.name}
                     className={classNames(
-                      tab.current
+                      tabData.current
                         ? 'bg-blue-700 text-white'
                         : 'text-blue-600 hover:text-gray-700',
                       'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                     )}
-                    aria-current={tab.current ? 'page' : undefined}
+                    aria-current={tabData.current ? 'page' : undefined}
                   >
-                    {tab.name}
+                    {tabData.name}
                   </a>
                 </Link>
               ))}
@@ -174,7 +172,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
               )}
               {tab === 'tabs-states' && (
                 <React.Fragment>
-                  <StatesTab carsRecords={carsRecords}></StatesTab>
+                  <StatesTab></StatesTab>
                 </React.Fragment>
               )}
             </div>
