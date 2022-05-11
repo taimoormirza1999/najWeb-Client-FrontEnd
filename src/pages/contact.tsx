@@ -1,12 +1,27 @@
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import React, { useEffect, useRef, useState } from 'react';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactDetails from '@/components/ContactDetails';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { postData } from '@/utils/network';
+import CustomModal from '@/components/CustomModal';
+import { Dialog } from '@headlessui/react';
 
 const Contact = () => {
+  const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const okButtonRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const okButtonErrorRef = useRef(null);
+  const [inputValue, setInputValue] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = {
@@ -16,19 +31,104 @@ const Contact = () => {
       message: event.target.message.value,
     };
 
-    fetch(`${process.env.baseURL}/contact`, {
-      method: 'post',
-      body: JSON.stringify(formData),
-    });
+    const response = await postData('/api/contactus', formData);
+
+    if (response.success === true) {
+      setSubmitModalOpen(true);
+      contentRef?.current?.classList.add('blur-sm');
+      setInputValue(() => ({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      }));
+    } else {
+      setErrorModalOpen(true);
+      contentRef?.current?.classList.add('blur-sm');
+    }
   };
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setInputValue((prevState) => ({ ...prevState, [name]: value }));
+  }
 
   return (
     <Layout meta={<Meta title="Contact Us" description="Contact Us" />}>
-      <div className="container mx-auto">
+      <CustomModal
+        showOn={submitModalOpen}
+        initialFocus={okButtonRef}
+        onClose={() => {
+          setSubmitModalOpen(false);
+          contentRef?.current?.classList.remove('blur-sm');
+        }}
+      >
+        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+          <i className="material-icons text-yellow-orange mb-4 text-6xl">
+            &#xe2e6;
+          </i>
+          <Dialog.Title as="h3" className="text-3xl font-bold leading-6">
+            Your Message was Sent!
+          </Dialog.Title>
+          <div className="mt-2">
+            <p className="mb-4 py-6 text-xl">
+              We’ve received your request in our customers services offices.{' '}
+              <br /> We’ll get back to you as soon as possible.
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
+            onClick={() => {
+              setSubmitModalOpen(false);
+              contentRef?.current?.classList.remove('blur-sm');
+            }}
+            ref={okButtonRef}
+          >
+            Okay
+          </button>
+        </div>
+      </CustomModal>
+      <CustomModal
+        showOn={errorModalOpen}
+        initialFocus={okButtonErrorRef}
+        onClose={() => {
+          setErrorModalOpen(false);
+          contentRef?.current?.classList.remove('blur-sm');
+        }}
+      >
+        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+          <i className="material-icons mb-4 text-6xl text-red-800">&#xe160;</i>
+          <Dialog.Title as="h3" className="text-4xl font-bold leading-6">
+            Sorry!
+          </Dialog.Title>
+          <div className="mt-2">
+            <p className="mb-4 py-6 text-2xl">
+              A technical Error has occurred. Please Try again
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
+            onClick={() => {
+              setErrorModalOpen(false);
+              contentRef?.current?.classList.remove('blur-sm');
+            }}
+            ref={okButtonErrorRef}
+          >
+            Okay
+          </button>
+        </div>
+      </CustomModal>
+      <div className="container mx-auto" ref={contentRef}>
         <Breadcrumbs breadcrumbs={[{ name: 'Contact Us', href: '/contact' }]} />
       </div>
 
-      <div className="bg-light-grey text-dark-blue py-12">
+      <div className="bg-light-grey text-dark-blue py-12" ref={contentRef}>
         <div className="container mx-auto">
           <h2 className="text-center text-5xl font-semibold">Stay in Touch!</h2>
           <p className="py-4 text-center text-2xl">
@@ -55,6 +155,8 @@ const Contact = () => {
                       type="text"
                       required
                       placeholder="Your name"
+                      value={inputValue.name}
+                      onChange={handleChange}
                       className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
                     />
                   </div>
@@ -73,6 +175,8 @@ const Contact = () => {
                       type="email"
                       required
                       placeholder="Your email"
+                      value={inputValue.email}
+                      onChange={handleChange}
                       className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
                     />
                   </div>
@@ -91,6 +195,8 @@ const Contact = () => {
                       type="text"
                       required
                       placeholder="Your phone"
+                      value={inputValue.phone}
+                      onChange={handleChange}
                       className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
                     />
                   </div>
@@ -111,6 +217,8 @@ const Contact = () => {
                     className="placeholder:text-medium-grey border-dark-blue w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
                     name="message"
                     placeholder="Write something here..."
+                    value={inputValue.message}
+                    onChange={handleChange}
                   ></textarea>
                 </div>
               </div>
@@ -139,7 +247,7 @@ const Contact = () => {
                 className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-3xl"
                 id="address_text"
               >
-                <span className="font-bold">NEJOUM </span>
+                <span className="font-sen font-bold">NEJOUM </span>
                 ALJAZEERA Group Industrial area 4, Sharjah, UAE
               </div>
               <div className="flex justify-end gap-4 pt-4">
@@ -198,16 +306,16 @@ const Contact = () => {
       <div className="container mx-auto py-16">
         <h3 className="text-center !text-5xl font-semibold">Contact Us</h3>
         <img
-          className="relative -z-10 mx-auto max-w-[75%] pt-8"
+          className="relative -z-10 mx-auto max-w-[75%] rounded-t-[40px]"
           src="/assets/images/contact-us.jpg"
           alt="Contact Us"
         />
-        <div className="bg-light-grey mx-auto -mt-16 max-w-[75%] rounded-b-[60px] p-8 text-center">
+        <div className="bg-light-grey mx-auto -mt-16 max-w-[75%] rounded-b-[40px] p-8 text-center">
           <p className="text-dark-blue py-3 text-3xl">
             You may always text us on WhatsApp
           </p>
           <a
-            href="https://wa.me/+97165440202?text=Hi"
+            href="https://wa.me/+971543662194?text=welcome to Nejoum aljazeera"
             target="_blank"
             rel="noreferrer"
             className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-xl font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

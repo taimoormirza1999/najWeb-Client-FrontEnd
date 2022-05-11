@@ -18,10 +18,15 @@ const navigation = [
     gicon: '&#xe14f;',
     current: true,
   },
-  { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
+  {
+    name: 'Statement',
+    href: '/customer/statement',
+    gicon: '&#xe853;',
+    current: false,
+  },
   {
     name: 'Price Lists',
-    href: `/customer/price-list`,
+    href: `/customer/lists`,
     gicon: '&#xe14f;',
     current: false,
   },
@@ -37,7 +42,18 @@ const navigation = [
     gicon: '&#xe853;',
     current: false,
   },
-  { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
+  {
+    name: 'Complaints',
+    href: '/customer/complaints',
+    gicon: '&#xe14f;',
+    current: false,
+  },
+  { 
+    name: 'Terms & Conditions', 
+    href: '/customer/termsandconditions',
+    gicon: '&#xe14f;', 
+    current: false 
+  },
 ];
 
 const Layout = (props: IMainProps) => {
@@ -106,21 +122,21 @@ const Layout = (props: IMainProps) => {
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                          'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                        )}
-                      >
-                        <i className="material-icons text-xs lg:mr-2">
-                          &#xe14f;
-                        </i>
-                        {item.name}
-                      </a>
+                      <Link key={item.name} href={item.href}>
+                        <a
+                          className={classNames(
+                            item.current
+                              ? 'bg-gray-100 text-gray-900'
+                              : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                          )}
+                        >
+                          <i className="material-icons text-xs lg:mr-2">
+                            &#xe14f;
+                          </i>
+                          {item.name}
+                        </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>

@@ -1,6 +1,5 @@
-import { Transition, Dialog } from "@headlessui/react";
-import React from "react";
-import { Fragment } from "react";
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment } from 'react';
 
 const CustomModal = ({ children, showOn, initialFocus, onClose }) => {
   return (
@@ -40,7 +39,7 @@ const CustomModal = ({ children, showOn, initialFocus, onClose }) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:my-8 sm:p-6 sm:align-middle">
+            <div className="absolute top-1/2 left-1/2 inline-block w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5 xl:w-2/5">
               {children}
             </div>
           </Transition.Child>

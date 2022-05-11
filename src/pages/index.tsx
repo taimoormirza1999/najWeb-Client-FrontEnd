@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -22,23 +20,21 @@ const Index = () => {
         >
           <div className="basis-1/3"></div>
           <div className="basis-1/3">
-            <h2 className="py-2 text-center text-2xl font-extrabold text-white md:text-[86px]">
+            <h2 className="py-2 text-center text-2xl font-extrabold text-white md:text-[80px]">
               You want to...
             </h2>
 
             <div className="flex justify-center gap-4">
-              <a
-                href="#"
-                className="rounded-sm bg-blue-500 p-2 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:py-3 md:px-4 md:text-[1.5em]"
-              >
-                {t('Ship cars')}
-              </a>
-              <a
-                href="#"
-                className="ml-0 rounded-sm bg-white p-2 text-lg font-medium hover:border-none hover:text-blue-500 md:ml-8 md:py-3 md:px-4 md:text-[1.5em]"
-              >
-                Buy a car
-              </a>
+              <Link href="/services/shipping">
+                <a className="rounded-sm bg-blue-500 p-2 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:py-3 md:px-4 md:text-[1.5em]">
+                  {t('Ship cars')}
+                </a>
+              </Link>
+              <Link href="/cars/showroom">
+                <a className="ml-0 rounded-sm bg-white p-2 text-lg font-medium hover:border-none hover:text-blue-500 md:ml-8 md:py-3 md:px-4 md:text-[1.5em]">
+                  Buy a car
+                </a>
+              </Link>
             </div>
           </div>
           <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light italic text-blue-100 underline hover:border-0 md:text-[22px]">
@@ -56,7 +52,7 @@ const Index = () => {
               alt="Shipping Cars"
             />
           </div>
-          <div className="basis-1/2 pt-0  md:py-10">
+          <div className="basis-1/2 self-center">
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-[2.5rem]">
               Ships Cars From USA & Canada
             </h3>
@@ -134,9 +130,9 @@ const Index = () => {
         <div className="flex flex-col gap-16 md:flex-row">
           <div className="group relative basis-1/3">
             <img
-              src="/assets/images/service-auction.png"
+              src="/assets/images/service-auction.jpg"
               alt="Buy from auction"
-              className="mx-auto h-auto w-full rounded-2xl object-cover md:h-[700px]"
+              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
             <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
@@ -156,7 +152,7 @@ const Index = () => {
             <img
               src="/assets/images/service-shipping.jpg"
               alt="Cars Shipping"
-              className="mx-auto h-auto w-full rounded-2xl object-cover md:h-[700px]"
+              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
             <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
@@ -165,7 +161,7 @@ const Index = () => {
               <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
                 Get to know the features of shipping cars from USA
               </p>
-              <Link href="/">
+              <Link href="/services/shipping">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
                   Learn more...
                 </a>
@@ -176,7 +172,7 @@ const Index = () => {
             <img
               src="/assets/images/service-car-sell.jpg"
               alt="Car Sell"
-              className="mx-auto h-auto w-full rounded-2xl object-cover md:h-[700px]"
+              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
             <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">

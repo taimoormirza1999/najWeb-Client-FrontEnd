@@ -15,6 +15,10 @@ body{
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+.font-sen{
+  font-family: 'Sen', sans-serif;
+}
+
 a {
   @apply text-blue-700;
 }
@@ -125,8 +129,15 @@ a:hover {
   box-shadow: 0px 2px 4px #eee, 0px -1px 4px #eee
 }
 
+.complaint-box{
+  box-shadow: 1px 1px 6px 0px #999;
+}
+
 .story-cover-text-shadow{
   text-shadow: 4px 4px 8px #333;
+}
+.shadow-lg{
+  box-shadow: 1px 1px 6px 0px #999;
 }
 
 .breadcrumb li:not(:last-child):after{
@@ -151,7 +162,7 @@ footer .footer-menu li a{
 }
 
 .container{
-  max-width: 90%;
+  max-width: 85%;
 }
 
 .embla {
