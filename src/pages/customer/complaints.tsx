@@ -1,27 +1,40 @@
+import { Dialog } from '@headlessui/react';
 import axios from 'axios';
+import type { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import CustomModal from '@/components/CustomModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
 import { Layout } from '@/templates/LayoutDashboard';
-import { icon } from "@fortawesome/fontawesome-svg-core";
-import { Dialog } from "@headlessui/react";
-import { title } from "process";
 import { postData } from '@/utils/network';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const Complaints = ({ apiUrl, complaints }) => {
+export interface Complaint {
+  complaint_message_id: string;
+  title: string;
+  lot_vin: string;
+  message: string;
+}
+
+const Complaints = ({ apiUrl }) => {
   const { data: session } = useSession();
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [messages, setMessages] = useState([]);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const okButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const okButtonErrorRef = useRef(null);
+  const [newComplaint, setNewComplaint] = useState(0);
+  const [inputValue, setInputValue] = useState({
+    lot_vin: '',
+    subject: '',
+    message: '',
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,20 +44,50 @@ const Complaints = ({ apiUrl, complaints }) => {
       message: event.target.message.value,
     };
 
-    const response = await postData("/api/customer/complaint", formData);
-    console.log("-> response", response);
+    const response = await postData('/api/customer/complaint', formData);
 
     if (response.success === true) {
+      setNewComplaint(newComplaint + 1);
       setSubmitModalOpen(true);
       contentRef?.current?.classList.add('blur-sm');
+      setInputValue(() => ({
+        lot_vin: '',
+        subject: '',
+        message: '',
+      }));
     } else {
       setErrorModalOpen(true);
       contentRef?.current?.classList.add('blur-sm');
     }
-
   };
 
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setInputValue((prevState) => ({ ...prevState, [name]: value }));
+  }
+
+  const getComplaints = async () => {
+    axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
+    const res = await axios.get(`${apiUrl}complaintMessage`);
+    if (res.data.data === undefined) {
+      setComplaints([]);
+    } else {
+      setComplaints(res.data.data);
+    }
+  };
+
+  useEffect(() => {
+    getComplaints();
+  }, [newComplaint]);
+
   const getComplaintMessageDetails = async (complaint_id) => {
+    const loadingMessage: any = [
+      {
+        parent_id: 0,
+        message: 'Loading...',
+      },
+    ];
+    setMessages(loadingMessage);
     axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
     const res = await axios.get(`${apiUrl}complaintMessageDetails`, {
       params: {
@@ -59,7 +102,10 @@ const Complaints = ({ apiUrl, complaints }) => {
       <CustomModal
         showOn={submitModalOpen}
         initialFocus={okButtonRef}
-        onClose={setSubmitModalOpen}
+        onClose={() => {
+          setSubmitModalOpen(false);
+          contentRef?.current?.classList.remove('blur-sm');
+        }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
           <i className="material-icons text-yellow-orange mb-4 text-6xl">
@@ -92,10 +138,13 @@ const Complaints = ({ apiUrl, complaints }) => {
       <CustomModal
         showOn={errorModalOpen}
         initialFocus={okButtonErrorRef}
-        onClose={setErrorModalOpen}
+        onClose={() => {
+          setErrorModalOpen(false);
+          contentRef?.current?.classList.remove('blur-sm');
+        }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
-          <i className="material-icons text-red-800 mb-4 text-6xl">&#xe160;</i>
+          <i className="material-icons mb-4 text-6xl text-red-800">&#xe160;</i>
           <Dialog.Title as="h3" className="text-4xl font-bold leading-6">
             Sorry!
           </Dialog.Title>
@@ -137,9 +186,10 @@ const Complaints = ({ apiUrl, complaints }) => {
               id="lot_vin"
               name="lot_vin"
               type="text"
-              required
               placeholder="Vin or Lot No"
               className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+              value={inputValue.lot_vin}
+              onChange={handleChange}
             />
           </div>
           <div className="relative mt-1 pl-6">
@@ -150,6 +200,8 @@ const Complaints = ({ apiUrl, complaints }) => {
               required
               placeholder="Subject"
               className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+              value={inputValue.subject}
+              onChange={handleChange}
             />
             <span className="text-yellow-orange absolute top-0 left-0 text-xl font-bold">
               *
@@ -161,6 +213,8 @@ const Complaints = ({ apiUrl, complaints }) => {
               className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
               name="message"
               placeholder="Message"
+              value={inputValue.message}
+              onChange={handleChange}
             ></textarea>
             <span className="text-yellow-orange absolute top-0 left-0 text-xl font-bold">
               *
@@ -216,15 +270,11 @@ const Complaints = ({ apiUrl, complaints }) => {
 };
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
+  const session: Session | null = await getSession(context);
   const apiUrl = process.env.API_URL;
 
-  axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
-  const res = await axios.get(`${apiUrl}complaintMessage`);
-  const complaints = res.data.data;
-
   return {
-    props: { apiUrl, session, complaints },
+    props: { apiUrl, session },
   };
 }
 

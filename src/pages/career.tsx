@@ -27,7 +27,10 @@ const Career = () => {
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
           initialFocus={cancelButtonRef}
-          onClose={setRedirectModalOpen}
+          onClose={() => {
+            setRedirectModalOpen(false);
+            contentRef?.current?.classList.remove('blur-sm');
+          }}
         >
           <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
