@@ -32,6 +32,9 @@ export async function getServerSideProps(context) {
   if (tab === 'tabs-delivered') {
     apiTab = 'deliveredCars';
   }
+  if (tab === 'tabs-states') {
+    apiTab = 'statesCount';
+  }
   let apiUrl = process.env.API_URL + apiTab;
   if (apiTab === 'newCars') {
     if (!type) {

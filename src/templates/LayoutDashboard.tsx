@@ -191,19 +191,21 @@ const Layout = (props: IMainProps) => {
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-1">
                 {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? 'bg-hover-grey text-gray-900'
-                        : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                      'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl'
-                    )}
-                  >
-                    <i className="material-icons text-3xl lg:mr-2">&#xe14f;</i>
-                    {item.name}
-                  </a>
+                  <Link key={item.name} href={item.href}>
+                    <a
+                      className={classNames(
+                        item.current
+                          ? 'bg-hover-grey text-gray-900'
+                          : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                        'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl'
+                      )}
+                    >
+                      <i className="material-icons text-3xl lg:mr-2">
+                        &#xe14f;
+                      </i>
+                      {item.name}
+                    </a>
+                  </Link>
                 ))}
               </nav>
             </div>
