@@ -1,24 +1,73 @@
+/* eslint-disable func-names */
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+
 import {
-  AddRoadIcon,
+  ArrivedIcon,
   BoatIcon,
   CheckCircleIcon,
   LocalShippingIcon,
-  MonetizationIcon,
-  MovingCarIcon,
   NewCarIcon,
-  PaymentIcon,
   PortIcon,
   WarehouseIcon,
 } from '@/components/dashboard/trackingIcons';
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   return {
     props: { apiUrl: process.env.API_URL },
   };
 }
 const Tracking = ({ apiUrl }) => {
+  const { data: session } = useSession();
+  const [searchValue, setSearchValue] = useState('');
+  const [storeDate, setStoreDate] = useState('');
+  const [purchaseDate, setPurchaseDate] = useState('');
+  const [pickedDate, setPickedDate] = useState('');
+  const [deliveredDate, setDeliveredDate] = useState('');
+  const [warehouseDate, setWarehouseDate] = useState('');
+  const [shippingDate, setShippingDate] = useState('');
+  const [portDate, setPortDate] = useState('');
+  const [vin, setVin] = useState('');
+  const [lotnumber, setLotnumber] = useState('');
+  let carDetails: {
+    car_data: any;
+    arrive_store: any;
+    towingstatus: any;
+    arrivedstatus: any;
+    shipping_status: any;
+    arrived_port: any;
+    deliver_customer: any;
+  };
+  const getTracking = async () => {
+    const search = searchValue;
+    if (search) {
+      axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
+      await axios
+        .get(`${apiUrl}getTrackSearch?lot_vin=${search}`)
+        .then(function (response) {
+          if (response?.data?.data) {
+            carDetails = response.data.data;
+            setVin(carDetails?.car_data?.vin);
+            setLotnumber(carDetails?.car_data?.lotnumber);
+            setStoreDate(carDetails?.arrive_store?.create_date);
+            setPurchaseDate(carDetails?.car_data?.purchasedate);
+            setPickedDate(carDetails?.towingstatus?.Picked_date);
+            setWarehouseDate(carDetails?.arrivedstatus?.delivered_date);
+            setShippingDate(carDetails?.shipping_status?.shipping_date);
+            setPortDate(carDetails?.arrived_port?.arrival_date);
+            setDeliveredDate(carDetails?.deliver_customer?.deliver_create_date);
+            // set the completed modules
+
+          }
+        })
+        .catch(function (apiError) {
+          console.log(apiError);
+        });
+    }
+  };
   return (
     <Layout meta="">
       <div className="m-4">
@@ -66,6 +115,10 @@ const Tracking = ({ apiUrl }) => {
                     "
                 name="lotSearch"
                 id="lotSearch"
+                value={searchValue}
+                onInput={(e) =>
+                  setSearchValue((e.target as HTMLInputElement).value)
+                }
                 placeholder="Track Car by Vin Number"
               />
               <svg
@@ -73,6 +126,9 @@ const Tracking = ({ apiUrl }) => {
                 className="absolute top-[8px] right-[8px] h-5 w-5 text-[#818181]"
                 viewBox="0 0 20 20"
                 fill="currentColor"
+                onClick={() => {
+                  getTracking();
+                }}
               >
                 {' '}
                 <path
@@ -82,83 +138,138 @@ const Tracking = ({ apiUrl }) => {
                 />{' '}
               </svg>
               <p className="mt-3 flex rounded-md bg-[#045FB7] py-2 text-white">
-                <span className="mr-3 flex-1 text-right">Vin:xxxxxxxxxx</span>
-                <span className="ml-3 flex-1 text-left">
-                  Lot:xxxxxxxxxxxxxxx
-                </span>
+                <span className="mr-3 flex-1 text-right">Vin:{vin}</span>
+                <span className="ml-3 flex-1 text-left">Lot:{lotnumber}</span>
               </p>
             </div>
             <div className="mt-4 flex overflow-x-scroll xl:overflow-x-visible">
               <div className="flex-1">
-                <NewCarIcon></NewCarIcon>
-                <div className="border-dark-blue relative mt-5 ml-3 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-0 rounded-full p-1"></div>
+                <NewCarIcon
+                  color={purchaseDate ? '#0193FF' : '#045FB7'}
+                ></NewCarIcon>
+                <div className="relative mt-5 ml-3 border-t-2 border-[#707070]">
+                  <div
+                    className={classNames(
+                      purchaseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      ' absolute bottom-[-3px] left-0 rounded-full p-1'
+                    )}
+                  ></div>
+                </div>
+                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                  New Car <br />
+                  <span>{purchaseDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <PaymentIcon></PaymentIcon>
-                <div className="border-dark-blue relative my-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-[3px] rounded-full p-1"></div>
+                <div className="ml-[5%]">
+                  <LocalShippingIcon
+                    color={purchaseDate ? '#0193FF' : '#045FB7'}
+                  ></LocalShippingIcon>
+                </div>
+                <div className="relative mt-5 border-t-2 border-[#707070]">
+                  <div
+                    className={classNames(
+                      pickedDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                    )}
+                  ></div>
+                </div>
+                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                  Towing <br />
+                  <span>{pickedDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <MonetizationIcon></MonetizationIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-[6px] rounded-full p-1"></div>
+                <div className="ml-[5%]">
+                  <WarehouseIcon
+                    color={warehouseDate ? '#0193FF' : '#045FB7'}
+                  ></WarehouseIcon>
+                </div>
+                <div className="relative mt-5 border-t-2 border-[#707070]">
+                  <div
+                    className={classNames(
+                      warehouseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                    )}
+                  ></div>
+                </div>
+                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                  Warehouse <br />
+                  <span>{warehouseDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <AddRoadIcon></AddRoadIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-[9px] rounded-full p-1"></div>
+                <div className="ml-[5%]">
+                  <BoatIcon
+                    color={shippingDate ? '#0193FF' : '#045FB7'}
+                  ></BoatIcon>
+                </div>
+                <div className="relative mt-5 border-t-2 border-[#707070]">
+                  <div
+                    className={classNames(
+                      shippingDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                    )}
+                  ></div>
+                </div>
+                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                  Shipping <br />
+                  <span>{shippingDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <LocalShippingIcon></LocalShippingIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-[12px] rounded-full p-1"></div>
+                <div className="ml-[5%]">
+                  <PortIcon color={portDate ? '#0193FF' : '#045FB7'}></PortIcon>
+                </div>
+                <div className="relative mt-5 border-t-2 border-[#707070]">
+                  <div
+                    className={classNames(
+                      portDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                    )}
+                  ></div>
+                </div>
+                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                  Port <br />
+                  <span>{portDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <WarehouseIcon></WarehouseIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-[15px] rounded-full p-1"></div>
+                <div className="ml-[35%]">
+                  <ArrivedIcon
+                    color={storeDate ? '#0193FF' : '#045FB7'}
+                  ></ArrivedIcon>
+                </div>
+                <div className="relative mt-5 border-t-2 border-[#707070]">
+                  <div
+                    className={classNames(
+                      storeDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      ' absolute bottom-[-3px] left-[50%] rounded-full p-1'
+                    )}
+                  ></div>
+                </div>
+                <div className="text-center text-sm text-[#2576C1] sm:text-base">
+                  Store <br />
+                  <span>{storeDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <LocalShippingIcon></LocalShippingIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-[18px] rounded-full p-1"></div>
+                <div className="ml-[50%]">
+                  <CheckCircleIcon
+                    color={deliveredDate ? '#0193FF' : '#045FB7'}
+                  ></CheckCircleIcon>
                 </div>
-              </div>
-              <div className="flex-1">
-                <BoatIcon></BoatIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-[18px] rounded-full p-1"></div>
+                <div className="relative mt-5 mr-6 border-t-2 border-[#707070]">
+                  <div
+                    className={classNames(
+                      deliveredDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      ' absolute bottom-[-3px] right-0 rounded-full p-1'
+                    )}
+                  ></div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <PortIcon></PortIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-5 rounded-full p-1"></div>
-                </div>
-              </div>
-              <div className="flex-1">
-                <MovingCarIcon></MovingCarIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-5 rounded-full p-1"></div>
-                </div>
-              </div>
-              <div className="flex-1">
-                <MonetizationIcon></MonetizationIcon>
-                <div className="border-dark-blue relative mt-5 border-t-2 -mr-6">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-6 rounded-full p-1"></div>
-                </div>
-              </div>
-              <div className="flex-1 text-right">
-                <CheckCircleIcon></CheckCircleIcon>
-                <div className="relative mt-5">
-                  <div className="bg-dark-blue absolute bottom-[-3px] left-6 rounded-full p-1"></div>
+                <div className="text-right text-sm text-[#2576C1] sm:text-base">
+                  Delivered <br />
+                  <span>{deliveredDate}</span>
                 </div>
               </div>
             </div>

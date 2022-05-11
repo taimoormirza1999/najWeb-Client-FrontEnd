@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import axios from 'axios';
 
 const options = {
   providers: [
@@ -17,6 +18,7 @@ const options = {
         });
 
         let user = null;
+        let profile = null;
         await fetch(`${process.env.API_URL}login`, {
           method: "POST",
           body: formData,
@@ -35,7 +37,20 @@ const options = {
             // throw new Error(errorMessage + '&email=' + credentials.email)
             console.error("Error:", error);
           });
-
+        if (user) {
+          axios.defaults.headers.common.Authorization = `Bearer ${user?.access_token}`;
+          await axios
+            .post(`${process.env.API_URL}profile`)
+            .then((response) => {
+              profile = response.data;
+              console.log(profile);
+            })
+            .catch((error) => {
+              // const errorMessage = e.response.data.message
+              // throw new Error(errorMessage + '&email=' + credentials.email)
+              console.error("Error:", error);
+            });
+        }
         return user;
       },
     }),

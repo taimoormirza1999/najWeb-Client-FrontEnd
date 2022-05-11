@@ -16,7 +16,7 @@ import { classNames } from '@/utils/Functions';
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
   let type = context.query.type ? context.query.type : '';
-  const session = await getSession(context);
+  const session: any = await getSession(context);
 
   let carsData = {};
   let apiTab = 'newCars';
@@ -31,6 +31,9 @@ export async function getServerSideProps(context) {
   }
   if (tab === 'tabs-delivered') {
     apiTab = 'deliveredCars';
+  }
+  if (tab === 'tabs-states') {
+    apiTab = 'statesCount';
   }
   let apiUrl = process.env.API_URL + apiTab;
   if (apiTab === 'newCars') {
