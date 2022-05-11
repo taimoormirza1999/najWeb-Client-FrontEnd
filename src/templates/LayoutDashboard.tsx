@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
 
@@ -174,19 +175,21 @@ const Layout = (props: IMainProps) => {
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-1">
                 {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? 'bg-hover-grey text-gray-900'
-                        : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                      'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl'
-                    )}
-                  >
-                    <i className="material-icons text-3xl lg:mr-2">&#xe14f;</i>
-                    {item.name}
-                  </a>
+                  <Link key={item.name} href={item.href}>
+                    <a
+                      className={classNames(
+                        item.current
+                          ? 'bg-hover-grey text-gray-900'
+                          : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                        'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl'
+                      )}
+                    >
+                      <i className="material-icons text-3xl lg:mr-2">
+                        &#xe14f;
+                      </i>
+                      {item.name}
+                    </a>
+                  </Link>
                 ))}
               </nav>
             </div>
@@ -198,14 +201,13 @@ const Layout = (props: IMainProps) => {
                   </i>
                 </div>
                 <div className="">
-                  <a
-                    href="/customer/userprofile"
-                    className="group block w-full shrink-0 hover:border-inherit"
-                  >
-                    <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
-                      Ali Turkey
-                    </p>
-                  </a>
+                  <Link href="/customer/userprofile">
+                    <a className="group block w-full shrink-0 hover:border-inherit">
+                      <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
+                        Ali Turkey
+                      </p>
+                    </a>
+                  </Link>
                   <a
                     href="#"
                     className="group block w-full shrink-0 hover:border-inherit"
