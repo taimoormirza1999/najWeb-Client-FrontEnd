@@ -207,7 +207,7 @@ const Contact = () => {
             You may always text us on WhatsApp
           </p>
           <a
-            href="https://wa.me/+97165440202?text=Hi"
+            href="https://wa.me/+971543662194?text=welcome to Nejoum aljazeera"
             target="_blank"
             rel="noreferrer"
             className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-xl font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

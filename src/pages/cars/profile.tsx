@@ -145,7 +145,7 @@ const CarProfile = ({carData}) => {
         </div>
 
         <div className="my-16 text-center">
-          <Link href="https://wa.me/971561637537" passHref>
+          <Link href="https://wa.me/971543662194?text=welcome to Nejoum aljazeera" passHref>
             <a
               href="#"
               className="bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"
