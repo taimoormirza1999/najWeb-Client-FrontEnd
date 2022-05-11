@@ -1,25 +1,85 @@
-import { faChevronDown, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Dialog, Listbox, Transition } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/solid';
+import axios from 'axios';
 import Link from 'next/link';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, React, useRef, useState } from 'react';
+import useSWRInfinite from 'swr/infinite';
 
 import ApplyForAccount from '@/components/ApplyForAccount';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactDetails from '@/components/ContactDetails';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { classNames } from '@/utils/Functions';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+const fetcher = (url) => fetch(url).then((res) => res.json());
+const PAGE_SIZE = 40; 
+
+export async function getServerSideProps() {
+  let carsMakerData = {};
+  let YearData = {};
+  const apiTab = 'getMaker';
+  const apiUrl = process.env.API_URL + apiTab;
+  const res = await axios.get(`${apiUrl}`);
+  carsMakerData = res.data ? res.data.data : res.data;
+  const resY = await axios.get(`${`${process.env.API_URL}getYear`}`);
+  YearData = resY.data ? resY.data.data : resY.data;
+  return {
+    props: { carsMakerData, YearData, API_URL: process.env.API_URL },
+  };
 }
 
-const Showroom = () => {
+export default function App({ carsMakerData, YearData, API_URL }) {
+  const [repo, setRepo] = useState('reactjs/react-a11y');
+  const [val, setVal] = useState(repo);
+  const apiTab = 'CarsForSale';
+  const apiUrl = `https://api.nejoumaljazeera.co/api/${apiTab}`;
+
+  const [selectedMaker, setSelectedMaker] = useState('');
+  const [selectedYear, setselectedYear] = useState('');
+  const [selectedModel, setselectedModel] = useState('');
+
+  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+    (index) =>
+      `${apiUrl}?per_page=${PAGE_SIZE}&page=${
+        index + 1
+      }&year=${selectedYear}&maker=${
+        selectedMaker ? selectedMaker.id_car_make : ''
+      }&model=${selectedModel ? selectedModel.id_car_model : ''}`,
+    fetcher
+  );
+
+  const issues = data ? [].concat(...data) : [];
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === 'undefined');
+  const isEmpty = data?.[0]?.length === 0;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1].data?.length < PAGE_SIZE);
+  const isRefreshing = isValidating && data && data.length === size;
+
+  const [carsModelData, setcarsModelData] = useState([]);
+  const callModel = async (selected) => {
+    let carsMakerModel = [];
+    setSelectedMaker(selected);
+    setselectedModel('');
+    const apiTab = 'getModel';
+    const apiUrl = API_URL + apiTab;
+    const res = await axios.get(`${apiUrl}`, {
+      params: { maker_id: selected.id_car_make },
+    });
+    carsMakerModel = res.data ? res.data.data : res.data;
+    setcarsModelData(carsMakerModel);
+  };
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const dummyCars = [...Array(20)];
+  const totalMaker = carsMakerData;
+  const YData = YearData;
 
   return (
     <Layout meta={<Meta title="Cars Showroom" description="Cars Showroom" />}>
@@ -127,253 +187,263 @@ const Showroom = () => {
           </span>
         </p>
 
-        <div className="my-8 flex gap-10">
+        <div className="my-4 flex flex-wrap  gap-x-8 gap-y-4 ">
           <div className="basis-1/5">
-            <Menu as="div" className="relative inline-block w-full text-left">
-              <div>
-                <Menu.Button className="border-dark-blue relative w-full justify-center border bg-white py-3 pr-20 text-xl font-medium italic text-gray-700 ">
-                  Year
-                  <span className="bg-dark-blue absolute right-0 top-0 h-full p-4 text-center">
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className="-mr-1 ml-1 h-5 w-5 text-white"
-                    />
-                  </span>
-                </Menu.Button>
-              </div>
+            <Listbox value={selectedYear} onChange={setselectedYear}>
+              {({ open }) => (
+                <>
+                  <div className="relative mt-1">
+                    <Listbox.Button
+                      className="border-teal-blue relative w-full cursor-default border border border-gray-300 bg-white
+                        py-3 py-2 pr-20 pl-3 pr-10 text-center text-xl font-medium italic 
+                        text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    >
+                      <span className="block truncate">
+                        {selectedYear || 'Year'}
+                      </span>
+                      <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
+                        <FontAwesomeIcon
+                          icon={faChevronDown}
+                          className="h-5 w-5 text-white"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
 
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 w-full origin-top-right border bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          2022
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          2021
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          2020
-                        </a>
-                      )}
-                    </Menu.Item>
-                  </div>
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          </div>
-          <div className="basis-1/5">
-            <Menu as="div" className="relative inline-block w-full text-left">
-              <div>
-                <Menu.Button className="border-dark-blue relative w-full justify-center border bg-white py-3 pr-20 text-xl font-medium italic text-gray-700 ">
-                  Model
-                  <span className="bg-dark-blue absolute right-0 top-0 h-full p-4 text-center">
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className="-mr-1 ml-1 h-5 w-5 text-white"
-                    />
-                  </span>
-                </Menu.Button>
-              </div>
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        {YData.map((object) => (
+                          <Listbox.Option
+                            key={object}
+                            className={({ active }) =>
+                              classNames(
+                                active
+                                  ? 'bg-teal-blue text-white bg-indigo-600'
+                                  : 'text-teal-blue',
+                                'cursor-default select-none relative py-2 pl-3 pr-9'
+                              )
+                            }
+                            value={object}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <span
+                                  className={classNames(
+                                    selected ? 'font-semibold' : 'font-normal',
+                                    'block truncate'
+                                  )}
+                                >
+                                  {object}
+                                </span>
 
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 w-full origin-top-right border bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          Model 1
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          Model 2
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          Model 3
-                        </a>
-                      )}
-                    </Menu.Item>
+                                {selected ? (
+                                  <span
+                                    className={classNames(
+                                      active
+                                        ? 'bg-teal-blue text-white'
+                                        : 'text-indigo-600',
+                                      'absolute inset-y-0 right-0 flex items-center pr-4'
+                                    )}
+                                  >
+                                    <CheckIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
                   </div>
-                </Menu.Items>
-              </Transition>
-            </Menu>
+                </>
+              )}
+            </Listbox>
           </div>
           <div className="basis-1/5">
-            <Menu as="div" className="relative inline-block w-full text-left">
-              <div>
-                <Menu.Button className="border-dark-blue relative w-full justify-center border bg-white py-3 pr-20 text-xl font-medium italic text-gray-700 ">
-                  Brand
-                  <span className="bg-dark-blue absolute right-0 top-0 h-full p-4 text-center">
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className="-mr-1 ml-1 h-5 w-5 text-white"
-                    />
-                  </span>
-                </Menu.Button>
-              </div>
+            <Listbox
+              value={selectedMaker}
+              onChange={(event) => callModel(event)}
+            >
+              {({ open }) => (
+                <>
+                  <div className="relative mt-1">
+                    <Listbox.Button
+                      className="border-teal-blue relative w-full cursor-default border border border-gray-300 bg-white
+                        py-3 py-2 pr-20 pl-3 pr-10 text-center text-xl font-medium italic 
+                        text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    >
+                      <span className="block truncate">
+                        {selectedMaker ? selectedMaker.name : 'Maker'}
+                      </span>
+                      <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
+                        <FontAwesomeIcon
+                          icon={faChevronDown}
+                          className="h-5 w-5 text-white"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
 
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 w-full origin-top-right border bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          Nissan
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          Toyota
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-dark-blue text-white'
-                              : 'text-dark-blue',
-                            'block px-4 py-2 text-lg hover:border-0'
-                          )}
-                        >
-                          BMW
-                        </a>
-                      )}
-                    </Menu.Item>
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        {totalMaker.map((object) => (
+                          <Listbox.Option
+                            key={object.id_car_make}
+                            className={({ active }) =>
+                              classNames(
+                                active
+                                  ? 'bg-teal-blue text-white bg-indigo-600'
+                                  : 'text-teal-blue',
+                                'cursor-default select-none relative py-2 pl-3 pr-9'
+                              )
+                            }
+                            value={object}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <span
+                                  className={classNames(
+                                    selected ? 'font-semibold' : 'font-normal',
+                                    'block truncate'
+                                  )}
+                                >
+                                  {object.name} ({object.total})
+                                </span>
+
+                                {selected ? (
+                                  <span
+                                    className={classNames(
+                                      active
+                                        ? 'bg-teal-blue text-white'
+                                        : 'text-indigo-600',
+                                      'absolute inset-y-0 right-0 flex items-center pr-4'
+                                    )}
+                                  >
+                                    <CheckIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
                   </div>
-                </Menu.Items>
-              </Transition>
-            </Menu>
+                </>
+              )}
+            </Listbox>
           </div>
-          <div className="basis-[30%]">
-            <div className="flex">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border-dark-blue basis-11/12 border py-[.75rem] text-xl placeholder:text-gray-700"
-              />
-              <span className="bg-dark-blue right-0 top-0 h-full p-4 text-center">
-                <FontAwesomeIcon
-                  icon={faSearch}
-                  className="-mr-1 ml-1 h-5 w-5 text-white"
-                />
-              </span>
-            </div>
+          <div className="basis-1/5">
+            <Listbox value={selectedModel} onChange={setselectedModel}>
+              {({ open }) => (
+                <>
+                  <div className="relative mt-1">
+                    <Listbox.Button
+                      className="border-teal-blue relative w-full cursor-default border border border-gray-300 bg-white
+                        py-3 py-2 pr-20 pl-3 pr-10 text-center text-xl font-medium italic 
+                        text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    >
+                      <span className="block truncate">
+                        {selectedModel ? selectedModel.name : 'Model'}
+                      </span>
+                      <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
+                        <FontAwesomeIcon
+                          icon={faChevronDown}
+                          className="h-5 w-5 text-white"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        {carsModelData ? (
+                          carsModelData.map((object) => (
+                            <Listbox.Option
+                              key={object.id_car_model}
+                              className={({ active }) =>
+                                classNames(
+                                  active
+                                    ? 'bg-teal-blue text-white bg-indigo-600'
+                                    : 'text-teal-blue',
+                                  'cursor-default select-none relative py-2 pl-3 pr-9'
+                                )
+                              }
+                              value={object}
+                            >
+                              {({ selected, active }) => (
+                                <>
+                                  <span
+                                    className={classNames(
+                                      selected
+                                        ? 'font-semibold'
+                                        : 'font-normal',
+                                      'block truncate'
+                                    )}
+                                  >
+                                    {object.name} ({object.total})
+                                  </span>
+
+                                  {selected ? (
+                                    <span
+                                      className={classNames(
+                                        active
+                                          ? 'bg-teal-blue text-white'
+                                          : 'text-indigo-600',
+                                        'absolute inset-y-0 right-0 flex items-center pr-4'
+                                      )}
+                                    >
+                                      <CheckIcon
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          ))
+                        ) : (
+                          <Listbox.Option></Listbox.Option>
+                        )}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
           </div>
-          <div className="flex basis-[10%] justify-end">
+          <div className="hidden flex basis-2/6 content-end justify-end">
             <a
               href="#"
+              onClick={() => setSize(1)}
               className="bg-azure-blue block rounded-xl py-3 px-6 text-xl font-medium text-white hover:border-0 hover:bg-blue-400"
             >
-              Search
+              Show all
             </a>
           </div>
         </div>
@@ -382,35 +452,57 @@ const Showroom = () => {
           *Please Contact us to negotiate prices
         </p>
 
-        <div className="my-4 flex flex-wrap justify-between gap-x-8 gap-y-4">
-          {dummyCars.map((_, index) => {
-            return (
-              <Link href="./profile" key={index}>
-                <a className="hover:border-0">
-                  <div>
-                    <img
-                      src="/assets/images/placeholder.jpg"
-                      alt="Car"
-                      className="h-[300px]"
-                    />
-                    <div className="border-dark-blue flex border py-2 px-4">
-                      <div className="text-dark-blue basis-4/5 text-sm">
-                        <p className="font-semibold">NISSAM ALTIMA 2022</p>
-                        <p>AED120,0000</p>
-                      </div>
-                      <div className="basis-1/5 pt-1 text-right">
-                        <i className="material-icons text-azure-blue align-middle text-2xl">
-                          &#xe6b8;
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </Link>
-            );
-          })}
+        <div className="my-4 flex grid grid-cols-6 flex-wrap gap-4 gap-x-8 gap-y-4">
+          {issues.length > 0
+            ? issues.map((object, index) => {
+                return object.data.length > 0
+                  ? object.data.map((obj, index2) => {
+                      return (
+                        <Link
+                          href={{
+                            pathname: './profile',
+                            query: { id: obj.car_id }, // your data array of objects
+                          }}
+                          key={index2}
+                        >
+                          <a className="hover:border-0">
+                            <div>
+                              <img
+                                src={obj.photos}
+                                alt="Car"
+                                className="h-[300px] w-full object-cover shadow-lg"
+                              />
+                              <div className="border-dark-blue flex border py-2 px-4">
+                                <div className="text-dark-blue basis-2/8 text-sm">
+                                  <p className="font-semibold">
+                                    {' '}
+                                    {obj.carMakerName} {obj.carModelName}{' '}
+                                    {obj.car_year}
+                                  </p>
+                                  <p>AED {obj.price}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </Link>
+                      );
+                    })
+                  : '';
+              })
+            : ''}
         </div>
-
+        <button
+          disabled={isLoadingMore || isReachingEnd}
+          onClick={() => setSize(size + 1)}
+          className={(isReachingEnd)?"hidden bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"
+          :"bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"}
+        >
+          {isLoadingMore
+            ? 'loading...'
+            : isReachingEnd
+            ? 'no more'
+            : 'load more'}
+        </button>
         <p className="text-dark-blue my-24 text-center text-3xl">
           Our various services package includes car sales service on behalf of
           our valued customers, whether for incoming cars or locally registered
@@ -431,6 +523,4 @@ const Showroom = () => {
       </div>
     </Layout>
   );
-};
-
-export default Showroom;
+}

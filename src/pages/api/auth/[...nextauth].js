@@ -79,16 +79,15 @@ async function refreshAccessToken(token) {
       grant_type: "refresh_token",
       refresh_token: token.refresh_token,
     });
-      
     const response = await fetch(url, {
       body:formData,
       method: "POST",
-    })
+    });
 
     const refreshedTokens = await response.json();
 
     if (!response.ok) {
-      throw refreshedTokens
+      throw refreshedTokens;
     }
 
     return {
@@ -96,15 +95,15 @@ async function refreshAccessToken(token) {
       access_token: refreshedTokens.access_token,
       expires_in: Date.now() + refreshedTokens.expires_in * 1000,
       refresh_token: refreshedTokens.refresh_token ?? token.refresh_token,
-    }
+    };
   } catch (error) {
-    console.log(error)
+    console.log(error);
 
     return {
       ...token,
       error: "RefreshAccessTokenError",
-    }
+    };
   }
 }
 
-export default (req, res) => NextAuth(req, res, options)
+export default (req, res) => NextAuth(req, res, options);

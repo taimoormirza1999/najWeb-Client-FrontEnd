@@ -1,5 +1,6 @@
+import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -26,7 +27,20 @@ export const NextButton = ({ enabled, onClick }) => (
 );
 
 const AnouncementsCarousel = ({ slides }) => {
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false });
+  const autoplay = useRef(
+    Autoplay(
+      { delay: 5000, stopOnInteraction: false },
+      (emblaRoot) => emblaRoot.parentElement
+    )
+  );
+
+  const [viewportRef, embla] = useEmblaCarousel(
+    {
+      skipSnaps: false,
+      loop: true,
+    },
+    [autoplay.current]
+  );
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
@@ -52,12 +66,12 @@ const AnouncementsCarousel = ({ slides }) => {
           <div className="embla__container">
             {slides.map((item, index) => (
               <div className="embla__slide" key={index}>
-                <div className="embla__slide__inner">{item}</div>
+                <div className="embla__slide__inner pb-9 xl:pb-0">{item}</div>
               </div>
             ))}
           </div>
         </div>
-        <div className="absolute right-0 bottom-2">
+        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 xl:left-auto xl:right-4 xl:translate-x-0">
           <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
           <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
         </div>
