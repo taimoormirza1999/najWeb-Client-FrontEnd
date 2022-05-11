@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -20,6 +20,17 @@ const ShippedCars = ({ tableData }) => {
 
   const lastTotalRow = tableData.length > 1 ? tableData.pop() : null;
 
+  useEffect(() => {
+    setShippedCars(
+      tableData.filter((row) => {
+        return (
+          row.description.indexOf(shippedTableSearch.trim()) !== -1 ||
+          row.car?.vin.indexOf(shippedTableSearch.trim()) !== -1
+        );
+      })
+    );
+  }, [shippedTableSearch]);
+
   return (
     <>
       <div className="flex justify-between">
@@ -33,13 +44,6 @@ const ShippedCars = ({ tableData }) => {
           value={shippedTableSearch}
           onChange={(e) => {
             setShippedTableSearch(e.target.value);
-            setShippedCars(
-              shippedCarsState.filter((row) => {
-                return (
-                  row.description.indexOf(shippedTableSearch.trim()) !== -1
-                );
-              })
-            );
           }}
         />
       </div>
@@ -76,7 +80,7 @@ const ShippedCars = ({ tableData }) => {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((row, index) => (
+            {shippedCarsState.map((row, index) => (
               <tr
                 key={index}
                 className={classNames(

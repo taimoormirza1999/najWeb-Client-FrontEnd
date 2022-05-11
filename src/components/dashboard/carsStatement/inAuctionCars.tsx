@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const InAuctionCars = ({ tableData }) => {
+  const [inAuctionCarsState, setInAuctionCars] = useState(tableData);
+  const [inAuctionTableSearch, setInAuctionTableSearch] = useState('');
   const lastTotalRow = tableData.length > 1 ? tableData.pop() : null;
+
+  useEffect(() => {
+    setInAuctionCars(
+      tableData.filter((row) => {
+        return row.description.indexOf(inAuctionTableSearch.trim()) !== -1;
+      })
+    );
+  }, [inAuctionTableSearch]);
 
   return (
     <>
@@ -17,6 +27,10 @@ const InAuctionCars = ({ tableData }) => {
           type="text"
           placeholder="Search"
           className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
+          value={inAuctionTableSearch}
+          onChange={(e) => {
+            setInAuctionTableSearch(e.target.value);
+          }}
         />
       </div>
       <div className="border-azure-blue overflow-hidden rounded-xl border">
@@ -49,7 +63,7 @@ const InAuctionCars = ({ tableData }) => {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((row, index) => (
+            {inAuctionCarsState.map((row, index) => (
               <tr
                 key={index}
                 className={classNames(

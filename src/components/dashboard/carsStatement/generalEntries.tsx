@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const GeneralEntries = ({ tableData }) => {
+  const [generalEntriesState, setGeneralEntries] = useState(tableData);
+  const [generalEntriesTableSearch, setGeneralEntriesTableSearch] = useState('');
   const lastTotalRow = tableData.length > 1 ? tableData.pop() : null;
+
+  useEffect(() => {
+    setGeneralEntries(
+      tableData.filter((row) => {
+        return row.description.indexOf(generalEntriesTableSearch.trim()) !== -1;
+      })
+    );
+  }, [generalEntriesTableSearch]);
 
   return (
     <>
@@ -17,6 +27,10 @@ const GeneralEntries = ({ tableData }) => {
           type="text"
           placeholder="Search"
           className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
+          value={generalEntriesTableSearch}
+          onChange={(e) => {
+            setGeneralEntriesTableSearch(e.target.value);
+          }}
         />
       </div>
       <div className="border-azure-blue overflow-hidden rounded-xl border">
@@ -49,7 +63,7 @@ const GeneralEntries = ({ tableData }) => {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((row, index) => (
+            {generalEntriesState.map((row, index) => (
               <tr
                 key={index}
                 className={classNames(

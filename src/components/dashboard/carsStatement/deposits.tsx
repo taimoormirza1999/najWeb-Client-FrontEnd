@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const Deposits = ({ tableData }) => {
+  const [depositsState, setDeposits] = useState(tableData);
+  const [depositsTableSearch, setDepositsTableSearch] = useState('');
+
+  useEffect(() => {
+    if (depositsTableSearch !== '') {
+      setDeposits(
+        tableData.filter((row) => {
+          return row.serial_number.indexOf(depositsTableSearch.trim()) !== -1;
+        })
+      );
+    }
+  }, [depositsTableSearch]);
   return (
     <>
       <div className="mt-20 flex justify-between">
@@ -15,6 +27,10 @@ const Deposits = ({ tableData }) => {
           type="text"
           placeholder="Search"
           className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
+          value={depositsTableSearch}
+          onChange={(e) => {
+            setDepositsTableSearch(e.target.value);
+          }}
         />
       </div>
       <div className="border-azure-blue overflow-hidden rounded-xl border">
@@ -35,7 +51,7 @@ const Deposits = ({ tableData }) => {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((row, index) => (
+            {depositsState.map((row, index) => (
               <tr
                 key={index}
                 className={classNames(

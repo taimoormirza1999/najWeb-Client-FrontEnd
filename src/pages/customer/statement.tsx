@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 import { Deposits } from '@/components/dashboard/carsStatement/deposits';
@@ -6,51 +7,6 @@ import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntr
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
 import { Layout } from '@/templates/LayoutDashboard';
-
-const getStatementData = async (session, apiUrl) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
-
-  const [shippedCarsResponse, inAuctionCarsResponse, generalEntriesResponse] =
-    await Promise.all([
-      axios.get(`${apiUrl}carStatement/shippedCars`, {
-        params: {
-          arrived_status: '1',
-          remaining_status: '0',
-          transfer_status: '0',
-          currency: '0',
-          date_from: '2021-01-01',
-          date_to: '',
-        },
-      }),
-      axios.get(`${apiUrl}carStatement/carsInAuction`, {
-        params: {
-          arrived_status: '1',
-          remaining_status: '0',
-          transfer_status: '0',
-          currency: '0',
-          date_from: '2021-01-01',
-          date_to: '',
-        },
-      }),
-      axios.get(`${apiUrl}carStatement/generalEntries`, {
-        params: {
-          arrived_status: '1',
-          remaining_status: '0',
-          transfer_status: '0',
-          currency: '0',
-          date_from: '2021-01-01',
-          date_to: '',
-        },
-      }),
-    ]);
-  const [shippedCars, inAuctionCars, generalEntries] = await Promise.all([
-    shippedCarsResponse.data.data,
-    inAuctionCarsResponse.data.data,
-    generalEntriesResponse.data.data,
-  ]);
-
-  return { shippedCars, inAuctionCars, generalEntries };
-};
 
 const Statement = ({
   selectedParams,
@@ -172,8 +128,9 @@ const Statement = ({
 };
 
 export async function getServerSideProps(context) {
-  // const session = await getSession(context);
-  // axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
+  const session: any = await getSession(context);
+
+  axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
   const apiUrl = process.env.API_URL;
   const formData = context.query;
 
