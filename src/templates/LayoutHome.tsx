@@ -5,8 +5,8 @@ import {
   faTwitterSquare,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Popover, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { Menu, Popover, Transition } from '@headlessui/react';
+import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
@@ -15,6 +15,7 @@ import { Fragment, ReactNode } from 'react';
 
 import AnouncementsCarousel from '@/components/AnouncementsCarousel';
 import { AppConfig } from '@/utils/AppConfig';
+import { classNames } from '@/utils/Functions';
 
 type IMainProps = {
   meta: ReactNode;
@@ -50,10 +51,10 @@ const Layout = (props: IMainProps) => {
   return (
     <div>
       {props.meta}
-      <div className="bg-light-grey mb-5 lg:flex">
+      <div className="bg-light-grey mb-5 xl:flex">
         <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
-          <div className="top-0 right-0 hidden w-[90px] overflow-hidden sm:inline-block lg:absolute lg:block">
-            <div className="bg-light-grey h-[130px] origin-top-left -rotate-45"></div>
+          <div className="top-0 right-0 hidden w-[75px] overflow-hidden xl:absolute xl:inline-block">
+            <div className="bg-light-grey h-[110px] origin-top-left -rotate-45"></div>
           </div>
           <h3 className="text-center text-xl font-semibold text-white sm:text-2xl md:text-3xl">
             Important Anouncements
@@ -62,7 +63,7 @@ const Layout = (props: IMainProps) => {
         <div className="text-dark-blue basis-2/3">
           <AnouncementsCarousel
             slides={[
-              <p key={1} className="p-2 text-[16px] md:text-2xl">
+              <p key={1} className="p-2 pr-2 text-[14px] md:text-xl xl:pr-6">
                 <span className="font-bold">
                   Stop shipping cars model 2020 to Iraq 1.
                 </span>
@@ -71,7 +72,7 @@ const Layout = (props: IMainProps) => {
                 Nejoum Aljazeera has a team with years of experience and
                 dedication to the used car sales market.
               </p>,
-              <p key={2} className="p-2 text-[16px] md:text-2xl">
+              <p key={2} className="p-2  text-[14px] md:text-xl xl:pr-6">
                 <span className="font-bold">
                   Stop shipping cars model 2020 to Iraq 2.
                 </span>
@@ -80,7 +81,7 @@ const Layout = (props: IMainProps) => {
                 Nejoum Aljazeera has a team with years of experience and
                 dedication to the used car sales market.
               </p>,
-              <p key={3} className="p-2 text-[16px] md:text-2xl">
+              <p key={3} className="p-2 text-[14px] md:text-xl xl:pr-6">
                 <span className="font-bold">
                   Stop shipping cars model 2020 to Iraq 3.
                 </span>
@@ -94,8 +95,8 @@ const Layout = (props: IMainProps) => {
         </div>
       </div>
       <Popover className="relative bg-white">
-        <div className="mb-7 flex items-center justify-between md:justify-start md:space-x-10">
-          <div className="flex justify-end lg:w-0 lg:basis-1/5">
+        <div className="mb-7 flex items-center justify-between lg:justify-start lg:space-x-10">
+          <div className="flex justify-end lg:w-0 lg:basis-[18%]">
             <Link href="/">
               <a className="hover:border-0">
                 <span className="sr-only">{AppConfig.title}</span>
@@ -107,13 +108,13 @@ const Layout = (props: IMainProps) => {
               </a>
             </Link>
           </div>
-          <div className="-my-2 -mr-2 md:hidden">
+          <div className="-my-2 -mr-2 lg:hidden">
             <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span className="sr-only">Open menu</span>
               <MenuIcon className="h-6 w-6" aria-hidden="true" />
             </Popover.Button>
           </div>
-          <div className="bg-dark-blue !ml-4 hidden basis-4/5 py-4 pr-5 md:flex">
+          <div className="bg-dark-blue !ml-4 hidden basis-[88%] py-4 pr-5 lg:flex">
             <nav className="hidden w-full items-center justify-center space-x-10 md:flex">
               <div className="flex items-center justify-center">
                 <div className="hidden space-x-6 lg:block">
@@ -141,41 +142,135 @@ const Layout = (props: IMainProps) => {
             </nav>
             <div className="hidden items-center justify-start md:flex md:flex-1 md:basis-[35%] lg:w-0">
               <i className="material-icons text-white lg:mr-2">&#xe7fd;</i>
-              {session?.token ? (
-                <>
-                  <Link href="/customer/dashboard">
-                    <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
-                      Dashboard
-                    </a>
-                  </Link>
-                  <Link href="/auth/newAccount">
-                    <a
-                      className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500"
-                      onClick={handleSignOut}
-                    >
-                      Sign Out
-                    </a>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link href="/login">
-                    <a className="whitespace-nowrap rounded-sm bg-blue-500 py-1 px-2 font-light italic text-white hover:border-none">
-                      Sign in
-                    </a>
-                  </Link>
-                  <Link href="/auth/newAccount">
-                    <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-1 px-2 italic hover:border-none hover:text-blue-500">
-                      Sign up
-                    </a>
-                  </Link>
-                </>
-              )}
+              <div className="lg:hidden xl:block">
+                {session?.token ? (
+                  <>
+                    <Link href="/customer/dashboard">
+                      <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
+                        Dashboard
+                      </a>
+                    </Link>
+                    <Link href="/auth/newAccount">
+                      <a
+                        className="ml-5 whitespace-nowrap rounded-sm bg-white py-[6px] px-2 italic hover:border-none hover:text-blue-500 lg:hidden xl:inline-block"
+                        onClick={handleSignOut}
+                      >
+                        Sign Out
+                      </a>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login">
+                      <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
+                        Sign in
+                      </a>
+                    </Link>
+                    <Link href="/auth/newAccount">
+                      <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-[6px] px-2 italic hover:border-none hover:text-blue-500">
+                        Sign up
+                      </a>
+                    </Link>
+                  </>
+                )}
+              </div>
+              <div className="hidden lg:block xl:hidden">
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="inline-flex w-full justify-center rounded-md px-4 py-2 text-white">
+                      Account
+                      <ChevronDownIcon
+                        className="-mr-1 ml-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
+
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="py-1">
+                        {session?.token ? (
+                          <>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link href="/customer/dashboard">
+                                  <a
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : 'text-gray-700',
+                                      'block px-4 py-2'
+                                    )}
+                                  >
+                                    Dashboard
+                                  </a>
+                                </Link>
+                              )}
+                            </Menu.Item>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : 'text-gray-700',
+                                    'block px-4 py-2'
+                                  )}
+                                  onClick={handleSignOut}
+                                >
+                                  Sign Out
+                                </a>
+                              )}
+                            </Menu.Item>
+                          </>
+                        ) : (
+                          <>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link href="/login">
+                                  <a
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : 'text-gray-700',
+                                      'block px-4 py-2'
+                                    )}
+                                  >
+                                    Sign In
+                                  </a>
+                                </Link>
+                              )}
+                            </Menu.Item>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link href="/auth/newAccount">
+                                  <a
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : 'text-gray-700',
+                                      'block px-4 py-2'
+                                    )}
+                                  >
+                                    Sign Up
+                                  </a>
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          </>
+                        )}
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
 
               <select
                 onChange={changeLanguage}
                 defaultValue={locale}
                 className="ml-2 border-0 bg-transparent text-white focus:outline-none"
+                title="Select language"
+                name="language"
               >
                 <option value="en" className="text-black">
                   EN
@@ -199,7 +294,7 @@ const Layout = (props: IMainProps) => {
         >
           <Popover.Panel
             focus
-            className="absolute inset-x-0 top-0 z-10 origin-top-right p-2 transition md:hidden"
+            className="absolute inset-x-0 top-0 z-10 origin-top-right p-2 transition lg:hidden"
           >
             <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="px-5 pt-5 pb-6">

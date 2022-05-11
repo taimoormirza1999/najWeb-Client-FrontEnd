@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -18,27 +16,25 @@ const Index = () => {
         <img src="/assets/images/slider-bg.jpg" className="" alt="banner" />
         <div
           style={{ backgroundColor: 'rgba(0,61,117, .6)' }}
-          className="absolute top-1/2 left-1/2 md:left-auto flex h-[12rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] p-4 md:top-[8rem] md:right-[8rem] md:h-[45rem] md:w-[35rem] md:translate-x-0 md:translate-y-0"
+          className="absolute top-1/2 left-1/2 flex h-[12rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] p-4 md:left-auto md:top-[8rem] md:right-[8rem] md:h-[45rem] md:w-[35rem] md:translate-x-0 md:translate-y-0"
         >
           <div className="basis-1/3"></div>
           <div className="basis-1/3">
-            <h2 className="py-2 text-center text-2xl font-extrabold text-white md:text-[86px]">
+            <h2 className="py-2 text-center text-2xl font-extrabold text-white md:text-[80px]">
               You want to...
             </h2>
 
             <div className="flex justify-center gap-4">
-              <a
-                href="#"
-                className="rounded-sm bg-blue-500 p-2 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:py-3 md:px-4 md:text-[1.5em]"
-              >
-                {t('Ship cars')}
-              </a>
-              <a
-                href="#"
-                className="ml-0 rounded-sm bg-white p-2 text-lg font-medium hover:border-none hover:text-blue-500 md:ml-8 md:py-3 md:px-4 md:text-[1.5em]"
-              >
-                Buy a car
-              </a>
+              <Link href="/services/shipping">
+                <a className="rounded-sm bg-blue-500 p-2 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:py-3 md:px-4 md:text-[1.5em]">
+                  {t('Ship cars')}
+                </a>
+              </Link>
+              <Link href="/cars/showroom">
+                <a className="ml-0 rounded-sm bg-white p-2 text-lg font-medium hover:border-none hover:text-blue-500 md:ml-8 md:py-3 md:px-4 md:text-[1.5em]">
+                  Buy a car
+                </a>
+              </Link>
             </div>
           </div>
           <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light italic text-blue-100 underline hover:border-0 md:text-[22px]">
@@ -51,12 +47,12 @@ const Index = () => {
         <div className="flex flex-col gap-10 py-12 md:flex-row md:gap-20 md:py-24">
           <div className="basis-1/2">
             <img
-              className="mx-auto h-auto md:h-[470px]"
-              src="/assets/images/ship-cars.png"
+              className="h-auto rounded-xl md:h-[470px]"
+              src="/assets/images/ship-cars.jpg"
               alt="Shipping Cars"
             />
           </div>
-          <div className="basis-1/2 pt-0  md:py-10">
+          <div className="basis-1/2 self-center">
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-[2.5rem]">
               Ships Cars From USA & Canada
             </h3>
@@ -76,7 +72,7 @@ const Index = () => {
       <div className="bg-teal-blue">
         <div className="container mx-auto">
           <div className="flex flex-col-reverse gap-10 md:flex-row md:gap-20">
-            <div className="basis-1/2 self-center py-4 pl-0 md:pl-12">
+            <div className="basis-1/2 self-center py-4">
               <h3 className="py-3 text-2xl font-semibold text-white md:text-[2.5rem]">
                 Integrate Services
               </h3>
@@ -95,8 +91,8 @@ const Index = () => {
             </div>
             <div className="basis-1/2">
               <img
-                className="mx-auto max-h-[500px] md:mx-0 md:max-h-[800px]"
-                src="/assets/images/app-landing.png"
+                className="mx-auto w-4/5 md:mx-0 "
+                src="/assets/images/integerate-services.png"
                 alt="Mobile App"
               />
             </div>
@@ -108,8 +104,8 @@ const Index = () => {
         <div className="flex flex-col gap-8 py-12 md:flex-row md:gap-20 md:py-24">
           <div className="basis-1/2">
             <img
-              className="mx-auto max-h-[500px] md:h-[600px]"
-              src="/assets/images/car-tracking.png"
+              className="max-h-[500px] rounded-xl md:h-[600px]"
+              src="/assets/images/car-tracking.jpg"
               alt="Tracking Cars"
             />
           </div>
@@ -132,17 +128,17 @@ const Index = () => {
 
       <div className="container mx-auto">
         <div className="flex flex-col gap-16 md:flex-row">
-          <div className="group relative">
+          <div className="group relative basis-1/3">
             <img
-              src="/assets/images/service-auction.png"
+              src="/assets/images/service-auction.jpg"
               alt="Buy from auction"
-              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-auto"
+              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 left-[1%] w-[98%] rounded-b-2xl bg-[#ebebeb]/[.6] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-2">
-              <h3 className="text-dark-blue text-2xl font-semibold md:text-4xl">
+            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
+              <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Buy from auction
               </h3>
-              <p className="text-teal-blue py-2 text-xl font-semibold md:text-3xl">
+              <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
                 Get to know the features of buying from US auctions
               </p>
               <Link href="/">
@@ -152,37 +148,37 @@ const Index = () => {
               </Link>
             </div>
           </div>
-          <div className="group relative">
+          <div className="group relative basis-1/3">
             <img
-              src="/assets/images/service-shipping.png"
+              src="/assets/images/service-shipping.jpg"
               alt="Cars Shipping"
-              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-auto"
+              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 left-[1%] w-[98%] rounded-b-2xl bg-[#ebebeb]/[.6] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-2">
-              <h3 className="text-dark-blue text-2xl font-semibold md:text-4xl">
+            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
+              <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Ship a car
               </h3>
-              <p className="text-teal-blue py-2 text-xl font-semibold md:text-3xl">
+              <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
                 Get to know the features of shipping cars from USA
               </p>
-              <Link href="/">
+              <Link href="/services/shipping">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
                   Learn more...
                 </a>
               </Link>
             </div>
           </div>
-          <div className="group relative">
+          <div className="group relative basis-1/3">
             <img
-              src="/assets/images/service-car-sell.png"
+              src="/assets/images/service-car-sell.jpg"
               alt="Car Sell"
-              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-auto"
+              className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 left-[1%] w-[98%] rounded-b-2xl bg-[#ebebeb]/[.6] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-2">
-              <h3 className="text-dark-blue text-2xl font-semibold md:text-4xl">
+            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
+              <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Sell your car
               </h3>
-              <p className="text-teal-blue textxl py-2 font-semibold md:text-3xl">
+              <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
                 Get to know the features of selling cars in our yard
               </p>
               <Link href="/">

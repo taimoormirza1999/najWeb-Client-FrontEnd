@@ -1,7 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
+
+import { classNames } from '@/utils/Functions';
 
 type IMainProps = {
   meta: ReactNode;
@@ -9,13 +12,34 @@ type IMainProps = {
 };
 
 const navigation = [
-  { name: 'Summaries', href: '#', gicon: '&#xe14f;', current: true },
-  { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
-  { name: 'Price Lists', href: '#', gicon: '&#xe14f;', current: false },
+  {
+    name: 'Summaries',
+    href: `/customer/dashboard`,
+    gicon: '&#xe14f;',
+    current: true,
+  },
+  {
+    name: 'Statement',
+    href: '/customer/statement',
+    gicon: '&#xe853;',
+    current: false,
+  },
+  {
+    name: 'Price Lists',
+    href: `/customer/lists`,
+    gicon: '&#xe14f;',
+    current: false,
+  },
   {
     name: 'Estimate Calculator',
     href: '#',
     gicon: 'e14f',
+    current: false,
+  },
+  {
+    name: 'Tracking',
+    href: '/customer/tracking',
+    gicon: '&#xe853;',
     current: false,
   },
   {
@@ -24,12 +48,13 @@ const navigation = [
     gicon: '&#xe14f;',
     current: false,
   },
-  { name: 'Terms & Conditions', href: '#', gicon: '&#xe14f;', current: false },
+  { 
+    name: 'Terms & Conditions', 
+    href: '/customer/termsandconditions',
+    gicon: '&#xe14f;', 
+    current: false 
+  },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -97,21 +122,21 @@ const Layout = (props: IMainProps) => {
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                          'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                        )}
-                      >
-                        <i className="material-icons text-xs lg:mr-2">
-                          &#xe14f;
-                        </i>
-                        {item.name}
-                      </a>
+                      <Link key={item.name} href={item.href}>
+                        <a
+                          className={classNames(
+                            item.current
+                              ? 'bg-gray-100 text-gray-900'
+                              : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                          )}
+                        >
+                          <i className="material-icons text-xs lg:mr-2">
+                            &#xe14f;
+                          </i>
+                          {item.name}
+                        </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>
@@ -190,14 +215,13 @@ const Layout = (props: IMainProps) => {
                   </i>
                 </div>
                 <div className="">
-                  <a
-                    href="#"
-                    className="group block w-full shrink-0 hover:border-inherit"
-                  >
-                    <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
-                      Ali Turkey
-                    </p>
-                  </a>
+                  <Link href="/customer/userprofile">
+                    <a className="group block w-full shrink-0 hover:border-inherit">
+                      <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
+                        Ali Turkey
+                      </p>
+                    </a>
+                  </Link>
                   <a
                     href="#"
                     className="group block w-full shrink-0 hover:border-inherit"

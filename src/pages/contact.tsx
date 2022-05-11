@@ -139,7 +139,7 @@ const Contact = () => {
                 className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-3xl"
                 id="address_text"
               >
-                <span className="font-bold">NEJOUM </span>
+                <span className="font-sen font-bold">NEJOUM </span>
                 ALJAZEERA Group Industrial area 4, Sharjah, UAE
               </div>
               <div className="flex justify-end gap-4 pt-4">
@@ -198,16 +198,16 @@ const Contact = () => {
       <div className="container mx-auto py-16">
         <h3 className="text-center !text-5xl font-semibold">Contact Us</h3>
         <img
-          className="relative -z-10 mx-auto max-w-[80%] pt-8"
+          className="relative -z-10 mx-auto max-w-[75%] rounded-t-[40px]"
           src="/assets/images/contact-us.jpg"
           alt="Contact Us"
         />
-        <div className="bg-light-grey mx-auto -mt-16 max-w-[80%] rounded-b-[60px] p-8 text-center">
+        <div className="bg-light-grey mx-auto -mt-16 max-w-[75%] rounded-b-[40px] p-8 text-center">
           <p className="text-dark-blue py-3 text-3xl">
             You may always text us on WhatsApp
           </p>
           <a
-            href="https://wa.me/+97165440202?text=Hi"
+            href="https://wa.me/+971543662194?text=welcome to Nejoum aljazeera"
             target="_blank"
             rel="noreferrer"
             className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-xl font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
