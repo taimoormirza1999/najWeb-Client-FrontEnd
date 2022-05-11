@@ -331,20 +331,41 @@ const Layout = (props: IMainProps) => {
               </div>
               <div className="py-6 px-5">
                 <div className="mt-6">
-                  <a
-                    href="#"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                  >
-                    Sign up
-                  </a>
-                  <p className="mt-6 text-center text-base font-medium text-gray-500">
-                    Existing customer?{' '}
-                    <Link href="/login">
-                      <a className="text-indigo-600 hover:text-indigo-500">
-                        Sign in
-                      </a>
-                    </Link>
-                  </p>
+                  {session?.token ? (
+                    <>
+                      <Link href="/customer/dashboard">
+                        <a className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                          Dashboard
+                        </a>
+                      </Link>
+                      <p className="mt-6 text-center text-base font-medium text-gray-500">
+                        <Link href="/login">
+                          <a
+                            className="text-indigo-600 hover:text-indigo-500"
+                            onClick={handleSignOut}
+                          >
+                            Sign Out
+                          </a>
+                        </Link>
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/auth/newAccount">
+                        <a className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                          Sign up
+                        </a>
+                      </Link>
+                      <p className="mt-6 text-center text-base font-medium text-gray-500">
+                        Existing customer?{' '}
+                        <Link href="/login">
+                          <a className="text-indigo-600 hover:text-indigo-500">
+                            Sign in
+                          </a>
+                        </Link>
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -368,21 +389,25 @@ const Layout = (props: IMainProps) => {
                 </a>
               </Link>
             </div>
-            <div className="basis-[65%] pl-4 sm:pl-8">
-              <div className="footer-menu flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row">
+            <div className="basis-[65%] sm:pl-8 md:pl-4">
+              <div className="footer-menu mb-10 flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row lg:mb-0">
                 <div>
                   <h4 className="text-xl font-semibold">Services</h4>
                   <ul>
                     <li>
-                      <a href="#" className="text-white">
-                        Buying From Auctions
-                      </a>
+                      <Link href="/">
+                        <a className="text-white">Buying From Auctions</a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">Shipping Cars</a>
+                      <Link href="/services/shipping">
+                        <a>Shipping Cars</a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">Selling Cars</a>
+                      <Link href="/cars/showroom">
+                        <a>Selling Cars</a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -390,7 +415,9 @@ const Layout = (props: IMainProps) => {
                   <h4 className="text-xl font-semibold">Legal</h4>
                   <ul>
                     <li>
-                      <a href="#">Terms & Conditions</a>
+                      <Link href="/customer/termsandconditions">
+                        <a>Terms & Conditions</a>
+                      </Link>
                     </li>
                     <li>
                       <a href="#">Privacy Policy</a>
@@ -401,12 +428,12 @@ const Layout = (props: IMainProps) => {
                   <h4 className="text-xl font-semibold">Company</h4>
                   <ul>
                     <li>
-                      <Link href="/story">
+                      <Link href="/about/story">
                         <a>Our Story</a>
                       </Link>
                     </li>
                     <li>
-                      <Link href="/vision">
+                      <Link href="/about/vision">
                         <a>About Nejoum</a>
                       </Link>
                     </li>
@@ -416,10 +443,14 @@ const Layout = (props: IMainProps) => {
                   <h4 className="text-xl font-semibold">Contact Us</h4>
                   <ul>
                     <li>
-                      <a href="#">Customer Service</a>
+                      <Link href="/customer/complaint">
+                        <a>Customer Service</a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">Nejoum Branches</a>
+                      <Link href="/branches">
+                        <a>Nejoum Branches</a>
+                      </Link>
                     </li>
                     <li>
                       <Link href="/career">
@@ -432,38 +463,55 @@ const Layout = (props: IMainProps) => {
             </div>
 
             <div className="basis-[25%]">
-              <div className="flex gap-3 sm:justify-end">
+              <div className="mb-8 flex gap-3 sm:justify-end lg:mb-0">
                 <span className="py-1 text-white">Follow us</span>
-                <a href="#" className="hover:border-0">
-                  <FontAwesomeIcon
-                    icon={faFacebookSquare}
-                    className="text-4xl text-white"
-                  />
-                </a>
-                <a href="#" className="hover:border-0">
-                  <FontAwesomeIcon
-                    icon={faInstagramSquare}
-                    className="text-4xl text-white"
-                  />
-                </a>
-                <a href="#" className="hover:border-0">
-                  <FontAwesomeIcon
-                    icon={faTwitterSquare}
-                    className="text-4xl text-white"
-                  />
-                </a>
-                <a href="#" className="hover:border-0">
-                  <FontAwesomeIcon
-                    icon={faLinkedin}
-                    className="text-4xl text-white"
-                  />
-                </a>
+                <Link
+                  href="https://www.facebook.com/NejoumaljazeeraCars/"
+                  passHref
+                >
+                  <a className="hover:border-0" target="_blank">
+                    <FontAwesomeIcon
+                      icon={faFacebookSquare}
+                      className="text-4xl text-white"
+                    />
+                  </a>
+                </Link>
+                <Link
+                  href="https://www.instagram.com/nejoumaljazeera/"
+                  passHref
+                >
+                  <a className="hover:border-0" target="_blank">
+                    <FontAwesomeIcon
+                      icon={faInstagramSquare}
+                      className="text-4xl text-white"
+                    />
+                  </a>
+                </Link>
+                <Link href="#" passHref>
+                  <a className="hover:border-0" target="_blank">
+                    <FontAwesomeIcon
+                      icon={faTwitterSquare}
+                      className="text-4xl text-white"
+                    />
+                  </a>
+                </Link>
+                <Link
+                  href="https://ae.linkedin.com/in/nejoum-aljazeera-345362167"
+                  passHref
+                >
+                  <a className="hover:border-0" target="_blank">
+                    <FontAwesomeIcon
+                      icon={faLinkedin}
+                      className="text-4xl text-white"
+                    />
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
 
           <div className="flex-wrap justify-between text-white sm:flex">
-            <div className="self-end">
+            <div className="mb-8 self-end lg:mb-0">
               <h4 className="text-lg font-semibold">We are in</h4>
               <p className="text-lg font-light">
                 UAE - USA - Oman - Jordan - Iraq - Yemen - Cambodia
@@ -472,7 +520,7 @@ const Layout = (props: IMainProps) => {
 
             <div>
               <p className="font-light">Subscribe for anouncements</p>
-              <form method="post" action="" className="py-4">
+              <form method="post" action="" className="mb-4 py-4">
                 <input
                   type="email"
                   name="email"
@@ -486,8 +534,10 @@ const Layout = (props: IMainProps) => {
                 />
               </form>
               <h4 className="text-lg font-semibold">UAE Working Hours</h4>
-              <p className="text-lg">Sat - Thu : 08:30 am - 01:00 pm / </p>
-              <p className="text-lg">04:00 pm - 09:00 pm</p>
+              <p className="text-[16px] md:text-lg">
+                Sat - Thu : 08:30 am - 01:00 pm /{' '}
+              </p>
+              <p className="text-[16px] md:text-lg">04:00 pm - 09:00 pm</p>
             </div>
           </div>
 
@@ -499,8 +549,12 @@ const Layout = (props: IMainProps) => {
             </div>
 
             <div className="self-end text-white">
-              <p className="text-lg">Industrial Area 4, Sharjah, UAE</p>
-              <p className="text-lg">Nejoum Aljazeera Used Cars L.L.C.</p>
+              <p className="text-[16px] md:text-lg">
+                Industrial Area 4, Sharjah, UAE
+              </p>
+              <p className="text-[16px] md:text-lg">
+                Nejoum Aljazeera Used Cars L.L.C.
+              </p>
             </div>
           </div>
         </div>

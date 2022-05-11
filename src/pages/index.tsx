@@ -134,7 +134,7 @@ const Index = () => {
               alt="Buy from auction"
               className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
+            <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Buy from auction
               </h3>
@@ -154,7 +154,7 @@ const Index = () => {
               alt="Cars Shipping"
               className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
+            <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Ship a car
               </h3>
@@ -174,7 +174,7 @@ const Index = () => {
               alt="Car Sell"
               className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
+            <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Sell your car
               </h3>

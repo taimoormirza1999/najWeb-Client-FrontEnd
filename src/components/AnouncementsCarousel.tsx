@@ -16,7 +16,7 @@ export const PrevButton = ({ enabled, onClick }) => (
 
 export const NextButton = ({ enabled, onClick }) => (
   <button
-    className="embla__button embla__button--next"
+    className="embla__button embla__button--next ml-2"
     onClick={onClick}
     disabled={!enabled}
   >
