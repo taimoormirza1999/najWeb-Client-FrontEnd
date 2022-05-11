@@ -26,7 +26,10 @@ const Career = () => {
       <CustomModal
         showOn={redirectModalOpen}
         initialFocus={cancelButtonRef}
-        onClose={setRedirectModalOpen}
+        onClose={() => {
+          setRedirectModalOpen(false);
+          contentRef?.current?.classList.remove('blur-sm');
+        }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
           <Dialog.Title
