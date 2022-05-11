@@ -25,169 +25,275 @@ const Branches = () => (
         </p>
       </div>
 
-      <div className="text-dark-blue container mx-auto mb-[10rem]">
-        <div className="mx-auto w-full flex-wrap justify-around sm:flex sm:w-3/4">
-          <div>
-            <h4 className="text-dark-blue py-3 text-3xl font-semibold">
-              UAE HQ Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
-
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
-              UAE HQ Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
-
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
-              UAE HQ Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
-
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
-              UAE HQ Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
+      <div className="my-20 flex gap-2 ">
+        <div className="basis-1/2">
+          <img
+            src="/assets/images/branch-image-1.jpg"
+            alt="Our Branches"
+            className="mb-2 h-[400px] w-full border border-black object-cover"
+          />
+          <div className="flex gap-2">
+            <img
+              src="/assets/images/branch-image-2.jpg"
+              alt="Our Branches"
+              className="h-[200px] w-full basis-1/2 border border-black object-cover"
+            />
+            <img
+              src="/assets/images/branch-image-3.jpg"
+              alt="Our Branches"
+              className="h-[200px] w-full basis-1/2 border border-black object-cover"
+            />
           </div>
-          <div>
-            <h4 className="text-dark-blue py-3 text-3xl font-semibold">
-              Jordan Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
+        </div>
+        <div className="basis-1/2">
+          <img
+            src="/assets/images/branch-image-4.jpg"
+            alt="Our Branches"
+            className="h-[608px] w-full border border-black object-cover"
+          />
+        </div>
+      </div>
 
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
-              Jordan Office
+      <div className="text-dark-blue mb-[10rem]">
+        <div className="mx-auto w-full justify-between gap-6 sm:flex">
+          <div className="basis-1/4">
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
+              UAE Offices
               <div className="border-yellow-orange w-10 border"></div>
             </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
 
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
-              Jordan Office
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Dubai</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Nejoum Aljazeera Group Sharjah, Industrial Area 4
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +971 65 440 202
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                info@naj.ae
+              </a>
+            </div>
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Sharjah</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Nejoum Aljazeera Group Sharjah, Industrial Area 4
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +971 65 440 202
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                info@naj.ae
+              </a>
+            </div>
+            <div className="mb-10">
+              <p className="text-outer-space w-full text-2xl">
+                Nejoum Aljazeera Group Sharjah, Muweilah
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +971 65 440 202
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                info@naj.ae
+              </a>
+            </div>
+            <div className="mb-10">
+              <p className="text-outer-space w-full text-2xl">
+                Nejoum Aljazeera Group Sharjah, Sajaa
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +971 65 440 202
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                info@naj.ae
+              </a>
+            </div>
+          </div>
+          <div className="basis-1/4">
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
+              USA Offices
               <div className="border-yellow-orange w-10 border"></div>
             </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
 
-            <h4 className="text-dark-blue mt-6 py-3 text-3xl font-semibold">
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Texas</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Nejoum Express 6012 Murphy ST. Houston, TX 77033-1008
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +971 65 440 202
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                info@naj.ae
+              </a>
+            </div>
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">New Jersey</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Nejoum Express 1 Linden Avenue E, Jersey City , NJ 07305
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +971 65 440 202
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                info@naj.ae
+              </a>
+            </div>
+
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
+              Cambodia Office
+              <div className="border-yellow-orange w-10 border"></div>
+            </h4>
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
+              <p className="text-outer-space w-full text-2xl">Coming soon</p>
+              <a className="text-azure-blue my-2 block text-2xl hover:border-0">
+                Tel: Coming soon
+              </a>
+              <a className="text-azure-blue block text-2xl hover:border-0">
+                Coming soon
+              </a>
+            </div>
+          </div>
+          <div className="basis-1/4">
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
+              Iraq Office
+              <div className="border-yellow-orange w-10 border"></div>
+            </h4>
+
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Basra</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Nejoum Aljazeera Group Basra Bridge, Basra
+              </p>
+              <a
+                href="tel:+964 7 7171 8897 7"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +964 7 7171 8897 7
+              </a>
+              <a
+                href="mailto:basra@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                basra@naj.ae
+              </a>
+            </div>
+
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
+              Oman Office
+              <div className="border-yellow-orange w-10 border"></div>
+            </h4>
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
+              <p className="text-outer-space w-full text-2xl">Coming soon</p>
+              <a className="text-azure-blue my-2 block text-2xl hover:border-0">
+                Tel: Coming soon
+              </a>
+              <a className="text-azure-blue block text-2xl hover:border-0">
+                Coming soon
+              </a>
+            </div>
+
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
               Jordan Office
               <div className="border-yellow-orange w-10 border"></div>
             </h4>
-            <p className="text-outer-space w-full text-2xl sm:w-2/3">
-              Nejoum Aljazeera Group Sharjah, Industrial Area 4
-            </p>
-            <a
-              href="tel:+971 65 440 202"
-              className="text-azure-blue my-2 block text-2xl hover:border-0"
-            >
-              Tel: +971 65 440 202
-            </a>
-            <a
-              href="mailto:info@naj.ae"
-              className="text-azure-blue block text-2xl hover:border-0"
-            >
-              info@naj.ae
-            </a>
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
+              <p className="text-outer-space w-full text-2xl">Coming soon</p>
+              <a className="text-azure-blue my-2 block text-2xl hover:border-0">
+                Tel: Coming soon
+              </a>
+              <a className="text-azure-blue block text-2xl hover:border-0">
+                Coming soon
+              </a>
+            </div>
+          </div>
+          <div className="basis-1/4">
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
+              Canada Office
+              <div className="border-yellow-orange w-10 border"></div>
+            </h4>
+
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Coming soon <br />
+                <br />
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: Coming soon
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                Coming soon
+              </a>
+            </div>
+
+            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
+              Yemen Office
+              <div className="border-yellow-orange w-10 border"></div>
+            </h4>
+            <div className="mb-10">
+              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Coming soon <br />
+              </p>
+              <a
+                href="tel:+971 65 440 202"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: Coming soon
+              </a>
+              <a
+                href="mailto:info@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                Coming soon
+              </a>
+            </div>
           </div>
         </div>
       </div>
