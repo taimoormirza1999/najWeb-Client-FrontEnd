@@ -18,7 +18,12 @@ const navigation = [
     gicon: '&#xe14f;',
     current: true,
   },
-  { name: 'Statement', href: '#', gicon: '&#xe853;', current: false },
+  {
+    name: 'Statement',
+    href: '/customer/statement',
+    gicon: '&#xe853;',
+    current: false,
+  },
   {
     name: 'Price Lists',
     href: `/customer/lists`,
