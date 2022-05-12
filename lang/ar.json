@@ -6,6 +6,11 @@
   "page.services.shipping.service_features3": "خبرة في استكمال كافة المستندات والإجراءات المتعلقة بالسيارات في الخارج وفي دولة الإمارات العربية المتحدة",
   "page.services.shipping.service_features4": "وجود فريق عمل متميز ومحترف من جنسيات مختلفة ومستويات عالية من الخبرة لتلبية متطلبات عملائنا الكرام",
   "page.services.shipping.service_features5": "نسعى دائمًا لتقديم أفضل الخدمات اللوجستية في أسرع وقت ممكن وبأقل التكاليف وعلى استعداد لتلبية تطلعات عملائنا الكرام",
-  "page.services.shipping.receive_service": "... تلقي الخدمة",
-  "general.apply_for_account": "طلب حساب"
+  "page.services.shipping.receive_serviceetc": "... تلقي الخدمة",
+  "page.services.shipping.receive_service": "تلقي الخدمة",
+  "general.apply_for_account": "طلب حساب",
+  "general.text_nejoum": "تواصل معنا",
+  "page.services.shipping.shippingDesc": "تبنت مبدأ التنافسية والريادة في مجال لوجستيات السيارات بجميع أنواعها لمعظم دول مجلس التعاون الخليجي بالإضافة إلى خدمات الاستيراد والتخليص الجمركي للسيارات القادمة من الخارج إلى دولة الإمارات العربية المتحدة من خلال ضمان أعلى مستوياتها. مستويات الجودة والأسعار التنافسية تقدم كل الدعم اللوجستي والحلول الكاملة لعملائنا الكرام والسعي الدائم لتحقيق أعلى معايير الكفاءة والفعالية.",
+  "page.services.shipping.nejoum": "نجوم الجزيرة",
+  "page.services.shipping": "الشحن"
 }

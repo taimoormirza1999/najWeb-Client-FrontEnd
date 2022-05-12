@@ -41,17 +41,10 @@ const Shipping = () => {
       <div className="container mx-auto">
         <div className="border-dark-blue flex flex-col rounded-lg border p-4 lg:p-8 xl:flex-row">
           <div className="text-dark-blue basis-3/5 p-2 xl:p-8">
-            <h2 className="text-3xl font-bold lg:text-[40px]">Shipping</h2>
+            <h2 className="text-3xl font-bold lg:text-[40px]"><FormattedMessage id= "page.services.shipping"/></h2>
             <p className="py-4 text-lg leading-normal md:text-xl lg:py-8 lg:text-2xl lg:leading-[2.8rem] xl:pr-10">
-              <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA has
-              adopted the principle of competitiveness and leadership in the
-              field of the car logistic of all kinds for most of the Gulf
-              Cooperation Countries in addition to the import and customs
-              clearance services for cars coming from abroad to the United Arab
-              Emirates by ensuring the highest levels of quality and competitive
-              prices providing all logistical support and complete solutions to
-              our valued customers and the pursuit always achieve the highest
-              standards of efficiency and effectiveness.
+              <span className="font-sen font-bold"><FormattedMessage id= "page.services.shipping.nejoum"/> </span> 
+              <FormattedMessage id= "page.services.shipping.shippingDesc"/>
             </p>
             <button
               className="text-azure-blue block cursor-pointer py-3 text-lg italic hover:border-0 md:text-xl lg:text-2xl"
@@ -59,7 +52,7 @@ const Shipping = () => {
                 scrollToReceiveService();
               }}
             >
-              Receive service...
+              <FormattedMessage id= "page.services.shipping.receive_serviceetc"/>
             </button>
           </div>
           <div className="relative basis-2/5">
@@ -74,7 +67,7 @@ const Shipping = () => {
                 scrollToReceiveService();
               }}
             >
-              Receive Service
+              <FormattedMessage id= "page.services.shipping.receive_service"/>
             </button>
           </div>
         </div>
@@ -163,7 +156,7 @@ const Shipping = () => {
                 target="_blank"
                 className="bg-azure-blue my-2 inline-block rounded-lg px-5 py-2.5 text-lg font-medium text-white hover:border-0 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:text-2xl"
               >
-                Text Nejoum
+                <FormattedMessage id= "general.text_nejoum"/>
               </a>
             </Link>
             <div className="visible md:hidden"></div>
