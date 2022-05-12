@@ -7,12 +7,14 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 
 import DownloadApps from '../components/DownloadApps';
+import { FormattedMessage, useIntl } from "react-intl";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const Index = ({ announcements }) => {
+const Index = ({ announcements, dir }) => {
   const { t } = useTranslation('common');
-
+  document.body.classList = [];
+  document.body.classList.add(dir);
   return (
     <Layout
       meta={<Meta title="" description="Nejoum Al Jazeera" />}
