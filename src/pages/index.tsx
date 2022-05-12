@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -7,11 +8,16 @@ import { Layout } from '@/templates/LayoutHome';
 
 import DownloadApps from '../components/DownloadApps';
 
-const Index = () => {
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+const Index = ({ announcements }) => {
   const { t } = useTranslation('common');
 
   return (
-    <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
+    <Layout
+      meta={<Meta title="" description="Nejoum Al Jazeera" />}
+      announcements={announcements}
+    >
       <div className="relative">
         <img src="/assets/images/slider-bg.jpg" className="" alt="banner" />
         <div
@@ -230,9 +236,13 @@ const Index = () => {
   );
 };
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
+  const res = await axios.get(`${apiUrl}adsAnnouncement`);
+  const announcements = res.data;
+
   return {
     props: {
+      announcements,
       ...(await serverSideTranslations(locale, ['common'])),
     },
   };
