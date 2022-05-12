@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { Fragment, ReactNode, useRef, useState } from 'react';
+import { FormattedMessage, useIntl } from "react-intl";
 
 import AnnouncementsCarousel from '@/components/Announcement/AnnouncementsCarousel';
 import CustomModal from '@/components/CustomModal';
@@ -46,7 +47,7 @@ const Layout = (props: IMainProps) => {
   const { data: session } = useSession();
   const router = useRouter();
   const { locale } = router;
-  const { t } = useTranslation('common');
+  //const { t } = useTranslation('common');
   const [anouncementModalOpen, setAnouncementModalOpen] = useState(false);
   const closeAnouncementButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -136,8 +137,8 @@ const Layout = (props: IMainProps) => {
                 Important Anouncements
               </h3>
             </div>
-            <div className="text-dark-blue basis-2/3">
-              <AnnouncementsCarousel>
+            <div className="text-dark-blue basis-2/3" >
+              <AnnouncementsCarousel >
                 {props.announcements.map((row, index) => (
                   <div className="embla__slide" key={index}>
                     <div className="embla__slide__inner pb-9 xl:pb-0">
@@ -208,7 +209,7 @@ const Layout = (props: IMainProps) => {
                     {navigation.map((link) => (
                       <Link href={link.href} key={link.name}>
                         <a className="text-base font-medium text-white hover:text-indigo-50">
-                          {t(link.name)}
+                          <FormattedMessage id= "page.home.title"/>
                         </a>
                       </Link>
                     ))}
@@ -357,7 +358,6 @@ const Layout = (props: IMainProps) => {
                     </Transition>
                   </Menu>
                 </div>
-
                 <select
                   onChange={changeLanguage}
                   defaultValue={locale}

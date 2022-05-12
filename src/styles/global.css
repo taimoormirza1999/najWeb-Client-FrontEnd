@@ -15,6 +15,10 @@ body{
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+.rtl{direction: rtl}
+
+.ltr{direction: ltr}
+
 .font-sen{
   font-family: 'Sen', sans-serif;
 }
