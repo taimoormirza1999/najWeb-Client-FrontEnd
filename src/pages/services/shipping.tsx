@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRef } from 'react';
 
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -109,7 +110,7 @@ const Shipping = () => {
                 className="text-teal-blue h-24 w-24 text-4xl"
               />
             </div>
-            <p className="border-teal-blue text-teal-blue flex w-full items-center rounded-2xl border md:border-[3px] p-4 text-lg lg:text-[1.3rem]">
+            <p className="border-teal-blue text-teal-blue flex w-full items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
               Dependence on closed and covered cars to protect and secure cars
               during the charging process
             </p>
@@ -135,7 +136,7 @@ const Shipping = () => {
                 className="text-teal-blue h-24 w-24 text-4xl"
               />
             </div>
-            <p className="border-teal-blue text-teal-blue flex items-center rounded-2xl border md:border-[3px] p-4 text-lg lg:text-[1.3rem]">
+            <p className="border-teal-blue text-teal-blue flex items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
               Having a distinguished and professional team with different
               nationalities and high levels of expertise to meet the
               requirements of our valued customers
@@ -187,5 +188,13 @@ const Shipping = () => {
     </Layout>
   );
 };
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+}
 
 export default Shipping;
