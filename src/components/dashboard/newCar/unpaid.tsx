@@ -42,7 +42,9 @@ const UnPaid = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[64px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.destination}
+      </td>
       <td
         scope="col"
         className="min-w-[55px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
@@ -52,11 +54,15 @@ const UnPaid = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.lastDateToPay}
+      </td>
       <td
         scope="col"
         className="min-w-[30px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.daysOff}
+      </td>
       <td
         scope="col"
         className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
@@ -78,22 +84,34 @@ const UnPaid = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
-        {car.fineTotalCost}
+        {car.carCostUSD ? `${car.carCostUSD} $` : ''}
+        <br />
+        {car.carCostAED ? `${car.carCostAED} AED` : ''}
       </td>
       <td
         scope="col"
         className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.late_payment_fineUSD ? `${car.late_payment_fineUSD} $` : ''}
+        <br />
+        {car.late_payment_fineAED ? `${car.late_payment_fineAED} AED` : ''}
+      </td>
       <td
         scope="col"
         className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
-        {car.totalUSD} $ <br /> {car.totalAED}
+        {car.fineTotalCostUSD ? `${car.fineTotalCostUSD} $` : ''}
+        <br />
+        {car.fineTotalCost ? `${car.fineTotalCost} AED` : ''}
+      </td>
+      <td
+        scope="col"
+        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+      >
+        {car.totalUSD ? `${car.totalUSD} $` : ''}
+        <br />
+        {car.totalAED ? `${car.totalAED} AED` : ''}
       </td>
     </tr>
   ));

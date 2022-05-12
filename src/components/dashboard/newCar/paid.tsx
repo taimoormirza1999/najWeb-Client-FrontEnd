@@ -42,7 +42,9 @@ const Paid = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[64px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.destination}
+      </td>
       <td
         scope="col"
         className="min-w-[55px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
@@ -52,11 +54,15 @@ const Paid = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.carCostAED}
+      </td>
       <td
         scope="col"
         className="min-w-[30px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.paymentDate}
+      </td>
       <td
         scope="col"
         className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
@@ -66,11 +72,24 @@ const Paid = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[63px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.remainingAmount}
+      </td>
       <td
         scope="col"
         className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        <span
+          className={classNames(
+            car.status === 'Cancelled'
+              ? 'bg-red-100 text-red-800'
+              : 'bg-green-100 text-green-800',
+            'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium'
+          )}
+        >
+          {car.status}
+        </span>
+      </td>
     </tr>
   ));
 };

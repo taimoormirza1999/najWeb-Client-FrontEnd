@@ -16,6 +16,7 @@ import { classNames } from '@/utils/Functions';
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
   let type = context.query.type ? context.query.type : '';
+  const page = context.query.page ? context.query.page : 0;
   const session: any = await getSession(context);
 
   let carsData = {};
@@ -50,6 +51,11 @@ export async function getServerSideProps(context) {
       apiUrl = `${process.env.API_URL}customer/allCancelledCars`;
     }
   }
+  if (apiTab !== 'newCars' || type === 'towing' || type === 'cancelled') {
+    apiUrl = `${apiUrl}?page=${page}`;
+  } else {
+    apiUrl = `${apiUrl}&page=${page}`;
+  }
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
     await axios
@@ -63,13 +69,20 @@ export async function getServerSideProps(context) {
       });
   }
   return {
-    props: { carsData, baseUrl: process.env.NEXTAUTH_URL },
+    props: {
+      carsData,
+      baseUrl: process.env.NEXTAUTH_URL,
+    },
   };
 }
 const Dashboard = ({ router, carsData, baseUrl }) => {
   const {
-    query: { tab, type },
+    query: { tab, type, page },
   } = router;
+  let currentPage = page;
+  if (!currentPage) {
+    currentPage = 0;
+  }
   const tabs = [
     {
       name: 'New  Cars',
@@ -103,8 +116,10 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
     },
   ];
   let carsRecords;
+  let totalRecords = 0;
   if (carsData.data) {
     carsRecords = carsData.data;
+    totalRecords = carsData.totalRecords;
   } else {
     carsRecords = [];
   }
@@ -147,35 +162,58 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
             <div>
               {(tab === 'tabs-newcar' || tab == null) && (
                 <React.Fragment>
-                  <NewCarTab carsRecords={carsRecords} type={type}></NewCarTab>
+                  <NewCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                    type={type}
+                  ></NewCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-warehouse' && (
                 <React.Fragment>
                   <WarehouseCarTab
                     carsRecords={carsRecords}
+                    totalRecords={totalRecords}
                     baseUrl={baseUrl}
+                    page={currentPage}
                   ></WarehouseCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-shipping' && (
                 <React.Fragment>
-                  <ShippingCarTab carsRecords={carsRecords}></ShippingCarTab>
+                  <ShippingCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                  ></ShippingCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-arrived' && (
                 <React.Fragment>
-                  <ArrivedCarTab carsRecords={carsRecords}></ArrivedCarTab>
+                  <ArrivedCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                  ></ArrivedCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-delivered' && (
                 <React.Fragment>
-                  <DeliveredCarTab carsRecords={carsRecords}></DeliveredCarTab>
+                  <DeliveredCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                  ></DeliveredCarTab>
                 </React.Fragment>
               )}
               {tab === 'tabs-states' && (
                 <React.Fragment>
-                  <StatesTab></StatesTab>
+                  <StatesTab carsRecords={carsRecords}></StatesTab>
                 </React.Fragment>
               )}
             </div>

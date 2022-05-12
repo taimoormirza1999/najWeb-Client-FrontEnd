@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import { Fragment, useRef, useState } from 'react';
 
 import { Layout } from '@/templates/LayoutDashboard';
@@ -17,6 +18,11 @@ const Profile = ({ apiUrl }) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [passswordSuccess, setPassswordSuccess] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+  const fullName = session?.profile[0]?.full_name;
+  const phoneNo = session?.profile[0]?.phone;
+  const primaryEmail = session?.profile[0]?.primary_email;
+  const membershipId = session?.profile[0]?.membership_id;
   const updatePassword = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
@@ -79,7 +85,7 @@ const Profile = ({ apiUrl }) => {
             >
               &#xe853;
             </i>
-            Ali Turkey
+            {fullName}
           </h4>
         </div>
         <Transition.Root show={passswordSuccess} as={Fragment}>
@@ -164,15 +170,15 @@ const Profile = ({ apiUrl }) => {
                 <tbody>
                   <tr>
                     <td className="w-[137px]">Membership ID </td>
-                    <td>:</td>
+                    <td>: {membershipId}</td>
                   </tr>
                   <tr>
                     <td>Phone No</td>
-                    <td>:</td>
+                    <td>: {phoneNo}</td>
                   </tr>
                   <tr>
                     <td>Email </td>
-                    <td>:</td>
+                    <td>: {primaryEmail}</td>
                   </tr>
                 </tbody>
               </table>

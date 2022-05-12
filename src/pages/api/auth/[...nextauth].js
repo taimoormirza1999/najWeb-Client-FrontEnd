@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from 'axios';
+import axios from "axios";
 
 const options = {
   providers: [
@@ -9,28 +9,19 @@ const options = {
       authorize: async (credentials) => {
         const { email, password } = credentials;
 
-        const formData = new URLSearchParams({
+        const formData = {
           client_id: process.env.API_CLIENT_ID,
           client_secret: process.env.API_CLIENT_SECRET,
           primary_email: email,
           password,
           grant_type: "password",
-        });
-
+        };
         let user = null;
         let profile = null;
-        await fetch(`${process.env.API_URL}login`, {
-          method: "POST",
-          body: formData,
-          redirect: "follow",
-        })
-          .then(response => response.text())
-          .then(data => {
-            data = JSON.parse(data);
-
-            if (data.access_token) {
-              user = data;
-            }
+        await axios
+          .post(`${process.env.API_URL}login`, formData)
+          .then((response) => {
+            user = response.data;
           })
           .catch((error) => {
             // const errorMessage = e.response.data.message
@@ -40,10 +31,10 @@ const options = {
         if (user) {
           axios.defaults.headers.common.Authorization = `Bearer ${user?.access_token}`;
           await axios
-            .post(`${process.env.API_URL}profile`)
+            .get(`${process.env.API_URL}profile`)
             .then((response) => {
               profile = response.data;
-              console.log(profile);
+              user.profile = profile.data;
             })
             .catch((error) => {
               // const errorMessage = e.response.data.message
@@ -62,16 +53,17 @@ const options = {
   callbacks: {
     async session({ session, token }) {
       session.token = token;
+      session.profile = token.profile;
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
         token.access_token = user.access_token;
-        token.expires_in = Date.now() + user.expires_in * 1000;
+        token.expires_in = Date.now() + 5 * 60 * 1000;
         token.refresh_token = user.refresh_token;
+        token.profile = user.profile;
         return token;
       }
-
       if (Date.now() < token.expires_in) {
         return token;
       }
@@ -82,7 +74,7 @@ const options = {
   pages: {
     signIn: "/login",
   },
-}
+};
 
 async function refreshAccessToken(token) {
   try {
