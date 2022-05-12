@@ -1,6 +1,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { FormattedMessage, useIntl } from "react-intl";
 
 const Story = () => (
   <Layout meta={<Meta title="Our Story" description="Our Story" />}>
@@ -20,32 +21,24 @@ const Story = () => (
         className="max-h-screen w-full object-cover"
       />
       <h1 className="story-cover-text-shadow 4xl:text-[200px] absolute top-1/2 left-1/2 translate-x-[-80%] -translate-y-1/2 text-4xl font-extrabold uppercase leading-none tracking-wide text-white md:text-6xl lg:text-[100px] 2xl:text-[140px]">
-        We ease heavy duty
+        <FormattedMessage id= "page.story.heading"/>
       </h1>
     </div>
 
     <div className="container mx-auto">
       <div className="text-dark-blue py-10">
         <h3 className="text-center text-3xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
-          The Story
+          <FormattedMessage id= "page.story.title"/>
         </h3>
         <p className="py-4 text-lg md:text-2xl lg:text-3xl">
-          <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA initiated
-          its movement during the late last century, where its activities
-          revolved around trading in and trading out vehicles, as well as
-          logistics and meet the expectations of all customers present locally
-          and in the gulf region, synchronizing along with the economic
-          prosperity witnessed by United Arab Emirates which greets diverse
-          nationalities that provides work, residency, and investments. One of
-          our first branches was opened in Sharjah in the year of 2002 to
-          officially start our journey in servicing -American exported- used
-          cars.
+          <span className="font-sen font-bold"><FormattedMessage id= "page.services.shipping.nejoum"/></span> 
+          <FormattedMessage id= "page.story.story_desc"/>
         </p>
       </div>
 
       <div className="text-dark-blue py-10">
         <h3 className="pl-8 text-2xl font-semibold md:pl-16 md:text-4xl lg:text-6xl xl:text-[80px]">
-          Timeline
+          <FormattedMessage id= "page.story.timline"/>
         </h3>
 
         <ol className="relative mt-16 border-l-[3px] border-[#707070]">
@@ -55,7 +48,7 @@ const Story = () => (
               2002
             </time>
             <h4 className="pt-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              We officially opened our first branch in Sharjah, UAE.
+            <FormattedMessage id= "page.story.Story-2002"/>
             </h4>
           </li>
           <li className="relative ml-4 pl-6 pt-9 md:pl-14 lg:pt-0">
@@ -64,8 +57,7 @@ const Story = () => (
               2003
             </time>
             <h4 className="py-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              Our first initiation of transaction for customers under Copart &
-              IAAI
+            <FormattedMessage id= "page.story.Story-2003"/>
             </h4>
           </li>
           <li className="relative ml-4 pl-6 pt-9 md:pl-14 lg:pt-0">
@@ -74,7 +66,7 @@ const Story = () => (
               2009
             </time>
             <h4 className="py-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              Our first opening of the dispatch service office
+            <FormattedMessage id= "page.story.Story-2009"/>
             </h4>
             <p className="py-4 text-[16px] md:text-xl lg:text-2xl">
               From here onwards our company assembled and planned out a system
@@ -92,7 +84,7 @@ const Story = () => (
               2016
             </time>
             <h4 className="py-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              We opened our first warehouse in Cambodia
+            <FormattedMessage id= "page.story.Story-2016"/>
             </h4>
           </li>
           <li className="relative ml-4 pl-6 pt-9 md:pl-14 lg:pt-0">
@@ -101,7 +93,7 @@ const Story = () => (
               2017
             </time>
             <h4 className="py-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              We opened our first warehouse in Yemen
+            <FormattedMessage id= "page.story.Story-2017"/>
             </h4>
           </li>
           <li className="relative ml-4 pl-6 pt-9 md:pl-14 lg:pt-0">
@@ -110,8 +102,7 @@ const Story = () => (
               2018
             </time>
             <h4 className="py-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              We opened our first warehouse in Newark, New Jersey USA, and the
-              Sultanate of Oman
+            <FormattedMessage id= "page.story.Story-2018"/>
             </h4>
           </li>
           <li className="relative ml-4 pl-6 pt-9 md:pl-14 lg:pt-0">
@@ -120,7 +111,7 @@ const Story = () => (
               2019
             </time>
             <h4 className="pt-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              We Opened our second warehouse in Houston, Texas, United States
+            <FormattedMessage id= "page.story.Story-2019"/>
             </h4>
           </li>
           <li className="relative top-32 !-mt-32 mb-28 ml-4 pl-6 pt-9 md:pl-14 lg:top-40 lg:pt-0 2xl:top-32">
@@ -129,9 +120,8 @@ const Story = () => (
               2022
             </time>
             <h4 className="pt-4 text-lg font-normal md:text-2xl lg:text-3xl">
-              <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA, a
-              brand new beginning were we launched our new logo, Brand Identity,
-              and website
+              <span className="font-sen font-bold"><FormattedMessage id= "page.services.shipping.nejoum"/></span>
+              <FormattedMessage id= "page.story.Story-2022"/>
             </h4>
           </li>
         </ol>
@@ -139,7 +129,7 @@ const Story = () => (
     </div>
 
     <p className="text-dark-blue mt-12 mb-24 px-4 text-center text-xl italic md:text-2xl lg:text-3xl">
-      All just the beginning, the story is to carry on with you!
+    <FormattedMessage id= "page.story.end"/>
     </p>
   </Layout>
 );

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRef } from 'react';
+import { FormattedMessage, useIntl } from "react-intl";
 
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
@@ -40,17 +41,10 @@ const Shipping = () => {
       <div className="container mx-auto">
         <div className="border-dark-blue flex flex-col rounded-lg border p-4 lg:p-8 xl:flex-row">
           <div className="text-dark-blue basis-3/5 p-2 xl:p-8">
-            <h2 className="text-3xl font-bold lg:text-[40px]">Shipping</h2>
+            <h2 className="text-3xl font-bold lg:text-[40px]"><FormattedMessage id= "page.services.shipping"/></h2>
             <p className="py-4 text-lg leading-normal md:text-xl lg:py-8 lg:text-2xl lg:leading-[2.8rem] xl:pr-10">
-              <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA has
-              adopted the principle of competitiveness and leadership in the
-              field of the car logistic of all kinds for most of the Gulf
-              Cooperation Countries in addition to the import and customs
-              clearance services for cars coming from abroad to the United Arab
-              Emirates by ensuring the highest levels of quality and competitive
-              prices providing all logistical support and complete solutions to
-              our valued customers and the pursuit always achieve the highest
-              standards of efficiency and effectiveness.
+              <span className="font-sen font-bold"><FormattedMessage id= "page.services.shipping.nejoum"/> </span> 
+              <FormattedMessage id= "page.services.shipping.shippingDesc"/>
             </p>
             <button
               className="text-azure-blue block cursor-pointer py-3 text-lg italic hover:border-0 md:text-xl lg:text-2xl"
@@ -58,7 +52,7 @@ const Shipping = () => {
                 scrollToReceiveService();
               }}
             >
-              Receive service...
+              <FormattedMessage id= "page.services.shipping.receive_serviceetc"/>
             </button>
           </div>
           <div className="relative basis-2/5">
@@ -73,20 +67,17 @@ const Shipping = () => {
                 scrollToReceiveService();
               }}
             >
-              Receive Service
+              <FormattedMessage id= "page.services.shipping.receive_service"/>
             </button>
           </div>
         </div>
 
         <div className="px-0 py-4 md:py-8 xl:px-16">
           <h3 className="text-dark-blue py-12 text-center text-2xl font-semibold md:text-3xl lg:text-[40px]">
-            Service Features
+            <FormattedMessage id= "page.services.shipping.service_features"/>
           </h3>
           <p className="text-dark-blue pb-6 text-xl md:text-xl lg:text-2xl">
-            We maintain efficiency in all our services to meet all the
-            requirements of our valued customers according to their
-            expectations. Below are some of the key features of our services. We
-            strive to delivering vehicles upon punctual timings.
+            <FormattedMessage id= "page.services.shipping.service_features_desc"/>
           </p>
 
           <div className="mb-4 flex gap-16 lg:mb-8">
@@ -97,9 +88,7 @@ const Shipping = () => {
               />
             </div>
             <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
-              Vehicle tracking service in order to follow the movement of cars
-              step by step starting from the purchase till the handover to the
-              owner through our website
+              <FormattedMessage id= "page.services.shipping.service_features1"/>
             </p>
           </div>
 
@@ -111,8 +100,7 @@ const Shipping = () => {
               />
             </div>
             <p className="border-teal-blue text-teal-blue flex w-full items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
-              Dependence on closed and covered cars to protect and secure cars
-              during the charging process
+              <FormattedMessage id= "page.services.shipping.service_features2"/>
             </p>
           </div>
 
@@ -124,8 +112,7 @@ const Shipping = () => {
               />
             </div>
             <p className="bg-teal-blue flex w-full items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
-              Experience in completing all document and procedures related to
-              automotive abroad and in the United Arab Emirates
+              <FormattedMessage id= "page.services.shipping.service_features3"/>
             </p>
           </div>
 
@@ -137,9 +124,7 @@ const Shipping = () => {
               />
             </div>
             <p className="border-teal-blue text-teal-blue flex items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
-              Having a distinguished and professional team with different
-              nationalities and high levels of expertise to meet the
-              requirements of our valued customers
+              <FormattedMessage id= "page.services.shipping.service_features4"/>
             </p>
           </div>
 
@@ -151,16 +136,14 @@ const Shipping = () => {
               />
             </div>
             <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
-              Always strive to provide the best logistic service as quickly as
-              possible and at the lowest costs and willing to meet the
-              aspirations of our valued customers
+              <FormattedMessage id= "page.services.shipping.service_features5"/>
             </p>
           </div>
         </div>
 
         <div className="mb-16 py-8" ref={receiveServiceRef}>
           <h3 className="text-dark-blue mb-4 text-center text-4xl font-semibold">
-            Receive Service
+            <FormattedMessage id= "page.services.shipping.receive_service"/>
           </h3>
           <img
             className="relative -z-10 mx-auto w-full rounded-t-[30px]"
@@ -173,13 +156,13 @@ const Shipping = () => {
                 target="_blank"
                 className="bg-azure-blue my-2 inline-block rounded-lg px-5 py-2.5 text-lg font-medium text-white hover:border-0 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:text-2xl"
               >
-                Text Nejoum
+                <FormattedMessage id= "general.text_nejoum"/>
               </a>
             </Link>
             <div className="visible md:hidden"></div>
             <Link href="/auth/newAccount/">
               <a className="text-azure-blue my-2 inline-block rounded-lg bg-white px-5 py-2.5 text-lg font-medium shadow-md hover:border-0 hover:bg-slate-100 focus:outline-none dark:focus:ring-blue-800 md:ml-8 md:text-2xl">
-                Apply For Account
+                <FormattedMessage id= "general.apply_for_account"/>
               </a>
             </Link>
           </div>
