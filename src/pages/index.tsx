@@ -7,19 +7,17 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 
 import DownloadApps from '../components/DownloadApps';
-import { FormattedMessage, useIntl } from "react-intl";
-import { useEffect } from "react";
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useEffect } from 'react';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Index = ({ announcements, dir }) => {
   const { t } = useTranslation('common');
-
-  useEffect(() => {
-    document.body.classList = [];
-    document.body.classList.add(dir);
-  }, [dir]);
-
+  console.log(dir);
+  if (typeof window !== 'undefined') {
+    document.body.setAttribute('dir', dir);
+  }
   return (
     <Layout
       meta={<Meta title="" description="Nejoum Al Jazeera" />}

@@ -151,7 +151,7 @@ const Layout = (props: IMainProps) => {
                       </div>
                       <div className="">
                         <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl">
-                        {fullName}
+                          {fullName}
                         </p>
                         <p
                           className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
@@ -246,7 +246,7 @@ const Layout = (props: IMainProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col md:pl-64 lg:pl-64">
+        <div className="flex flex-1 flex-col ltr:md:pl-64 rtl:md:pr-64">
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"

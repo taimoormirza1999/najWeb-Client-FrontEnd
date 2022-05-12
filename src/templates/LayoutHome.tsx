@@ -62,6 +62,7 @@ const Layout = (props: IMainProps) => {
 
   const changeLanguage = (e) => {
     const selectedLocale = e.target.value;
+    document.cookie = `NEXT_LOCALE=${e.target.value}`;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
 
@@ -229,7 +230,7 @@ const Layout = (props: IMainProps) => {
                 </div>
               </nav>
               <div className="hidden items-center justify-start md:flex md:flex-1 md:basis-[35%] lg:w-0">
-                <i className="material-icons text-white lg:mr-2">&#xe7fd;</i>
+                <i className="material-icons text-white lg:mr-2 rtl:ml-2">&#xe7fd;</i>
                 <div className="lg:hidden xl:block">
                   {session?.token ? (
                     <>
