@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRef } from 'react';
+import { FormattedMessage, useIntl } from "react-intl";
 
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
@@ -80,13 +81,10 @@ const Shipping = () => {
 
         <div className="px-0 py-4 md:py-8 xl:px-16">
           <h3 className="text-dark-blue py-12 text-center text-2xl font-semibold md:text-3xl lg:text-[40px]">
-            Service Features
+            <FormattedMessage id= "page.services.shipping.service_features"/>
           </h3>
           <p className="text-dark-blue pb-6 text-xl md:text-xl lg:text-2xl">
-            We maintain efficiency in all our services to meet all the
-            requirements of our valued customers according to their
-            expectations. Below are some of the key features of our services. We
-            strive to delivering vehicles upon punctual timings.
+            <FormattedMessage id= "page.services.shipping.service_features_desc"/>
           </p>
 
           <div className="mb-4 flex gap-16 lg:mb-8">
@@ -97,9 +95,7 @@ const Shipping = () => {
               />
             </div>
             <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
-              Vehicle tracking service in order to follow the movement of cars
-              step by step starting from the purchase till the handover to the
-              owner through our website
+              <FormattedMessage id= "page.services.shipping.service_features1"/>
             </p>
           </div>
 
@@ -111,8 +107,7 @@ const Shipping = () => {
               />
             </div>
             <p className="border-teal-blue text-teal-blue flex w-full items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
-              Dependence on closed and covered cars to protect and secure cars
-              during the charging process
+              <FormattedMessage id= "page.services.shipping.service_features2"/>
             </p>
           </div>
 
@@ -124,8 +119,7 @@ const Shipping = () => {
               />
             </div>
             <p className="bg-teal-blue flex w-full items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
-              Experience in completing all document and procedures related to
-              automotive abroad and in the United Arab Emirates
+              <FormattedMessage id= "page.services.shipping.service_features3"/>
             </p>
           </div>
 
@@ -137,9 +131,7 @@ const Shipping = () => {
               />
             </div>
             <p className="border-teal-blue text-teal-blue flex items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
-              Having a distinguished and professional team with different
-              nationalities and high levels of expertise to meet the
-              requirements of our valued customers
+              <FormattedMessage id= "page.services.shipping.service_features4"/>
             </p>
           </div>
 
@@ -151,16 +143,14 @@ const Shipping = () => {
               />
             </div>
             <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
-              Always strive to provide the best logistic service as quickly as
-              possible and at the lowest costs and willing to meet the
-              aspirations of our valued customers
+              <FormattedMessage id= "page.services.shipping.service_features5"/>
             </p>
           </div>
         </div>
 
         <div className="mb-16 py-8" ref={receiveServiceRef}>
           <h3 className="text-dark-blue mb-4 text-center text-4xl font-semibold">
-            Receive Service
+            <FormattedMessage id= "page.services.shipping.receive_service"/>
           </h3>
           <img
             className="relative -z-10 mx-auto w-full rounded-t-[30px]"
@@ -179,7 +169,7 @@ const Shipping = () => {
             <div className="visible md:hidden"></div>
             <Link href="/auth/newAccount/">
               <a className="text-azure-blue my-2 inline-block rounded-lg bg-white px-5 py-2.5 text-lg font-medium shadow-md hover:border-0 hover:bg-slate-100 focus:outline-none dark:focus:ring-blue-800 md:ml-8 md:text-2xl">
-                Apply For Account
+                <FormattedMessage id= "general.apply_for_account"/>
               </a>
             </Link>
           </div>

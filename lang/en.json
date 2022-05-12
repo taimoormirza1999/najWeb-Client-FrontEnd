@@ -1,6 +1,11 @@
 {
-  "page.home.head.title": "Next.js i18n example",
-  "page.home.head.meta.description": "Next.js i18n example - English",
-  "page.home.title": "Welcome to <b>Next.js i18n tutorial</b>",
-  "page.home.description": "You are currently viewing the homepage in English 🚀"
+  "page.services.shipping.service_features": "Service Features",
+  "page.services.shipping.service_features_desc": "We maintain efficiency in all our services to meet all the requirements of our valued customers according to their expectations. Below are some of the key features of our services. We strive to delivering vehicles upon punctual timings.",
+  "page.services.shipping.service_features1": "Vehicle tracking service in order to follow the movement of cars step by step starting from the purchase till the handover to the owner through our website",
+  "page.services.shipping.service_features2": "Dependence on closed and covered cars to protect and secure cars during the charging process",
+  "page.services.shipping.service_features3": "Experience in completing all document and procedures related to automotive abroad and in the United Arab Emirates",
+  "page.services.shipping.service_features4": "Having a distinguished and professional team with different nationalities and high levels of expertise to meet the requirements of our valued customers",
+  "page.services.shipping.service_features5": "Always strive to provide the best logistic service as quickly as possible and at the lowest costs and willing to meet the aspirations of our valued customers",
+  "page.services.shipping.receive_service": "Receive service ...",
+  "general.apply_for_account": "Apply for Account"
 }
