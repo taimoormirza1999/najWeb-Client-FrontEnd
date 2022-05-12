@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
 
 import { classNames } from '@/utils/Functions';
@@ -58,7 +58,8 @@ const navigation = [
 
 const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const { data: session } = useSession();
+  const fullName = session?.profile[0]?.full_name;
   return (
     <>
       <div>
@@ -150,7 +151,7 @@ const Layout = (props: IMainProps) => {
                       </div>
                       <div className="">
                         <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl">
-                          Ali Turkey
+                        {fullName}
                         </p>
                         <p
                           className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
@@ -220,7 +221,7 @@ const Layout = (props: IMainProps) => {
                   <Link href="/customer/userprofile">
                     <a className="group block w-full shrink-0 hover:border-inherit">
                       <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
-                        Ali Turkey
+                      {fullName}
                       </p>
                     </a>
                   </Link>
@@ -261,7 +262,7 @@ const Layout = (props: IMainProps) => {
               <div className="ml-6 max-w-7xl px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
-                    Welcome Mr. Ali
+                    Welcome {fullName}
                   </h2>
                 </div>
               </div>

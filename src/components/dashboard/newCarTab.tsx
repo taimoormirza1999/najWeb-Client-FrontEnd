@@ -1,4 +1,3 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import React from 'react';
 
@@ -7,9 +6,10 @@ import { Paid } from '@/components/dashboard/newCar/paid';
 import { PaidByCustomer } from '@/components/dashboard/newCar/paid_by_customer';
 import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
+import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
-const NewCarTab = ({ carsRecords, type }) => {
+const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
   let carTableData;
   if (!type) {
     type = 'unpaid';
@@ -107,6 +107,7 @@ const NewCarTab = ({ carsRecords, type }) => {
       current: type === 'towing',
     },
   ];
+  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
       <nav
@@ -181,68 +182,11 @@ const NewCarTab = ({ carsRecords, type }) => {
             </div>
           </div>
         </div>
-        <div className="float-right mt-3">
-          <nav
-            className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm"
-            aria-label="Pagination"
-          >
-            <a
-              href="#"
-              className="bg-dark-blue relative inline-flex items-center rounded-l-md border border-gray-300 p-2 text-sm font-medium text-white hover:bg-gray-50"
-            >
-              <span className="sr-only">Previous</span>
-              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
-            {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-            <a
-              href="#"
-              aria-current="page"
-              className="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-              2
-            </a>
-            <a
-              href="#"
-              className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 md:inline-flex"
-            >
-              3
-            </a>
-            <span className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
-              ...
-            </span>
-            <a
-              href="#"
-              className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 md:inline-flex"
-            >
-              8
-            </a>
-            <a
-              href="#"
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-              9
-            </a>
-            <a
-              href="#"
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-              10
-            </a>
-            <a
-              href="#"
-              className="bg-dark-blue relative inline-flex items-center rounded-r-md border border-gray-300 p-2 text-sm font-medium text-white hover:bg-gray-50"
-            >
-              <span className="sr-only">Next</span>
-              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
-          </nav>
-        </div>
+        <Pagination
+          totalRecords={totalRecords}
+          page={page}
+          url={paginationUrl}
+        ></Pagination>
       </div>
     </div>
   );
