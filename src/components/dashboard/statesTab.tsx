@@ -57,7 +57,7 @@ const StatesTab = ({ carsRecords }) => {
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-xl font-semibold">
+            <h1 className="text-dark-blue text-2xl font-semibold">
               States Summary
             </h1>
           </div>
@@ -65,8 +65,8 @@ const StatesTab = ({ carsRecords }) => {
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300 ">
+              <div className="overflow-hidden border border-[#005fb7] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg lg:max-w-[900px]">
+                <table className="w-full divide-y divide-gray-300 ">
                   <thead className="bg-white">
                     <tr>
                       <th></th>
@@ -93,19 +93,44 @@ const StatesTab = ({ carsRecords }) => {
                         <td className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl">
                           {tr.name}
                         </td>
-                        <td className="px-3 py-3.5 text-left text-sm font-semibold text-[#1C1C1C] sm:text-xl">
+                        <td
+                          className={classNames(
+                            tr.ng !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                          )}
+                        >
                           {tr.ng}
                         </td>
-                        <td className="px-3 py-3.5 text-left text-sm font-semibold text-[#1C1C1C] sm:text-xl">
+                        <td
+                          className={classNames(
+                            tr.tx !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                          )}
+                        >
                           {tr.tx}
                         </td>
-                        <td className="px-3 py-3.5 text-left text-sm font-semibold text-[#1C1C1C] sm:text-xl">
+                        <td
+                          className={classNames(
+                            tr.ga !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                          )}
+                        >
                           {tr.ga}
                         </td>
-                        <td className="px-3 py-3.5 text-left text-sm font-semibold text-[#1C1C1C] sm:text-xl">
+                        <td
+                          className={classNames(
+                            tr.wa !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                          )}
+                        >
                           {tr.wa}
                         </td>
-                        <td className="px-3 py-3.5 text-left text-sm font-semibold text-[#1C1C1C] sm:text-xl">
+                        <td
+                          className={classNames(
+                            tr.ca !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                          )}
+                        >
                           {tr.ca}
                         </td>
                       </tr>
