@@ -33,7 +33,7 @@ const navigation = [
   },
   {
     name: 'Estimate Calculator',
-    href: '#',
+    href: '/customer/shippingCalculator',
     gicon: 'e14f',
     current: false,
   },
@@ -72,6 +72,7 @@ const Layout = (props: IMainProps) => {
   const fullName = session?.profile[0]?.full_name;
   return (
     <>
+      {props.meta}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
