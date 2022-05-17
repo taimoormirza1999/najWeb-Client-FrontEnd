@@ -50,8 +50,9 @@ const Tracking = ({ apiUrl, search }) => {
       await axios
         .get(`/api/customer/tracking?lot_vin=${searchValue}`)
         .then(function (response) {
-          if (response?.data?.data) {
-            carDetails = response.data.data;
+          console.log(response?.data?.data?.data);
+          if (response?.data?.data?.data) {
+            carDetails = response.data.data?.data;
             setVin(carDetails?.car_data?.vin);
             setLotnumber(carDetails?.car_data?.lotnumber);
             setStoreDate(carDetails?.arrive_store?.create_date);

@@ -12,50 +12,6 @@ type IMainProps = {
   children: ReactNode;
 };
 
-const navigation = [
-  {
-    name: 'Summaries',
-    href: `/customer/dashboard`,
-    gicon: '&#xe14f;',
-    current: true,
-  },
-  {
-    name: 'Statement',
-    href: '/customer/statement',
-    gicon: '&#xe853;',
-    current: false,
-  },
-  {
-    name: 'Price Lists',
-    href: `/customer/lists`,
-    gicon: '&#xe14f;',
-    current: false,
-  },
-  {
-    name: 'Estimate Calculator',
-    href: '/customer/shippingCalculator',
-    gicon: 'e14f',
-    current: false,
-  },
-  {
-    name: 'Tracking',
-    href: '/customer/tracking',
-    gicon: '&#xe853;',
-    current: false,
-  },
-  {
-    name: 'Complaints',
-    href: '/customer/complaints',
-    gicon: '&#xe14f;',
-    current: false,
-  },
-  {
-    name: 'Terms & Conditions',
-    href: '/customer/termsandconditions',
-    gicon: '&#xe14f;',
-    current: false,
-  },
-];
 function getDirection(locale) {
   if (locale === 'ar') {
     return 'rtl';
@@ -64,6 +20,50 @@ function getDirection(locale) {
 }
 const Layout = (props: IMainProps) => {
   const router = useRouter();
+  const navigation = [
+    {
+      name: 'Summaries',
+      href: `/customer/dashboard`,
+      gicon: '&#xe14f;',
+      current: router.pathname === '/customer/dashboard',
+    },
+    {
+      name: 'Statement',
+      href: '/customer/statement',
+      gicon: '&#xe853;',
+      current: router.pathname === '/customer/statement',
+    },
+    {
+      name: 'Price Lists',
+      href: `/customer/lists`,
+      gicon: '&#xe14f;',
+      current: router.pathname === '/customer/lists',
+    },
+    {
+      name: 'Estimate Calculator',
+      href: '/customer/shippingCalculator',
+      gicon: 'e14f',
+      current: router.pathname === '/customer/shippingCalculator',
+    },
+    {
+      name: 'Tracking',
+      href: '/customer/tracking',
+      gicon: '&#xe853;',
+      current: router.pathname === '/customer/tracking',
+    },
+    {
+      name: 'Complaints',
+      href: '/customer/complaints',
+      gicon: '&#xe14f;',
+      current: router.pathname === '/customer/complaints',
+    },
+    {
+      name: 'Terms & Conditions',
+      href: '/customer/termsandconditions',
+      gicon: '&#xe14f;',
+      current: router.pathname === '/customer/termsandconditions',
+    },
+  ];
   const { locale } = router;
   if (typeof window !== 'undefined') {
     document.body.setAttribute('dir', getDirection(locale));

@@ -59,7 +59,7 @@ const options = {
     async jwt({ token, user }) {
       if (user) {
         token.access_token = user.access_token;
-        token.expires_in = Date.now() + 5 * 60 * 1000;
+        token.expires_in = Date.now() + 45 * 60 * 1000;
         token.refresh_token = user.refresh_token;
         token.profile = user.profile;
         return token;
