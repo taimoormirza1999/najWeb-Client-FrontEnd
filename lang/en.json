@@ -30,6 +30,17 @@
     "page.home.head.meta.description": "Next.js i18n example - English",
     "page.home.title": "Welcome to <b>Next.js i18n tutorial</b>",
     "page.home.description": "You are currently viewing the homepage in English 🚀",
+    "page.career.title": "Career",
+    "page.career.desc1": "Join the journey of",
+    "page.career.desc2": " ALJAZEERA in Logistics and Car Business",
+    "page.career.joinTeam": "Join Our Team",
+    "page.career.joinTeamDesc": "We are always looking for new talents to join our team! Apply through LinkedIn",
+    "page.career.apply": "Apply",
+    "page.career.redirecting": "Redirecting",
+    "page.career.redirectingDesc": "You’ll be redirected to to LinkedIn.com. Please press“ Continue” to confirm",
+    "general.cancel": "Cancel",
+    "general.naj": "NAJ",
+    "general.continue": "Continue"
     "Home": "Home",
     "Ship cars": "Ship cars",
     "Buy cars": "Buy cars",
@@ -170,4 +181,8 @@
     "page.customer.dashboard.table.eed": "Loaded Date",
     "page.customer.dashboard.table.shipping_date": "Loaded Date",
     "page.customer.dashboard.table.eta": "Loaded Date"
-}
+} ===
+=== =
+"N/A": "N/A"
+} >>>
+>>> > 6e f0d723c0c840bb33ae639180707ba126bc6481

@@ -34,8 +34,13 @@ const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
+<<<<<<< HEAD
             <h1 className="text-dark-blue text-xl font-semibold">
               <FormattedMessage id="page.customer.dashboard.in_shipping" />
+=======
+            <h1 className="text-dark-blue text-2xl font-semibold">
+              In Shipping
+>>>>>>> 6ef0d723c0c840bb33ae639180707ba126bc6481
             </h1>
           </div>
         </div>
