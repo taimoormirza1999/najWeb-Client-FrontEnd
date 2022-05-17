@@ -28,7 +28,6 @@ function getDirection(locale) {
 
 function MyApp({ Component, pageProps, session }) {
   const { locale } = useRouter();
-  console.log(useRouter());
   return (
     <SessionProvider session={session} refetchInterval={300 * 60}>
       <SimpleReactLightbox>
