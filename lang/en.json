@@ -96,7 +96,7 @@
   "Email": "Email",
   "Phone": "Phone",
   "Message": "Message",
-  "Submit": "Submit",
+  "general.submit": "Submit",
   "Your name": "Your name",
   "Your email": "Your email",
   "Your phone": "Your phone",
@@ -125,5 +125,13 @@
   "page.termsCondition.desc3": "The company is not responsibile for damages after the vechile exit the company’s permises .",
   "page.termsCondition.desc4": "In case the customer is unable to pay, the company has the right to add a fine to the car estimated by the company.",
   "page.termsCondition.desc5": "In case the customer late to pay the expenses within a maximum period of one month, the company has right to sell the car to take its right from shipping, customs, and tax.",
-  "page.termsCondition.desc6": "If the vehicle is damaged during shipment, the company reserves the right to determine the amount of damage it deems appropriate "
+  "page.termsCondition.desc6": "If the vehicle is damaged during shipment, the company reserves the right to determine the amount of damage it deems appropriate ",
+  "page.complaints.title": "Complaints",
+  "page.complaints.header": "We’re dedicated to providing you the best service at all times.  Please tell us about problem.",
+  "page.complaints.record": "Your Record",
+  "page.complaints.najCS": "NAJ Customer Service",
+  "page.complaints.notes": "You may also contact our customer service directly at the designated numbers",
+  "messages.vin_lot": "Vin or Lot No",
+  "messages.subject": "Subject",
+  "messages.message": "Message"
 }

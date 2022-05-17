@@ -96,7 +96,7 @@
   "Email": "البريد الإلكتروني",
   "Phone": "الهاتف",
   "Message": "الرسالة",
-  "Submit": "موافق",
+  "general.submit": "موافق",
   "Your name": "اسمك",
   "Your email": "بريدك الإلكتروني",
   "Your phone": "هاتفك",
@@ -124,5 +124,13 @@
   "page.termsCondition.desc4": "في حالة عدم دفع العميل مستحقات السيارة، يحق للشركة إضافة غرامة على السيارة بالمبلغ الذي تقدره الشركة",
   "page.termsCondition.desc5": "في حالة تأخر العميل عن سداد النفقات خلال فترة أقصاها شهر واحد، يحق للشركة بيع السيارة لأخذ حقها في الشحن والجمارك والضرائب",
   "page.termsCondition.desc6": "في حالة تلف السيارة أثناء الشحن، يحق للشركة تحديد مقدار الضرر الذي تراه مناسبًا",
-  "general.najae": "Naj.ae"
+  "general.najae": "Naj.ae",
+  "page.complaints.title": "الشكاوي",
+  "page.complaints.header": "نحن ملتزمون بتقديم أفضل خدمة لك في جميع الأوقات. من فضلك أخبرنا عن المشكلة.",
+  "page.complaints.record": "الرسائل السابقة",
+  "page.complaints.najCS": "خدمة العملاء",
+  "page.complaints.notes": "يمكنك أيضًا الاتصال بخدمة العملاء مباشرة على الأرقام المخصصة",
+  "messages.vin_lot": "رقم اللوت- الفين",
+  "messages.subject": "العنوان",
+  "messages.message": "نص الرسالة"
 }
