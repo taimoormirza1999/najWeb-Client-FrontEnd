@@ -33,7 +33,7 @@ const navigation = [
   },
   {
     name: 'Estimate Calculator',
-    href: '#',
+    href: '/customer/shippingCalculator',
     gicon: 'e14f',
     current: false,
   },
@@ -49,11 +49,11 @@ const navigation = [
     gicon: '&#xe14f;',
     current: false,
   },
-  { 
-    name: 'Terms & Conditions', 
+  {
+    name: 'Terms & Conditions',
     href: '/customer/termsandconditions',
-    gicon: '&#xe14f;', 
-    current: false 
+    gicon: '&#xe14f;',
+    current: false,
   },
 ];
 function getDirection(locale) {
@@ -72,6 +72,7 @@ const Layout = (props: IMainProps) => {
   const fullName = session?.profile[0]?.full_name;
   return (
     <>
+      {props.meta}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -239,7 +240,7 @@ const Layout = (props: IMainProps) => {
                   <Link href="/customer/userprofile">
                     <a className="group block w-full shrink-0 hover:border-inherit">
                       <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
-                      {fullName}
+                        {fullName}
                       </p>
                     </a>
                   </Link>

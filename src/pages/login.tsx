@@ -5,6 +5,7 @@ import { getCsrfToken, signIn } from 'next-auth/react';
 import { useState } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
+import { FormattedMessage } from 'react-intl';
 
 const errors = {
   Signin: 'Try signing with a different account.',
@@ -92,7 +93,7 @@ export default function Login() {
               alt={AppConfig.title}
             />
             <h2 className="text-dark-blue mt-6 text-center text-5xl font-semibold">
-              Sign in
+              <FormattedMessage id="Sign in" />
             </h2>
           </div>
           <div className="p-4 shadow sm:rounded-lg sm:px-10">

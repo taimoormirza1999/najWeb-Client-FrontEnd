@@ -8,6 +8,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import CustomModal from '@/components/CustomModal';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { FormattedMessage, useIntl } from "react-intl";
 
 const Career = () => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
@@ -36,12 +37,11 @@ const Career = () => {
             as="h3"
             className="text-xl font-bold leading-6 md:text-2xl lg:text-3xl"
           >
-            Redirecting
+            <FormattedMessage id= "page.career.redirecting"/>
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-4 text-lg md:text-xl lg:py-6 lg:text-2xl">
-              You’ll be redirected to to LinkedIn.com. Please press “Continue”
-              to confirm
+            <FormattedMessage id= "page.career.redirectingDesc"/>
             </p>
           </div>
         </div>
@@ -55,7 +55,7 @@ const Career = () => {
             }}
             ref={cancelButtonRef}
           >
-            Cancel
+            <FormattedMessage id= "general.cancel"/>
           </button>
           <Link href="https://ae.linkedin.com/company/nejoumaljazeera" passHref>
             <a
@@ -66,7 +66,7 @@ const Career = () => {
                 contentRef?.current?.classList.remove('blur-sm');
               }}
             >
-              Continue
+              <FormattedMessage id= "general.continue"/>
             </a>
           </Link>
         </div>
@@ -79,7 +79,7 @@ const Career = () => {
       <div className="container mx-auto" ref={contentRef}>
         <div className="text-dark-blue py-2">
           <h3 className="mb-4 text-center text-2xl font-semibold xl:text-4xl">
-            Career
+          <FormattedMessage id= "page.career.title"/>
           </h3>
           <p className="py-2 text-lg lg:text-2xl">
             <FontAwesomeIcon
@@ -87,16 +87,15 @@ const Career = () => {
               className="mr-4 text-orange-400"
             />
             <span className="font-bold">
-              <span className="font-sen">NAJ</span> Career
+              <span className="font-sen"><FormattedMessage id= "general.naj"/></span> <FormattedMessage id= "page.career.title"/>
             </span>{' '}
-            Form
+            
           </p>
           <p className="mb-4 py-4 text-lg lg:text-2xl">
-            Join the journey of{' '}
-            <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA in
-            Logistics and Car Business
+            <FormattedMessage id= "page.career.desc1"/> {' '}
+            <span className="font-sen font-bold"><FormattedMessage id= "page.services.shipping.nejoum"/></span> 
+            <FormattedMessage id= "page.career.desc2"/> 
           </p>
-
           <div className="flex flex-col gap-8 pb-32 lg:flex-row lg:gap-16">
             <img
               src="/assets/images/branch-image-3.jpg"
@@ -105,11 +104,10 @@ const Career = () => {
             />
             <div className="flex flex-col justify-center">
               <h3 className="text-lg font-semibold lg:text-2xl xl:text-3xl">
-                Join Our Team
+                <FormattedMessage id= "page.career.joinTeam"/>
               </h3>
               <p className="py-4 text-lg lg:text-xl xl:text-2xl">
-                We are always looking for new talents to join our team! Apply
-                through Linked In
+                <FormattedMessage id= "page.career.joinTeamDesc"/>
               </p>
 
               <button
@@ -119,7 +117,7 @@ const Career = () => {
                   contentRef?.current?.classList.add('blur-sm');
                 }}
               >
-                Apply
+                <FormattedMessage id= "page.career.apply"/>
               </button>
             </div>
           </div>

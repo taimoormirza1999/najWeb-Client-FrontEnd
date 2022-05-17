@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 
 const Breadcrumbs = ({ breadcrumbs }) => {
   if (!breadcrumbs) {
@@ -13,7 +14,9 @@ const Breadcrumbs = ({ breadcrumbs }) => {
       <ol className="breadcrumb capitalize">
         <li className="inline">
           <Link href="/">
-            <a className="text-medium-grey hover:border-0">Home</a>
+            <a className="text-medium-grey hover:border-0">
+              <FormattedMessage id="Home" />
+            </a>
           </Link>
         </li>
         {breadcrumbs.map((breadcrumb) => {

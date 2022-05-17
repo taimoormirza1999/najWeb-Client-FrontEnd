@@ -13,6 +13,7 @@ import ContactDetails from '@/components/ContactDetails';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 import { classNames } from '@/utils/Functions';
+import { FormattedMessage } from 'react-intl';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const PAGE_SIZE = 40;
@@ -429,7 +430,7 @@ export default function App({ carsMakerData, YearData, API_URL }) {
 
       <div className="text-dark-blue container mx-auto my-8 py-8">
         <h2 className="text-center text-2xl font-semibold md:text-3xl lg:text-5xl">
-          Contact Us
+          <FormattedMessage id="Contact Us" />
         </h2>
         <p className="py-4 text-center text-xl md:text-2xl lg:text-3xl">
           You’re Welcome to call, text or email us on the following details
