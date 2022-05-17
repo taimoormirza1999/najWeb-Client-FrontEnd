@@ -3,6 +3,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { classNames } from '@/utils/Functions';
 
@@ -55,8 +56,17 @@ const navigation = [
     current: false 
   },
 ];
-
+function getDirection(locale) {
+  if (locale === 'ar') {
+    return 'rtl';
+  }
+  return 'ltr';
+}
 const Layout = (props: IMainProps) => {
+  const { locale } = useRouter();
+  if (typeof window !== 'undefined') {
+    document.body.setAttribute('dir', getDirection(locale));
+  }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const fullName = session?.profile[0]?.full_name;

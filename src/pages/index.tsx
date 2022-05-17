@@ -12,12 +12,8 @@ import { useEffect } from 'react';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const Index = ({ announcements, dir }) => {
+const Index = ({ announcements }) => {
   const { t } = useTranslation('common');
-  console.log(dir);
-  if (typeof window !== 'undefined') {
-    document.body.setAttribute('dir', dir);
-  }
   return (
     <Layout
       meta={<Meta title="" description="Nejoum Al Jazeera" />}

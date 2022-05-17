@@ -7,7 +7,7 @@ class MyDocument extends Document {
   // eslint-disable-next-line class-methods-use-this
   render() {
     return (
-      <Html lang={AppConfig.locale}>
+      <Html>
         <Head>
           <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
