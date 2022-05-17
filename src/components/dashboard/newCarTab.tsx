@@ -139,7 +139,7 @@ const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-xl font-semibold">New Cars</h1>
+            <h1 className="text-dark-blue text-2xl font-semibold">New Cars</h1>
           </div>
         </div>
         <div className="mt-8 flex flex-col">
