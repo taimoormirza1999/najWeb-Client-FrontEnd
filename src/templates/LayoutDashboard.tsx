@@ -32,7 +32,7 @@ const navigation = [
   },
   {
     name: 'Estimate Calculator',
-    href: '#',
+    href: '/customer/shippingCalculator',
     gicon: 'e14f',
     current: false,
   },
@@ -61,6 +61,7 @@ const Layout = (props: IMainProps) => {
 
   return (
     <>
+      {props.meta}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog

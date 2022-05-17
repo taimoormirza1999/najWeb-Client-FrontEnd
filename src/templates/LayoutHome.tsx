@@ -126,7 +126,7 @@ const Layout = (props: IMainProps) => {
       <div ref={contentRef}>
         {props.meta}
 
-        {props.announcements !== undefined ? (
+        {props.announcements === [] ? (
           <div className="bg-light-grey mb-5 xl:flex">
             <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
               <div className="top-0 right-0 hidden w-[75px] overflow-hidden xl:absolute xl:inline-block">
