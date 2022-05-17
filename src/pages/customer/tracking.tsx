@@ -13,6 +13,7 @@ import {
   PortIcon,
   WarehouseIcon,
 } from '@/components/dashboard/trackingIcons';
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
 
@@ -69,7 +70,7 @@ const Tracking = ({ apiUrl }) => {
     }
   };
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Tracking" description="" />}>
       <div className="m-4">
         <div>
           <h3 className="text-dark-blue pb-8 text-4xl font-bold sm:text-2xl">

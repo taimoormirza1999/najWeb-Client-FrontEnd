@@ -1,11 +1,12 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 
 const TermsAndConditions = () => {
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Terms and Conditions" description="" />}>
       <div>
         <div className="m-4">
           <div>

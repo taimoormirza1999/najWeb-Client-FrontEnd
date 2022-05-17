@@ -2,13 +2,14 @@ import axios from 'axios';
 import Link from 'next/link';
 import { getSession } from 'next-auth/react';
 
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 
 const Lists = ({ lists }) => {
   const todayDateArray = Date().toLocaleLowerCase().split(' ');
 
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Price List" description="" />}>
       <div className="mx-auto px-8">
         <h4 className="text-dark-blue mt-4 py-4 text-xl font-semibold sm:text-4xl">
           <i className="material-icons text-yellow-orange align-middle text-4xl">
