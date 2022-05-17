@@ -7,6 +7,7 @@ import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntr
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
 import { Layout } from '@/templates/LayoutDashboard';
+import { FormattedMessage } from 'react-intl';
 
 const Statement = ({
   selectedParams,
@@ -52,7 +53,9 @@ const Statement = ({
             >
               <option value="">Car Status</option>
               <option value="3">All</option>
-              <option value="1">Arrived Cars</option>
+              <option value="1">
+                <FormattedMessage id="page.customer.dashboard.arrived" />
+              </option>
               <option value="2">Not Arrived</option>
             </select>
             <select

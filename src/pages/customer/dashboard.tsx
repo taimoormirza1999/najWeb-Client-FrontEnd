@@ -12,6 +12,7 @@ import { StatesTab } from '@/components/dashboard/statesTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
+import { FormattedMessage } from 'react-intl';
 
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
@@ -85,32 +86,32 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
   }
   const tabs = [
     {
-      name: 'New  Cars',
+      name: <FormattedMessage id="page.customer.dashboard.new_cars" />,
       href: 'tabs-newcar',
       current: tab === 'tabs-newcar' || tab == null,
     },
     {
-      name: 'At Warehouse',
+      name: <FormattedMessage id="page.customer.dashboard.at_warehouse" />,
       href: 'tabs-warehouse',
       current: tab === 'tabs-warehouse',
     },
     {
-      name: 'In shipping',
+      name: <FormattedMessage id="page.customer.dashboard.in_shipping" />,
       href: 'tabs-shipping',
       current: tab === 'tabs-shipping',
     },
     {
-      name: 'Arrived',
+      name: <FormattedMessage id="page.customer.dashboard.arrived" />,
       href: 'tabs-arrived',
       current: tab === 'tabs-arrived',
     },
     {
-      name: 'Delivered',
+      name: <FormattedMessage id="page.customer.dashboard.delivered" />,
       href: 'tabs-delivered',
       current: tab === 'tabs-delivered',
     },
     {
-      name: 'States',
+      name: <FormattedMessage id="page.customer.dashboard.states" />,
       href: 'tabs-states',
       current: tab === 'tabs-states',
     },

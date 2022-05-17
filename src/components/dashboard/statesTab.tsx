@@ -1,4 +1,5 @@
 import { classNames } from '@/utils/Functions';
+import { FormattedMessage } from 'react-intl';
 
 const carTableHeader = [
   { name: 'New Jersey' },
@@ -58,7 +59,7 @@ const StatesTab = ({ carsRecords }) => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-dark-blue text-xl font-semibold">
-              States Summary
+              <FormattedMessage id="page.customer.dashboard.states" />
             </h1>
           </div>
         </div>

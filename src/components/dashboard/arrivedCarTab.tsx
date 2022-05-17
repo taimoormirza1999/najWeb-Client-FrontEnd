@@ -3,21 +3,52 @@ import { XCircleIcon } from '@heroicons/react/solid';
 
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
+import { FormattedMessage } from 'react-intl';
 
 const carTableHeader = [
-  { name: 'No' },
-  { name: 'Auction Photo' },
-  { name: 'Detail' },
-  { name: 'Lot & Vin' },
-  { name: 'Auction' },
-  { name: 'Destination' },
-  { name: 'Purchase Date' },
-  { name: 'Payment Date' },
-  { name: 'Picked Date' },
-  { name: 'Arrived Date' },
-  { name: 'Title' },
-  { name: 'Key' },
-  { name: 'Images' },
+  { header: <FormattedMessage id="page.customer.dashboard.table.no" /> },
+  {
+    header: (
+      <FormattedMessage id="page.customer.dashboard.table.auction_photo" />
+    ),
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.destination" />,
+  },
+  {
+    header: (
+      <FormattedMessage id="page.customer.dashboard.table.purchase_date" />
+    ),
+  },
+  {
+    header: (
+      <FormattedMessage id="page.customer.dashboard.table.payment_date" />
+    ),
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.date_pick" />,
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.arrived" />,
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.title" />,
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.key" />,
+  },
+  {
+    header: <FormattedMessage id="page.customer.dashboard.table.images" />,
+  },
 ];
 
 const ArrivedCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
@@ -28,7 +59,7 @@ const ArrivedCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-dark-blue text-xl font-semibold">
-            Arrived Cars
+              <FormattedMessage id="page.customer.dashboard.arrived" />
             </h1>
           </div>
         </div>

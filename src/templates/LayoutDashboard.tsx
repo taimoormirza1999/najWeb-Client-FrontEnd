@@ -3,6 +3,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
@@ -13,43 +14,55 @@ type IMainProps = {
 
 const navigation = [
   {
-    name: 'Summaries',
+    name: (
+      <FormattedMessage id="page.customer.dashboard.navigation_summaries" />
+    ),
     href: `/customer/dashboard`,
     gicon: '&#xe14f;',
     current: true,
   },
   {
-    name: 'Statement',
+    name: (
+      <FormattedMessage id="page.customer.dashboard.navigation_statement" />
+    ),
     href: '/customer/statement',
     gicon: '&#xe853;',
     current: false,
   },
   {
-    name: 'Price Lists',
+    name: (
+      <FormattedMessage id="page.customer.dashboard.navigation_price_lists" />
+    ),
     href: `/customer/lists`,
     gicon: '&#xe14f;',
     current: false,
   },
   {
-    name: 'Estimate Calculator',
+    name: (
+      <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
+    ),
     href: '#',
     gicon: 'e14f',
     current: false,
   },
   {
-    name: 'Tracking',
+    name: <FormattedMessage id="page.customer.dashboard.navigation_tracking" />,
     href: '/customer/tracking',
     gicon: '&#xe853;',
     current: false,
   },
   {
-    name: 'Complaints',
+    name: (
+      <FormattedMessage id="page.customer.dashboard.navigation_complaints" />
+    ),
     href: '/customer/complaints',
     gicon: '&#xe14f;',
     current: false,
   },
   {
-    name: 'Terms & Conditions',
+    name: (
+      <FormattedMessage id="page.customer.dashboard.navigation_terms_conditions" />
+    ),
     href: '/customer/termsandconditions',
     gicon: '&#xe14f;',
     current: false,
