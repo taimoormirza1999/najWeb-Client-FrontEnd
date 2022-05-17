@@ -61,7 +61,7 @@ const WarehouseCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
   const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-warehouse&page=`;
   async function GetImages(car_id) {
     const res = await axios.get(
-      `${baseUrl}/api/images?type=warehouse&car_id=${car_id}`
+      `${baseUrl}/api/customer/images?type=warehouse&car_id=${car_id}`
     );
     setImages(res.data.data);
     setRedirectModalOpen(true);

@@ -1,9 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
-import { useRouter } from 'next/router';
 import { FormattedMessage, useIntl  } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
@@ -76,12 +76,18 @@ function getDirection(locale) {
   return 'ltr';
 }
 const Layout = (props: IMainProps) => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const { locale } = router;
   if (typeof window !== 'undefined') {
     document.body.setAttribute('dir', getDirection(locale));
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
+  const changeLanguage = (e) => {
+    const selectedLocale = e.target.value;
+    document.cookie = `NEXT_LOCALE=${e.target.value}`;
+    router.push(router.pathname, router.asPath, { locale: selectedLocale });
+  };
   const intl = useIntl();
   let fullName = '';
   if(locale === 'ar'){
@@ -89,7 +95,6 @@ const Layout = (props: IMainProps) => {
   }else{
     fullName = session?.profile[0]?.full_name;
   }
-  
   return (
     <>
       {props.meta}
@@ -304,6 +309,20 @@ const Layout = (props: IMainProps) => {
                   {intl.formatMessage({ id: "general.welcome" })}{' '} {fullName}
                   </h2>
                 </div>
+                <select
+                  onChange={changeLanguage}
+                  defaultValue={locale}
+                  className="ml-2 border-0 bg-transparent text-white focus:outline-none"
+                  title="Select language"
+                  name="language"
+                >
+                  <option value="en" className="text-black">
+                    EN
+                  </option>
+                  <option value="ar" className="text-black">
+                    AR
+                  </option>
+                </select>
               </div>
             </div>
             {props.children}
