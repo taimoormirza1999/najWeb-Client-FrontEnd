@@ -3,11 +3,8 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
-<<<<<<< HEAD
-import { FormattedMessage } from 'react-intl';
-=======
 import { useRouter } from 'next/router';
->>>>>>> 6ef0d723c0c840bb33ae639180707ba126bc6481
+import { FormattedMessage, useIntl  } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
@@ -42,15 +39,10 @@ const navigation = [
     current: false,
   },
   {
-<<<<<<< HEAD
     name: (
       <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
     ),
-    href: '#',
-=======
-    name: 'Estimate Calculator',
     href: '/customer/shippingCalculator',
->>>>>>> 6ef0d723c0c840bb33ae639180707ba126bc6481
     gicon: 'e14f',
     current: false,
   },
@@ -90,7 +82,14 @@ const Layout = (props: IMainProps) => {
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
-  const fullName = session?.profile[0]?.full_name;
+  const intl = useIntl();
+  let fullName = '';
+  if(locale === 'ar'){
+    fullName = session?.profile[0]?.full_name_ar;
+  }else{
+    fullName = session?.profile[0]?.full_name;
+  }
+  
   return (
     <>
       {props.meta}
@@ -200,7 +199,7 @@ const Layout = (props: IMainProps) => {
                           <i className="material-icons text-xs lg:mr-2">
                             &#xe9ba;
                           </i>
-                          Sign out
+                          {intl.formatMessage({ id: "general.signout" })}
                         </p>
                       </div>
                     </div>
@@ -215,7 +214,7 @@ const Layout = (props: IMainProps) => {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col lg:w-64">
+        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-[20%] md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200">
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
@@ -278,7 +277,7 @@ const Layout = (props: IMainProps) => {
                       }
                     >
                       <i className="material-icons text-xs lg:mr-2">&#xe9ba;</i>
-                      Sign out
+                      {intl.formatMessage({ id: "general.signout" })}
                     </p>
                   </a>
                 </div>
@@ -286,7 +285,7 @@ const Layout = (props: IMainProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col ltr:md:pl-64 rtl:md:pr-64">
+        <div className="flex flex-1 flex-col md:w-[100%] ltr:md:pl-[20%] rtl:md:pr-[20%]">
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"
@@ -299,10 +298,10 @@ const Layout = (props: IMainProps) => {
           </div>
           <main className="flex-1">
             <div className="bg-dark-blue pb-5 pt-8">
-              <div className="ml-6 max-w-7xl px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
+              <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
-                    Welcome {fullName}
+                  {intl.formatMessage({ id: "general.welcome" })}{' '} {fullName}
                   </h2>
                 </div>
               </div>

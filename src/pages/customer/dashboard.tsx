@@ -7,21 +7,26 @@ import React from 'react';
 import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
 import { DeliveredCarTab } from '@/components/dashboard/deliveredCarTab';
 import { NewCarTab } from '@/components/dashboard/newCarTab';
+import { SearchLot } from '@/components/dashboard/searchLot';
 import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
 import { StatesTab } from '@/components/dashboard/statesTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
 import { FormattedMessage } from 'react-intl';
 
 export async function getServerSideProps(context) {
-  const tab = context.query.tab ? context.query.tab : 'tabs-newcar';
+  const tab = context.query.tab ? context.query.tab : 'tabs-states';
   let type = context.query.type ? context.query.type : '';
   const page = context.query.page ? context.query.page : 0;
   const session: any = await getSession(context);
 
   let carsData = {};
-  let apiTab = 'newCars';
+  let apiTab = 'statesCount';
+  if (tab === 'tabs-newcar') {
+    apiTab = 'newCars';
+  }
   if (tab === 'tabs-warehouse') {
     apiTab = 'warehouseCars';
   }
@@ -88,7 +93,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
     {
       name: <FormattedMessage id="page.customer.dashboard.new_cars" />,
       href: 'tabs-newcar',
-      current: tab === 'tabs-newcar' || tab == null,
+      current: tab === 'tabs-newcar',
     },
     {
       name: <FormattedMessage id="page.customer.dashboard.at_warehouse" />,
@@ -113,7 +118,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
     {
       name: <FormattedMessage id="page.customer.dashboard.states" />,
       href: 'tabs-states',
-      current: tab === 'tabs-states',
+      current: tab === 'tabs-states' || tab == null,
     },
   ];
   let carsRecords;
@@ -125,16 +130,17 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
     carsRecords = [];
   }
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Dashboard" description="" />}>
       <div>
         <div className="m-4">
-          <div>
-            <h4 className="text-dark-blue pb-8 text-xl sm:text-2xl">
+          <div className="flex">
+            <h4 className="text-dark-blue flex-1 pb-8 text-xl sm:text-2xl">
               <i className="material-icons  text-yellow-orange align-middle">
                 &#xe14f;
               </i>
               Cars Summary
             </h4>
+            <SearchLot></SearchLot>
           </div>
           <div>
             <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
@@ -161,7 +167,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
               ))}
             </nav>
             <div>
-              {(tab === 'tabs-newcar' || tab == null) && (
+              {tab === 'tabs-newcar' && (
                 <React.Fragment>
                   <NewCarTab
                     carsRecords={carsRecords}
@@ -212,7 +218,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   ></DeliveredCarTab>
                 </React.Fragment>
               )}
-              {tab === 'tabs-states' && (
+              {(tab === 'tabs-states' || tab == null) && (
                 <React.Fragment>
                   <StatesTab carsRecords={carsRecords}></StatesTab>
                 </React.Fragment>

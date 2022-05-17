@@ -1,11 +1,10 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
-import type { Session } from 'next-auth';
-import { getSession, useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react';
-
+import { FormattedMessage, useIntl  } from 'react-intl';
 import CustomModal from '@/components/CustomModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 import { postData } from '@/utils/network';
 
@@ -20,8 +19,8 @@ export interface Complaint {
   message: string;
 }
 
-const Complaints = ({ apiUrl }) => {
-  const { data: session } = useSession();
+const Complaints = () => {
+  const intl = useIntl();
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [messages, setMessages] = useState([]);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
@@ -44,7 +43,10 @@ const Complaints = ({ apiUrl }) => {
       message: event.target.message.value,
     };
 
-    const response = await postData('/api/customer/complaint', formData);
+    const response = await postData(
+      '/api/customer/complaint/submitComplaint',
+      formData
+    );
 
     if (response.success === true) {
       setNewComplaint(newComplaint + 1);
@@ -67,13 +69,14 @@ const Complaints = ({ apiUrl }) => {
   }
 
   const getComplaints = async () => {
-    axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
-    const res = await axios.get(`${apiUrl}complaintMessage`);
-    if (res.data.data === undefined) {
-      setComplaints([]);
-    } else {
-      setComplaints(res.data.data);
-    }
+    await axios
+      .get(`/api/customer/complaint/complaints`)
+      .then((res) => {
+        setComplaints(res.data.data);
+      })
+      .catch(() => {
+        setComplaints([]);
+      });
   };
 
   useEffect(() => {
@@ -88,17 +91,24 @@ const Complaints = ({ apiUrl }) => {
       },
     ];
     setMessages(loadingMessage);
-    axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
-    const res = await axios.get(`${apiUrl}complaintMessageDetails`, {
-      params: {
-        complaint_message_id: complaint_id,
-      },
-    });
-    setMessages(res.data.data);
+    await axios
+      .get(`/api/customer/complaint/complaintDetails`, {
+        params: {
+          complaint_id,
+        },
+      })
+      .then((res) => {
+        setMessages(res.data.data);
+      })
+      .catch(() => {
+        setMessages([]);
+        contentRef?.current?.classList.add('blur-sm');
+        setErrorModalOpen(true);
+      });
   };
 
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Complaints" description="" />}>
       <CustomModal
         showOn={submitModalOpen}
         initialFocus={okButtonRef}
@@ -112,12 +122,12 @@ const Complaints = ({ apiUrl }) => {
             &#xe2e6;
           </i>
           <Dialog.Title as="h3" className="text-3xl font-bold leading-6">
-            Complaint Recorded!
+          {intl.formatMessage({ id: "messages.complaintRecorded" })}{' '}
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-6 text-xl">
-              We’ve received your request in our customers services offices.{' '}
-              <br /> We’ll get back to you as soon as possible.
+              {intl.formatMessage({ id: "messages.receivedmsg" })}{' '}
+              <br /> {intl.formatMessage({ id: "messages.getbacksoon" })} 
             </p>
           </div>
         </div>
@@ -131,7 +141,7 @@ const Complaints = ({ apiUrl }) => {
             }}
             ref={okButtonRef}
           >
-            Okay
+            {intl.formatMessage({ id: "messages.ok" })} 
           </button>
         </div>
       </CustomModal>
@@ -146,11 +156,11 @@ const Complaints = ({ apiUrl }) => {
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
           <i className="material-icons mb-4 text-6xl text-red-800">&#xe160;</i>
           <Dialog.Title as="h3" className="text-4xl font-bold leading-6">
-            Sorry!
+          {intl.formatMessage({ id: "general.sorry" })}
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-6 text-2xl">
-              A technical Error has occurred. Please Try again
+            {intl.formatMessage({ id: "general.technicalErr" })}
             </p>
           </div>
         </div>
@@ -164,7 +174,7 @@ const Complaints = ({ apiUrl }) => {
             }}
             ref={okButtonErrorRef}
           >
-            Okay
+            {intl.formatMessage({ id: "messages.ok" })}
           </button>
         </div>
       </CustomModal>
@@ -173,11 +183,10 @@ const Complaints = ({ apiUrl }) => {
           <i className="material-icons text-yellow-orange align-middle text-3xl">
             &#xe14f;
           </i>
-          <span className="pl-1 align-middle">Complaints</span>
+          <span className="pl-1 align-middle"><FormattedMessage id= "page.complaints.title"/></span>
         </h4>
         <p className="text-dark-blue text-2xl">
-          We’re dedicated to providing you the best service at all times. Please
-          Please tell us about problem.
+          <FormattedMessage id= "page.complaints.header"/>
         </p>
 
         <form method="post" onSubmit={handleSubmit} className="mt-8 mb-4">
@@ -186,7 +195,7 @@ const Complaints = ({ apiUrl }) => {
               id="lot_vin"
               name="lot_vin"
               type="text"
-              placeholder="Vin or Lot No"
+              placeholder={intl.formatMessage({ id: "messages.vin_lot" })}
               className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
               value={inputValue.lot_vin}
               onChange={handleChange}
@@ -198,7 +207,7 @@ const Complaints = ({ apiUrl }) => {
               name="subject"
               type="text"
               required
-              placeholder="Subject"
+              placeholder={intl.formatMessage({ id: "messages.subject" })}
               className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
               value={inputValue.subject}
               onChange={handleChange}
@@ -212,7 +221,7 @@ const Complaints = ({ apiUrl }) => {
               rows={6}
               className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
               name="message"
-              placeholder="Message"
+              placeholder={intl.formatMessage({ id: "messages.message" })}
               value={inputValue.message}
               onChange={handleChange}
             ></textarea>
@@ -225,7 +234,7 @@ const Complaints = ({ apiUrl }) => {
             type="submit"
             className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-2 px-8 text-xl font-semibold text-white shadow-sm"
           >
-            Submit
+            {intl.formatMessage({ id: "general.submit" })}
           </button>
         </form>
 
@@ -233,7 +242,7 @@ const Complaints = ({ apiUrl }) => {
           <div className="basis-2/5">
             <div className="border-outer-space overflow-hidden rounded-md border">
               <h3 className="bg-light-grey text-dark-blue py-[10px] text-center text-2xl font-semibold">
-                Your Record
+              <FormattedMessage id= "page.complaints.record"/>
               </h3>
               <div className="h-[700px] overflow-y-auto p-3">
                 {complaints.map((row, index) => (
@@ -258,9 +267,9 @@ const Complaints = ({ apiUrl }) => {
           <div className="relative basis-3/5">
             <div className="border-outer-space overflow-hidden rounded-md border">
               <h3 className="bg-light-grey text-dark-blue py-[10px] text-center text-2xl font-semibold">
-                NAJ Customer Service
+              <FormattedMessage id= "page.complaints.najCS"/>
               </h3>
-              <ComplaintMessages complaintMessages={messages} />
+              <ComplaintMessages complaintMessages={messages} notes={<FormattedMessage id= "page.complaints.notes"/>}/>
             </div>
           </div>
         </div>
@@ -268,14 +277,5 @@ const Complaints = ({ apiUrl }) => {
     </Layout>
   );
 };
-
-export async function getServerSideProps(context) {
-  const session: Session | null = await getSession(context);
-  const apiUrl = process.env.API_URL;
-
-  return {
-    props: { apiUrl, session },
-  };
-}
 
 export default Complaints;

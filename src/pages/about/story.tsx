@@ -1,7 +1,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from 'react-intl';
 
 const Story = () => (
   <Layout meta={<Meta title="Our Story" description="Our Story" />}>

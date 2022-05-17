@@ -1,10 +1,12 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 
 const TermsAndConditions = () => {
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Terms and Conditions" description="" />}>
       <div>
         <div className="m-4">
           <div>
@@ -12,21 +14,24 @@ const TermsAndConditions = () => {
               <i className="material-icons  text-yellow-orange align-middle">
                 &#xe14f;
               </i>
-              Terms and Conditions
+              <FormattedMessage id= "page.termsCondition.title"/>
+              <p className="py-4 text-lg lg:text-2xl">
+                <FormattedMessage id= "page.termsCondition.header"/> {' '}
+                <span className="font-sen font-bold"><FormattedMessage id= "general.najae"/></span>
+              </p>
             </h4>
-            <h4>
-              1. Customer must clear all pending amounts (Tax, Shipping etc.)
-              due on his cars prior from the date of arrival of the vehicle.
+            <h4 className="mb-4 py-4 text-lg lg:text-1xl">
+              1. <FormattedMessage id= "page.termsCondition.desc1"/>
               <br></br>
-              2. Customer must transfer the vehicle within 3 days of the arrival
-              of the car else storage fine is applied on per day basis.<br></br>
-              3. The company is not responsibile for damages after the vechile
-              exit the company’s permises .<br></br>
-              4. In case the customer is unable to pay, the company has the
-              right to add a fine to the car estimated by the company.<br></br>
-              5. In case the customer late to pay the expenses within a maximum
-              period of one month, the company has right to sell the car to take
-              its right from shipping, customs, and tax.
+              2. <FormattedMessage id= "page.termsCondition.desc2"/> 
+              <br></br>
+              3. <FormattedMessage id= "page.termsCondition.desc3"/>
+              <br></br>
+              4. <FormattedMessage id= "page.termsCondition.desc4"/> 
+              <br></br>
+              5. <FormattedMessage id= "page.termsCondition.desc5"/> 
+              <br></br>
+              6. <FormattedMessage id= "page.termsCondition.desc6"/> 
             </h4>
           </div>
         </div>
