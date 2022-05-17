@@ -16,7 +16,7 @@ export const PrevButton = ({ enabled, onClick }) => (
 
 export const NextButton = ({ enabled, onClick }) => (
   <button
-    className="embla__button embla__button--next"
+    className="embla__button embla__button--next ml-2"
     onClick={onClick}
     disabled={!enabled}
   >
@@ -26,7 +26,7 @@ export const NextButton = ({ enabled, onClick }) => (
   </button>
 );
 
-const AnouncementsCarousel = ({ slides }) => {
+const AnnouncementsCarousel = ({ children }) => {
   const autoplay = useRef(
     Autoplay(
       { delay: 5000, stopOnInteraction: false },
@@ -63,13 +63,7 @@ const AnouncementsCarousel = ({ slides }) => {
     <>
       <div className="embla relative">
         <div className="embla__viewport" ref={viewportRef}>
-          <div className="embla__container">
-            {slides.map((item, index) => (
-              <div className="embla__slide" key={index}>
-                <div className="embla__slide__inner pb-9 xl:pb-0">{item}</div>
-              </div>
-            ))}
-          </div>
+          <div className="embla__container"> {children} </div>
         </div>
         <div className="absolute bottom-1 left-1/2 -translate-x-1/2 xl:left-auto xl:right-4 xl:translate-x-0">
           <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
@@ -80,4 +74,4 @@ const AnouncementsCarousel = ({ slides }) => {
   );
 };
 
-export default AnouncementsCarousel;
+export default AnnouncementsCarousel;

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -6,12 +7,18 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 
 import DownloadApps from '../components/DownloadApps';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useEffect } from 'react';
 
-const Index = () => {
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+const Index = ({ announcements }) => {
   const { t } = useTranslation('common');
-
   return (
-    <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
+    <Layout
+      meta={<Meta title="" description="Nejoum Al Jazeera" />}
+      announcements={announcements}
+    >
       <div className="relative">
         <img src="/assets/images/slider-bg.jpg" className="" alt="banner" />
         <div
@@ -134,7 +141,7 @@ const Index = () => {
               alt="Buy from auction"
               className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
+            <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Buy from auction
               </h3>
@@ -154,7 +161,7 @@ const Index = () => {
               alt="Cars Shipping"
               className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
+            <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Ship a car
               </h3>
@@ -174,7 +181,7 @@ const Index = () => {
               alt="Car Sell"
               className="mx-auto h-[500px] w-full rounded-2xl object-cover md:h-[700px]"
             />
-            <div className="absolute inset-x-0 bottom-0 mb-2 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
+            <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
                 Sell your car
               </h3>
@@ -230,9 +237,13 @@ const Index = () => {
   );
 };
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
+  const res = await axios.get(`${apiUrl}adsAnnouncement`);
+  const announcements = res.data;
+
   return {
     props: {
+      announcements,
       ...(await serverSideTranslations(locale, ['common'])),
     },
   };

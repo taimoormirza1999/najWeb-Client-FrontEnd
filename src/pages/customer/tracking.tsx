@@ -60,7 +60,6 @@ const Tracking = ({ apiUrl }) => {
             setPortDate(carDetails?.arrived_port?.arrival_date);
             setDeliveredDate(carDetails?.deliver_customer?.deliver_create_date);
             // set the completed modules
-
           }
         })
         .catch(function (apiError) {
@@ -138,8 +137,12 @@ const Tracking = ({ apiUrl }) => {
                 />{' '}
               </svg>
               <p className="mt-3 flex rounded-md bg-[#045FB7] py-2 text-white">
-                <span className="mr-3 flex-1 text-right">Vin:{vin}</span>
-                <span className="ml-3 flex-1 text-left">Lot:{lotnumber}</span>
+                <span className="flex-1 ltr:mr-3 ltr:text-right rtl:ml-3 rtl:text-left">
+                  Vin:{vin}
+                </span>
+                <span className="flex-1 ltr:ml-3 ltr:text-left rtl:mr-3 rtl:text-right">
+                  Lot:{lotnumber}
+                </span>
               </p>
             </div>
             <div className="mt-4 flex overflow-x-scroll xl:overflow-x-visible">
@@ -147,21 +150,21 @@ const Tracking = ({ apiUrl }) => {
                 <NewCarIcon
                   color={purchaseDate ? '#0193FF' : '#045FB7'}
                 ></NewCarIcon>
-                <div className="relative mt-5 ml-3 border-t-2 border-[#707070]">
+                <div className="relative mt-5 border-t-2 border-[#707070] ltr:ml-3 rtl:mr-3">
                   <div
                     className={classNames(
                       purchaseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] left-0 rounded-full p-1'
+                      ' absolute bottom-[-3px] ltr:left-0 rtl:right-0 rounded-full p-1'
                     )}
                   ></div>
                 </div>
-                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
                   New Car <br />
                   <span>{purchaseDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ml-[5%]">
+                <div className="ltr:ml-[5%] rtl:mr-[5%]">
                   <LocalShippingIcon
                     color={purchaseDate ? '#0193FF' : '#045FB7'}
                   ></LocalShippingIcon>
@@ -170,17 +173,17 @@ const Tracking = ({ apiUrl }) => {
                   <div
                     className={classNames(
                       pickedDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
                     )}
                   ></div>
                 </div>
-                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
                   Towing <br />
                   <span>{pickedDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ml-[5%]">
+                <div className="ltr:ml-[5%] rtl:mr-[5%]">
                   <WarehouseIcon
                     color={warehouseDate ? '#0193FF' : '#045FB7'}
                   ></WarehouseIcon>
@@ -189,17 +192,17 @@ const Tracking = ({ apiUrl }) => {
                   <div
                     className={classNames(
                       warehouseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
                     )}
                   ></div>
                 </div>
-                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
                   Warehouse <br />
                   <span>{warehouseDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ml-[5%]">
+                <div className="ltr:ml-[5%] rtl:mr-[5%]">
                   <BoatIcon
                     color={shippingDate ? '#0193FF' : '#045FB7'}
                   ></BoatIcon>
@@ -208,34 +211,34 @@ const Tracking = ({ apiUrl }) => {
                   <div
                     className={classNames(
                       shippingDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
                     )}
                   ></div>
                 </div>
-                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
                   Shipping <br />
                   <span>{shippingDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ml-[5%]">
+                <div className="ltr:ml-[5%] rtl:mr-[5%]">
                   <PortIcon color={portDate ? '#0193FF' : '#045FB7'}></PortIcon>
                 </div>
                 <div className="relative mt-5 border-t-2 border-[#707070]">
                   <div
                     className={classNames(
                       portDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] left-[15%] rounded-full p-1'
+                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
                     )}
                   ></div>
                 </div>
-                <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
                   Port <br />
                   <span>{portDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ml-[35%]">
+                <div className="ltr:ml-[35%] rtl:mr-[35%]">
                   <ArrivedIcon
                     color={storeDate ? '#0193FF' : '#045FB7'}
                   ></ArrivedIcon>
@@ -244,30 +247,30 @@ const Tracking = ({ apiUrl }) => {
                   <div
                     className={classNames(
                       storeDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] left-[50%] rounded-full p-1'
+                      ' absolute bottom-[-3px] ltr:left-[50%] rtl:right-[50%] rounded-full p-1'
                     )}
                   ></div>
                 </div>
-                <div className="text-center text-sm text-[#2576C1] sm:text-base">
+                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
                   Store <br />
                   <span>{storeDate}</span>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ml-[50%]">
+                <div className="ltr:ml-[50%] rtl:mr-[50%]">
                   <CheckCircleIcon
                     color={deliveredDate ? '#0193FF' : '#045FB7'}
                   ></CheckCircleIcon>
                 </div>
-                <div className="relative mt-5 mr-6 border-t-2 border-[#707070]">
+                <div className="relative mt-5 border-t-2 border-[#707070] ltr:mr-6 rtl:ml-6">
                   <div
                     className={classNames(
                       deliveredDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] right-0 rounded-full p-1'
+                      ' absolute bottom-[-3px] ltr:right-0 rtl:left-0 rounded-full p-1'
                     )}
                   ></div>
                 </div>
-                <div className="text-right text-sm text-[#2576C1] sm:text-base">
+                <div className="text-sm text-[#2576C1] ltr:text-right rtl:text-left sm:text-base">
                   Delivered <br />
                   <span>{deliveredDate}</span>
                 </div>

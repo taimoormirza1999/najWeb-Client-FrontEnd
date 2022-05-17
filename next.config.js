@@ -17,5 +17,10 @@ module.exports = withBundleAnalyzer({
   // So, the source code is "basePath-ready".
   // You can remove `basePath` if you don't need it.
   reactStrictMode: true,
-  i18n,
+  i18n: {
+    // The locales you want to support in your app
+    locales: ["ar", "en"],
+    // The default locale you want to be used when visiting a non-locale prefixed path e.g. `/hello`
+    defaultLocale: "en",
+  },
 });

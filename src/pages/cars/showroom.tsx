@@ -15,7 +15,7 @@ import { Layout } from '@/templates/LayoutHome';
 import { classNames } from '@/utils/Functions';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-const PAGE_SIZE = 40; 
+const PAGE_SIZE = 40;
 
 export async function getServerSideProps() {
   let carsMakerData = {};
@@ -74,106 +74,17 @@ export default function App({ carsMakerData, YearData, API_URL }) {
     carsMakerModel = res.data ? res.data.data : res.data;
     setcarsModelData(carsMakerModel);
   };
-  const [redirectModalOpen, setRedirectModalOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const totalMaker = carsMakerData;
   const YData = YearData;
 
   return (
     <Layout meta={<Meta title="Cars Showroom" description="Cars Showroom" />}>
-      <Transition.Root show={redirectModalOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          initialFocus={cancelButtonRef}
-          onClose={setRedirectModalOpen}
-        >
-          <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 transition-opacity" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="hidden sm:inline-block sm:h-screen sm:align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            >
-              <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
-                <div>
-                  <div className="text-dark-blue mt-6 text-center sm:mt-16">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-5xl font-bold leading-6"
-                    >
-                      Redirecting
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="mb-4 py-6 text-3xl">
-                        You’ll be redirected to to LinkedIn.com. Please press
-                        “Continue” to confirm
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5 flex justify-center gap-4 sm:mt-6">
-                  <button
-                    type="button"
-                    className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
-                    onClick={() => {
-                      setRedirectModalOpen(false);
-                      contentRef?.current?.classList.remove('blur-sm');
-                    }}
-                    ref={cancelButtonRef}
-                  >
-                    Cancel
-                  </button>
-                  <Link
-                    href="https://ae.linkedin.com/company/nejoumaljazeera"
-                    passHref
-                  >
-                    <a
-                      target={'_blank'}
-                      className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-10 py-2.5 text-2xl font-medium text-white hover:border-0 hover:bg-blue-500"
-                      onClick={() => {
-                        setRedirectModalOpen(false);
-                        contentRef?.current?.classList.remove('blur-sm');
-                      }}
-                    >
-                      Continue
-                    </a>
-                  </Link>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
       <div className="container mx-auto">
         <Breadcrumbs breadcrumbs={[{ name: 'Cars Showroom', href: '#' }]} />
       </div>
 
-      <h3 className="text-dark-blue py-2 text-center text-6xl font-semibold">
+      <h3 className="text-dark-blue py-2 text-center text-3xl lg:text-4xl xl:text-5xl font-semibold">
         Cars Showroom
       </h3>
 
@@ -182,12 +93,12 @@ export default function App({ carsMakerData, YearData, API_URL }) {
           <i className="material-icons text-yellow-orange align-middle text-5xl">
             &#xe164;
           </i>
-          <span className="text-dark-blue ml-4 align-middle text-4xl">
+          <span className="text-dark-blue ml-4 align-middle text-xl md:text-2xl lg:text-4xl">
             Find Your Car
           </span>
         </p>
 
-        <div className="my-4 flex flex-wrap  gap-x-8 gap-y-4 ">
+        <div className="my-4 flex flex-col md:flex-row flex-wrap  gap-x-8 gap-y-4 ">
           <div className="basis-1/5">
             <Listbox value={selectedYear} onChange={setselectedYear}>
               {({ open }) => (
@@ -448,7 +359,7 @@ export default function App({ carsMakerData, YearData, API_URL }) {
           </div>
         </div>
 
-        <p className="text-medium-grey py-2 text-2xl italic">
+        <p className="text-medium-grey py-2 text-lg text-2xl italic md:text-xl">
           *Please Contact us to negotiate prices
         </p>
 
@@ -494,8 +405,10 @@ export default function App({ carsMakerData, YearData, API_URL }) {
         <button
           disabled={isLoadingMore || isReachingEnd}
           onClick={() => setSize(size + 1)}
-          className={(isReachingEnd)?"hidden bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"
-          :"bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"}
+          className={classNames(
+            isReachingEnd ? 'hidden' : '',
+            'bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-xl md:text-2xl text-white hover:border-0 hover:bg-gray-700'
+          )}
         >
           {isLoadingMore
             ? 'loading...'
@@ -503,7 +416,7 @@ export default function App({ carsMakerData, YearData, API_URL }) {
             ? 'no more'
             : 'load more'}
         </button>
-        <p className="text-dark-blue my-24 text-center text-3xl">
+        <p className="text-dark-blue my-12 text-center text-xl md:my-24 md:text-3xl">
           Our various services package includes car sales service on behalf of
           our valued customers, whether for incoming cars or locally registered
           cars, and that is a desire to achieve the principle of success
@@ -514,9 +427,11 @@ export default function App({ carsMakerData, YearData, API_URL }) {
 
       <ApplyForAccount />
 
-      <div className="text-dark-blue container mx-auto py-8">
-        <h2 className="text-center text-5xl font-semibold">Contact Us</h2>
-        <p className="py-4 text-center text-3xl">
+      <div className="text-dark-blue container mx-auto my-8 py-8">
+        <h2 className="text-center text-2xl font-semibold md:text-3xl lg:text-5xl">
+          Contact Us
+        </h2>
+        <p className="py-4 text-center text-xl md:text-2xl lg:text-3xl">
           You’re Welcome to call, text or email us on the following details
         </p>
         <ContactDetails />
