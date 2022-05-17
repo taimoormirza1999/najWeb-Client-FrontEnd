@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
+import { FormattedMessage } from 'react-intl';
 
 const carTableHeader = [
   { name: 'No' },
@@ -33,8 +34,8 @@ const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-2xl font-semibold">
-              In Shipping
+            <h1 className="text-dark-blue text-xl font-semibold">
+              <FormattedMessage id="page.customer.dashboard.in_shipping" />
             </h1>
           </div>
         </div>

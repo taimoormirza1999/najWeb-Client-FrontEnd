@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
+import { FormattedMessage, useIntl  } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
@@ -11,7 +12,6 @@ type IMainProps = {
   meta: ReactNode;
   children: ReactNode;
 };
-
 function getDirection(locale) {
   if (locale === 'ar') {
     return 'rtl';
@@ -22,46 +22,60 @@ const Layout = (props: IMainProps) => {
   const router = useRouter();
   const navigation = [
     {
-      name: 'Summaries',
+      name: (
+        <FormattedMessage id="page.customer.dashboard.navigation_summaries" />
+      ),
       href: `/customer/dashboard`,
       gicon: '&#xe14f;',
-      current: router.pathname === '/customer/dashboard',
+      current: true,
     },
     {
-      name: 'Statement',
+      name: (
+        <FormattedMessage id="page.customer.dashboard.navigation_statement" />
+      ),
       href: '/customer/statement',
       gicon: '&#xe853;',
-      current: router.pathname === '/customer/statement',
+      current: false,
     },
     {
-      name: 'Price Lists',
+      name: (
+        <FormattedMessage id="page.customer.dashboard.navigation_price_lists" />
+      ),
       href: `/customer/lists`,
       gicon: '&#xe14f;',
-      current: router.pathname === '/customer/lists',
+      current: false,
     },
     {
-      name: 'Estimate Calculator',
+      name: (
+        <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
+      ),
       href: '/customer/shippingCalculator',
       gicon: 'e14f',
-      current: router.pathname === '/customer/shippingCalculator',
+      current: false,
     },
     {
-      name: 'Tracking',
+      name: (
+        <FormattedMessage id="page.customer.dashboard.navigation_tracking" />
+      ),
       href: '/customer/tracking',
       gicon: '&#xe853;',
-      current: router.pathname === '/customer/tracking',
+      current: false,
     },
     {
-      name: 'Complaints',
+      name: (
+        <FormattedMessage id="page.customer.dashboard.navigation_complaints" />
+      ),
       href: '/customer/complaints',
       gicon: '&#xe14f;',
-      current: router.pathname === '/customer/complaints',
+      current: false,
     },
     {
-      name: 'Terms & Conditions',
+      name: (
+        <FormattedMessage id="page.customer.dashboard.navigation_terms_conditions" />
+      ),
       href: '/customer/termsandconditions',
       gicon: '&#xe14f;',
-      current: router.pathname === '/customer/termsandconditions',
+      current: false,
     },
   ];
   const { locale } = router;
@@ -70,12 +84,18 @@ const Layout = (props: IMainProps) => {
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
-  const fullName = session?.profile[0]?.full_name;
   const changeLanguage = (e) => {
     const selectedLocale = e.target.value;
     document.cookie = `NEXT_LOCALE=${e.target.value}`;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
+  const intl = useIntl();
+  let fullName = '';
+  if (locale === 'ar') {
+    fullName = session?.profile[0]?.full_name_ar;
+  } else {
+    fullName = session?.profile[0]?.full_name;
+  }
   return (
     <>
       {props.meta}
@@ -147,7 +167,7 @@ const Layout = (props: IMainProps) => {
                       <Link key={item.name} href={item.href}>
                         <a
                           className={classNames(
-                            item.current
+                            router.pathname === item.href
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
                             'group flex items-center px-2 py-2 text-base font-medium rounded-md'
@@ -185,7 +205,7 @@ const Layout = (props: IMainProps) => {
                           <i className="material-icons text-xs lg:mr-2">
                             &#xe9ba;
                           </i>
-                          Sign out
+                          {intl.formatMessage({ id: "general.signout" })}
                         </p>
                       </div>
                     </div>
@@ -263,7 +283,7 @@ const Layout = (props: IMainProps) => {
                       }
                     >
                       <i className="material-icons text-xs lg:mr-2">&#xe9ba;</i>
-                      Sign out
+                      {intl.formatMessage({ id: 'general.signout' })}
                     </p>
                   </a>
                 </div>
@@ -287,7 +307,7 @@ const Layout = (props: IMainProps) => {
               <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
-                    Welcome {fullName}
+                    {intl.formatMessage({ id: 'general.welcome' })} {fullName}
                   </h2>
                 </div>
                 <select
