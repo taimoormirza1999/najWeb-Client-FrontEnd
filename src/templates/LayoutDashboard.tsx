@@ -3,6 +3,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { classNames } from '@/utils/Functions';
 
@@ -32,7 +33,7 @@ const navigation = [
   },
   {
     name: 'Estimate Calculator',
-    href: '#',
+    href: '/customer/shippingCalculator',
     gicon: 'e14f',
     current: false,
   },
@@ -55,13 +56,23 @@ const navigation = [
     current: false,
   },
 ];
-
+function getDirection(locale) {
+  if (locale === 'ar') {
+    return 'rtl';
+  }
+  return 'ltr';
+}
 const Layout = (props: IMainProps) => {
+  const { locale } = useRouter();
+  if (typeof window !== 'undefined') {
+    document.body.setAttribute('dir', getDirection(locale));
+  }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const fullName = session?.profile[0]?.full_name;
   return (
     <>
+      {props.meta}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -115,11 +126,15 @@ const Layout = (props: IMainProps) => {
                 </Transition.Child>
                 <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                   <div className="flex shrink-0 items-center px-4">
-                    <img
-                      className="h-8 w-auto"
-                      src="/assets/images/logo-en.png"
-                      alt="Nejoum Al Jazeera"
-                    />
+                    <Link href="/">
+                      <a>
+                        <img
+                          className="h-8 w-auto"
+                          src="/assets/images/logo-en.png"
+                          alt="Nejoum Al Jazeera"
+                        />
+                      </a>
+                    </Link>
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
                     {navigation.map((item) => (
@@ -184,11 +199,15 @@ const Layout = (props: IMainProps) => {
           <div className="bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200">
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
               <div className="mb-12 mt-4 flex shrink-0 items-center px-2">
-                <img
-                  className="w-auto"
-                  src="/assets/images/logo-en.png"
-                  alt="Nejoum Al Jazeera"
-                />
+                <Link href="/">
+                  <a>
+                    <img
+                      className="w-auto"
+                      src="/assets/images/logo-en.png"
+                      alt="Nejoum Al Jazeera"
+                    />
+                  </a>
+                </Link>
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-1">
                 {navigation.map((item) => (

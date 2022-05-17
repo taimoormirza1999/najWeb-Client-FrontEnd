@@ -43,10 +43,19 @@ export interface Announcement {
   file_path: string;
 }
 
+function getDirection(locale) {
+  if (locale === 'ar') {
+    return 'rtl';
+  }
+  return 'ltr';
+}
 const Layout = (props: IMainProps) => {
-  const { data: session } = useSession();
   const router = useRouter();
   const { locale } = router;
+  if (typeof window !== 'undefined') {
+    document.body.setAttribute('dir', getDirection(locale));
+  }
+  const { data: session } = useSession();
   //const { t } = useTranslation('common');
   const [anouncementModalOpen, setAnouncementModalOpen] = useState(false);
   const closeAnouncementButtonRef = useRef(null);
@@ -128,7 +137,7 @@ const Layout = (props: IMainProps) => {
       <div ref={contentRef}>
         {props.meta}
 
-        {props.announcements !== undefined ? (
+        {props.announcements === [] ? (
           <div className="bg-light-grey mb-5 xl:flex">
             <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
               <div className="top-0 right-0 hidden w-[75px] overflow-hidden xl:absolute xl:inline-block">
