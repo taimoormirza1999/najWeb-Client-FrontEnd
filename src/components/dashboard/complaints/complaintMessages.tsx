@@ -2,7 +2,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const ComplaintMessages = ({ complaintMessages }) => {
+const ComplaintMessages = ({ complaintMessages, notes }) => {
   return (
     <div className="flex h-[700px] flex-col overflow-y-auto p-3">
       {complaintMessages.map((row, index) => (
@@ -20,8 +20,7 @@ const ComplaintMessages = ({ complaintMessages }) => {
       ))}
 
       <p className="text-medium-grey absolute bottom-10 text-lg italic">
-        * You may also contact our customer service directly at the designated
-        numbers
+        * {notes}
       </p>
     </div>
   );

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 
 const ApplyForAccount = () => {
   return (
@@ -7,13 +8,10 @@ const ApplyForAccount = () => {
         <div className="flex flex-col justify-between gap-8 md:flex-row">
           <div className="basis-3/4 lg:pr-10">
             <h3 className="py-4 pt-0 text-2xl font-semibold md:text-3xl lg:text-5xl">
-              Apply for Account
+              <FormattedMessage id="general.apply_for_account" />
             </h3>
             <p className="py-4 text-xl leading-normal md:text-2xl lg:text-4xl lg:leading-[4rem]">
-              Receive Exclusive offers from and buyer features by subscribing to{' '}
-              <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA. You
-              will be able to buy and follow up every detail of your transported
-              vehicles at each stage.
+              <FormattedMessage id="page.cars.showroom.apply-desc" />
             </p>
             <Link href="/auth/newAccount">
               <a className="py-2 text-xl italic text-white underline md:text-2xl lg:text-3xl">

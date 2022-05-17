@@ -26,12 +26,12 @@ type IMainProps = {
 };
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Services', href: '/services/shipping' },
-  { name: 'Cars Showroom', href: '/cars/showroom' },
-  { name: 'Career', href: '/career' },
-  { name: 'About Nejoum', href: '/about/story' },
-  { name: 'Contact Us', href: '/contact' },
+  { name: 'general.home', href: '/' },
+  { name: 'general.services', href: '/services/shipping' },
+  { name: 'general.carsShowroom', href: '/cars/showroom' },
+  { name: 'general.career', href: '/career' },
+  { name: 'general.about', href: '/about/story' },
+  { name: 'general.contact', href: '/contact' },
 ];
 
 export interface Announcement {
@@ -219,7 +219,7 @@ const Layout = (props: IMainProps) => {
                     {navigation.map((link) => (
                       <Link href={link.href} key={link.name}>
                         <a className="text-base font-medium text-white hover:text-indigo-50">
-                          <FormattedMessage id= "page.home.title"/>
+                          <FormattedMessage id= {link.name}/>
                         </a>
                       </Link>
                     ))}
