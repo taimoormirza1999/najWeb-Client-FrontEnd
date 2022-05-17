@@ -1,11 +1,10 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
-import type { Session } from 'next-auth';
-import { getSession, useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import CustomModal from '@/components/CustomModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 import { postData } from '@/utils/network';
 
@@ -20,8 +19,7 @@ export interface Complaint {
   message: string;
 }
 
-const Complaints = ({ apiUrl }) => {
-  const { data: session } = useSession();
+const Complaints = () => {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [messages, setMessages] = useState([]);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
@@ -44,7 +42,10 @@ const Complaints = ({ apiUrl }) => {
       message: event.target.message.value,
     };
 
-    const response = await postData('/api/customer/complaint', formData);
+    const response = await postData(
+      '/api/customer/complaint/submitComplaint',
+      formData
+    );
 
     if (response.success === true) {
       setNewComplaint(newComplaint + 1);
@@ -67,13 +68,14 @@ const Complaints = ({ apiUrl }) => {
   }
 
   const getComplaints = async () => {
-    axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
-    const res = await axios.get(`${apiUrl}complaintMessage`);
-    if (res.data.data === undefined) {
-      setComplaints([]);
-    } else {
-      setComplaints(res.data.data);
-    }
+    await axios
+      .get(`/api/customer/complaint/complaints`)
+      .then((res) => {
+        setComplaints(res.data.data);
+      })
+      .catch(() => {
+        setComplaints([]);
+      });
   };
 
   useEffect(() => {
@@ -88,17 +90,24 @@ const Complaints = ({ apiUrl }) => {
       },
     ];
     setMessages(loadingMessage);
-    axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
-    const res = await axios.get(`${apiUrl}complaintMessageDetails`, {
-      params: {
-        complaint_message_id: complaint_id,
-      },
-    });
-    setMessages(res.data.data);
+    await axios
+      .get(`/api/customer/complaint/complaintDetails`, {
+        params: {
+          complaint_id,
+        },
+      })
+      .then((res) => {
+        setMessages(res.data.data);
+      })
+      .catch(() => {
+        setMessages([]);
+        contentRef?.current?.classList.add('blur-sm');
+        setErrorModalOpen(true);
+      });
   };
 
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Complaints" description="" />}>
       <CustomModal
         showOn={submitModalOpen}
         initialFocus={okButtonRef}
@@ -268,14 +277,5 @@ const Complaints = ({ apiUrl }) => {
     </Layout>
   );
 };
-
-export async function getServerSideProps(context) {
-  const session: Session | null = await getSession(context);
-  const apiUrl = process.env.API_URL;
-
-  return {
-    props: { apiUrl, session },
-  };
-}
 
 export default Complaints;
