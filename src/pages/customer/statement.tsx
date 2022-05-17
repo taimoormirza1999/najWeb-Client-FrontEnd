@@ -6,6 +6,7 @@ import { Deposits } from '@/components/dashboard/carsStatement/deposits';
 import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntries';
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 
 const Statement = ({
@@ -26,11 +27,11 @@ const Statement = ({
   }
 
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="General Statement" description="" />}>
       <div className="mx-auto px-8">
         <div className="m-4">
           <h4 className="text-dark-blue py-4 text-center text-xl font-semibold sm:text-3xl">
-            General Statment
+            General Statement
           </h4>
         </div>
         <p className="py-3">

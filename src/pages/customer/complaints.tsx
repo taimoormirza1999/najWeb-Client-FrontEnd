@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import CustomModal from '@/components/CustomModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 import { postData } from '@/utils/network';
 
@@ -98,7 +99,7 @@ const Complaints = ({ apiUrl }) => {
   };
 
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Terms and Conditions" description="" />}>
       <CustomModal
         showOn={submitModalOpen}
         initialFocus={okButtonRef}
