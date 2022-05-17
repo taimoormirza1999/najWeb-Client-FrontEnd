@@ -4,6 +4,7 @@ import ContactDetails from '@/components/ContactDetails';
 import DownloadApps from '@/components/DownloadApps';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { FormattedMessage } from 'react-intl';
 
 const Shipping = () => (
   <Layout
@@ -56,7 +57,9 @@ const Shipping = () => (
     <ApplyForAccount />
 
     <div className="text-dark-blue container mx-auto py-16">
-      <h2 className="text-center text-5xl font-semibold">Contact Us</h2>
+      <h2 className="text-center text-5xl font-semibold">
+        <FormattedMessage id="Contact Us" />
+      </h2>
       <p className="py-4 text-center text-3xl">
         You’re Welcome to call, text or email us on the following details
       </p>

@@ -28,18 +28,18 @@ const Index = ({ announcements }) => {
           <div className="basis-1/3"></div>
           <div className="basis-1/3">
             <h2 className="py-2 text-center text-2xl font-extrabold text-white md:text-[80px]">
-              You want to...
+              <FormattedMessage id="You want to" />
             </h2>
 
             <div className="flex justify-center gap-4">
               <Link href="/services/shipping">
                 <a className="rounded-sm bg-blue-500 p-2 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:py-3 md:px-4 md:text-[1.5em]">
-                  {t('Ship cars')}
+                  <FormattedMessage id="Ship cars" />
                 </a>
               </Link>
               <Link href="/cars/showroom">
                 <a className="ml-0 rounded-sm bg-white p-2 text-lg font-medium hover:border-none hover:text-blue-500 md:ml-8 md:py-3 md:px-4 md:text-[1.5em]">
-                  Buy a car
+                  <FormattedMessage id="Buy cars" />
                 </a>
               </Link>
             </div>
@@ -61,15 +61,14 @@ const Index = ({ announcements }) => {
           </div>
           <div className="basis-1/2 self-center">
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-[2.5rem]">
-              Ships Cars From USA & Canada
+              <FormattedMessage id="Ships Cars From USA & Canada" />
             </h3>
             <p className="text-dark-blue max-w-full py-3 text-xl md:max-w-[75%] md:text-3xl">
-              Nejoum Aljazeera has a team with years of experience and
-              dedication to the used car sales market.
+              <FormattedMessage id="Ships Cars From USA & Canada Desc" />
             </p>
             <Link href="/services/shipping">
               <a className="text-azure-blue block py-3 text-xl hover:border-0 md:text-2xl">
-                Learn more...
+                <FormattedMessage id="Learn more" />
               </a>
             </Link>
           </div>
@@ -81,19 +80,16 @@ const Index = ({ announcements }) => {
           <div className="flex flex-col-reverse gap-10 md:flex-row md:gap-20">
             <div className="basis-1/2 self-center py-4">
               <h3 className="py-3 text-2xl font-semibold text-white md:text-[2.5rem]">
-                Integrate Services
+                <FormattedMessage id="Integrate Services" />
               </h3>
               <p className="py-3 pr-4 text-xl !text-white md:text-3xl">
-                Integrate Services for online purchase and payment of vehicles
-                throught auctions and transferring it to our warehouses all
-                around the Us, and by then to the designated location of our
-                customers..
+                <FormattedMessage id="Integrate Services Desc" />
               </p>
               <a
                 href="#"
                 className="block py-3 text-xl text-blue-200 hover:border-0 md:text-2xl"
               >
-                Learn more...
+                <FormattedMessage id="Learn more" />
               </a>
             </div>
             <div className="basis-1/2">
@@ -118,15 +114,14 @@ const Index = ({ announcements }) => {
           </div>
           <div className="basis-1/2 py-4 md:py-24 md:pl-8">
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-[2.5rem]">
-              Cars Tracking Services
+              <FormattedMessage id="Cars Tracking Services" />
             </h3>
             <p className="text-dark-blue max-w-full py-3 text-xl md:max-w-[75%] md:text-3xl">
-              Track your vehicle whereever it is around the world. Once you
-              purchased your car.
+              <FormattedMessage id="Cars Tracking Services Desc" />
             </p>
             <Link href="/services/cargo">
               <a className="text-azure-blue block py-3 text-xl hover:border-0 md:text-2xl">
-                Learn more...
+                <FormattedMessage id="Learn more" />
               </a>
             </Link>
           </div>
@@ -143,14 +138,14 @@ const Index = ({ announcements }) => {
             />
             <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
-                Buy from auction
+                <FormattedMessage id="Buy from auction" />
               </h3>
               <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
-                Get to know the features of buying from US auctions
+                <FormattedMessage id="Get to know the features of buying from US auctions" />
               </p>
               <Link href="/">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
-                  Learn more...
+                  <FormattedMessage id="Learn more" />
                 </a>
               </Link>
             </div>
@@ -163,14 +158,14 @@ const Index = ({ announcements }) => {
             />
             <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
-                Ship a car
+                <FormattedMessage id="Ship a car" />
               </h3>
               <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
-                Get to know the features of shipping cars from USA
+                <FormattedMessage id="Get to know the features of shipping cars from USA" />
               </p>
               <Link href="/services/shipping">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
-                  Learn more...
+                  <FormattedMessage id="Learn more" />
                 </a>
               </Link>
             </div>
@@ -183,14 +178,14 @@ const Index = ({ announcements }) => {
             />
             <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
-                Sell your car
+                <FormattedMessage id="Sell your car" />
               </h3>
               <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
-                Get to know the features of selling cars in our yard
+                <FormattedMessage id="Get to know the features of selling cars in our yard" />
               </p>
               <Link href="/">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
-                  Learn more...
+                <FormattedMessage id="Learn more" />
                 </a>
               </Link>
             </div>
@@ -204,7 +199,7 @@ const Index = ({ announcements }) => {
 
       <div className="container mx-auto text-center">
         <h3 className="text-dark-blue py-3 text-3xl font-semibold md:text-5xl">
-          Trusted By
+          <FormattedMessage id="Trusted By" />
         </h3>
         <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
           <div className="flex flex-col justify-center gap-16 px-16 py-2 md:flex-row md:gap-[13rem]">

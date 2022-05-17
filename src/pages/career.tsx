@@ -96,7 +96,6 @@ const Career = () => {
             <span className="font-sen font-bold"><FormattedMessage id= "page.services.shipping.nejoum"/></span> 
             <FormattedMessage id= "page.career.desc2"/> 
           </p>
-
           <div className="flex flex-col gap-8 pb-32 lg:flex-row lg:gap-16">
             <img
               src="/assets/images/branch-image-3.jpg"

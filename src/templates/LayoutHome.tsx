@@ -261,7 +261,7 @@ const Layout = (props: IMainProps) => {
                     <>
                       <Link href="/login">
                         <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
-                          Sign in
+                        <FormattedMessage id="Sign in" />
                         </a>
                       </Link>
                       <Link href="/auth/newAccount">
@@ -340,7 +340,7 @@ const Layout = (props: IMainProps) => {
                                         'block px-4 py-2'
                                       )}
                                     >
-                                      Sign In
+                                      <FormattedMessage id="Sign in" />
                                     </a>
                                   </Link>
                                 )}
@@ -463,7 +463,7 @@ const Layout = (props: IMainProps) => {
                           Existing customer?{' '}
                           <Link href="/login">
                             <a className="text-indigo-600 hover:text-indigo-500">
-                              Sign in
+                            <FormattedMessage id="Sign in" />
                             </a>
                           </Link>
                         </p>
@@ -495,21 +495,29 @@ const Layout = (props: IMainProps) => {
               <div className="basis-[65%] sm:pl-8 md:pl-4">
                 <div className="footer-menu mb-10 flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row lg:mb-0">
                   <div>
-                    <h4 className="text-xl font-semibold">Services</h4>
+                    <h4 className="text-xl font-semibold">
+                      <FormattedMessage id="Services" />
+                    </h4>
                     <ul>
                       <li>
                         <Link href="/">
-                          <a className="text-white">Buying From Auctions</a>
+                          <a className="text-white">
+                            <FormattedMessage id="Buying From Auctions" />
+                          </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/services/shipping">
-                          <a>Shipping Cars</a>
+                          <a>
+                            <FormattedMessage id="Shipping Cars" />
+                          </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/cars/showroom">
-                          <a>Selling Cars</a>
+                          <a>
+                            <FormattedMessage id="Selling Cars" />
+                          </a>
                         </Link>
                       </li>
                     </ul>
@@ -519,40 +527,56 @@ const Layout = (props: IMainProps) => {
                     <ul>
                       <li>
                         <Link href="/customer/termsandconditions">
-                          <a>Terms & Conditions</a>
+                          <a>
+                            <FormattedMessage id="Terms & Conditions" />
+                          </a>
                         </Link>
                       </li>
                       <li>
-                        <a href="#">Privacy Policy</a>
+                        <a href="#">
+                          <FormattedMessage id="Privacy Policy" />
+                        </a>
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold">Company</h4>
+                    <h4 className="text-xl font-semibold">
+                      <FormattedMessage id="Company" />
+                    </h4>
                     <ul>
                       <li>
                         <Link href="/about/story">
-                          <a>Our Story</a>
+                          <a>
+                            <FormattedMessage id="Our Story" />
+                          </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/about/vision">
-                          <a>About Nejoum</a>
+                          <a>
+                            <FormattedMessage id="About Nejoum" />
+                          </a>
                         </Link>
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold">Contact Us</h4>
+                    <h4 className="text-xl font-semibold">
+                      <FormattedMessage id="Contact Us" />
+                    </h4>
                     <ul>
                       <li>
                         <Link href="/customer/complaint">
-                          <a>Customer Service</a>
+                          <a>
+                            <FormattedMessage id="Customer Service" />
+                          </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/branches">
-                          <a>Nejoum Branches</a>
+                          <a>
+                            <FormattedMessage id="Nejoum Branches" />
+                          </a>
                         </Link>
                       </li>
                       <li>
@@ -567,7 +591,9 @@ const Layout = (props: IMainProps) => {
 
               <div className="basis-[25%]">
                 <div className="mb-8 flex gap-3 sm:justify-end lg:mb-0">
-                  <span className="py-1 text-white">Follow us</span>
+                  <span className="py-1 text-white">
+                    <FormattedMessage id="Follow us" />
+                  </span>
                   <Link
                     href="https://www.facebook.com/NejoumaljazeeraCars/"
                     passHref
@@ -615,14 +641,18 @@ const Layout = (props: IMainProps) => {
 
             <div className="flex-wrap justify-between text-white sm:flex">
               <div className="mb-8 self-end lg:mb-0">
-                <h4 className="text-lg font-semibold">We are in</h4>
+                <h4 className="text-lg font-semibold">
+                  <FormattedMessage id="We are in" />
+                </h4>
                 <p className="text-lg font-light">
-                  UAE - USA - Oman - Jordan - Iraq - Yemen - Cambodia
+                  <FormattedMessage id="UAE - USA - Oman - Jordan - Iraq - Yemen - Cambodia" />
                 </p>
               </div>
 
               <div>
-                <p className="font-light">Subscribe for anouncements</p>
+                <p className="font-light">
+                  <FormattedMessage id="Subscribe for anouncements" />
+                </p>
                 <form method="post" action="" className="mb-4 py-4">
                   <input
                     type="email"
@@ -636,11 +666,15 @@ const Layout = (props: IMainProps) => {
                     className="-ml-1 rounded-r-md border bg-white px-4 py-2 pt-[11px] text-sm text-black"
                   />
                 </form>
-                <h4 className="text-lg font-semibold">UAE Working Hours</h4>
+                <h4 className="text-lg font-semibold">
+                  <FormattedMessage id="UAE Working Hours" />
+                </h4>
                 <p className="text-[16px] md:text-lg">
-                  Sat - Thu : 08:30 am - 01:00 pm /{' '}
+                  <FormattedMessage id="Sat - Thu : 08:30 am - 01:00 pm /" />{' '}
                 </p>
-                <p className="text-[16px] md:text-lg">04:00 pm - 09:00 pm</p>
+                <p className="text-[16px] md:text-lg">
+                  <FormattedMessage id="04:00 pm - 09:00 pm" />
+                </p>
               </div>
             </div>
 
@@ -653,10 +687,10 @@ const Layout = (props: IMainProps) => {
 
               <div className="self-end text-white">
                 <p className="text-[16px] md:text-lg">
-                  Industrial Area 4, Sharjah, UAE
+                  <FormattedMessage id="Industrial Area 4, Sharjah, UAE" />
                 </p>
                 <p className="text-[16px] md:text-lg">
-                  Nejoum Aljazeera Used Cars L.L.C.
+                  <FormattedMessage id="Nejoum Aljazeera Used Cars L.L.C." />
                 </p>
               </div>
             </div>

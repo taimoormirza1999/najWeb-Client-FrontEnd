@@ -8,6 +8,7 @@ import { Layout } from '@/templates/LayoutHome';
 import { postData } from '@/utils/network';
 import CustomModal from '@/components/CustomModal';
 import { Dialog } from '@headlessui/react';
+import { FormattedMessage } from 'react-intl';
 
 const Contact = () => {
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
@@ -130,12 +131,11 @@ const Contact = () => {
 
       <div className="bg-light-grey text-dark-blue py-12" ref={contentRef}>
         <div className="container mx-auto">
-          <h2 className="text-center text-5xl font-semibold">Stay in Touch!</h2>
+          <h2 className="text-center text-5xl font-semibold">
+            <FormattedMessage id="Stay in Touch" />
+          </h2>
           <p className="py-4 text-center text-2xl">
-            <span className="font-bold">Got any questions?</span> We are always
-            happy to help! Do not hesitate to call us or fill up the form below.{' '}
-            <br />
-            We try to get back as soon as possible.
+            <FormattedMessage id="Stay in Touch Desc" />
           </p>
 
           <form onSubmit={handleSubmit} autoComplete="false" method="post">
@@ -146,7 +146,7 @@ const Contact = () => {
                     htmlFor="name"
                     className="text-dark-blue block text-xl font-semibold"
                   >
-                    Name
+                    <FormattedMessage id="Name" />
                   </label>
                   <div className="mt-1">
                     <input
@@ -166,7 +166,7 @@ const Contact = () => {
                     htmlFor="email"
                     className="text-dark-blue mt-4 block text-xl font-semibold"
                   >
-                    Email
+                    <FormattedMessage id="Email" />
                   </label>
                   <div className="mt-1">
                     <input
@@ -186,7 +186,7 @@ const Contact = () => {
                     htmlFor="phone"
                     className="text-dark-blue mt-4 block text-xl font-semibold"
                   >
-                    Phone
+                    <FormattedMessage id="Phone" />
                   </label>
                   <div className="mt-1">
                     <input
@@ -208,7 +208,7 @@ const Contact = () => {
                     htmlFor="name"
                     className="text-dark-blue block text-xl font-semibold"
                   >
-                    Message
+                    <FormattedMessage id="Message" />
                   </label>
                 </div>
                 <div className="mt-1">
@@ -228,17 +228,18 @@ const Contact = () => {
               type="submit"
               className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-[6px] px-6 text-lg font-semibold text-white shadow-sm"
             >
-              Submit
+              <FormattedMessage id="Submit" />
             </button>
           </form>
         </div>
       </div>
 
       <div className="text-dark-blue container mx-auto py-8">
-        <h2 className="text-center text-5xl font-semibold">Visit Us</h2>
+        <h2 className="text-center text-5xl font-semibold">
+          <FormattedMessage id="Visit Us" />
+        </h2>
         <p className="mb-8 py-4 text-center text-2xl">
-          You May copy the Address Below and paste in Google Maps to get the
-          your directions
+          <FormattedMessage id="Visit Us Desc" />
         </p>
         <div className="mx-auto flex w-4/5 gap-8">
           <div className="basis-2/5">
@@ -247,8 +248,7 @@ const Contact = () => {
                 className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-3xl"
                 id="address_text"
               >
-                <span className="font-sen font-bold">NEJOUM </span>
-                ALJAZEERA Group Industrial area 4, Sharjah, UAE
+                <FormattedMessage id="NEJOUM ALJAZEERA Group Industrial area 4, Sharjah, UAE" />
               </div>
               <div className="flex justify-end gap-4 pt-4">
                 <button
@@ -278,9 +278,7 @@ const Contact = () => {
             </div>
 
             <p className="text-dark-blue pt-16 text-3xl">
-              Copy upper location using the{' '}
-              <span className="italic">copy </span>
-              button, press the new link button get directions in Google Maps.
+              <FormattedMessage id="Copy upper location using the copy button, press the new link button get directions in Google Maps." />
             </p>
           </div>
           <div className="border-azure-blue basis-3/5 overflow-hidden rounded-xl border">
@@ -296,15 +294,20 @@ const Contact = () => {
       </div>
 
       <div className="text-dark-blue container mx-auto py-8">
-        <h2 className="text-center text-5xl font-semibold">Contact Us</h2>
+        <h2 className="text-center text-5xl font-semibold">
+          {' '}
+          <FormattedMessage id="Contact Us" />{' '}
+        </h2>
         <p className="py-4 text-center text-2xl">
-          You’re Welcome to call, text or email us on the following details
+          <FormattedMessage id="Contact Us Desc" />
         </p>
         <ContactDetails />
       </div>
 
       <div className="container mx-auto py-16">
-        <h3 className="text-center !text-5xl font-semibold">Contact Us</h3>
+        <h3 className="text-center !text-5xl font-semibold">
+          <FormattedMessage id="Contact Us" />
+        </h3>
         <img
           className="relative -z-10 mx-auto max-w-[75%] rounded-t-[40px]"
           src="/assets/images/contact-us.jpg"
@@ -312,7 +315,7 @@ const Contact = () => {
         />
         <div className="bg-light-grey mx-auto -mt-16 max-w-[75%] rounded-b-[40px] p-8 text-center">
           <p className="text-dark-blue py-3 text-3xl">
-            You may always text us on WhatsApp
+            <FormattedMessage id="WhatsApp" />
           </p>
           <a
             href="https://wa.me/+971543662194?text=welcome to Nejoum aljazeera"
@@ -326,9 +329,11 @@ const Contact = () => {
       </div>
 
       <div className="text-dark-blue container mx-auto py-8">
-        <h2 className="text-center text-5xl font-semibold">Working Times</h2>
+        <h2 className="text-center text-5xl font-semibold">
+          <FormattedMessage id="Working Times" />
+        </h2>
         <p className="py-4 text-center text-3xl">
-          Our working hours are the following
+          <FormattedMessage id="Our working hours are the following" />
         </p>
 
         <div className="border-azure-blue mx-auto mb-12 w-3/4 overflow-hidden rounded-xl border">
@@ -336,28 +341,28 @@ const Contact = () => {
             <thead>
               <tr className="bg-light-grey">
                 <th className="border border-t-0 border-l-0 border-r-gray-500 border-b-gray-500 p-4 text-2xl font-semibold">
-                  Weekdays
+                  <FormattedMessage id="Weekdays" />
                 </th>
                 <th className="border border-t-0 border-r-0 border-b-gray-500 p-4 text-2xl font-semibold">
-                  Time
+                  <FormattedMessage id="Time" />
                 </th>
               </tr>
             </thead>
             <tbody className="text-center">
               <tr>
                 <td className="border border-t-0 border-l-0 border-r-gray-500 border-b-gray-500 py-4 text-xl">
-                  Saturday - Thursday
+                  <FormattedMessage id="Saturday - Thursday" />
                 </td>
                 <td className="border border-t-0 border-r-0 border-b-gray-500 py-4 text-xl">
-                  08:30 am - 01:00 pm / 04:00 pm - 08:30 pm
+                  <FormattedMessage id="08:30 am - 01:00 pm / 04:00 pm - 08:30 pm" />
                 </td>
               </tr>
               <tr>
                 <td className="border border-y-0 border-l-0 border-r-gray-500 py-4 text-xl">
-                  Friday
+                  <FormattedMessage id="Friday" />
                 </td>
                 <td className="border border-y-0 border-r-0 border-l-gray-500 py-4 text-xl">
-                  N/A
+                  <FormattedMessage id="N/A" />
                 </td>
               </tr>
             </tbody>
