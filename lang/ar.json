@@ -138,5 +138,7 @@
   "messages.ok": "حسناً",
   "messages.complaintRecorded": "تم تسجيل الشكوى",
   "general.sorry": "!عذراً",
-  "general.technicalErr": "لقد حدث خطأ تقني. حاول مرة اخرى"
+  "general.technicalErr": "لقد حدث خطأ تقني. حاول مرة اخرى",
+  "general.welcome": "مرحباً",
+  "general.signout": "تسجيل الخروج"
 }

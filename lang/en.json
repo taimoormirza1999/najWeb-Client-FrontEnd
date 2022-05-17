@@ -139,5 +139,7 @@
   "messages.ok": "ok",
   "messages.complaintRecorded": "Complaint Recorded",
   "general.sorry": "Sorry!",
-  "general.technicalErr": "A technical Error has occurred. Please Try again"
+  "general.technicalErr": "A technical Error has occurred. Please Try again",
+  "general.welcome": "Welcome",
+  "general.signout": "Sign Out"
 }

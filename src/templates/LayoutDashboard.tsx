@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
 import { useRouter } from 'next/router';
+import { FormattedMessage, useIntl  } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
@@ -69,7 +70,14 @@ const Layout = (props: IMainProps) => {
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
-  const fullName = session?.profile[0]?.full_name;
+  const intl = useIntl();
+  let fullName = '';
+  if(locale === 'ar'){
+    fullName = session?.profile[0]?.full_name_ar;
+  }else{
+    fullName = session?.profile[0]?.full_name;
+  }
+  
   return (
     <>
       {props.meta}
@@ -179,7 +187,7 @@ const Layout = (props: IMainProps) => {
                           <i className="material-icons text-xs lg:mr-2">
                             &#xe9ba;
                           </i>
-                          Sign out
+                          {intl.formatMessage({ id: "general.signout" })}
                         </p>
                       </div>
                     </div>
@@ -257,7 +265,7 @@ const Layout = (props: IMainProps) => {
                       }
                     >
                       <i className="material-icons text-xs lg:mr-2">&#xe9ba;</i>
-                      Sign out
+                      {intl.formatMessage({ id: "general.signout" })}
                     </p>
                   </a>
                 </div>
@@ -281,7 +289,7 @@ const Layout = (props: IMainProps) => {
               <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
-                    Welcome {fullName}
+                  {intl.formatMessage({ id: "general.welcome" })}{' '} {fullName}
                   </h2>
                 </div>
               </div>
