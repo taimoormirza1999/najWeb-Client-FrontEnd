@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import {
   ArrivedIcon,
@@ -217,62 +218,67 @@ const Tracking = ({ apiUrl }) => {
                 </div>
                 <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
                   Shipping <br />
-                  <span>{shippingDate}</span>
+                  <div className="text-left text-sm text-[#2576C1] sm:text-base">
+                    <FormattedMessage id="Shipping" /> <br />
+                    <span>{shippingDate}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <div className="ltr:ml-[5%] rtl:mr-[5%]">
-                  <PortIcon color={portDate ? '#0193FF' : '#045FB7'}></PortIcon>
+                <div className="flex-1">
+                  <div className="ltr:ml-[5%] rtl:mr-[5%]">
+                    <PortIcon
+                      color={portDate ? '#0193FF' : '#045FB7'}
+                    ></PortIcon>
+                  </div>
+                  <div className="relative mt-5 border-t-2 border-[#707070]">
+                    <div
+                      className={classNames(
+                        portDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                        ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
+                      )}
+                    ></div>
+                  </div>
+                  <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
+                    Port <br />
+                    <span>{portDate}</span>
+                  </div>
                 </div>
-                <div className="relative mt-5 border-t-2 border-[#707070]">
-                  <div
-                    className={classNames(
-                      portDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
-                    )}
-                  ></div>
+                <div className="flex-1">
+                  <div className="ltr:ml-[35%] rtl:mr-[35%]">
+                    <ArrivedIcon
+                      color={storeDate ? '#0193FF' : '#045FB7'}
+                    ></ArrivedIcon>
+                  </div>
+                  <div className="relative mt-5 border-t-2 border-[#707070]">
+                    <div
+                      className={classNames(
+                        storeDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                        ' absolute bottom-[-3px] ltr:left-[50%] rtl:right-[50%] rounded-full p-1'
+                      )}
+                    ></div>
+                  </div>
+                  <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
+                    Store <br />
+                    <span>{storeDate}</span>
+                  </div>
                 </div>
-                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
-                  Port <br />
-                  <span>{portDate}</span>
-                </div>
-              </div>
-              <div className="flex-1">
-                <div className="ltr:ml-[35%] rtl:mr-[35%]">
-                  <ArrivedIcon
-                    color={storeDate ? '#0193FF' : '#045FB7'}
-                  ></ArrivedIcon>
-                </div>
-                <div className="relative mt-5 border-t-2 border-[#707070]">
-                  <div
-                    className={classNames(
-                      storeDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-[50%] rtl:right-[50%] rounded-full p-1'
-                    )}
-                  ></div>
-                </div>
-                <div className="text-sm text-[#2576C1] ltr:text-left rtl:text-right sm:text-base">
-                  Store <br />
-                  <span>{storeDate}</span>
-                </div>
-              </div>
-              <div className="flex-1">
-                <div className="ltr:ml-[50%] rtl:mr-[50%]">
-                  <CheckCircleIcon
-                    color={deliveredDate ? '#0193FF' : '#045FB7'}
-                  ></CheckCircleIcon>
-                </div>
-                <div className="relative mt-5 border-t-2 border-[#707070] ltr:mr-6 rtl:ml-6">
-                  <div
-                    className={classNames(
-                      deliveredDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:right-0 rtl:left-0 rounded-full p-1'
-                    )}
-                  ></div>
-                </div>
-                <div className="text-sm text-[#2576C1] ltr:text-right rtl:text-left sm:text-base">
-                  Delivered <br />
-                  <span>{deliveredDate}</span>
+                <div className="flex-1">
+                  <div className="ltr:ml-[50%] rtl:mr-[50%]">
+                    <CheckCircleIcon
+                      color={deliveredDate ? '#0193FF' : '#045FB7'}
+                    ></CheckCircleIcon>
+                  </div>
+                  <div className="relative mt-5 border-t-2 border-[#707070] ltr:mr-6 rtl:ml-6">
+                    <div
+                      className={classNames(
+                        deliveredDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                        ' absolute bottom-[-3px] ltr:right-0 rtl:left-0 rounded-full p-1'
+                      )}
+                    ></div>
+                  </div>
+                  <div className="text-sm text-[#2576C1] ltr:text-right rtl:text-left sm:text-base">
+                    Delivered <br />
+                    <span>{deliveredDate}</span>
+                  </div>
                 </div>
               </div>
             </div>

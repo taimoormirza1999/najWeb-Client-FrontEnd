@@ -48,11 +48,11 @@ const navigation = [
     gicon: '&#xe14f;',
     current: false,
   },
-  { 
-    name: 'Terms & Conditions', 
+  {
+    name: 'Terms & Conditions',
     href: '/customer/termsandconditions',
-    gicon: '&#xe14f;', 
-    current: false 
+    gicon: '&#xe14f;',
+    current: false,
   },
 ];
 
@@ -221,7 +221,7 @@ const Layout = (props: IMainProps) => {
                   <Link href="/customer/userprofile">
                     <a className="group block w-full shrink-0 hover:border-inherit">
                       <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
-                      {fullName}
+                        {fullName}
                       </p>
                     </a>
                   </Link>

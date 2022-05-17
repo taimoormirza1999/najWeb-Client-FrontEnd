@@ -8,6 +8,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import CustomModal from '@/components/CustomModal';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { FormattedMessage } from 'react-intl';
 
 const Career = () => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
@@ -79,7 +80,7 @@ const Career = () => {
       <div className="container mx-auto" ref={contentRef}>
         <div className="text-dark-blue py-2">
           <h3 className="mb-4 text-center text-2xl font-semibold xl:text-4xl">
-            Career
+            <FormattedMessage id="Career" />
           </h3>
           <p className="py-2 text-lg lg:text-2xl">
             <FontAwesomeIcon
@@ -92,11 +93,9 @@ const Career = () => {
             Form
           </p>
           <p className="mb-4 py-4 text-lg lg:text-2xl">
-            Join the journey of{' '}
-            <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA in
-            Logistics and Car Business
+            {' '}
+            <FormattedMessage id="Career Desc" />{' '}
           </p>
-
           <div className="flex flex-col gap-8 pb-32 lg:flex-row lg:gap-16">
             <img
               src="/assets/images/branch-image-3.jpg"
