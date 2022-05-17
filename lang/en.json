@@ -133,5 +133,11 @@
   "page.complaints.notes": "You may also contact our customer service directly at the designated numbers",
   "messages.vin_lot": "Vin or Lot No",
   "messages.subject": "Subject",
-  "messages.message": "Message"
+  "messages.message": "Message",
+  "messages.receivedmsg": "We’ve received your request in our customers services offices.",
+  "messages.getbacksoon": "We’ll get back to you as soon as possible.",
+  "messages.ok": "ok",
+  "messages.complaintRecorded": "Complaint Recorded",
+  "general.sorry": "Sorry!",
+  "general.technicalErr": "A technical Error has occurred. Please Try again"
 }

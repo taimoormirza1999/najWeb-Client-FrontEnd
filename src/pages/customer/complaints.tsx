@@ -122,12 +122,12 @@ const Complaints = () => {
             &#xe2e6;
           </i>
           <Dialog.Title as="h3" className="text-3xl font-bold leading-6">
-            Complaint Recorded!
+          {intl.formatMessage({ id: "messages.complaintRecorded" })}{' '}
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-6 text-xl">
-              We’ve received your request in our customers services offices.{' '}
-              <br /> We’ll get back to you as soon as possible.
+              {intl.formatMessage({ id: "messages.receivedmsg" })}{' '}
+              <br /> {intl.formatMessage({ id: "messages.getbacksoon" })} 
             </p>
           </div>
         </div>
@@ -141,7 +141,7 @@ const Complaints = () => {
             }}
             ref={okButtonRef}
           >
-            Okay
+            {intl.formatMessage({ id: "messages.ok" })} 
           </button>
         </div>
       </CustomModal>
@@ -156,11 +156,11 @@ const Complaints = () => {
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
           <i className="material-icons mb-4 text-6xl text-red-800">&#xe160;</i>
           <Dialog.Title as="h3" className="text-4xl font-bold leading-6">
-            Sorry!
+          {intl.formatMessage({ id: "general.sorry" })}
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-6 text-2xl">
-              A technical Error has occurred. Please Try again
+            {intl.formatMessage({ id: "general.technicalErr" })}
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@ const Complaints = () => {
             }}
             ref={okButtonErrorRef}
           >
-            Okay
+            {intl.formatMessage({ id: "messages.ok" })}
           </button>
         </div>
       </CustomModal>

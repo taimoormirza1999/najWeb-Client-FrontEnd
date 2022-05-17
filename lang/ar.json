@@ -132,5 +132,11 @@
   "page.complaints.notes": "يمكنك أيضًا الاتصال بخدمة العملاء مباشرة على الأرقام المخصصة",
   "messages.vin_lot": "رقم اللوت- الفين",
   "messages.subject": "العنوان",
-  "messages.message": "نص الرسالة"
+  "messages.message": "نص الرسالة",
+  "messages.receivedmsg": "تم تلقي رسالتك من قبل خدمة العملاء لدينا.",
+  "messages.getbacksoon": "سنعود إليك في أقرب وقت ممكن.",
+  "messages.ok": "حسناً",
+  "messages.complaintRecorded": "تم تسجيل الشكوى",
+  "general.sorry": "!عذراً",
+  "general.technicalErr": "لقد حدث خطأ تقني. حاول مرة اخرى"
 }
