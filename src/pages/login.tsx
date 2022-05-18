@@ -93,7 +93,7 @@ export default function Login() {
               alt={AppConfig.title}
             />
             <h2 className="text-dark-blue mt-6 text-center text-5xl font-semibold">
-              <FormattedMessage id="Sign in" />
+              <FormattedMessage id="sign.in" />
             </h2>
           </div>
           <div className="p-4 shadow sm:rounded-lg sm:px-10">
@@ -110,7 +110,7 @@ export default function Login() {
                   htmlFor="email"
                   className="text-dark-blue block text-xl font-semibold"
                 >
-                  Email
+                  <FormattedMessage id="Email" />
                 </label>
                 <div className="mt-1">
                   <input
@@ -130,7 +130,7 @@ export default function Login() {
                   htmlFor="password"
                   className="text-dark-blue block text-xl font-semibold"
                 >
-                  Password
+                  <FormattedMessage id="Password" />
                 </label>
                 <div className="mt-1">
                   <input
@@ -151,12 +151,12 @@ export default function Login() {
                   className="border-azure-blue bg-azure-blue hover:bg-dark-blue flex w-full justify-center rounded-md border-2 py-2 px-4 text-lg font-semibold text-white shadow-sm"
                   onClick={handleSignIn}
                 >
-                  Sign in
+                  <FormattedMessage id= "sign.in"/>
                 </button>
 
                 <Link href="/auth/newAccount">
                   <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-lg font-semibold shadow-sm">
-                    Apply For Account
+                  <FormattedMessage id= "sign.up"/>
                   </a>
                 </Link>
               </div>

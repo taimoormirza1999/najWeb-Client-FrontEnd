@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const Deposits = ({ tableData }) => {
+  const intl = useIntl();
   const [depositsState, setDeposits] = useState(tableData);
   const [depositsTableSearch, setDepositsTableSearch] = useState('');
 
@@ -21,11 +23,11 @@ const Deposits = ({ tableData }) => {
     <>
       <div className="mt-20 flex justify-between">
         <h3 className="text-dark-blue my-4 self-start py-4 text-2xl font-semibold">
-          Deposits
+          <FormattedMessage id="statement.shipped_cars.deposits" />
         </h3>
         <input
           type="text"
-          placeholder="Search"
+          placeholder={intl.formatMessage({ id: 'Search' })}
           className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
           value={depositsTableSearch}
           onChange={(e) => {
@@ -37,16 +39,20 @@ const Deposits = ({ tableData }) => {
         <table className="w-full table-auto">
           <thead>
             <tr className="w-full">
-              <td className="text-dark-blue p-4 text-xl font-semibold">No.</td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Serial No
+                <FormattedMessage id="page.customer.dashboard.table.no" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Amount
+                <FormattedMessage id="statement.serial" />
               </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">Paid</td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Balance
+                <FormattedMessage id="statement.amount" />
+              </td>
+              <td className="text-dark-blue p-4 text-xl font-semibold">
+                <FormattedMessage id="page.customer.dashboard.paid" />
+              </td>
+              <td className="text-dark-blue p-4 text-xl font-semibold">
+                <FormattedMessage id="statement.shipped_cars.balance" />
               </td>
             </tr>
           </thead>

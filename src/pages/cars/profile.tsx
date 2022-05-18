@@ -5,6 +5,7 @@ import { SRLWrapper } from 'simple-react-lightbox';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { FormattedMessage } from 'react-intl';
 
 export async function getServerSideProps(context) {
   const res = await axios.get(`${process.env.API_URL}CarsForSaleDetails`, {
@@ -23,8 +24,11 @@ const CarProfile = ({ carProfileData }) => {
       <div className="container mx-auto">
         <Breadcrumbs
           breadcrumbs={[
-            { name: 'Cars Showroom', href: '/cars/showroom' },
-            { name: 'Car Profile', href: '#' },
+            {
+              name: <FormattedMessage id="page.cars.showroom.cars_showroom" />,
+              href: '/cars/showroom',
+            },
+            { name: <FormattedMessage id="Car_Profile" />, href: '#' },
           ]}
         />
       </div>
@@ -35,7 +39,7 @@ const CarProfile = ({ carProfileData }) => {
             &#xe66b;
           </i>
           <span className="text-dark-blue ml-4 align-middle text-5xl font-bold">
-            Car Profile
+            <FormattedMessage id="Car_Profile" />
           </span>
         </p>
 
@@ -99,7 +103,7 @@ const CarProfile = ({ carProfileData }) => {
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">
-                  Lot No
+                  <FormattedMessage id="statement.lot.no" />
                 </h3>
               </div>
               <p className="text-azure-blue pl-10 text-2xl font-semibold">
@@ -112,7 +116,7 @@ const CarProfile = ({ carProfileData }) => {
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">
-                  Color
+                  <FormattedMessage id="color" />
                 </h3>
               </div>
               <p className="text-azure-blue pl-10 text-2xl font-semibold">
@@ -125,7 +129,7 @@ const CarProfile = ({ carProfileData }) => {
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">
-                  Description
+                  <FormattedMessage id="statement.description" />
                 </h3>
               </div>
               <p className="text-azure-blue pl-10 text-2xl font-semibold">
@@ -138,7 +142,7 @@ const CarProfile = ({ carProfileData }) => {
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">
-                  Price
+                  <FormattedMessage id="page.customer.dashboard.table.price" />
                 </h3>
               </div>
               <p className="pl-10 text-2xl font-bold text-green-600">
@@ -157,7 +161,7 @@ const CarProfile = ({ carProfileData }) => {
               href="#"
               className="bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"
             >
-              Text Us on WhatsApp to get your best deal
+              <FormattedMessage id="whatsapp.deal" />
             </a>
           </Link>
 
@@ -166,7 +170,7 @@ const CarProfile = ({ carProfileData }) => {
               href="#"
               className="mx-auto my-5 hidden max-w-max rounded-md bg-[#59CE72] py-3 px-4 text-2xl text-white hover:border-0 hover:bg-green-600"
             >
-              Text Nejoum
+              <FormattedMessage id="general.text_nejoum" />
             </a>
           </Link>
         </div>

@@ -15,7 +15,7 @@ const Breadcrumbs = ({ breadcrumbs }) => {
         <li className="inline">
           <Link href="/">
             <a className="text-medium-grey hover:border-0">
-              <FormattedMessage id="Home" />
+              <FormattedMessage id="general.home" />
             </a>
           </Link>
         </li>

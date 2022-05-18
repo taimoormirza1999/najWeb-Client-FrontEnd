@@ -75,7 +75,14 @@ export default function App({ carsMakerData, YearData }) {
   return (
     <Layout meta={<Meta title="Cars Showroom" description="Cars Showroom" />}>
       <div className="container mx-auto">
-        <Breadcrumbs breadcrumbs={[{ name: 'Cars Showroom', href: '#' }]} />
+        <Breadcrumbs
+          breadcrumbs={[
+            {
+              name: <FormattedMessage id="page.cars.showroom.cars_showroom" />,
+              href: '#',
+            },
+          ]}
+        />
       </div>
 
       <h3 className="text-dark-blue py-2 text-center text-3xl lg:text-4xl xl:text-5xl font-semibold">
@@ -435,10 +442,10 @@ export default function App({ carsMakerData, YearData }) {
 
       <div className="text-dark-blue container mx-auto my-16 py-8">
         <h2 className="text-center text-2xl font-semibold md:text-3xl lg:text-4xl">
-          <FormattedMessage id="Contact Us" />
+          <FormattedMessage id="general.contact" />
         </h2>
         <p className="py-4 text-center text-xl md:text-2xl lg:text-3xl">
-          You’re Welcome to call, text or email us on the following details
+         <FormattedMessage id="Contact.Us.Desc" />
         </p>
         <ContactDetails />
       </div>

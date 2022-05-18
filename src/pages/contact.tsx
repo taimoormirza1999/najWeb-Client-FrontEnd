@@ -1,16 +1,18 @@
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useRef, useState } from 'react';
+import { Dialog } from '@headlessui/react';
+import React, { useRef, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactDetails from '@/components/ContactDetails';
+import CustomModal from '@/components/CustomModal';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 import { postData } from '@/utils/network';
-import CustomModal from '@/components/CustomModal';
-import { Dialog } from '@headlessui/react';
-import { FormattedMessage } from 'react-intl';
 
 const Contact = () => {
+  const intl = useIntl();
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const okButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -126,16 +128,23 @@ const Contact = () => {
         </div>
       </CustomModal>
       <div className="container mx-auto" ref={contentRef}>
-        <Breadcrumbs breadcrumbs={[{ name: 'Contact Us', href: '/contact' }]} />
+        <Breadcrumbs
+          breadcrumbs={[
+            {
+              name: <FormattedMessage id="general.contact" />,
+              href: '/contact',
+            },
+          ]}
+        />
       </div>
 
       <div className="bg-light-grey text-dark-blue py-12" ref={contentRef}>
         <div className="container mx-auto">
           <h2 className="text-center text-5xl font-semibold">
-            <FormattedMessage id="Stay in Touch" />
+            <FormattedMessage id="Stay.in.Touch" />
           </h2>
           <p className="py-4 text-center text-2xl">
-            <FormattedMessage id="Stay in Touch Desc" />
+            <FormattedMessage id="Stay.in.Touch.Desc" />
           </p>
 
           <form onSubmit={handleSubmit} autoComplete="false" method="post">
@@ -154,7 +163,7 @@ const Contact = () => {
                       name="name"
                       type="text"
                       required
-                      placeholder="Your name"
+                      placeholder={intl.formatMessage({ id: 'Your.name' })}
                       value={inputValue.name}
                       onChange={handleChange}
                       className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
@@ -174,7 +183,7 @@ const Contact = () => {
                       name="email"
                       type="email"
                       required
-                      placeholder="Your email"
+                      placeholder={intl.formatMessage({ id: 'Your.email' })}
                       value={inputValue.email}
                       onChange={handleChange}
                       className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
@@ -194,7 +203,7 @@ const Contact = () => {
                       name="phone"
                       type="text"
                       required
-                      placeholder="Your phone"
+                      placeholder={intl.formatMessage({ id: 'Your.phone' })}
                       value={inputValue.phone}
                       onChange={handleChange}
                       className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
@@ -216,7 +225,7 @@ const Contact = () => {
                     rows={9}
                     className="placeholder:text-medium-grey border-dark-blue w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
                     name="message"
-                    placeholder="Write something here..."
+                    placeholder={intl.formatMessage({ id: 'messages.message' })}
                     value={inputValue.message}
                     onChange={handleChange}
                   ></textarea>
@@ -236,10 +245,10 @@ const Contact = () => {
 
       <div className="text-dark-blue container mx-auto py-8">
         <h2 className="text-center text-5xl font-semibold">
-          <FormattedMessage id="Visit Us" />
+          <FormattedMessage id="Visit.Us" />
         </h2>
         <p className="mb-8 py-4 text-center text-2xl">
-          <FormattedMessage id="Visit Us Desc" />
+          <FormattedMessage id="Visit.Us.Desc" />
         </p>
         <div className="mx-auto flex w-4/5 gap-8">
           <div className="basis-2/5">
@@ -248,7 +257,7 @@ const Contact = () => {
                 className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-3xl"
                 id="address_text"
               >
-                <FormattedMessage id="NEJOUM ALJAZEERA Group Industrial area 4, Sharjah, UAE" />
+                <FormattedMessage id="NEJOUM.ALJAZEERA.Group.Industrial.area4.Sharjah.UAE" />
               </div>
               <div className="flex justify-end gap-4 pt-4">
                 <button
@@ -278,7 +287,7 @@ const Contact = () => {
             </div>
 
             <p className="text-dark-blue pt-16 text-3xl">
-              <FormattedMessage id="Copy upper location using the copy button, press the new link button get directions in Google Maps." />
+              <FormattedMessage id="Copy.upper.location.using.the.copy.button.press.the.new.link.button.get.directions.in.Google.Maps." />
             </p>
           </div>
           <div className="border-azure-blue basis-3/5 overflow-hidden rounded-xl border">
@@ -296,17 +305,17 @@ const Contact = () => {
       <div className="text-dark-blue container mx-auto py-8">
         <h2 className="text-center text-5xl font-semibold">
           {' '}
-          <FormattedMessage id="Contact Us" />{' '}
+          <FormattedMessage id="general.contact" />{' '}
         </h2>
         <p className="py-4 text-center text-2xl">
-          <FormattedMessage id="Contact Us Desc" />
+          <FormattedMessage id="Contact.Us.Desc" />
         </p>
         <ContactDetails />
       </div>
 
       <div className="container mx-auto py-16">
         <h3 className="text-center !text-5xl font-semibold">
-          <FormattedMessage id="Contact Us" />
+          <FormattedMessage id="general.contact" />
         </h3>
         <img
           className="relative -z-10 mx-auto max-w-[75%] rounded-t-[40px]"
@@ -323,17 +332,17 @@ const Contact = () => {
             rel="noreferrer"
             className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-xl font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Text Nejoum
+            <FormattedMessage id="general.text_nejoum" />
           </a>
         </div>
       </div>
 
       <div className="text-dark-blue container mx-auto py-8">
         <h2 className="text-center text-5xl font-semibold">
-          <FormattedMessage id="Working Times" />
+          <FormattedMessage id="Working_Times" />
         </h2>
         <p className="py-4 text-center text-3xl">
-          <FormattedMessage id="Our working hours are the following" />
+          <FormattedMessage id="Our_working_hours_are_the_following" />
         </p>
 
         <div className="border-azure-blue mx-auto mb-12 w-3/4 overflow-hidden rounded-xl border">
@@ -351,10 +360,10 @@ const Contact = () => {
             <tbody className="text-center">
               <tr>
                 <td className="border border-t-0 border-l-0 border-r-gray-500 border-b-gray-500 py-4 text-xl">
-                  <FormattedMessage id="Saturday - Thursday" />
+                  <FormattedMessage id="Saturday-Thursday" />
                 </td>
                 <td className="border border-t-0 border-r-0 border-b-gray-500 py-4 text-xl">
-                  <FormattedMessage id="08:30 am - 01:00 pm / 04:00 pm - 08:30 pm" />
+                  <FormattedMessage id="08:30am-01:00pm/04:00pm-08:30pm" />
                 </td>
               </tr>
               <tr>

@@ -7,24 +7,58 @@ import { classNames } from '@/utils/Functions';
 import { FormattedMessage } from 'react-intl';
 
 const carTableHeader = [
-  { name: 'No' },
-  { name: 'Auction Photo' },
-  { name: 'Detail' },
-  { name: 'Lot & Vin' },
-  { name: 'Auction' },
-  { name: 'Destination' },
-  { name: 'Purchase Date' },
-  { name: 'Payment Date' },
-  { name: 'Picked Date' },
-  { name: 'Arrived Date' },
-  { name: 'Title' },
-  { name: 'Key' },
-  { name: 'Loaded Date' },
-  { name: 'Booking' },
-  { name: 'Container' },
-  { name: 'ETD' },
-  { name: 'Shipping Date' },
-  { name: 'ETA' },
+  { name: <FormattedMessage id="page.customer.dashboard.table.no" /> },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.auction_photo" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.destination" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.purchase_date" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.payment_date" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.date_pick" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.arrived" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.title" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.key" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.loaded_date" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.booking" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.container" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.eed" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.shipping_date" />,
+  },
+  {
+    name: <FormattedMessage id="page.customer.dashboard.table.eta" />,
+  },
 ];
 
 const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {

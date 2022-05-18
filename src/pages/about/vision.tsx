@@ -1,6 +1,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { FormattedMessage } from 'react-intl';
 
 const Vision = () => (
   <Layout
@@ -9,8 +10,11 @@ const Vision = () => (
     <div className="container mx-auto">
       <Breadcrumbs
         breadcrumbs={[
-          { name: 'About', href: '#' },
-          { name: 'Vision', href: '/about/vision' },
+          { name: <FormattedMessage id="general.about" />, href: '#' },
+          {
+            name: <FormattedMessage id="general.vision" />,
+            href: '/about/vision',
+          },
         ]}
       />
     </div>

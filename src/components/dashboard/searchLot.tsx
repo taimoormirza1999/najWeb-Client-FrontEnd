@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 
 const SearchLot = () => {
+  const intl = useIntl();
   const router = useRouter();
   const [searchValue, setSearchValue] = useState('');
   const getTracking = () => {
@@ -42,7 +44,7 @@ const SearchLot = () => {
         id="lotSearch"
         value={searchValue}
         onInput={(e) => setSearchValue((e.target as HTMLInputElement).value)}
-        placeholder="Track Car by Vin Number"
+        placeholder={intl.formatMessage({ id: 'Track.Car.by.Vin.Number' })}
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"

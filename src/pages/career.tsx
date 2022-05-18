@@ -66,14 +66,18 @@ const Career = () => {
                 contentRef?.current?.classList.remove('blur-sm');
               }}
             >
-              <FormattedMessage id= "general.continue"/>
+              <FormattedMessage id="general.continue" />
             </a>
           </Link>
         </div>
       </CustomModal>
 
       <div className="container mx-auto">
-        <Breadcrumbs breadcrumbs={[{ name: 'Career', href: '/career' }]} />
+        <Breadcrumbs
+          breadcrumbs={[
+            { name: <FormattedMessage id="general.career" />, href: '/career' },
+          ]}
+        />
       </div>
 
       <div className="container mx-auto" ref={contentRef}>

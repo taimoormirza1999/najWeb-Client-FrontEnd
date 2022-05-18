@@ -4,6 +4,7 @@ import { getSession } from 'next-auth/react';
 
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
+import { FormattedMessage } from 'react-intl';
 
 const Lists = ({ lists }) => {
   const todayDateArray = Date().toLocaleLowerCase().split(' ');
@@ -15,10 +16,12 @@ const Lists = ({ lists }) => {
           <i className="material-icons text-yellow-orange align-middle text-4xl">
             &#xe24a;
           </i>
-          <span className="pl-1 align-middle">Price Lists</span>
+          <span className="pl-1 align-middle">
+            <FormattedMessage id="page.customer.dashboard.navigation_price_lists" />
+          </span>
         </h4>
         <p className="text-dark-blue text-xl">
-          Download latest price lists of
+          <FormattedMessage id="Download_latest_price_lists_of" />
           <span className="uppercase"> {todayDateArray[1]} </span>
           {todayDateArray[3]}
         </p>
@@ -56,7 +59,7 @@ const Lists = ({ lists }) => {
               ))
             ) : (
               <p className="text-azure-blue text-lg font-bold">
-                No price list is available
+                <FormattedMessage id="No_price_list_is_available" />
               </p>
             )}
           </div>
