@@ -240,7 +240,7 @@ const Layout = (props: IMainProps) => {
                   <Link key={item.name} href={item.href}>
                     <a
                       className={classNames(
-                        item.current
+                        router.pathname === item.href
                           ? 'bg-hover-grey text-gray-900'
                           : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
                         'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl'

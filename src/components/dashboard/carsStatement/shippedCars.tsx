@@ -126,7 +126,7 @@ const ShippedCars = ({ tableData }) => {
         </table>
       </div>
 
-      {lastTotalRow !== undefined ? (
+      {lastTotalRow ? (
         <div className="border-azure-blue my-2 overflow-hidden rounded-xl border">
           <table className="w-full table-auto">
             <tfoot>
@@ -143,10 +143,10 @@ const ShippedCars = ({ tableData }) => {
                   {lastTotalRow.shipping_amount}
                 </td>
                 <td className="w-[10%] p-3 text-lg text-[#0B9A21]">
-                  {lastTotalRow.debit}
+                  {lastTotalRow.debit ? lastTotalRow.debit : ''}
                 </td>
                 <td className="w-[10%] p-3 text-lg text-[#A30000]">
-                  {lastTotalRow.credit}
+                  {lastTotalRow.credit ? lastTotalRow.credit : ''}
                 </td>
                 <td className="w-[10%] p-3 text-lg text-[#1C1C1C]">
                   {lastTotalRow.remaining}
