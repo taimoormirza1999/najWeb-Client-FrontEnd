@@ -3,10 +3,10 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import { Fragment, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-import { FormattedMessage } from 'react-intl';
 
 const carTableHeader = [
   { header: <FormattedMessage id="page.customer.dashboard.table.no" /> },
@@ -53,19 +53,27 @@ const carTableHeader = [
     header: <FormattedMessage id="page.customer.dashboard.table.images" />,
   },
 ];
-const WarehouseCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
+const WarehouseCarTab = ({
+  carsRecords,
+  totalRecords,
+  baseUrl,
+  page = 0,
+  setLoading,
+}) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [images, setImages] = useState([]);
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-warehouse&page=`;
-  async function GetImages(car_id) {
+  const GetImages = async (car_id) => {
+    setLoading(true);
     const res = await axios.get(
       `${baseUrl}/api/customer/images?type=warehouse&car_id=${car_id}`
     );
     setImages(res.data.data);
+    setLoading(false);
     setRedirectModalOpen(true);
-  }
+  };
 
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">

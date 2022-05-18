@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -13,6 +13,7 @@ import {
   PortIcon,
   WarehouseIcon,
 } from '@/components/dashboard/trackingIcons';
+import UserContext from '@/components/UserContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
@@ -24,6 +25,7 @@ export async function getServerSideProps(context) {
   };
 }
 const Tracking = ({ apiUrl, search }) => {
+  const { setLoading } = useContext(UserContext);
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState(search);
   const [storeDate, setStoreDate] = useState('');
@@ -46,6 +48,7 @@ const Tracking = ({ apiUrl, search }) => {
   };
   const getTracking = async () => {
     if (searchValue) {
+      setLoading(true);
       axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
       await axios
         .get(`/api/customer/tracking?lot_vin=${searchValue}`)
@@ -63,10 +66,12 @@ const Tracking = ({ apiUrl, search }) => {
             setPortDate(carDetails?.arrived_port?.arrival_date);
             setDeliveredDate(carDetails?.deliver_customer?.deliver_create_date);
             // set the completed modules
+            setLoading(false);
           }
         })
         .catch(function (apiError) {
           console.log(apiError);
+          setLoading(false);
         });
     }
   };

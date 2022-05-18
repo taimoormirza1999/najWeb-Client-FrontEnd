@@ -14,6 +14,7 @@ import Loader from '@/components/Loader';
 
 import ar from '../../lang/ar.json';
 import en from '../../lang/en.json';
+import UserContext from '../components/UserContext';
 
 config.autoAddCss = false;
 
@@ -36,7 +37,6 @@ function MyApp({ Component, pageProps, session }) {
   Router.events.on('routeChangeStart', () => {
     setLoading(true);
   });
-
   Router.events.on('routeChangeComplete', () => {
     setLoading(false);
   });
@@ -44,11 +44,14 @@ function MyApp({ Component, pageProps, session }) {
     <SessionProvider session={session} refetchInterval={300 * 60}>
       <SimpleReactLightbox>
         <IntlProvider locale={locale} messages={messages[locale]}>
-          {!loading ? (
+          <UserContext.Provider
+            value={{
+              setLoading,
+            }}
+          >
             <Component {...pageProps} dir={getDirection(locale)} />
-          ) : (
-            <Loader></Loader>
-          )}
+            {loading && <Loader></Loader>}
+          </UserContext.Provider>
         </IntlProvider>
       </SimpleReactLightbox>
     </SessionProvider>

@@ -2,7 +2,8 @@ import axios from 'axios';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
-import React from 'react';
+import React, { useContext } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
 import { DeliveredCarTab } from '@/components/dashboard/deliveredCarTab';
@@ -11,10 +12,10 @@ import { SearchLot } from '@/components/dashboard/searchLot';
 import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
 import { StatesTab } from '@/components/dashboard/statesTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
+import UserContext from '@/components/UserContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
-import { FormattedMessage } from 'react-intl';
 
 export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-states';
@@ -82,6 +83,7 @@ export async function getServerSideProps(context) {
   };
 }
 const Dashboard = ({ router, carsData, baseUrl }) => {
+  const { setLoading } = useContext(UserContext);
   const {
     query: { tab, type, page },
   } = router;
@@ -185,6 +187,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                     totalRecords={totalRecords}
                     baseUrl={baseUrl}
                     page={currentPage}
+                    setLoading={setLoading}
                   ></WarehouseCarTab>
                 </React.Fragment>
               )}
