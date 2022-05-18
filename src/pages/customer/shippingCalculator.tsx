@@ -7,6 +7,7 @@ import { useRef, useState } from 'react';
 import CustomModal from '@/components/CustomModal';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export type CalculatorInputs = {
   vehicle_type: string;
@@ -19,6 +20,7 @@ export type CalculatorInputs = {
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
+  const intl = useIntl();
   const [calculatorResult, setCalculatorResult] = useState('');
   const [calculatorModalOpen, setCalculatorModalOpen] = useState(false);
   const cancelButtonRef = useRef(null);
@@ -97,11 +99,11 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
             as="h3"
             className="text-xl font-bold leading-6 md:text-2xl lg:text-3xl"
           >
-            Estimated Cost
+            <FormattedMessage id="Estimated_Cost" />
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-4 text-lg md:text-xl lg:py-6 lg:text-2xl">
-              Your Estimated Shipping Cost is:{' '}
+              <FormattedMessage id="Your.Estimated.Shipping.Cost.is" />:
               <span className="font-bold">$ {calculatorResult}</span>
             </p>
           </div>
@@ -116,7 +118,7 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
             }}
             ref={cancelButtonRef}
           >
-            Cancel
+            <FormattedMessage id="general.cancel" />
           </button>
         </div>
       </CustomModal>
@@ -156,11 +158,12 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
 
       <div className="text-dark-blue px-4 py-12" ref={contentRef}>
         <h2 className="text-center text-5xl font-semibold">
-          <span className="font-bold">Estimate Calculator</span>
+          <span className="font-bold">
+            <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
+          </span>
         </h2>
         <p className="mb-8 py-6 text-center text-2xl">
-          You may use the following Calculator to estimate the price of your
-          your vehicle
+          <FormattedMessage id="estimate_calculator_desc" />
         </p>
 
         <div className="flex justify-center ">
@@ -173,7 +176,9 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
                 value={inputValue.vehicle_type}
                 onChange={handleChange}
               >
-                <option value="">Vehicle Type</option>
+                <option value="">
+                  {intl.formatMessage({ id: 'vehicle.type' })}
+                </option>
                 {vehicleData.map((row, index) => (
                   <option key={index} value={row.id_vehicle_type}>
                     {row.name}
@@ -187,7 +192,11 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
                 value={inputValue.auction}
                 onChange={(event) => getAuctionLocations(event)}
               >
-                <option value="">Auction</option>
+                <option value="">
+                  {intl.formatMessage({
+                    id: 'page.customer.dashboard.table.auction',
+                  })}
+                </option>
                 {auctionData.map((row, index) => (
                   <option key={index} value={row.id}>
                     {row.title}
@@ -201,7 +210,9 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
                 value={inputValue.auction_location}
                 onChange={handleChange}
               >
-                <option value="">Auction Location</option>
+                <option value="">
+                  {intl.formatMessage({ id: 'auction.location' })}
+                </option>
                 {auctionLocationData.map((row: any, index) => (
                   <option key={index} value={row.auction_location_id}>
                     {row.auction_location_name}
@@ -215,7 +226,9 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
                 value={inputValue.country}
                 onChange={(event) => getCountryPorts(event)}
               >
-                <option value="">Country</option>
+                <option value="">
+                  {intl.formatMessage({ id: 'Country' })}
+                </option>
                 {countryData.map((row, index) => (
                   <option key={index} value={row.id}>
                     {row.name}
@@ -229,7 +242,9 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
                 value={inputValue.port}
                 onChange={handleChange}
               >
-                <option value="">Port</option>
+                <option value="">
+                  {intl.formatMessage({ id: 'tracking.port' })}
+                </option>
                 {portData.map((row: any, index) => (
                   <option key={index} value={row.port_id}>
                     {row.port_name}
@@ -241,7 +256,7 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
                 type="submit"
                 className="bg-azure-blue mx-auto my-4 block px-4 py-1 text-lg font-semibold text-white"
               >
-                Calculate
+                <FormattedMessage id="Calculate" />
               </button>
             </form>
           </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -15,6 +16,7 @@ const carProfileDetail = (row) => {
 };
 
 const ShippedCars = ({ tableData }) => {
+  const intl = useIntl();
   const [shippedCarsState, setShippedCars] = useState(tableData);
   const [shippedTableSearch, setShippedTableSearch] = useState('');
 
@@ -35,11 +37,11 @@ const ShippedCars = ({ tableData }) => {
     <>
       <div className="flex justify-between">
         <h3 className="text-dark-blue my-4 self-start py-4 text-2xl font-semibold">
-          Shipped Cars
+          <FormattedMessage id="statement.shipped_cars" />
         </h3>
         <input
           type="text"
-          placeholder="Search"
+          placeholder={intl.formatMessage({ id: 'Search' })}
           className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
           value={shippedTableSearch}
           onChange={(e) => {
@@ -51,31 +53,35 @@ const ShippedCars = ({ tableData }) => {
         <table className="w-full table-auto">
           <thead>
             <tr className="w-full">
-              <td className="text-dark-blue p-4 text-xl font-semibold">No.</td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">Date</td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Car Details
+                <FormattedMessage id="page.customer.dashboard.table.no" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Storage
+                <FormattedMessage id="statement.shipped_cars.date" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Car Price
+                <FormattedMessage id="page.customer.dashboard.table.detail" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Shipping Amount
+                <FormattedMessage id="page.customer.dashboard.table.storage" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Debit
+                <FormattedMessage id="page.customer.dashboard.table.price" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Credit
+                <FormattedMessage id="statement.shipped_cars.shipping_amount" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Remainig
+                <FormattedMessage id="statement.shipped_cars.debit" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Balance
+                <FormattedMessage id="statement.shipped_cars.credit" />
+              </td>
+              <td className="text-dark-blue p-4 text-xl font-semibold">
+                <FormattedMessage id="statement.shipped_cars.remainig" />
+              </td>
+              <td className="text-dark-blue p-4 text-xl font-semibold">
+                <FormattedMessage id="statement.shipped_cars.balance" />
               </td>
             </tr>
           </thead>
@@ -132,7 +138,9 @@ const ShippedCars = ({ tableData }) => {
             <tfoot>
               <tr className="font-semibold">
                 <td className="w-[4%] p-3"></td>
-                <td className="w-[32%] p-3 text-2xl  text-[#1C1C1C]">Total</td>
+                <td className="w-[32%] p-3 text-2xl  text-[#1C1C1C]">
+                  <FormattedMessage id="page.customer.dashboard.table.Total" />
+                </td>
                 <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
                   {lastTotalRow.storage_fine}
                 </td>

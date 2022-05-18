@@ -1,8 +1,9 @@
 /* eslint-disable func-names */
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
+
 import { useContext, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   ArrivedIcon,
@@ -25,7 +26,9 @@ export async function getServerSideProps(context) {
   };
 }
 const Tracking = ({ apiUrl, search }) => {
+
   const { setLoading } = useContext(UserContext);
+  const intl = useIntl();
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState(search);
   const [storeDate, setStoreDate] = useState('');
@@ -91,11 +94,8 @@ const Tracking = ({ apiUrl, search }) => {
             >
               &#xe55e;
             </i>
-            Tracking
+            <FormattedMessage id="page.customer.dashboard.navigation_tracking" />
           </h3>
-          <p className="text-dark-blue pb-8 text-4xl sm:text-2xl">
-            Track your car
-          </p>
           <div className="m-auto text-center  lg:w-[60%]">
             <img
               className="m-auto w-auto max-w-[250px]"
@@ -130,7 +130,7 @@ const Tracking = ({ apiUrl, search }) => {
                 onInput={(e) =>
                   setSearchValue((e.target as HTMLInputElement).value)
                 }
-                placeholder="Track Car by Vin Number"
+                placeholder={intl.formatMessage({ id: 'Track.Car.by.Vin.Number' })}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +171,8 @@ const Tracking = ({ apiUrl, search }) => {
                   ></div>
                 </div>
                 <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  New Car <br />
+                  <FormattedMessage id="tracking.new_car" />
+                  <br />
                   <span>{purchaseDate}</span>
                 </div>
               </div>
@@ -190,7 +191,8 @@ const Tracking = ({ apiUrl, search }) => {
                   ></div>
                 </div>
                 <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  Towing <br />
+                  <FormattedMessage id="tracking.towing" />
+                  <br />
                   <span>{pickedDate}</span>
                 </div>
               </div>
@@ -209,7 +211,8 @@ const Tracking = ({ apiUrl, search }) => {
                   ></div>
                 </div>
                 <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  Warehouse <br />
+                  <FormattedMessage id="tracking.warehouse" />
+                  <br />
                   <span>{warehouseDate}</span>
                 </div>
               </div>
@@ -245,7 +248,8 @@ const Tracking = ({ apiUrl, search }) => {
                   ></div>
                 </div>
                 <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  Port <br />
+                  <FormattedMessage id="tracking.port" />
+                  <br />
                   <span>{portDate}</span>
                 </div>
               </div>
@@ -264,7 +268,8 @@ const Tracking = ({ apiUrl, search }) => {
                   ></div>
                 </div>
                 <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  Store <br />
+                  <FormattedMessage id="tracking.store" />
+                  <br />
                   <span>{storeDate}</span>
                 </div>
               </div>
@@ -283,7 +288,8 @@ const Tracking = ({ apiUrl, search }) => {
                   ></div>
                 </div>
                 <div className="text-xs text-[#2576C1] ltr:text-right rtl:text-left sm:text-xs md:text-sm">
-                  Delivered <br />
+                  <FormattedMessage id="tracking.delivered" />
+                  <br />
                   <span>{deliveredDate}</span>
                 </div>
               </div>

@@ -28,7 +28,7 @@ const Index = ({ announcements }) => {
           <div className="basis-1/3"></div>
           <div className="basis-1/3">
             <h2 className="py-2 text-center text-2xl font-extrabold text-white md:text-[80px]">
-              <FormattedMessage id="You want to" />
+              <FormattedMessage id="you.want.to" />
             </h2>
 
             <div className="flex justify-center gap-4">
@@ -44,9 +44,7 @@ const Index = ({ announcements }) => {
               </Link>
             </div>
           </div>
-          <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light italic text-blue-100 underline hover:border-0 md:text-[22px]">
-            Check more actions
-          </a>
+          <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light italic text-blue-100 underline hover:border-0 md:text-[22px]"></a>
         </div>
       </div>
 
@@ -61,14 +59,14 @@ const Index = ({ announcements }) => {
           </div>
           <div className="basis-1/2 self-center">
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-[2.5rem]">
-              <FormattedMessage id="Ships Cars From USA & Canada" />
+              <FormattedMessage id="ships.cars.from.usa.canada" />
             </h3>
             <p className="text-dark-blue max-w-full py-3 text-xl md:max-w-[75%] md:text-3xl">
-              <FormattedMessage id="Ships Cars From USA & Canada Desc" />
+              <FormattedMessage id="ships.cars.from.usa.canada.desc" />
             </p>
             <Link href="/services/shipping">
               <a className="text-azure-blue block py-3 text-xl hover:border-0 md:text-2xl">
-                <FormattedMessage id="Learn more" />
+                <FormattedMessage id="learn.more" />
               </a>
             </Link>
           </div>
@@ -80,16 +78,16 @@ const Index = ({ announcements }) => {
           <div className="flex flex-col-reverse gap-10 md:flex-row md:gap-20">
             <div className="basis-1/2 self-center py-4">
               <h3 className="py-3 text-2xl font-semibold text-white md:text-[2.5rem]">
-                <FormattedMessage id="Integrate Services" />
+                <FormattedMessage id="integrate.services" />
               </h3>
               <p className="py-3 pr-4 text-xl !text-white md:text-3xl">
-                <FormattedMessage id="Integrate Services Desc" />
+                <FormattedMessage id="integrate.services.desc" />
               </p>
               <a
                 href="#"
                 className="block py-3 text-xl text-blue-200 hover:border-0 md:text-2xl"
               >
-                <FormattedMessage id="Learn more" />
+                <FormattedMessage id="learn.more" />
               </a>
             </div>
             <div className="basis-1/2">
@@ -114,14 +112,14 @@ const Index = ({ announcements }) => {
           </div>
           <div className="basis-1/2 py-4 md:py-24 md:pl-8">
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-[2.5rem]">
-              <FormattedMessage id="Cars Tracking Services" />
+              <FormattedMessage id="cars.tracking.services" />
             </h3>
             <p className="text-dark-blue max-w-full py-3 text-xl md:max-w-[75%] md:text-3xl">
-              <FormattedMessage id="Cars Tracking Services Desc" />
+              <FormattedMessage id="cars.tracking.services.desc" />
             </p>
             <Link href="/services/cargo">
               <a className="text-azure-blue block py-3 text-xl hover:border-0 md:text-2xl">
-                <FormattedMessage id="Learn more" />
+                <FormattedMessage id="learn.more" />
               </a>
             </Link>
           </div>
@@ -138,14 +136,14 @@ const Index = ({ announcements }) => {
             />
             <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0 ">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
-                <FormattedMessage id="Buy from auction" />
+                <FormattedMessage id="Buy.from.auction" />
               </h3>
               <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
-                <FormattedMessage id="Get to know the features of buying from US auctions" />
+                <FormattedMessage id="Get.to.know.the.features.of.buying.from.US.auctions" />
               </p>
               <Link href="/">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
-                  <FormattedMessage id="Learn more" />
+                  <FormattedMessage id="learn.more" />
                 </a>
               </Link>
             </div>
@@ -158,14 +156,14 @@ const Index = ({ announcements }) => {
             />
             <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
-                <FormattedMessage id="Ship a car" />
+                <FormattedMessage id="Ship.car" />
               </h3>
               <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
-                <FormattedMessage id="Get to know the features of shipping cars from USA" />
+                <FormattedMessage id="Get.to.know.the.features.of.shipping.cars.from.USA" />
               </p>
               <Link href="/services/shipping">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
-                  <FormattedMessage id="Learn more" />
+                  <FormattedMessage id="learn.more" />
                 </a>
               </Link>
             </div>
@@ -178,14 +176,14 @@ const Index = ({ announcements }) => {
             />
             <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[#ebebeb]/[.7] py-8 px-5 opacity-0 duration-300 group-hover:opacity-100 md:mb-0">
               <h3 className="text-dark-blue text-2xl font-semibold md:text-3xl">
-                <FormattedMessage id="Sell your car" />
+                <FormattedMessage id="Sell.your.car" />
               </h3>
               <p className="text-teal-blue py-2 text-xl font-semibold md:text-2xl">
-                <FormattedMessage id="Get to know the features of selling cars in our yard" />
+                <FormattedMessage id="Get.to.know.the.features.of.selling.cars.in.our.yard" />
               </p>
               <Link href="/">
                 <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
-                <FormattedMessage id="Learn more" />
+                  <FormattedMessage id="learn.more" />
                 </a>
               </Link>
             </div>
@@ -199,7 +197,7 @@ const Index = ({ announcements }) => {
 
       <div className="container mx-auto text-center">
         <h3 className="text-dark-blue py-3 text-3xl font-semibold md:text-5xl">
-          <FormattedMessage id="Trusted By" />
+          <FormattedMessage id="Trusted.By" />
         </h3>
         <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
           <div className="flex flex-col justify-center gap-16 px-16 py-2 md:flex-row md:gap-[13rem]">

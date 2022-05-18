@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const InAuctionCars = ({ tableData }) => {
+  const intl = useIntl();
   const [inAuctionCarsState, setInAuctionCars] = useState(tableData);
   const [inAuctionTableSearch, setInAuctionTableSearch] = useState('');
   const lastTotalRow = tableData.length > 1 ? tableData.pop() : null;
@@ -21,11 +23,11 @@ const InAuctionCars = ({ tableData }) => {
     <>
       <div className="mt-20 flex justify-between">
         <h3 className="text-dark-blue my-4 self-start py-4 text-2xl font-semibold">
-          Cars Amount in the Auction
+          <FormattedMessage id="statement.shipped_cars.cars_amount_in_the_auction" />
         </h3>
         <input
           type="text"
-          placeholder="Search"
+          placeholder={intl.formatMessage({ id: 'Search' })}
           className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
           value={inAuctionTableSearch}
           onChange={(e) => {
@@ -37,28 +39,32 @@ const InAuctionCars = ({ tableData }) => {
         <table className="w-full table-auto">
           <thead>
             <tr className="w-full">
-              <td className="text-dark-blue p-4 text-xl font-semibold">No.</td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">Date</td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Reference No.
+                <FormattedMessage id="page.customer.dashboard.table.no" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Lot No.
+                <FormattedMessage id="statement.shipped_cars.date" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Description
+                <FormattedMessage id="statement.reference.no" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Debit
+                <FormattedMessage id="statement.lot.no" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Credit
+                <FormattedMessage id="statement.description" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Remainig
+                <FormattedMessage id="statement.shipped_cars.debit" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">
-                Balance
+                <FormattedMessage id="statement.shipped_cars.credit" />
+              </td>
+              <td className="text-dark-blue p-4 text-xl font-semibold">
+                <FormattedMessage id="statement.shipped_cars.remainig" />
+              </td>
+              <td className="text-dark-blue p-4 text-xl font-semibold">
+                <FormattedMessage id="statement.shipped_cars.balance" />
               </td>
             </tr>
           </thead>
@@ -107,7 +113,9 @@ const InAuctionCars = ({ tableData }) => {
             <tfoot>
               <tr className="font-semibold">
                 <td className="w-[4%] px-6"></td>
-                <td className="w-[64%] p-3 text-2xl  text-[#1C1C1C]">Total</td>
+                <td className="w-[64%] p-3 text-2xl  text-[#1C1C1C]">
+                  <FormattedMessage id="page.customer.dashboard.table.Total" />
+                </td>
                 <td className="w-[8%] p-3 text-lg text-[#0B9A21]">
                   {lastTotalRow.debit}
                 </td>

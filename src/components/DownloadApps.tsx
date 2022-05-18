@@ -1,13 +1,13 @@
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage } from 'react-intl';
 
 const DownloadApps = () => {
-  return (
+  return ( 
     <div className="container mx-auto text-center">
       <h3 className="text-dark-blue text-center text-2xl font-semibold md:text-5xl">
-        <FormattedMessage id="Download Application" />
+        <FormattedMessage id="Download.Application" />
       </h3>
       <p className="text-dark-blue py-4 text-xl md:py-8 md:text-3xl">
-        <FormattedMessage id="Download Application Desc" />
+        <FormattedMessage id="Download.Application.Desc" />
       </p>
       <ul className="py-4 md:py-16">
         <li className="inline-block">

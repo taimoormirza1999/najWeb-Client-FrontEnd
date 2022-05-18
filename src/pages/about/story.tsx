@@ -8,8 +8,11 @@ const Story = () => (
     <div className="container mx-auto">
       <Breadcrumbs
         breadcrumbs={[
-          { name: 'About', href: '#' },
-          { name: 'The Story', href: '/about/story' },
+          { name: <FormattedMessage id="general.about" />, href: '#' },
+          {
+            name: <FormattedMessage id="page.story.title" />,
+            href: '/about/story',
+          },
         ]}
       />
     </div>
@@ -68,15 +71,6 @@ const Story = () => (
             <h4 className="py-4 text-lg font-normal md:text-2xl lg:text-3xl">
             <FormattedMessage id= "page.story.Story-2009"/>
             </h4>
-            <p className="py-4 text-[16px] md:text-xl lg:text-2xl">
-              From here onwards our company assembled and planned out a system
-              that changes our company from its roots to enhance our performance
-              as well as transform the policies through launching our own
-              warehouses across the United States of America to render the
-              supreme quality and efficient standards, including the uttermost
-              levels of security and trust among the company employees and
-              customers.
-            </p>
           </li>
           <li className="relative ml-4 pl-6 pt-9 md:pl-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 -left-7 h-5 w-5 rounded-full md:-left-8 md:h-7 md:w-7"></div>

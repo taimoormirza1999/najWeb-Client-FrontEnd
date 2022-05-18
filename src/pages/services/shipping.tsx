@@ -32,8 +32,11 @@ const Shipping = () => {
       <div className="container mx-auto">
         <Breadcrumbs
           breadcrumbs={[
-            { name: 'Services', href: '#' },
-            { name: 'Shipping', href: '/services/shipping' },
+            { name: <FormattedMessage id="general.services" />, href: '#' },
+            {
+              name: <FormattedMessage id="page.services.shipping" />,
+              href: '/services/shipping',
+            },
           ]}
         />
       </div>
@@ -49,12 +52,6 @@ const Shipping = () => {
                 <FormattedMessage id="page.services.shipping.nejoum" />{' '}
               </span>
               <FormattedMessage id="page.services.shipping.shippingDesc" />
-            </p>
-            <h2 className="text-3xl font-bold lg:text-[40px]">
-              <FormattedMessage id="Shipping" />
-            </h2>
-            <p className="py-4 text-lg leading-normal md:text-xl lg:py-8 lg:text-2xl lg:leading-[2.8rem] xl:pr-10">
-              <FormattedMessage id="Shipping Desc" />
             </p>
             <button
               className="text-azure-blue block cursor-pointer py-3 text-lg italic hover:border-0 md:text-xl lg:text-2xl"

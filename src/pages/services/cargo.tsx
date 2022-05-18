@@ -13,8 +13,11 @@ const Shipping = () => (
     <div className="container mx-auto">
       <Breadcrumbs
         breadcrumbs={[
-          { name: 'Services', href: '#' },
-          { name: 'Cargo Tracking', href: '/services/cargo' },
+          { name: <FormattedMessage id="general.services" />, href: '#' },
+          {
+            name: <FormattedMessage id="Cargo_Tracking" />,
+            href: '/services/cargo',
+          },
         ]}
       />
     </div>
@@ -58,10 +61,10 @@ const Shipping = () => (
 
     <div className="text-dark-blue container mx-auto py-16">
       <h2 className="text-center text-5xl font-semibold">
-        <FormattedMessage id="Contact Us" />
+        <FormattedMessage id="general.contact" />
       </h2>
       <p className="py-4 text-center text-3xl">
-        You’re Welcome to call, text or email us on the following details
+      <FormattedMessage id="Contact.Us.Desc" />
       </p>
       <ContactDetails />
     </div>
