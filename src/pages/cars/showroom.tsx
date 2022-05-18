@@ -1,10 +1,11 @@
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog, Listbox, Transition } from '@headlessui/react';
+import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import Link from 'next/link';
-import { Fragment, React, useRef, useState } from 'react';
+import { Fragment, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import useSWRInfinite from 'swr/infinite';
 
 import ApplyForAccount from '@/components/ApplyForAccount';
@@ -13,7 +14,6 @@ import ContactDetails from '@/components/ContactDetails';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 import { classNames } from '@/utils/Functions';
-import { FormattedMessage } from 'react-intl';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const PAGE_SIZE = 40;
@@ -21,30 +21,24 @@ const PAGE_SIZE = 40;
 export async function getServerSideProps() {
   let carsMakerData = {};
   let YearData = {};
-  const apiTab = 'getMaker';
-  const apiUrl = process.env.API_URL + apiTab;
-  const res = await axios.get(`${apiUrl}`);
+  const apiUrl = process.env.API_URL;
+  const res = await axios.get(`${apiUrl}getMaker`);
   carsMakerData = res.data ? res.data.data : res.data;
-  const resY = await axios.get(`${`${process.env.API_URL}getYear`}`);
+  const resY = await axios.get(`${`${apiUrl}getYear`}`);
   YearData = resY.data ? resY.data.data : resY.data;
   return {
-    props: { carsMakerData, YearData, API_URL: process.env.API_URL },
+    props: { carsMakerData, YearData },
   };
 }
 
-export default function App({ carsMakerData, YearData, API_URL }) {
-  const [repo, setRepo] = useState('reactjs/react-a11y');
-  const [val, setVal] = useState(repo);
-  const apiTab = 'CarsForSale';
-  const apiUrl = `https://api.nejoumaljazeera.co/api/${apiTab}`;
-
+export default function App({ carsMakerData, YearData }) {
   const [selectedMaker, setSelectedMaker] = useState('');
   const [selectedYear, setselectedYear] = useState('');
   const [selectedModel, setselectedModel] = useState('');
 
-  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+  const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
-      `${apiUrl}?per_page=${PAGE_SIZE}&page=${
+      `/api/cars/carsForSale?per_page=${PAGE_SIZE}&page=${
         index + 1
       }&year=${selectedYear}&maker=${
         selectedMaker ? selectedMaker.id_car_make : ''
@@ -60,17 +54,16 @@ export default function App({ carsMakerData, YearData, API_URL }) {
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1].data?.length < PAGE_SIZE);
-  const isRefreshing = isValidating && data && data.length === size;
 
   const [carsModelData, setcarsModelData] = useState([]);
   const callModel = async (selected) => {
     let carsMakerModel = [];
     setSelectedMaker(selected);
     setselectedModel('');
-    const apiTab = 'getModel';
-    const apiUrl = API_URL + apiTab;
-    const res = await axios.get(`${apiUrl}`, {
-      params: { maker_id: selected.id_car_make },
+    const res = await axios.get(`/api/cars/carsModel`, {
+      params: {
+        maker_id: selected.id_car_make,
+      },
     });
     carsMakerModel = res.data ? res.data.data : res.data;
     setcarsModelData(carsMakerModel);
@@ -85,7 +78,7 @@ export default function App({ carsMakerData, YearData, API_URL }) {
         <Breadcrumbs breadcrumbs={[{ name: 'Cars Showroom', href: '#' }]} />
       </div>
 
-      <h3 className="text-dark-blue py-2 text-center text-3xl lg:text-4xl xl:text-5xl font-semibold">
+      <h3 className="text-dark-blue py-2 text-center text-3xl font-semibold lg:text-4xl xl:text-5xl">
         Cars Showroom
       </h3>
 
@@ -99,15 +92,15 @@ export default function App({ carsMakerData, YearData, API_URL }) {
           </span>
         </p>
 
-        <div className="my-4 flex flex-col md:flex-row flex-wrap  gap-x-8 gap-y-4 ">
+        <div className="my-4 flex flex-col flex-wrap gap-x-8  gap-y-4 md:flex-row ">
           <div className="basis-1/5">
             <Listbox value={selectedYear} onChange={setselectedYear}>
               {({ open }) => (
                 <>
                   <div className="relative mt-1">
                     <Listbox.Button
-                      className="border-teal-blue relative w-full cursor-default border border border-gray-300 bg-white
-                        py-3 py-2 pr-20 pl-3 pr-10 text-center text-xl font-medium italic 
+                      className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
+                        py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate">
@@ -129,7 +122,7 @@ export default function App({ carsMakerData, YearData, API_URL }) {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-[16px]">
                         {YData.map((object) => (
                           <Listbox.Option
                             key={object}
@@ -189,8 +182,8 @@ export default function App({ carsMakerData, YearData, API_URL }) {
                 <>
                   <div className="relative mt-1">
                     <Listbox.Button
-                      className="border-teal-blue relative w-full cursor-default border border border-gray-300 bg-white
-                        py-3 py-2 pr-20 pl-3 pr-10 text-center text-xl font-medium italic 
+                      className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
+                        py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate">
@@ -212,7 +205,7 @@ export default function App({ carsMakerData, YearData, API_URL }) {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-[16px]">
                         {totalMaker.map((object) => (
                           <Listbox.Option
                             key={object.id_car_make}
@@ -269,8 +262,8 @@ export default function App({ carsMakerData, YearData, API_URL }) {
                 <>
                   <div className="relative mt-1">
                     <Listbox.Button
-                      className="border-teal-blue relative w-full cursor-default border border border-gray-300 bg-white
-                        py-3 py-2 pr-20 pl-3 pr-10 text-center text-xl font-medium italic 
+                      className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
+                        py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate">
@@ -292,56 +285,54 @@ export default function App({ carsMakerData, YearData, API_URL }) {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                        {carsModelData ? (
-                          carsModelData.map((object) => (
-                            <Listbox.Option
-                              key={object.id_car_model}
-                              className={({ active }) =>
-                                classNames(
-                                  active
-                                    ? 'bg-teal-blue text-white bg-indigo-600'
-                                    : 'text-teal-blue',
-                                  'cursor-default select-none relative py-2 pl-3 pr-9'
-                                )
-                              }
-                              value={object}
-                            >
-                              {({ selected, active }) => (
-                                <>
-                                  <span
-                                    className={classNames(
-                                      selected
-                                        ? 'font-semibold'
-                                        : 'font-normal',
-                                      'block truncate'
-                                    )}
-                                  >
-                                    {object.name} ({object.total})
-                                  </span>
-
-                                  {selected ? (
+                      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-[16px]">
+                        {carsModelData
+                          ? carsModelData.map((object) => (
+                              <Listbox.Option
+                                key={object.id_car_model}
+                                className={({ active }) =>
+                                  classNames(
+                                    active
+                                      ? 'bg-teal-blue text-white bg-indigo-600'
+                                      : 'text-teal-blue',
+                                    'cursor-default select-none relative py-2 pl-3 pr-9'
+                                  )
+                                }
+                                value={object}
+                              >
+                                {({ selected, active }) => (
+                                  <>
                                     <span
                                       className={classNames(
-                                        active
-                                          ? 'bg-teal-blue text-white'
-                                          : 'text-indigo-600',
-                                        'absolute inset-y-0 right-0 flex items-center pr-4'
+                                        selected
+                                          ? 'font-semibold'
+                                          : 'font-normal',
+                                        'block truncate'
                                       )}
                                     >
-                                      <CheckIcon
-                                        className="h-5 w-5"
-                                        aria-hidden="true"
-                                      />
+                                      {object.name} ({object.total})
                                     </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))
-                        ) : (
-                          <Listbox.Option></Listbox.Option>
-                        )}
+
+                                    {selected ? (
+                                      <span
+                                        className={classNames(
+                                          active
+                                            ? 'bg-teal-blue text-white'
+                                            : 'text-indigo-600',
+                                          'absolute inset-y-0 right-0 flex items-center pr-4'
+                                        )}
+                                      >
+                                        <CheckIcon
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))
+                          : null}
                       </Listbox.Options>
                     </Transition>
                   </div>
@@ -349,30 +340,35 @@ export default function App({ carsMakerData, YearData, API_URL }) {
               )}
             </Listbox>
           </div>
-          <div className="hidden flex basis-2/6 content-end justify-end">
-            <a
-              href="#"
-              onClick={() => setSize(1)}
-              className="bg-azure-blue block rounded-xl py-3 px-6 text-xl font-medium text-white hover:border-0 hover:bg-blue-400"
-            >
-              Show all
-            </a>
-          </div>
+          {selectedYear !== '' || selectedMaker !== '' ? (
+            <div className="basis-1/5">
+              <button
+                className="bg-azure-blue my-1 block rounded-md py-3 px-6 text-xl font-medium text-white hover:border-0 hover:bg-blue-600"
+                onClick={() => {
+                  setselectedYear('');
+                  setSelectedMaker('');
+                  setselectedModel('');
+                }}
+              >
+                Show all
+              </button>
+            </div>
+          ) : null}
         </div>
 
-        <p className="text-medium-grey py-2 text-lg text-2xl italic md:text-xl">
-          *Please Contact us to negotiate prices
+        <p className="text-medium-grey py-2 text-lg italic md:text-xl">
+          *Please contact us to negotiate prices
         </p>
 
-        <div className="my-4 flex grid grid-cols-6 flex-wrap gap-4 gap-x-8 gap-y-4">
+        <div className="my-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 gap-x-8 gap-y-4">
           {issues.length > 0
-            ? issues.map((object, index) => {
+            ? issues.map((object) => {
                 return object.data.length > 0
                   ? object.data.map((obj, index2) => {
                       return (
                         <Link
                           href={{
-                            pathname: './profile',
+                            pathname: '/cars/profile',
                             query: { id: obj.car_id }, // your data array of objects
                           }}
                           key={index2}
@@ -385,8 +381,8 @@ export default function App({ carsMakerData, YearData, API_URL }) {
                                 className="h-[300px] w-full object-cover shadow-lg"
                               />
                               <div className="border-dark-blue flex border py-2 px-4">
-                                <div className="text-dark-blue basis-2/8 text-sm">
-                                  <p className="font-semibold">
+                                <div className="text-dark-blue text-sm">
+                                  <p className="h-10 overflow-hidden text-ellipsis font-semibold ">
                                     {' '}
                                     {obj.carMakerName} {obj.carModelName}{' '}
                                     {obj.car_year}
@@ -417,7 +413,7 @@ export default function App({ carsMakerData, YearData, API_URL }) {
             ? 'no more'
             : 'load more'}
         </button>
-        <p className="text-dark-blue my-12 text-center text-xl md:my-24 md:text-3xl">
+        <p className="text-dark-blue my-24 text-center text-xl md:my-24 md:text-3xl">
           Our various services package includes car sales service on behalf of
           our valued customers, whether for incoming cars or locally registered
           cars, and that is a desire to achieve the principle of success
@@ -428,8 +424,8 @@ export default function App({ carsMakerData, YearData, API_URL }) {
 
       <ApplyForAccount />
 
-      <div className="text-dark-blue container mx-auto my-8 py-8">
-        <h2 className="text-center text-2xl font-semibold md:text-3xl lg:text-5xl">
+      <div className="text-dark-blue container mx-auto my-16 py-8">
+        <h2 className="text-center text-2xl font-semibold md:text-3xl lg:text-4xl">
           <FormattedMessage id="Contact Us" />
         </h2>
         <p className="py-4 text-center text-xl md:text-2xl lg:text-3xl">

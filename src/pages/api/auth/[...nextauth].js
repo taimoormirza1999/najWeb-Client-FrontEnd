@@ -2,6 +2,40 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
+async function refreshAccessToken(token) {
+  try {
+    let refreshedTokens;
+
+    await axios
+      .post(`${process.env.API_URL}refresh`, {
+        client_id: process.env.API_CLIENT_ID,
+        client_secret: process.env.API_CLIENT_SECRET,
+        grant_type: "refresh_token",
+        refresh_token: token.refresh_token,
+      })
+      .then((response) => {
+        refreshedTokens = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    return {
+      ...token,
+      access_token: refreshedTokens.access_token,
+      expires_in: Date.now() + 5 * 60 * 1000,
+      refresh_token: refreshedTokens.refresh_token ? token.refresh_token : "",
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      ...token,
+      error: "RefreshAccessTokenError",
+    };
+  }
+}
+
 const options = {
   providers: [
     CredentialsProvider({
@@ -75,42 +109,5 @@ const options = {
     signIn: "/login",
   },
 };
-
-async function refreshAccessToken(token) {
-  try {
-    const url =`${process.env.API_URL}refresh`;
-
-    const formData = new URLSearchParams({
-      client_id: process.env.API_CLIENT_ID,
-      client_secret: process.env.API_CLIENT_SECRET,
-      grant_type: "refresh_token",
-      refresh_token: token.refresh_token,
-    });
-    const response = await fetch(url, {
-      body:formData,
-      method: "POST",
-    });
-
-    const refreshedTokens = await response.json();
-
-    if (!response.ok) {
-      throw refreshedTokens;
-    }
-
-    return {
-      ...token,
-      access_token: refreshedTokens.access_token,
-      expires_in: Date.now() + refreshedTokens.expires_in * 1000,
-      refresh_token: refreshedTokens.refresh_token ?? token.refresh_token,
-    };
-  } catch (error) {
-    console.log(error);
-
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
-  }
-}
 
 export default (req, res) => NextAuth(req, res, options);

@@ -22,32 +22,42 @@ const Lists = ({ lists }) => {
           {todayDateArray[3]}
         </p>
 
-        <div className="mt-16 flex gap-24">
+        <div className="mt-10 flex gap-24">
           <div>
-            {lists.map((row, index) => (
-              <div key={index}>
-                <h3 className="text-dark-blue text-3xl font-semibold">
-                  {row.country_name}
-                </h3>
-                <p className="text-dark-blue text-2xl">{row.list_type}</p>
-                <div className="my-8 flex gap-8">
-                  <Link href={row.file_url} passHref>
-                    <a className="text-white hover:border-0" target="_blank">
-                      <div className="bg-teal-blue relative rounded-lg px-10 py-16 ">
-                        {row.port_name ? (
-                          <div className="text-3xl font-medium">Jebel Ali</div>
-                        ) : (
-                          <div className="text-xl font-medium">{row.name}</div>
-                        )}
-                        <i className="material-icons absolute right-3 bottom-3 text-3xl">
-                          &#xe2c4;
-                        </i>
-                      </div>
-                    </a>
-                  </Link>
+            {lists.length > 0 ? (
+              lists.map((row, index) => (
+                <div key={index}>
+                  <h3 className="text-dark-blue text-3xl font-semibold">
+                    {row.country_name}
+                  </h3>
+                  <p className="text-dark-blue text-2xl">{row.list_type}</p>
+                  <div className="my-8 flex gap-8">
+                    <Link href={row.file_url} passHref>
+                      <a className="text-white hover:border-0" target="_blank">
+                        <div className="bg-teal-blue relative rounded-lg px-10 py-16 ">
+                          {row.port_name ? (
+                            <div className="text-3xl font-medium">
+                              {row.port_name}
+                            </div>
+                          ) : (
+                            <div className="text-xl font-medium">
+                              {row.name}
+                            </div>
+                          )}
+                          <i className="material-icons absolute right-3 bottom-3 text-3xl">
+                            &#xe2c4;
+                          </i>
+                        </div>
+                      </a>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-azure-blue text-lg font-bold">
+                No price list is available
+              </p>
+            )}
           </div>
         </div>
       </div>

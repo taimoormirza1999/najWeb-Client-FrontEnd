@@ -127,7 +127,7 @@ const Layout = (props: IMainProps) => {
                 <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                   <div className="flex shrink-0 items-center px-4">
                     <Link href="/">
-                      <a>
+                      <a className="hover:border-0">
                         <img
                           className="h-8 w-auto"
                           src="/assets/images/logo-en.png"
@@ -200,7 +200,7 @@ const Layout = (props: IMainProps) => {
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
               <div className="mb-12 mt-4 flex shrink-0 items-center px-2">
                 <Link href="/">
-                  <a>
+                  <a className="hover:border-0">
                     <img
                       className="w-auto"
                       src="/assets/images/logo-en.png"
