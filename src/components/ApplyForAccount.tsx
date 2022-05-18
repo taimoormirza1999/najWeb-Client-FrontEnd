@@ -14,18 +14,18 @@ const ApplyForAccount = () => {
               <FormattedMessage id="page.cars.showroom.apply-desc" />
             </p>
             <Link href="/auth/newAccount">
-              <a className="py-2 text-xl italic text-white underline md:text-2xl lg:text-3xl">
+              <a className="py-2 text-xl italic text-white underline md:text-2xl lg:text-2xl">
                 Receive Account...
               </a>
             </Link>
           </div>
 
           <div className="bg-light-grey flex basis-1/4 items-center justify-center rounded-2xl">
-            <div className="text-3xl leading-[3rem] md:text-4xl xl:text-6xl">
+            <div className="text-3xl leading-[4rem] md:text-4xl xl:text-6xl">
               <i className="material-icons text-yellow-orange mr-2 align-middle text-3xl md:text-4xl xl:text-6xl">
                 &#xe853;
               </i>
-              <span className="text-outer-space align-middle font-bold">
+              <span className="text-outer-space align-middle font-bold font-sen">
                 NAJ
               </span>
               <div className="text-outer-space ml-2 inline-block align-middle md:ml-0 md:block">
