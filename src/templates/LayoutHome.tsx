@@ -234,7 +234,7 @@ const Layout = (props: IMainProps) => {
                       href={link.href}
                       className="text-base font-medium text-white hover:text-indigo-50"
                     >
-                      {link.name}
+                      <FormattedMessage id={link.name} />
                     </a>
                   ))}
                 </div>
@@ -426,7 +426,7 @@ const Layout = (props: IMainProps) => {
                           className="-m-3 flex items-center rounded-lg p-3 hover:bg-gray-50"
                         >
                           <div className="ml-4 text-base font-medium text-gray-900">
-                            {link.name}
+                          <FormattedMessage id={link.name} />
                           </div>
                         </a>
                       ))}
