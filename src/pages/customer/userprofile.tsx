@@ -5,6 +5,7 @@ import { Fragment, useRef, useState } from 'react';
 
 import { Layout } from '@/templates/LayoutDashboard';
 import { classNames } from '@/utils/Functions';
+import { Meta } from '@/layout/Meta';
 
 export async function getServerSideProps() {
   return {
@@ -74,7 +75,7 @@ const Profile = ({ apiUrl }) => {
   };
 
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="Terms and Conditions" description="" />}>
       <div className="m-4" ref={contentRef}>
         <div>
           <h4 className="text-dark-blue pb-8 text-3xl font-bold sm:text-2xl">

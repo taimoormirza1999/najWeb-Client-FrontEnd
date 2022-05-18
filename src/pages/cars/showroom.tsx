@@ -78,8 +78,8 @@ export default function App({ carsMakerData, YearData }) {
         <Breadcrumbs breadcrumbs={[{ name: 'Cars Showroom', href: '#' }]} />
       </div>
 
-      <h3 className="text-dark-blue py-2 text-center text-3xl font-semibold lg:text-4xl xl:text-5xl">
-        Cars Showroom
+      <h3 className="text-dark-blue py-2 text-center text-3xl lg:text-4xl xl:text-5xl font-semibold">
+        <FormattedMessage id="page.cars.showroom.cars_showroom" />
       </h3>
 
       <div className="container mx-auto">
@@ -88,7 +88,7 @@ export default function App({ carsMakerData, YearData }) {
             &#xe164;
           </i>
           <span className="text-dark-blue ml-4 align-middle text-xl md:text-2xl lg:text-4xl">
-            Find Your Car
+            <FormattedMessage id="page.cars.showroom.find_your_car" />
           </span>
         </p>
 
@@ -104,7 +104,9 @@ export default function App({ carsMakerData, YearData }) {
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate">
-                        {selectedYear || 'Year'}
+                        {selectedYear || (
+                          <FormattedMessage id="page.cars.showroom.year" />
+                        )}
                       </span>
                       <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
                         <FontAwesomeIcon
@@ -187,7 +189,11 @@ export default function App({ carsMakerData, YearData }) {
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate">
-                        {selectedMaker ? selectedMaker.name : 'Maker'}
+                        {selectedMaker ? (
+                          selectedMaker.name
+                        ) : (
+                          <FormattedMessage id="page.cars.showroom.maker" />
+                        )}
                       </span>
                       <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
                         <FontAwesomeIcon
@@ -267,7 +273,11 @@ export default function App({ carsMakerData, YearData }) {
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate">
-                        {selectedModel ? selectedModel.name : 'Model'}
+                        {selectedModel ? (
+                          selectedModel.name
+                        ) : (
+                          <FormattedMessage id="page.cars.showroom.model" />
+                        )}
                       </span>
                       <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
                         <FontAwesomeIcon
@@ -356,8 +366,9 @@ export default function App({ carsMakerData, YearData }) {
           ) : null}
         </div>
 
-        <p className="text-medium-grey py-2 text-lg italic md:text-xl">
-          *Please contact us to negotiate prices
+        <p className="text-medium-grey py-2 text-lg text-2xl italic md:text-xl">
+          *
+          <FormattedMessage id="page.cars.showroom.please_contact_us_to_negotiate_prices" />
         </p>
 
         <div className="my-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 gap-x-8 gap-y-4">
@@ -411,14 +422,12 @@ export default function App({ carsMakerData, YearData }) {
             ? 'loading...'
             : isReachingEnd
             ? 'no more'
-            : 'load more'}
+           : (
+            <FormattedMessage id="page.cars.showroom.load_more" />
+          )}
         </button>
-        <p className="text-dark-blue my-24 text-center text-xl md:my-24 md:text-3xl">
-          Our various services package includes car sales service on behalf of
-          our valued customers, whether for incoming cars or locally registered
-          cars, and that is a desire to achieve the principle of success
-          partners with our customers, in addition to that we provide a wide
-          variety of used cars at our outlets.
+        <p className="text-dark-blue my-12 text-center text-xl md:my-24 md:text-3xl">
+          <FormattedMessage id="page.cars.showroom.showroom-desc" />
         </p>
       </div>
 

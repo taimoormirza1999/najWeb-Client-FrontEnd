@@ -6,7 +6,9 @@ import { Deposits } from '@/components/dashboard/carsStatement/deposits';
 import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntries';
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
+import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
+import { FormattedMessage } from 'react-intl';
 
 const Statement = ({
   selectedParams,
@@ -26,11 +28,11 @@ const Statement = ({
   }
 
   return (
-    <Layout meta="">
+    <Layout meta={<Meta title="General Statement" description="" />}>
       <div className="mx-auto px-8">
         <div className="m-4">
           <h4 className="text-dark-blue py-4 text-center text-xl font-semibold sm:text-3xl">
-            General Statment
+            General Statement
           </h4>
         </div>
         <p className="py-3">
@@ -52,7 +54,9 @@ const Statement = ({
             >
               <option value="">Car Status</option>
               <option value="3">All</option>
-              <option value="1">Arrived Cars</option>
+              <option value="1">
+                <FormattedMessage id="page.customer.dashboard.arrived" />
+              </option>
               <option value="2">Not Arrived</option>
             </select>
             <select

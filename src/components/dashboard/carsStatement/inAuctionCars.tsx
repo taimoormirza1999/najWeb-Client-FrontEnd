@@ -101,7 +101,7 @@ const InAuctionCars = ({ tableData }) => {
           </tbody>
         </table>
       </div>
-      {lastTotalRow !== undefined ? (
+      {lastTotalRow ? (
         <div className="border-azure-blue my-2 overflow-hidden rounded-xl border">
           <table className="w-full table-auto">
             <tfoot>
