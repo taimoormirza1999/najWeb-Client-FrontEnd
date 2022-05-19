@@ -13,7 +13,6 @@ import { postData } from '@/utils/network';
 const NewAccount = () => {
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const okButtonRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const okButtonErrorRef = useRef(null);
   const [inputValue, setInputValue] = useState({
@@ -38,7 +37,6 @@ const NewAccount = () => {
 
     if (response.success === true) {
       setSubmitModalOpen(true);
-      contentRef?.current?.classList.add('blur-sm');
       setInputValue(() => ({
         name: '',
         email: '',
@@ -49,7 +47,6 @@ const NewAccount = () => {
       }));
     } else {
       setErrorModalOpen(true);
-      contentRef?.current?.classList.add('blur-sm');
     }
   };
 
@@ -59,7 +56,7 @@ const NewAccount = () => {
   }
   return (
     <Layout meta={<Meta title="Contact Us" description="Contact Us" />}>
-      <div className="container mx-auto" ref={contentRef}>
+      <div className="container mx-auto">
         <Breadcrumbs
           breadcrumbs={[
             { name: <FormattedMessage id="sign.in" />, href: '#' },
@@ -74,7 +71,6 @@ const NewAccount = () => {
           initialFocus={okButtonRef}
           onClose={() => {
             setSubmitModalOpen(false);
-            contentRef?.current?.classList.remove('blur-sm');
           }}
         >
           <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -97,7 +93,6 @@ const NewAccount = () => {
               className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
               onClick={() => {
                 setSubmitModalOpen(false);
-                contentRef?.current?.classList.remove('blur-sm');
               }}
               ref={okButtonRef}
             >
@@ -110,7 +105,6 @@ const NewAccount = () => {
           initialFocus={okButtonErrorRef}
           onClose={() => {
             setErrorModalOpen(false);
-            contentRef?.current?.classList.remove('blur-sm');
           }}
         >
           <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -132,7 +126,6 @@ const NewAccount = () => {
               className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
               onClick={() => {
                 setErrorModalOpen(false);
-                contentRef?.current?.classList.remove('blur-sm');
               }}
               ref={okButtonErrorRef}
             >
@@ -142,7 +135,7 @@ const NewAccount = () => {
         </CustomModal>
       </div>
 
-      <div className="text-dark-blue container mx-auto py-12" ref={contentRef}>
+      <div className="text-dark-blue container mx-auto py-12">
         <div className="container mx-auto">
           <h2 className="text-center text-5xl font-semibold">
             <FormattedMessage id="general.apply_for_account" />

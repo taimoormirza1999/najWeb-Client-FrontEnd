@@ -10,8 +10,8 @@ const ComplaintMessages = ({ complaintMessages, notes }) => {
           key={index}
           className={classNames(
             parseInt(row.parent_id, 10) === 0
-              ? 'bg-teal-blue self-end text-white'
-              : 'self-start bg-white text-dark-blue',
+              ? 'bg-teal-blue ltr:self-end rtl:self-start text-white'
+              : 'ltr:self-start rtl:self-end bg-white text-dark-blue',
             'border-medium-grey mb-4 w-1/2 rounded-md border p-3 text-[16px] shadow-xl'
           )}
         >

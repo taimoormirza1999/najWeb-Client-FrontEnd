@@ -48,7 +48,7 @@ const SearchLot = () => {
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute top-[8px] h-5 w-5 cursor-pointer text-[#818181] ltr:right-[8px] rtl:left-[8px]"
+        className="absolute top-[8px] h-5 w-5 cursor-pointer text-[#818181] ltr:right-[8px] rtl:left-[8px] rtl:rotate-180"
         viewBox="0 0 20 20"
         fill="currentColor"
         onClick={() => {

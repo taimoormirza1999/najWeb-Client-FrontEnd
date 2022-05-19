@@ -25,7 +25,6 @@ const Complaints = () => {
   const [messages, setMessages] = useState([]);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const okButtonRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const okButtonErrorRef = useRef(null);
   const [newComplaint, setNewComplaint] = useState(0);
@@ -51,7 +50,6 @@ const Complaints = () => {
     if (response.success === true) {
       setNewComplaint(newComplaint + 1);
       setSubmitModalOpen(true);
-      contentRef?.current?.classList.add('blur-sm');
       setInputValue(() => ({
         lot_vin: '',
         subject: '',
@@ -59,7 +57,6 @@ const Complaints = () => {
       }));
     } else {
       setErrorModalOpen(true);
-      contentRef?.current?.classList.add('blur-sm');
     }
   };
 
@@ -102,7 +99,6 @@ const Complaints = () => {
       })
       .catch(() => {
         setMessages([]);
-        contentRef?.current?.classList.add('blur-sm');
         setErrorModalOpen(true);
       });
   };
@@ -114,7 +110,6 @@ const Complaints = () => {
         initialFocus={okButtonRef}
         onClose={() => {
           setSubmitModalOpen(false);
-          contentRef?.current?.classList.remove('blur-sm');
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -137,7 +132,6 @@ const Complaints = () => {
             className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
             onClick={() => {
               setSubmitModalOpen(false);
-              contentRef?.current?.classList.remove('blur-sm');
             }}
             ref={okButtonRef}
           >
@@ -178,9 +172,9 @@ const Complaints = () => {
           </button>
         </div>
       </CustomModal>
-      <div className="mx-auto px-8" ref={contentRef}>
+      <div className="mx-auto px-8">
         <h4 className="text-dark-blue mt-4 py-4 text-xl font-semibold sm:text-3xl">
-          <i className="material-icons text-yellow-orange align-middle text-3xl">
+          <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
             &#xe14f;
           </i>
           <span className="pl-1 align-middle"><FormattedMessage id= "page.complaints.title"/></span>
@@ -190,7 +184,7 @@ const Complaints = () => {
         </p>
 
         <form method="post" onSubmit={handleSubmit} className="mt-8 mb-4">
-          <div className="mt-1 pl-6">
+          <div className="mt-1 ltr:pl-6 rtl:pr-6">
             <input
               id="lot_vin"
               name="lot_vin"
@@ -201,7 +195,7 @@ const Complaints = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="relative mt-1 pl-6">
+          <div className="relative mt-1 ltr:pl-6 rtl:pr-6">
             <input
               id="subject"
               name="subject"
@@ -212,11 +206,11 @@ const Complaints = () => {
               value={inputValue.subject}
               onChange={handleChange}
             />
-            <span className="text-yellow-orange absolute top-0 left-0 text-xl font-bold">
+            <span className="text-yellow-orange absolute top-0 ltr:left-0 rtl:right-0 text-xl font-bold">
               *
             </span>
           </div>
-          <div className="relative mt-1 pl-6">
+          <div className="relative mt-1 ltr:pl-6 rtl:pr-6">
             <textarea
               rows={6}
               className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
@@ -225,7 +219,7 @@ const Complaints = () => {
               value={inputValue.message}
               onChange={handleChange}
             ></textarea>
-            <span className="text-yellow-orange absolute top-0 left-0 text-xl font-bold">
+            <span className="text-yellow-orange absolute top-0 ltr:left-0 rtl:right-0 text-xl font-bold">
               *
             </span>
           </div>

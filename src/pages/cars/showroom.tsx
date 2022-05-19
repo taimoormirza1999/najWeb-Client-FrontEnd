@@ -23,6 +23,7 @@ export async function getServerSideProps() {
   let YearData = {};
   const apiUrl = process.env.API_URL;
   const res = await axios.get(`${apiUrl}getMaker`);
+  console.log(res.data);
   carsMakerData = res.data ? res.data.data : res.data;
   const resY = await axios.get(`${`${apiUrl}getYear`}`);
   YearData = resY.data ? resY.data.data : resY.data;
@@ -85,7 +86,7 @@ export default function App({ carsMakerData, YearData }) {
         />
       </div>
 
-      <h3 className="text-dark-blue py-2 text-center text-3xl lg:text-4xl xl:text-5xl font-semibold">
+      <h3 className="text-dark-blue py-2 text-center text-3xl font-semibold lg:text-4xl xl:text-5xl">
         <FormattedMessage id="page.cars.showroom.cars_showroom" />
       </h3>
 
@@ -94,7 +95,7 @@ export default function App({ carsMakerData, YearData }) {
           <i className="material-icons text-yellow-orange align-middle text-5xl">
             &#xe164;
           </i>
-          <span className="text-dark-blue ml-4 align-middle text-xl md:text-2xl lg:text-4xl">
+          <span className="text-dark-blue align-middle text-xl ltr:ml-4 rtl:mr-4 md:text-2xl lg:text-4xl">
             <FormattedMessage id="page.cars.showroom.find_your_car" />
           </span>
         </p>
@@ -110,7 +111,7 @@ export default function App({ carsMakerData, YearData }) {
                         py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
-                      <span className="block truncate">
+                      <span className="block truncate text-lg">
                         {selectedYear || (
                           <FormattedMessage id="page.cars.showroom.year" />
                         )}
@@ -195,7 +196,7 @@ export default function App({ carsMakerData, YearData }) {
                         py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
-                      <span className="block truncate">
+                      <span className="block truncate text-lg">
                         {selectedMaker ? (
                           selectedMaker.name
                         ) : (
@@ -279,7 +280,7 @@ export default function App({ carsMakerData, YearData }) {
                         py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
-                      <span className="block truncate">
+                      <span className="block truncate text-lg">
                         {selectedModel ? (
                           selectedModel.name
                         ) : (
@@ -373,12 +374,12 @@ export default function App({ carsMakerData, YearData }) {
           ) : null}
         </div>
 
-        <p className="text-medium-grey py-2 text-lg text-2xl italic md:text-xl">
+        <p className="text-medium-grey py-2 text-2xl italic md:text-xl">
           *
           <FormattedMessage id="page.cars.showroom.please_contact_us_to_negotiate_prices" />
         </p>
 
-        <div className="my-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 gap-x-8 gap-y-4">
+        <div className="my-4 grid gap-4 gap-x-8 gap-y-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {issues.length > 0
             ? issues.map((object) => {
                 return object.data.length > 0
@@ -400,7 +401,7 @@ export default function App({ carsMakerData, YearData }) {
                               />
                               <div className="border-dark-blue flex border py-2 px-4">
                                 <div className="text-dark-blue text-sm">
-                                  <p className="h-10 overflow-hidden text-ellipsis font-semibold ">
+                                  <p className="h-auto overflow-hidden text-ellipsis font-semibold lg:h-10 ">
                                     {' '}
                                     {obj.carMakerName} {obj.carModelName}{' '}
                                     {obj.car_year}
@@ -425,11 +426,11 @@ export default function App({ carsMakerData, YearData }) {
             'bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-xl md:text-2xl text-white hover:border-0 hover:bg-gray-700'
           )}
         >
-          {isLoadingMore
-            ? 'loading...'
-            : isReachingEnd
-            ? 'no more'
-           : (
+          {isLoadingMore ? (
+            'loading...'
+          ) : isReachingEnd ? (
+            'no more'
+          ) : (
             <FormattedMessage id="page.cars.showroom.load_more" />
           )}
         </button>
@@ -445,7 +446,7 @@ export default function App({ carsMakerData, YearData }) {
           <FormattedMessage id="general.contact" />
         </h2>
         <p className="py-4 text-center text-xl md:text-2xl lg:text-3xl">
-         <FormattedMessage id="Contact.Us.Desc" />
+          <FormattedMessage id="Contact.Us.Desc" />
         </p>
         <ContactDetails />
       </div>

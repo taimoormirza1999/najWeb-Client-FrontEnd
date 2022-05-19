@@ -94,7 +94,7 @@ const Shipping = () => {
                 className="h-24 w-24 text-4xl text-white"
               />
             </div>
-            <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
+            <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem] w-full">
               <FormattedMessage id="page.services.shipping.service_features1" />
             </p>
           </div>
@@ -106,7 +106,7 @@ const Shipping = () => {
                 className="text-teal-blue h-24 w-24 text-4xl"
               />
             </div>
-            <p className="border-teal-blue text-teal-blue flex w-full items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
+            <p className="border-teal-blue text-teal-blue flex w-full items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem] w-full">
               <FormattedMessage id="page.services.shipping.service_features2" />
             </p>
           </div>
@@ -130,7 +130,7 @@ const Shipping = () => {
                 className="text-teal-blue h-24 w-24 text-4xl"
               />
             </div>
-            <p className="border-teal-blue text-teal-blue flex items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem]">
+            <p className="border-teal-blue text-teal-blue flex items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem] w-full">
               <FormattedMessage id="page.services.shipping.service_features4" />
             </p>
           </div>
@@ -142,7 +142,7 @@ const Shipping = () => {
                 className="h-24 w-24 text-4xl text-white"
               />
             </div>
-            <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
+            <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem] w-full">
               <FormattedMessage id="page.services.shipping.service_features5" />
             </p>
           </div>
@@ -168,7 +168,7 @@ const Shipping = () => {
             </Link>
             <div className="visible md:hidden"></div>
             <Link href="/auth/newAccount/">
-              <a className="text-azure-blue my-2 inline-block rounded-lg bg-white px-5 py-2.5 text-lg font-medium shadow-md hover:border-0 hover:bg-slate-100 focus:outline-none dark:focus:ring-blue-800 md:ml-8 md:text-2xl">
+              <a className="text-azure-blue my-2 inline-block rounded-lg bg-white px-5 py-2.5 text-lg font-medium shadow-md hover:border-0 hover:bg-slate-100 focus:outline-none dark:focus:ring-blue-800 md:ltr:ml-8 md:rtl:mr-8 md:text-2xl">
                 <FormattedMessage id="general.apply_for_account" />
               </a>
             </Link>
