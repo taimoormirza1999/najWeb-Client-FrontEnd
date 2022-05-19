@@ -35,15 +35,27 @@ export async function getServerSideProps(context) {
     apiTab = 'onWayCars';
   }
   if (tab === 'tabs-arrived') {
-    apiTab = 'arrivedCars';
-  }
-  if (tab === 'tabs-delivered') {
-    apiTab = 'deliveredCars';
+    if (!type || type === 'port') {
+      type = 'port';
+      apiTab = 'portCars';
+    } else {
+      type = 'store';
+      apiTab = 'carsArrivedStore';
+    }
   }
   if (tab === 'tabs-states') {
     apiTab = 'statesCount';
   }
+  if (tab === 'tabs-delivered') {
+    apiTab = 'deliveredCars';
+  }
   let apiUrl = process.env.API_URL + apiTab;
+  if (tab === 'tabs-delivered') {
+    if (!type) {
+      type = 'Paid';
+    }
+    apiUrl += `?${type}=1`;
+  }
   if (apiTab === 'newCars') {
     if (!type) {
       type = 'unpaid';
@@ -58,9 +70,15 @@ export async function getServerSideProps(context) {
       apiUrl = `${process.env.API_URL}customer/allCancelledCars`;
     }
   }
-  if (apiTab !== 'newCars' || type === 'towing' || type === 'cancelled') {
+  if (
+    tab === 'tabs-arrived' ||
+    apiTab === 'warehouseCars' ||
+    apiTab === 'onWayCars' ||
+    type === 'towing' ||
+    type === 'cancelled'
+  ) {
     apiUrl = `${apiUrl}?page=${page}`;
-  } else {
+  } else if (apiTab !== 'statesCount') {
     apiUrl = `${apiUrl}&page=${page}`;
   }
   if (session && session.token && session.token.access_token) {
@@ -208,6 +226,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                     totalRecords={totalRecords}
                     baseUrl={baseUrl}
                     page={currentPage}
+                    type={type}
                   ></ArrivedCarTab>
                 </React.Fragment>
               )}
@@ -218,6 +237,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                     totalRecords={totalRecords}
                     baseUrl={baseUrl}
                     page={currentPage}
+                    type={type}
                   ></DeliveredCarTab>
                 </React.Fragment>
               )}

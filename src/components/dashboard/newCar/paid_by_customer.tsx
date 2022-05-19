@@ -6,7 +6,7 @@ const PaidByCustomer = ({ carsRecords }) => {
       key={car.carId}
       className={classNames(
         index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
-        'text-xs sm:text-[17px]'
+        'text-sm'
       )}
     >
       <td
@@ -19,7 +19,7 @@ const PaidByCustomer = ({ carsRecords }) => {
         scope="col"
         className="min-w-[56px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
-        <img src={car.image} alt="" />
+        <img className="max-h-[50px]" src={car.image} alt="" />
       </td>
       <td
         scope="col"

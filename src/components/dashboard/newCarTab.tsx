@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { Cancelled } from '@/components/dashboard/newCar/cancelled';
 import { Paid } from '@/components/dashboard/newCar/paid';
@@ -8,7 +9,6 @@ import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-import { FormattedMessage } from 'react-intl';
 
 const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
   let carTableData;
@@ -292,15 +292,15 @@ const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300 border border-[#005fb7]">
+              <div className="overflow-hidden  border border-[#005fb7] md:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-white">
                     <tr>
                       {carTableData.map((th) => (
                         <th
                           key={th.header}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-sm font-semibold text-blue-600 sm:text-xl"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
                           {th.header}
                         </th>
