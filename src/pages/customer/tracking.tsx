@@ -1,7 +1,6 @@
 /* eslint-disable func-names */
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
-
+import { getSession, useSession } from 'next-auth/react';
 import { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -21,25 +20,53 @@ import { classNames } from '@/utils/Functions';
 
 export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
+  const session: any = await getSession(context);
+  let carDetail = {};
+  if (search) {
+    axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
+    await axios
+      .get(`${process.env.API_URL}getTrackSearch?lot_vin=${search}`)
+      .then(function (response) {
+        if (response?.data) {
+          carDetail = response.data?.data;
+        }
+      })
+      .catch(function (apiError) {
+        console.log(apiError);
+      });
+  }
   return {
-    props: { apiUrl: process.env.API_URL, search },
+    props: { search, carDetail },
   };
 }
-const Tracking = ({ apiUrl, search }) => {
-
+const Tracking = ({ search, carDetail }) => {
   const { setLoading } = useContext(UserContext);
   const intl = useIntl();
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState(search);
-  const [storeDate, setStoreDate] = useState('');
-  const [purchaseDate, setPurchaseDate] = useState('');
-  const [pickedDate, setPickedDate] = useState('');
-  const [deliveredDate, setDeliveredDate] = useState('');
-  const [warehouseDate, setWarehouseDate] = useState('');
-  const [shippingDate, setShippingDate] = useState('');
-  const [portDate, setPortDate] = useState('');
-  const [vin, setVin] = useState('');
-  const [lotnumber, setLotnumber] = useState('');
+  const [storeDate, setStoreDate] = useState(
+    carDetail?.arrive_store?.create_date
+  );
+  const [purchaseDate, setPurchaseDate] = useState(
+    carDetail?.car_data?.purchasedate
+  );
+  const [pickedDate, setPickedDate] = useState(
+    carDetail?.towingstatus?.Picked_date
+  );
+  const [deliveredDate, setDeliveredDate] = useState(
+    carDetail?.deliver_customer?.deliver_create_date
+  );
+  const [warehouseDate, setWarehouseDate] = useState(
+    carDetail?.arrivedstatus?.delivered_date
+  );
+  const [shippingDate, setShippingDate] = useState(
+    carDetail?.shipping_status?.shipping_date
+  );
+  const [portDate, setPortDate] = useState(
+    carDetail?.arrived_port?.arrival_date
+  );
+  const [vin, setVin] = useState(carDetail?.car_data?.vin);
+  const [lotnumber, setLotnumber] = useState(carDetail?.car_data?.lotnumber);
   let carDetails: {
     car_data: any;
     arrive_store: any;
@@ -78,10 +105,6 @@ const Tracking = ({ apiUrl, search }) => {
         });
     }
   };
-  if (search) {
-    search = '';
-    getTracking();
-  }
   return (
     <Layout meta={<Meta title="Tracking" description="" />}>
       <div className="m-4">
@@ -130,11 +153,13 @@ const Tracking = ({ apiUrl, search }) => {
                 onInput={(e) =>
                   setSearchValue((e.target as HTMLInputElement).value)
                 }
-                placeholder={intl.formatMessage({ id: 'Track.Car.by.Vin.Number' })}
+                placeholder={intl.formatMessage({
+                  id: 'Track.Car.by.Vin.Number',
+                })}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-[8px] right-[8px] h-5 w-5 text-[#818181]"
+                className="absolute top-[8px] right-[8px] h-5 w-5  cursor-pointer text-[#818181]"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 onClick={() => {
@@ -267,7 +292,7 @@ const Tracking = ({ apiUrl, search }) => {
                     )}
                   ></div>
                 </div>
-                <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
+                <div className="text-xs text-[#2576C1] ltr:text-center sm:text-xs md:text-sm">
                   <FormattedMessage id="tracking.store" />
                   <br />
                   <span>{storeDate}</span>
