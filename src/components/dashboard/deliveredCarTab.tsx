@@ -1,53 +1,113 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { Pagination } from '@/components/dashboard/pagination';
-import { classNames } from '@/utils/Functions';
+import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
-const carTableHeader = [
-  { name: <FormattedMessage id="page.customer.dashboard.table.no" /> },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction_photo" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.detail" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.destination" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.purchase_date" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.payment_date" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.date_pick" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.arrived" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.title" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.key" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.images" />,
-  },
-];
+import { Pagination } from '@/components/dashboard/pagination';
+import { classNames } from '@/utils/Functions';
 
-const DeliveredCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
-  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-delivered&page=`;
+const DeliveredCarTab = ({
+  carsRecords,
+  totalRecords,
+  baseUrl,
+  page = 0,
+  type,
+}) => {
+  if (!type) {
+    type = 'Paid';
+  }
+  let carTableHeader;
+  if (type === 'Paid') {
+    carTableHeader = [
+      'page.customer.dashboard.table.no',
+      'page.customer.dashboard.table.auction_photo',
+      'page.customer.dashboard.table.detail',
+      'page.customer.dashboard.table.lot_vin',
+      'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.destination',
+      'page.customer.dashboard.table.purchase_date',
+      'page.customer.dashboard.table.date_pick',
+      'page.customer.dashboard.table.arrived',
+      'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.key',
+      'page.customer.dashboard.table.loaded_date',
+      'page.customer.dashboard.table.booking',
+      'page.customer.dashboard.table.container',
+      'page.customer.dashboard.table.shipping_date',
+      'page.customer.dashboard.table.date_arrived_port',
+      'page.customer.dashboard.table.date_arrived_store',
+      'page.customer.dashboard.table.date_delivered',
+      'page.customer.dashboard.table.Total',
+      'page.customer.dashboard.table.payment_date',
+      'page.customer.dashboard.table.amount_paid',
+      'page.customer.dashboard.table.amount_remaining',
+      'page.customer.dashboard.table.images',
+    ];
+  }
+  if (type === 'unpaid') {
+    carTableHeader = [
+      'page.customer.dashboard.table.no',
+      'page.customer.dashboard.table.auction_photo',
+      'page.customer.dashboard.table.detail',
+      'page.customer.dashboard.table.lot_vin',
+      'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.destination',
+      'page.customer.dashboard.table.purchase_date',
+      'page.customer.dashboard.table.date_pick',
+      'page.customer.dashboard.table.arrived',
+      'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.key',
+      'page.customer.dashboard.table.loaded_date',
+      'page.customer.dashboard.table.booking',
+      'page.customer.dashboard.table.container',
+      'page.customer.dashboard.table.shipping_date',
+      'page.customer.dashboard.table.date_arrived_port',
+      'page.customer.dashboard.table.date_arrived_store',
+      'page.customer.dashboard.table.date_delivered',
+      'page.customer.dashboard.table.Total',
+      'page.customer.dashboard.table.payment_date',
+      'page.customer.dashboard.table.images',
+    ];
+  }
+  const statusTypes = [
+    {
+      name: 'page.customer.dashboard.paid',
+      href: 'Paid',
+    },
+    {
+      name: 'page.customer.dashboard.unpaid',
+      href: 'unpaid',
+    },
+  ];
+  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
+      <nav
+        className="mt-[15px] flex max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4"
+        aria-label="Tabs"
+      >
+        {statusTypes.map((status) => (
+          <Link
+            key={status.name}
+            href={{
+              pathname: '/customer/dashboard/',
+              query: { tab: 'tabs-delivered', type: status.href },
+            }}
+          >
+            <a
+              key={status.href}
+              className={classNames(
+                type === status.href
+                  ? ' text-blue-600'
+                  : 'text-gray-500 hover:text-gray-700',
+                'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
+              )}
+            >
+              <FormattedMessage id={status.name} />
+            </a>
+          </Link>
+        ))}
+      </nav>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -65,11 +125,11 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                     <tr>
                       {carTableHeader.map((th) => (
                         <th
-                          key={th.name}
+                          key={th}
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          {th.name}
+                          <FormattedMessage id={th} />
                         </th>
                       ))}
                     </tr>
@@ -93,7 +153,11 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                           scope="col"
                           className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img className="max-h-[50px]" src={car.image} alt="" />
+                          <img
+                            className="max-h-[50px]"
+                            src={car.image}
+                            alt=""
+                          />
                         </td>
                         <td
                           scope="col"
@@ -127,12 +191,6 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.paymentDate}
-                        </td>
-                        <td
-                          scope="col"
                           className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.picked_date}
@@ -141,7 +199,7 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                           scope="col"
                           className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
-                          {car.arrival_date}
+                          {car.delivered_date}
                         </td>
                         <td
                           scope="col"
@@ -182,7 +240,77 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img className="max-h-[50px]" src={car.image} alt="" />
+                          {car.loaded_date}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.booking_number}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.container_number}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.shipping_date}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.arrival_date}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.receive_date}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.deliver_create_date}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.total_cost}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.paymentDate}
+                        </td>
+                        {type === 'Paid' && (
+                          <td
+                            scope="col"
+                            className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          ></td>
+                        )}
+                        {type === 'Paid' && (
+                          <td
+                            scope="col"
+                            className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          ></td>
+                        )}
+                        <td
+                          scope="col"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          <img
+                            className="max-h-[50px]"
+                            src={car.image}
+                            alt=""
+                          />
                         </td>
                       </tr>
                     ))}

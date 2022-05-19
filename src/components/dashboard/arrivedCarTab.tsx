@@ -1,54 +1,104 @@
-import { CheckCircleIcon } from '@heroicons/react/outline';
-import { XCircleIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-import { FormattedMessage } from 'react-intl';
 
-const carTableHeader = [
-  { name: <FormattedMessage id="page.customer.dashboard.table.no" /> },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction_photo" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.detail" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.destination" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.purchase_date" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.payment_date" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.date_pick" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.arrived" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.title" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.key" />,
-  },
-  {
-    name: <FormattedMessage id="page.customer.dashboard.table.images" />,
-  },
-];
+import { Port } from './arrived/port';
+import { Store } from './arrived/store';
 
-const ArrivedCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
-  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-arrived&page=`;
+const ArrivedCarTab = ({
+  carsRecords,
+  totalRecords,
+  baseUrl,
+  page = 0,
+  type,
+}) => {
+  if (!type) {
+    type = 'port';
+  }
+  let carTableHeader;
+  if (type === 'port') {
+    carTableHeader = [
+      'page.customer.dashboard.table.no',
+      'page.customer.dashboard.table.auction_photo',
+      'page.customer.dashboard.table.detail',
+      'page.customer.dashboard.table.lot_vin',
+      'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.destination',
+      'page.customer.dashboard.table.purchase_date',
+      'page.customer.dashboard.table.date_pick',
+      'page.customer.dashboard.table.arrived',
+      'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.key',
+      'page.customer.dashboard.table.loaded_date',
+      'page.customer.dashboard.table.booking',
+      'page.customer.dashboard.table.container',
+      'page.customer.dashboard.table.shipping_date',
+      'page.customer.dashboard.table.date_arrived_port',
+    ];
+  }
+  if (type === 'store') {
+    carTableHeader = [
+      'page.customer.dashboard.table.no',
+      'page.customer.dashboard.table.auction_photo',
+      'page.customer.dashboard.table.detail',
+      'page.customer.dashboard.table.lot_vin',
+      'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.destination',
+      'page.customer.dashboard.table.purchase_date',
+      'page.customer.dashboard.table.date_pick',
+      'page.customer.dashboard.table.arrived',
+      'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.key',
+      'page.customer.dashboard.table.loaded_date',
+      'page.customer.dashboard.table.booking',
+      'page.customer.dashboard.table.container',
+      'page.customer.dashboard.table.shipping_date',
+      'page.customer.dashboard.table.date_arrived_port',
+      'page.customer.dashboard.table.date_arrived_store',
+      'page.customer.dashboard.table.Total',
+    ];
+  }
+  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
+  const statusTypes = [
+    {
+      name: 'page.customer.dashboard.arrived_port',
+      href: 'port',
+    },
+    {
+      name: 'page.customer.dashboard.arrived_store',
+      href: 'store',
+    },
+  ];
   return (
     <div className="" id="tabs-arrived" role="tabpanel">
+      <nav
+        className="mt-[15px] flex max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4"
+        aria-label="Tabs"
+      >
+        {statusTypes.map((status) => (
+          <Link
+            key={status.name}
+            href={{
+              pathname: '/customer/dashboard/',
+              query: { tab: 'tabs-arrived', type: status.href },
+            }}
+          >
+            <a
+              key={status.href}
+              className={classNames(
+                type === status.href
+                  ? ' text-blue-600'
+                  : 'text-gray-500 hover:text-gray-700',
+                'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
+              )}
+            >
+              <FormattedMessage id={status.name} />
+            </a>
+          </Link>
+        ))}
+      </nav>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -66,127 +116,20 @@ const ArrivedCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                     <tr>
                       {carTableHeader.map((th) => (
                         <th
-                          key={th.name}
+                          key={th}
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          {th.name}
+                          <FormattedMessage id={th} />
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {carsRecords.map((car, index) => (
-                      <tr
-                        key={car.carId}
-                        className={classNames(
-                          index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
-                          'text-sm'
-                        )}
-                      >
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {index + 1}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          <img className="max-h-[50px]" src={car.image} alt="" />
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.carMakerName} {car.carModelName} {car.year}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          Lot: {car.lotnumber} <br /> Vin: {car.vin}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.auctionLocationName} <br /> {car.auctionTitle}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.port_name}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.purchasedate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.paymentDate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.picked_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
-                          {car.arrivalDate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.delivered_title === '1' ||
-                          car.follow_title === '1' ? (
-                            <CheckCircleIcon
-                              className="h-6 w-6 text-green-400"
-                              aria-hidden="true"
-                            />
-                          ) : (
-                            <XCircleIcon
-                              className="h-6 w-6 text-red-400"
-                              aria-hidden="true"
-                            />
-                          )}
-                          <br />
-                          {car.titleDate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.delivered_car_key === '1' ? (
-                            <CheckCircleIcon
-                              className="h-6 w-6 text-green-400"
-                              aria-hidden="true"
-                            />
-                          ) : (
-                            <XCircleIcon
-                              className="h-6 w-6 text-red-400"
-                              aria-hidden="true"
-                            />
-                          )}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          <img className="max-h-[50px]" src={car.image} alt="" />
-                        </td>
-                      </tr>
-                    ))}
+                    {type === 'port' && <Port carsRecords={carsRecords}></Port>}
+                    {type === 'store' && (
+                      <Store carsRecords={carsRecords}></Store>
+                    )}
                   </tbody>
                 </table>
               </div>

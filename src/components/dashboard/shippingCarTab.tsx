@@ -1,10 +1,11 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
+import CustomModal from '@/components/CustomModal';
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-import { FormattedMessage } from 'react-intl';
 
 const carTableHeader = [
   { name: <FormattedMessage id="page.customer.dashboard.table.no" /> },
@@ -62,9 +63,39 @@ const carTableHeader = [
 ];
 
 const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState(false);
   const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-shipping&page=`;
+  const cancelButtonRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   return (
     <div className="" id="tabs-shipping" role="tabpanel">
+      <CustomModal
+        showOn={openNote}
+        initialFocus={cancelButtonRef}
+        onClose={() => {
+          setOpenNote(false);
+        }}
+      >
+        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+          <div className="mt-2">
+            <p className="mb-4 py-4 text-sm lg:py-6">{note}</p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
+            onClick={() => {
+              setOpenNote(false);
+              contentRef?.current?.classList.remove('blur-sm');
+            }}
+            ref={cancelButtonRef}
+          >
+            <FormattedMessage id="general.cancel" />
+          </button>
+        </div>
+      </CustomModal>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -168,6 +199,20 @@ const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                           scope="col"
                           className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setNote(car.follow_car_title_note);
+                              setOpenNote(true);
+                              contentRef?.current?.classList.add('blur-sm');
+                            }}
+                            className={classNames(
+                              !car.follow_car_title_note ? 'hidden' : '',
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            )}
+                          >
+                            Notes
+                          </button>
                           {car.delivered_title === '1' ||
                           car.follow_title === '1' ? (
                             <CheckCircleIcon

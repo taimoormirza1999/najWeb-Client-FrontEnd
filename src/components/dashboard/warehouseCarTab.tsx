@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import CustomModal from '@/components/CustomModal';
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
@@ -55,6 +56,8 @@ const WarehouseCarTab = ({
   setLoading,
 }) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -71,6 +74,32 @@ const WarehouseCarTab = ({
 
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
+      <CustomModal
+        showOn={openNote}
+        initialFocus={cancelButtonRef}
+        onClose={() => {
+          setOpenNote(false);
+        }}
+      >
+        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+          <div className="mt-2">
+            <p className="mb-4 py-4 text-sm lg:py-6">{note}</p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
+            onClick={() => {
+              setOpenNote(false);
+              contentRef?.current?.classList.remove('blur-sm');
+            }}
+            ref={cancelButtonRef}
+          >
+            <FormattedMessage id="general.cancel" />
+          </button>
+        </div>
+      </CustomModal>
       <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -257,7 +286,11 @@ const WarehouseCarTab = ({
                           scope="col"
                           className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          <img className="max-h-[50px]" src={car.image} alt="" />
+                          <img
+                            className="max-h-[50px]"
+                            src={car.image}
+                            alt=""
+                          />
                         </td>
                         <td
                           scope="col"
@@ -311,6 +344,20 @@ const WarehouseCarTab = ({
                           scope="col"
                           className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setNote(car.titleNote);
+                              setOpenNote(true);
+                              contentRef?.current?.classList.add('blur-sm');
+                            }}
+                            className={classNames(
+                              !car.follow_car_title_note ? 'hidden' : '',
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            )}
+                          >
+                            Notes
+                          </button>
                           {car.deliveredTitle === '1' ||
                           car.followTitle === '1' ? (
                             <CheckCircleIcon
@@ -347,6 +394,7 @@ const WarehouseCarTab = ({
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           <img
+                            className="max-h-[50px]"
                             src={car.image}
                             alt=""
                             onClick={() => {

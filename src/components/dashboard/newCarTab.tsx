@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { Cancelled } from '@/components/dashboard/newCar/cancelled';
 import { Paid } from '@/components/dashboard/newCar/paid';
@@ -8,7 +9,6 @@ import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-import { FormattedMessage } from 'react-intl';
 
 const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
   let carTableData;
