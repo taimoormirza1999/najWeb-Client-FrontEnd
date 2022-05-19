@@ -19,7 +19,7 @@ const ContactDetails = () => {
             +971 65 440 202
           </a>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
-          <FormattedMessage id="Customer Service" />
+          <FormattedMessage id="customer.service" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
           <a
@@ -29,7 +29,7 @@ const ContactDetails = () => {
             +971 58 931 1465
           </a>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
-            <FormattedMessage id="Logistics Services" />
+            <FormattedMessage id="Logistics_Services" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
           <a
@@ -54,7 +54,7 @@ const ContactDetails = () => {
             info@naj.ae
           </a>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
-          <FormattedMessage id="Customer Service" />
+          <FormattedMessage id="customer.service" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
           <a
@@ -64,7 +64,7 @@ const ContactDetails = () => {
             support@naj.ae
           </a>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
-            <FormattedMessage id="Logistics Services" />
+            <FormattedMessage id="Logistics_Services" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
           <a

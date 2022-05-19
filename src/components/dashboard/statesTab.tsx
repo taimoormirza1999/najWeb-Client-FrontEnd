@@ -2,17 +2,17 @@ import { classNames } from '@/utils/Functions';
 import { FormattedMessage } from 'react-intl';
 
 const carTableHeader = [
-  { name: 'New Jersey' },
-  { name: 'Texas' },
-  { name: 'Georgia' },
-  { name: 'Washington' },
-  { name: 'California' },
+  { name: <FormattedMessage id="status.new_jersey" /> },
+  { name: <FormattedMessage id="status.texas" /> },
+  { name: <FormattedMessage id="status.georgia" /> },
+  { name: <FormattedMessage id="status.washington" /> },
+  { name: <FormattedMessage id="status.california" /> },
 ];
 
 const StatesTab = ({ carsRecords }) => {
   const carTableData = [
     {
-      name: 'New',
+      name: <FormattedMessage id="page.customer.dashboard.new_cars" />,
       ng: carsRecords?.newCarsNG,
       tx: carsRecords?.newCarsTX,
       ga: carsRecords?.newCarsGA,
@@ -20,7 +20,7 @@ const StatesTab = ({ carsRecords }) => {
       ca: carsRecords?.newCarsCA,
     },
     {
-      name: 'Left',
+      name: <FormattedMessage id="status.left" />,
       ng: carsRecords?.newLeftCarsNG,
       tx: carsRecords?.newLeftCarsTX,
       ga: carsRecords?.newLeftCarsGA,
@@ -28,7 +28,7 @@ const StatesTab = ({ carsRecords }) => {
       ca: carsRecords?.newLeftCarsCA,
     },
     {
-      name: 'Warehouse',
+      name: <FormattedMessage id="page.customer.dashboard.at_warehouse" />,
       ng: carsRecords?.newWearhouseCarsNG,
       tx: carsRecords?.newWearhouseCarsTX,
       ga: carsRecords?.newWearhouseCarsGA,
@@ -36,7 +36,7 @@ const StatesTab = ({ carsRecords }) => {
       ca: carsRecords?.newWearhouseCarsCA,
     },
     {
-      name: 'Shipping',
+      name: <FormattedMessage id="page.customer.dashboard.in_shipping" />,
       ng: carsRecords?.newLoadingCarsNG,
       tx: carsRecords?.newLoadingCarsTX,
       ga: carsRecords?.newLoadingCarsGA,
@@ -45,7 +45,7 @@ const StatesTab = ({ carsRecords }) => {
     },
 
     {
-      name: 'Arrived',
+      name: <FormattedMessage id="page.customer.dashboard.arrived" />,
       ng: carsRecords?.newArriveCarsNG,
       tx: carsRecords?.newArriveCarsTX,
       ga: carsRecords?.newArriveCarsGA,

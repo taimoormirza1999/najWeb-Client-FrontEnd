@@ -1,12 +1,18 @@
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
+import { FormattedMessage } from 'react-intl';
 
 const Branches = () => (
   <Layout meta={<Meta title="Nejoum Branches" description="Nejoum Branches" />}>
     <div className="container mx-auto">
       <Breadcrumbs
-        breadcrumbs={[{ name: 'Nejoum Branches', href: '/branches' }]}
+        breadcrumbs={[
+          {
+            name: <FormattedMessage id="nejoum.branches" />,
+            href: '/branches',
+          },
+        ]}
       />
     </div>
 

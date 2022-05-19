@@ -50,6 +50,7 @@ function getDirection(locale) {
   return 'ltr';
 }
 const Layout = (props: IMainProps) => {
+  const intl = useIntl();
   const router = useRouter();
   const { locale } = router;
   if (typeof window !== 'undefined') {
@@ -219,7 +220,7 @@ const Layout = (props: IMainProps) => {
                     {navigation.map((link) => (
                       <Link href={link.href} key={link.name}>
                         <a className="text-base font-medium text-white hover:text-indigo-50">
-                          <FormattedMessage id= {link.name}/>
+                          <FormattedMessage id={link.name} />
                         </a>
                       </Link>
                     ))}
@@ -245,7 +246,7 @@ const Layout = (props: IMainProps) => {
                     <>
                       <Link href="/customer/dashboard">
                         <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
-                          Dashboard
+                        <FormattedMessage id="general.dashboard" />
                         </a>
                       </Link>
                       <Link href="/auth/newAccount">
@@ -253,7 +254,7 @@ const Layout = (props: IMainProps) => {
                           className="ml-5 whitespace-nowrap rounded-sm bg-white py-[6px] px-2 italic hover:border-none hover:text-blue-500 lg:hidden xl:inline-block"
                           onClick={handleSignOut}
                         >
-                          Sign Out
+                          <FormattedMessage id="general.signout" />
                         </a>
                       </Link>
                     </>
@@ -261,12 +262,12 @@ const Layout = (props: IMainProps) => {
                     <>
                       <Link href="/login">
                         <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
-                        <FormattedMessage id="Sign in" />
+                          <FormattedMessage id="sign.in" />
                         </a>
                       </Link>
                       <Link href="/auth/newAccount">
                         <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-[6px] px-2 italic hover:border-none hover:text-blue-500">
-                          Sign up
+                          <FormattedMessage id="sign.up" />
                         </a>
                       </Link>
                     </>
@@ -308,7 +309,7 @@ const Layout = (props: IMainProps) => {
                                         'block px-4 py-2'
                                       )}
                                     >
-                                      Dashboard
+                                      <FormattedMessage id="general.dashboard" />
                                     </a>
                                   </Link>
                                 )}
@@ -322,7 +323,7 @@ const Layout = (props: IMainProps) => {
                                     )}
                                     onClick={handleSignOut}
                                   >
-                                    Sign Out
+                                    <FormattedMessage id="general.signout" />
                                   </a>
                                 )}
                               </Menu.Item>
@@ -340,7 +341,7 @@ const Layout = (props: IMainProps) => {
                                         'block px-4 py-2'
                                       )}
                                     >
-                                      <FormattedMessage id="Sign in" />
+                                      <FormattedMessage id="sign.in" />
                                     </a>
                                   </Link>
                                 )}
@@ -356,7 +357,7 @@ const Layout = (props: IMainProps) => {
                                         'block px-4 py-2'
                                       )}
                                     >
-                                      Sign Up
+                                      <FormattedMessage id="sign.up" />
                                     </a>
                                   </Link>
                                 )}
@@ -438,7 +439,7 @@ const Layout = (props: IMainProps) => {
                       <>
                         <Link href="/customer/dashboard">
                           <a className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                            Dashboard
+                          <FormattedMessage id="general.dashboard" />
                           </a>
                         </Link>
                         <p className="mt-6 text-center text-base font-medium text-gray-500">
@@ -447,7 +448,7 @@ const Layout = (props: IMainProps) => {
                               className="text-indigo-600 hover:text-indigo-500"
                               onClick={handleSignOut}
                             >
-                              Sign Out
+                              <FormattedMessage id="general.signout" />
                             </a>
                           </Link>
                         </p>
@@ -456,14 +457,14 @@ const Layout = (props: IMainProps) => {
                       <>
                         <Link href="/auth/newAccount">
                           <a className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                            Sign up
+                            <FormattedMessage id="sign.up" />
                           </a>
                         </Link>
                         <p className="mt-6 text-center text-base font-medium text-gray-500">
                           Existing customer?{' '}
                           <Link href="/login">
                             <a className="text-indigo-600 hover:text-indigo-500">
-                            <FormattedMessage id="Sign in" />
+                            <FormattedMessage id="sign.in" />
                             </a>
                           </Link>
                         </p>
@@ -496,65 +497,67 @@ const Layout = (props: IMainProps) => {
                 <div className="footer-menu mb-10 flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row lg:mb-0">
                   <div>
                     <h4 className="text-xl font-semibold">
-                      <FormattedMessage id="Services" />
+                      <FormattedMessage id="general.services" />
                     </h4>
                     <ul>
                       <li>
                         <Link href="/">
                           <a className="text-white">
-                            <FormattedMessage id="Buying From Auctions" />
+                            <FormattedMessage id="buying.from.auctions" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/services/shipping">
                           <a>
-                            <FormattedMessage id="Shipping Cars" />
+                            <FormattedMessage id="shipping.cars" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/cars/showroom">
                           <a>
-                            <FormattedMessage id="Selling Cars" />
+                            <FormattedMessage id="selling.cars" />
                           </a>
                         </Link>
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold">Legal</h4>
+                    <h4 className="text-xl font-semibold">
+                      <FormattedMessage id="legal" />
+                    </h4>
                     <ul>
                       <li>
                         <Link href="/customer/termsandconditions">
                           <a>
-                            <FormattedMessage id="Terms & Conditions" />
+                            <FormattedMessage id="page.customer.dashboard.navigation_terms_conditions" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <a href="#">
-                          <FormattedMessage id="Privacy Policy" />
+                          <FormattedMessage id="privacy.policy" />
                         </a>
                       </li>
                     </ul>
                   </div>
                   <div>
                     <h4 className="text-xl font-semibold">
-                      <FormattedMessage id="Company" />
+                      <FormattedMessage id="company" />
                     </h4>
                     <ul>
                       <li>
                         <Link href="/about/story">
                           <a>
-                            <FormattedMessage id="Our Story" />
+                            <FormattedMessage id="our.story" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/about/vision">
                           <a>
-                            <FormattedMessage id="About Nejoum" />
+                            <FormattedMessage id="general.about" />
                           </a>
                         </Link>
                       </li>
@@ -562,26 +565,28 @@ const Layout = (props: IMainProps) => {
                   </div>
                   <div>
                     <h4 className="text-xl font-semibold">
-                      <FormattedMessage id="Contact Us" />
+                      <FormattedMessage id="general.contact" />
                     </h4>
                     <ul>
                       <li>
                         <Link href="/customer/complaint">
                           <a>
-                            <FormattedMessage id="Customer Service" />
+                            <FormattedMessage id="customer.service" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/branches">
                           <a>
-                            <FormattedMessage id="Nejoum Branches" />
+                            <FormattedMessage id="nejoum.branches" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/career">
-                          <a>Career</a>
+                          <a>
+                            <FormattedMessage id="general.career" />
+                          </a>
                         </Link>
                       </li>
                     </ul>
@@ -592,7 +597,7 @@ const Layout = (props: IMainProps) => {
               <div className="basis-[25%]">
                 <div className="mb-8 flex gap-3 sm:justify-end lg:mb-0">
                   <span className="py-1 text-white">
-                    <FormattedMessage id="Follow us" />
+                    <FormattedMessage id="follow.us" />
                   </span>
                   <Link
                     href="https://www.facebook.com/NejoumaljazeeraCars/"
@@ -642,22 +647,22 @@ const Layout = (props: IMainProps) => {
             <div className="flex-wrap justify-between text-white sm:flex">
               <div className="mb-8 self-end lg:mb-0">
                 <h4 className="text-lg font-semibold">
-                  <FormattedMessage id="We are in" />
+                  <FormattedMessage id="we.are.in" />
                 </h4>
                 <p className="text-lg font-light">
-                  <FormattedMessage id="UAE - USA - Oman - Jordan - Iraq - Yemen - Cambodia" />
+                  <FormattedMessage id="uae_usa_oman_jordan_iraq_yemen_cambodia" />
                 </p>
               </div>
 
               <div>
                 <p className="font-light">
-                  <FormattedMessage id="Subscribe for anouncements" />
+                  <FormattedMessage id="subscribe.for.anouncements" />
                 </p>
                 <form method="post" action="" className="mb-4 py-4">
                   <input
                     type="email"
                     name="email"
-                    placeholder="Email Address"
+                    placeholder={intl.formatMessage({ id: 'Email' })}
                     className="rounded-md border border-white bg-transparent placeholder:text-sm placeholder:text-white"
                   />
                   <input
@@ -667,13 +672,13 @@ const Layout = (props: IMainProps) => {
                   />
                 </form>
                 <h4 className="text-lg font-semibold">
-                  <FormattedMessage id="UAE Working Hours" />
+                  <FormattedMessage id="uae.working.hours" />
                 </h4>
                 <p className="text-[16px] md:text-lg">
-                  <FormattedMessage id="Sat - Thu : 08:30 am - 01:00 pm /" />{' '}
+                  <FormattedMessage id="Sat-Thu:08:30am-01:00pm/" />
                 </p>
                 <p className="text-[16px] md:text-lg">
-                  <FormattedMessage id="04:00 pm - 09:00 pm" />
+                  <FormattedMessage id="04:00pm-09:00pm" />
                 </p>
               </div>
             </div>
@@ -687,10 +692,10 @@ const Layout = (props: IMainProps) => {
 
               <div className="self-end text-white">
                 <p className="text-[16px] md:text-lg">
-                  <FormattedMessage id="Industrial Area 4, Sharjah, UAE" />
+                  <FormattedMessage id="Industrial.Area4.Sharjah.UAE" />
                 </p>
                 <p className="text-[16px] md:text-lg">
-                  <FormattedMessage id="Nejoum Aljazeera Used Cars L.L.C." />
+                  <FormattedMessage id="Nejoum_Aljazeera_Used_Cars_L.L.C." />
                 </p>
               </div>
             </div>

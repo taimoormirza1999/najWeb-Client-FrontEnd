@@ -8,7 +8,7 @@ import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCar
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const Statement = ({
   selectedParams,
@@ -21,6 +21,7 @@ const Statement = ({
   const [inAuctionCarsState, setInAuctionCars] = useState(inAuctionCars);
   const [generalEntries, setGeneralEntries] = useState(generalEntries); */
   const [inputValue, setInputValue] = useState(selectedParams);
+  const intl = useIntl();
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -32,7 +33,7 @@ const Statement = ({
       <div className="mx-auto px-8">
         <div className="m-4">
           <h4 className="text-dark-blue py-4 text-center text-xl font-semibold sm:text-3xl">
-            General Statement
+            <FormattedMessage id="page.customer.dashboard.navigation_statement" />
           </h4>
         </div>
         <p className="py-3">
@@ -40,7 +41,7 @@ const Statement = ({
             &#xe164;
           </i>
           <span className="text-dark-blue ml-4 align-middle text-4xl">
-            Filter
+            <FormattedMessage id="statement.filter" />
           </span>
         </p>
 
@@ -52,11 +53,11 @@ const Statement = ({
               value={inputValue.arrived_status}
               onChange={handleChange}
             >
-              <option value="">Car Status</option>
-              <option value="3">All</option>
-              <option value="1">
-                <FormattedMessage id="page.customer.dashboard.arrived" />
+              <option value="">
+                {intl.formatMessage({ id: 'car.status' })}
               </option>
+              <option value="3">All</option>
+              <option value="1">Arrived Cars</option>
               <option value="2">Not Arrived</option>
             </select>
             <select
@@ -65,7 +66,9 @@ const Statement = ({
               value={inputValue.remaining_status}
               onChange={handleChange}
             >
-              <option value="">Payment Status</option>
+              <option value="">
+                {intl.formatMessage({ id: 'payment.status' })}
+              </option>
               <option value="3">All</option>
               <option value="1">Paid</option>
               <option value="2">UnPaid</option>
@@ -76,7 +79,7 @@ const Statement = ({
               value={inputValue.transfer_status}
               onChange={handleChange}
             >
-              <option value="">Transfer</option>
+              <option value="">{intl.formatMessage({ id: 'Transfer' })}</option>
               <option value="3">All</option>
               <option value="1">Paid</option>
               <option value="2">UnPaid</option>
@@ -110,7 +113,7 @@ const Statement = ({
               type="submit"
               className="bg-teal-blue block rounded-md py-1 px-4 text-xl font-medium text-white hover:border-0 hover:bg-blue-400"
             >
-              Submit
+              <FormattedMessage id="general.submit" />
             </button>
           </div>
         </form>

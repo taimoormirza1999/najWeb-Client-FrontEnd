@@ -140,7 +140,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
               <i className="material-icons  text-yellow-orange align-middle">
                 &#xe14f;
               </i>
-              Cars Summary
+              <FormattedMessage id="page.customer.dashboard.cars_summary" />
             </h4>
             <SearchLot></SearchLot>
           </div>
