@@ -66,7 +66,7 @@ const StatesTab = ({ carsRecords }) => {
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg lg:max-w-[900px]">
+              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg lg:max-w-[900px]">
                 <table className="w-full divide-y divide-gray-300 ">
                   <thead className="bg-white">
                     <tr>

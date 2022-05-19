@@ -6,7 +6,7 @@ const Towing = ({ carsRecords }) => {
       key={car.carId}
       className={classNames(
         index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
-        'text-xs sm:text-[17px]'
+        'text-sm'
       )}
     >
       <td
