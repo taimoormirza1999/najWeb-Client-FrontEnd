@@ -66,15 +66,15 @@ const ArrivedCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300 border border-[#005fb7]">
+              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th) => (
                         <th
                           key={th.name}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-sm font-semibold text-blue-600 sm:text-xl"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
                           {th.name}
                         </th>
@@ -87,7 +87,7 @@ const ArrivedCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                         key={car.carId}
                         className={classNames(
                           index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
-                          'text-xs sm:text-[17px]'
+                          'text-sm'
                         )}
                       >
                         <td
