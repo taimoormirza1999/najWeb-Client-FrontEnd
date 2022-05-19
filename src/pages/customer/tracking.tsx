@@ -1,10 +1,11 @@
 /* eslint-disable func-names */
+import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import CustomModal from '@/components/CustomModal';
 import {
   ArrivedIcon,
   BoatIcon,
@@ -25,10 +26,8 @@ export async function getServerSideProps(context) {
     props: { apiUrl: process.env.API_URL, search },
   };
 }
-const Tracking = ({ apiUrl, search }) => {
-
+const Tracking = ({ search }) => {
   const { setLoading } = useContext(UserContext);
-  const intl = useIntl();
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState(search);
   const [storeDate, setStoreDate] = useState('');
@@ -40,6 +39,10 @@ const Tracking = ({ apiUrl, search }) => {
   const [portDate, setPortDate] = useState('');
   const [vin, setVin] = useState('');
   const [lotnumber, setLotnumber] = useState('');
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const okButtonErrorRef = useRef(null);
+  const intl = useIntl();
+
   let carDetails: {
     car_data: any;
     arrive_store: any;
@@ -51,13 +54,12 @@ const Tracking = ({ apiUrl, search }) => {
   };
   const getTracking = async () => {
     if (searchValue) {
-      setLoading(true);
+      // setLoading(true);
       axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
       await axios
         .get(`/api/customer/tracking?lot_vin=${searchValue}`)
         .then(function (response) {
-          console.log(response?.data?.data?.data);
-          if (response?.data?.data?.data) {
+          if (response?.data?.data?.data.car_data) {
             carDetails = response.data.data?.data;
             setVin(carDetails?.car_data?.vin);
             setLotnumber(carDetails?.car_data?.lotnumber);
@@ -69,10 +71,13 @@ const Tracking = ({ apiUrl, search }) => {
             setPortDate(carDetails?.arrived_port?.arrival_date);
             setDeliveredDate(carDetails?.deliver_customer?.deliver_create_date);
             // set the completed modules
-            setLoading(false);
+            // setLoading(false);
+          } else {
+            setErrorModalOpen(true);
           }
         })
         .catch(function (apiError) {
+          setErrorModalOpen(true);
           console.log(apiError);
           setLoading(false);
         });
@@ -82,16 +87,49 @@ const Tracking = ({ apiUrl, search }) => {
     search = '';
     getTracking();
   }
+
+  const startTracking = async (e) => {
+    e?.preventDefault();
+    getTracking();
+  };
+
   return (
     <Layout meta={<Meta title="Tracking" description="" />}>
+      <CustomModal
+        showOn={errorModalOpen}
+        initialFocus={okButtonErrorRef}
+        onClose={() => {
+          setErrorModalOpen(false);
+        }}
+      >
+        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+          <i className="material-icons mb-4 text-6xl text-red-800">&#xe160;</i>
+          <Dialog.Title as="h3" className="text-4xl font-bold leading-6">
+            {intl.formatMessage({ id: 'general.sorry' })}
+          </Dialog.Title>
+          <div className="mt-2">
+            <p className="mb-4 py-6 text-2xl">
+              {intl.formatMessage({ id: 'general.technicalErr' })}
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
+            onClick={() => {
+              setErrorModalOpen(false);
+            }}
+            ref={okButtonErrorRef}
+          >
+            {intl.formatMessage({ id: 'messages.ok' })}
+          </button>
+        </div>
+      </CustomModal>
       <div className="m-4">
         <div>
-          <h3 className="text-dark-blue pb-8 text-4xl font-bold sm:text-2xl">
-            <i
-              className={classNames(
-                'material-icons  text-yellow-orange align-middle'
-              )}
-            >
+          <h3 className="text-dark-blue pb-8 text-xl font-bold sm:text-3xl">
+            <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
               &#xe55e;
             </i>
             <FormattedMessage id="page.customer.dashboard.navigation_tracking" />
@@ -103,51 +141,56 @@ const Tracking = ({ apiUrl, search }) => {
               alt="Nejoum Al Jazeera"
             />
             <div className="relative m-auto">
-              <input
-                type="text"
-                className="
-                      m-auto
-                      mt-4
-                      block
-                      w-full
-                      rounded
-                      border
-                      border-solid
-                      border-[#8F9294]
-                      bg-white
-                      bg-clip-padding px-3
-                      py-1.5 text-center text-base
-                      font-normal
-                      italic
-                      text-[#818181]
-                      transition
-                      ease-in-out
-                      focus:text-gray-700 focus:outline-none
-                    "
-                name="lotSearch"
-                id="lotSearch"
-                value={searchValue}
-                onInput={(e) =>
-                  setSearchValue((e.target as HTMLInputElement).value)
-                }
-                placeholder={intl.formatMessage({ id: 'Track.Car.by.Vin.Number' })}
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-[8px] right-[8px] h-5 w-5 text-[#818181]"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                onClick={() => {
-                  getTracking();
-                }}
-              >
-                {' '}
-                <path
-                  fillRule="evenodd"
-                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />{' '}
-              </svg>
+              <form method="post" onSubmit={startTracking}>
+                <input
+                  type="text"
+                  className="
+                        m-auto
+                        mt-4
+                        block
+                        w-full
+                        rounded
+                        border
+                        border-solid
+                        border-[#8F9294]
+                        bg-white
+                        bg-clip-padding px-3
+                        py-1.5 text-center text-base
+                        font-normal
+                        italic
+                        text-[#818181]
+                        transition
+                        ease-in-out
+                        focus:text-gray-700 focus:outline-none
+                      "
+                  name="lotSearch"
+                  required
+                  id="lotSearch"
+                  value={searchValue}
+                  onInput={(e) =>
+                    setSearchValue((e.target as HTMLInputElement).value)
+                  }
+                  placeholder={intl.formatMessage({
+                    id: 'Track.Car.by.Vin.Number',
+                  })}
+                />
+                <button type="submit" className="block">
+                  <svg
+                    type="submit"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute top-1 h-8 w-7 cursor-pointer text-[#818181] ltr:right-1 rtl:left-1 rtl:rotate-180"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    {' '}
+                    <path
+                      fillRule="evenodd"
+                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />{' '}
+                  </svg>
+                </button>
+              </form>
               <p className="mt-3 flex rounded-md bg-[#045FB7] py-2 text-white">
                 <span className="flex-1 ltr:mr-3 ltr:text-right rtl:ml-3 rtl:text-left">
                   Vin:{vin}
@@ -157,7 +200,7 @@ const Tracking = ({ apiUrl, search }) => {
                 </span>
               </p>
             </div>
-            <div className="mt-4 flex overflow-x-scroll xl:overflow-x-visible dd">
+            <div className="dd mt-4 flex overflow-x-scroll xl:overflow-x-visible">
               <div className="flex-1">
                 <NewCarIcon
                   color={purchaseDate ? '#0193FF' : '#045FB7'}

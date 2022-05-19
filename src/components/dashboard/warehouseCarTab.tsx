@@ -60,7 +60,6 @@ const WarehouseCarTab = ({
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
   const cancelButtonRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-warehouse&page=`;
   const GetImages = async (car_id) => {
     setLoading(true);
@@ -229,7 +228,6 @@ const WarehouseCarTab = ({
                     className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
                     onClick={() => {
                       setRedirectModalOpen(false);
-                      contentRef?.current?.classList.remove('blur-sm');
                     }}
                     ref={cancelButtonRef}
                   >
@@ -399,7 +397,6 @@ const WarehouseCarTab = ({
                             alt=""
                             onClick={() => {
                               GetImages(car.carId);
-                              contentRef?.current?.classList.add('blur-sm');
                             }}
                           />
                         </td>

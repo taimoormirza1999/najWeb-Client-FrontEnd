@@ -42,7 +42,7 @@ const Shipping = () => (
               receives an update about the status at any time.
             </p>
           </div>
-          <div className="absolute top-[-240px] right-[-175px] basis-2/6">
+          <div className="absolute top-[-240px] basis-2/6 ltr:right-[-175px] rtl:left-[-175px]">
             <img
               src="/assets/images/cargo-tracking.png"
               alt="Cargo Tracking"

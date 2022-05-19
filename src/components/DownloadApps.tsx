@@ -17,7 +17,7 @@ const DownloadApps = () => {
             alt="iOS App"
           />
         </li>
-        <li className="ml-4 inline-block md:ml-24">
+        <li className="inline-block ltr:ml-4 rtl:mr-4 md:ltr:ml-24 md:rtl:mr-24">
           <img
             className="h-10 md:h-20"
             src="/assets/images/google-store-icon.png"

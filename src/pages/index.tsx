@@ -1,19 +1,16 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
 
 import DownloadApps from '../components/DownloadApps';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useEffect } from 'react';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Index = ({ announcements }) => {
-  const { t } = useTranslation('common');
   return (
     <Layout
       meta={<Meta title="" description="Nejoum Al Jazeera" />}
@@ -230,14 +227,13 @@ const Index = ({ announcements }) => {
   );
 };
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps() {
   const res = await axios.get(`${apiUrl}adsAnnouncement`);
   const announcements = res.data;
 
   return {
     props: {
       announcements,
-      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 }

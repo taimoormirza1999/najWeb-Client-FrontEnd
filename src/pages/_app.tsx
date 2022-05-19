@@ -2,10 +2,8 @@ import '../styles/global.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import { config } from '@fortawesome/fontawesome-svg-core';
-import { AppProps } from 'next/app';
 import { Router, useRouter } from 'next/router';
 import { SessionProvider } from 'next-auth/react';
-import { appWithTranslation } from 'next-i18next';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import SimpleReactLightbox from 'simple-react-lightbox';
@@ -31,7 +29,7 @@ function getDirection(locale) {
 }
 
 function MyApp({ Component, pageProps, session }) {
-  const { locale } = useRouter();
+  const { locale = 'en' } = useRouter();
   const [loading, setLoading] = React.useState(false);
 
   Router.events.on('routeChangeStart', () => {
@@ -49,7 +47,11 @@ function MyApp({ Component, pageProps, session }) {
               setLoading,
             }}
           >
-            <Component {...pageProps} dir={getDirection(locale)} />
+            <Component
+              {...pageProps}
+              dir={getDirection(locale)}
+              locale={locale}
+            />
             {loading && <Loader></Loader>}
           </UserContext.Provider>
         </IntlProvider>

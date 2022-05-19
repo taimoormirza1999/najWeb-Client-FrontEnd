@@ -1,13 +1,13 @@
 const Loader = () => {
   return (
-    <div className="fixed top-[0] z-[99999] h-[100%] w-[100%] bg-[aliceblue]">
-      <div className="absolute top-[50%] left-[50%] h-[0] w-[2em] overflow-visible pt-[2em]">
+    <div className="fixed top-0 z-[99999] h-full w-full bg-[aliceblue]">
+      <div className="absolute top-1/2 left-1/2 w-8 overflow-visible pt-8">
         <img
-          alt=""
-          className="absolute top-[-1rem] w-[6rem] max-w-[inherit]"
-          src="https://nejoumaljazeera.co/assets/img/loading-new.gif"
+          alt="Loading"
+          className="absolute -top-4 w-24 max-w-max"
+          src="/assets/images/loading-new.gif"
         ></img>
-        <p className="float-left mt-[1em] ml-[-50%] translate-x-2/4 animate-pulse whitespace-nowrap text-[0.875em] text-[#1976d2]">
+        <p className="text-azure-blue mt-8 animate-pulse whitespace-nowrap text-sm">
           Nejoum Al Jazeera
         </p>
       </div>

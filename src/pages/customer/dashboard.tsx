@@ -155,7 +155,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
         <div className="m-4">
           <div className="flex">
             <h4 className="text-dark-blue flex-1 pb-8 text-xl sm:text-2xl">
-              <i className="material-icons  text-yellow-orange align-middle">
+              <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>
               <FormattedMessage id="page.customer.dashboard.cars_summary" />

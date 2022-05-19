@@ -3,17 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog } from '@headlessui/react';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import Breadcrumbs from '@/components/Breadcrumbs';
 import CustomModal from '@/components/CustomModal';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-import { FormattedMessage, useIntl } from "react-intl";
 
 const Career = () => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <Layout
@@ -29,7 +28,6 @@ const Career = () => {
         initialFocus={cancelButtonRef}
         onClose={() => {
           setRedirectModalOpen(false);
-          contentRef?.current?.classList.remove('blur-sm');
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -37,11 +35,11 @@ const Career = () => {
             as="h3"
             className="text-xl font-bold leading-6 md:text-2xl lg:text-3xl"
           >
-            <FormattedMessage id= "page.career.redirecting"/>
+            <FormattedMessage id="page.career.redirecting" />
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-4 text-lg md:text-xl lg:py-6 lg:text-2xl">
-            <FormattedMessage id= "page.career.redirectingDesc"/>
+              <FormattedMessage id="page.career.redirectingDesc" />
             </p>
           </div>
         </div>
@@ -51,11 +49,10 @@ const Career = () => {
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
             onClick={() => {
               setRedirectModalOpen(false);
-              contentRef?.current?.classList.remove('blur-sm');
             }}
             ref={cancelButtonRef}
           >
-            <FormattedMessage id= "general.cancel"/>
+            <FormattedMessage id="general.cancel" />
           </button>
           <Link href="https://ae.linkedin.com/company/nejoumaljazeera" passHref>
             <a
@@ -63,7 +60,6 @@ const Career = () => {
               className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-4 py-1 text-lg font-medium text-white hover:border-0 hover:bg-blue-500 md:px-10 md:py-2 lg:text-xl"
               onClick={() => {
                 setRedirectModalOpen(false);
-                contentRef?.current?.classList.remove('blur-sm');
               }}
             >
               <FormattedMessage id="general.continue" />
@@ -80,25 +76,29 @@ const Career = () => {
         />
       </div>
 
-      <div className="container mx-auto" ref={contentRef}>
+      <div className="container mx-auto">
         <div className="text-dark-blue py-2">
           <h3 className="mb-4 text-center text-2xl font-semibold xl:text-4xl">
-          <FormattedMessage id= "page.career.title"/>
+            <FormattedMessage id="page.career.title" />
           </h3>
           <p className="py-2 text-lg lg:text-2xl">
             <FontAwesomeIcon
               icon={faBriefcase}
-              className="mr-4 text-orange-400"
+              className="text-orange-400 ltr:mr-4 rtl:ml-4"
             />
             <span className="font-bold">
-              <span className="font-sen"><FormattedMessage id= "general.naj"/></span> <FormattedMessage id= "page.career.title"/>
+              <span className="font-sen">
+                <FormattedMessage id="general.naj" />
+              </span>{' '}
+              <FormattedMessage id="page.career.title" />
             </span>{' '}
-            
           </p>
           <p className="mb-4 py-4 text-lg lg:text-2xl">
-            <FormattedMessage id= "page.career.desc1"/> {' '}
-            <span className="font-sen font-bold"><FormattedMessage id= "page.services.shipping.nejoum"/></span> 
-            <FormattedMessage id= "page.career.desc2"/> 
+            <FormattedMessage id="page.career.desc1" />{' '}
+            <span className="font-sen font-bold">
+              <FormattedMessage id="page.services.shipping.nejoum" />
+            </span>
+            <FormattedMessage id="page.career.desc2" />
           </p>
           <div className="flex flex-col gap-8 pb-32 lg:flex-row lg:gap-16">
             <img
@@ -108,20 +108,19 @@ const Career = () => {
             />
             <div className="flex flex-col justify-center">
               <h3 className="text-lg font-semibold lg:text-2xl xl:text-3xl">
-                <FormattedMessage id= "page.career.joinTeam"/>
+                <FormattedMessage id="page.career.joinTeam" />
               </h3>
               <p className="py-4 text-lg lg:text-xl xl:text-2xl">
-                <FormattedMessage id= "page.career.joinTeamDesc"/>
+                <FormattedMessage id="page.career.joinTeamDesc" />
               </p>
 
               <button
                 className="bg-azure-blue my-4 inline-block max-w-max cursor-pointer rounded-md px-5 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:px-10"
                 onClick={() => {
                   setRedirectModalOpen(true);
-                  contentRef?.current?.classList.add('blur-sm');
                 }}
               >
-                <FormattedMessage id= "page.career.apply"/>
+                <FormattedMessage id="page.career.apply" />
               </button>
             </div>
           </div>

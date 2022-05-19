@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { getCsrfToken, signIn } from 'next-auth/react';
 import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { AppConfig } from '@/utils/AppConfig';
-import { FormattedMessage } from 'react-intl';
 
 const errors = {
   Signin: 'Try signing with a different account.',
@@ -26,9 +26,9 @@ const SignInError = ({ error, className }) => {
   return <div className={className}>{errorMessage}</div>;
 };
 
-export default function Login() {
+export default function Login({ locale }) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('nejoum2020');
 
   const router = useRouter();
   const { error } = useRouter().query;
@@ -45,7 +45,7 @@ export default function Login() {
       email,
       password,
       redirect: true,
-      callbackUrl: `${window.location.origin}/customer/dashboard`,
+      callbackUrl: `${locale !== 'en' ? `/${locale}` : ''}/customer/dashboard`,
     });
   };
 
@@ -151,12 +151,12 @@ export default function Login() {
                   className="border-azure-blue bg-azure-blue hover:bg-dark-blue flex w-full justify-center rounded-md border-2 py-2 px-4 text-lg font-semibold text-white shadow-sm"
                   onClick={handleSignIn}
                 >
-                  <FormattedMessage id= "sign.in"/>
+                  <FormattedMessage id="sign.in" />
                 </button>
 
                 <Link href="/auth/newAccount">
                   <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-lg font-semibold shadow-sm">
-                  <FormattedMessage id= "sign.up"/>
+                    <FormattedMessage id="sign.up" />
                   </a>
                 </Link>
               </div>

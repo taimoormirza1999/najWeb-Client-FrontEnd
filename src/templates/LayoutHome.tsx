@@ -10,9 +10,8 @@ import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
 import { Fragment, ReactNode, useRef, useState } from 'react';
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import AnnouncementsCarousel from '@/components/Announcement/AnnouncementsCarousel';
 import CustomModal from '@/components/CustomModal';
@@ -57,10 +56,9 @@ const Layout = (props: IMainProps) => {
     document.body.setAttribute('dir', getDirection(locale));
   }
   const { data: session } = useSession();
-  //const { t } = useTranslation('common');
+  // const { t } = useTranslation('common');
   const [anouncementModalOpen, setAnouncementModalOpen] = useState(false);
   const closeAnouncementButtonRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const [anouncementDetail, setAnouncementDetail] = useState<Announcement>({
     title_english: '',
     title_arabic: '',
@@ -89,7 +87,6 @@ const Layout = (props: IMainProps) => {
         initialFocus={closeAnouncementButtonRef}
         onClose={() => {
           setAnouncementModalOpen(false);
-          contentRef?.current?.classList.remove('blur-sm');
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -127,7 +124,6 @@ const Layout = (props: IMainProps) => {
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
             onClick={() => {
               setAnouncementModalOpen(false);
-              contentRef?.current?.classList.remove('blur-sm');
             }}
             ref={closeAnouncementButtonRef}
           >
@@ -135,37 +131,43 @@ const Layout = (props: IMainProps) => {
           </button>
         </div>
       </CustomModal>
-      <div ref={contentRef}>
+      <div>
         {props.meta}
 
-        {props.announcements === [] ? (
+        {props.announcements ? (
           <div className="bg-light-grey mb-5 xl:flex">
             <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
-              <div className="top-0 right-0 hidden w-[75px] overflow-hidden xl:absolute xl:inline-block">
+              <div className="top-0 right-0 hidden w-[75px] overflow-hidden xl:absolute xl:inline-block rtl:hidden">
                 <div className="bg-light-grey h-[110px] origin-top-left -rotate-45"></div>
               </div>
               <h3 className="text-center text-xl font-semibold text-white sm:text-2xl md:text-3xl">
                 Important Anouncements
               </h3>
             </div>
-            <div className="text-dark-blue basis-2/3" >
-              <AnnouncementsCarousel >
+            <div className="text-dark-blue basis-2/3">
+              <AnnouncementsCarousel>
                 {props.announcements.map((row, index) => (
                   <div className="embla__slide" key={index}>
                     <div className="embla__slide__inner pb-9 xl:pb-0">
-                      <p className="p-2 pr-2 text-[14px] md:text-xl xl:pr-6">
-                        <span className="font-bold">{row.title_english}. </span>
-                        {row.body_english.substring(0, 220)}...
+                      <p className="p-2 pr-2 text-[14px] md:text-xl xl:pr-6 rtl:text-right">
+                        <span className="font-bold">
+                          {locale === 'ar'
+                            ? row.title_arabic
+                            : row.title_english}
+                          .{' '}
+                        </span>
+                        {locale === 'ar'
+                          ? `${row.body_arabic.substring(0, 200)} ...`
+                          : `${row.body_english.substring(0, 220)} ...`}
                         {row.announcement_type === '1' ? (
                           <span
                             className="ml-2 cursor-pointer text-lg font-semibold italic"
                             onClick={() => {
                               setAnouncementDetail(row);
                               setAnouncementModalOpen(true);
-                              contentRef?.current?.classList.add('blur-sm');
                             }}
                           >
-                            (Read more)
+                            (<FormattedMessage id="read.more" />)
                           </span>
                         ) : (
                           <Link
@@ -179,7 +181,7 @@ const Layout = (props: IMainProps) => {
                               target="_blank"
                               className="ml-2 cursor-pointer text-lg font-semibold italic"
                             >
-                              (Read more)
+                              (<FormattedMessage id="read.more" />)
                             </a>
                           </Link>
                         )}
@@ -194,8 +196,8 @@ const Layout = (props: IMainProps) => {
           <div className="my-5"></div>
         )}
         <Popover className="relative bg-white">
-          <div className="mb-7 flex items-center justify-between lg:justify-start lg:space-x-10">
-            <div className="flex justify-end lg:w-0 lg:basis-[18%]">
+          <div className="mb-7 flex items-center justify-between lg:justify-start lg:gap-10">
+            <div className="flex justify-end lg:w-0 lg:basis-[19%]">
               <Link href="/">
                 <a className="hover:border-0">
                   <span className="sr-only">{AppConfig.title}</span>
@@ -213,10 +215,10 @@ const Layout = (props: IMainProps) => {
                 <MenuIcon className="h-6 w-6" aria-hidden="true" />
               </Popover.Button>
             </div>
-            <div className="bg-dark-blue !ml-4 hidden basis-[88%] py-4 pr-5 lg:flex">
+            <div className="bg-dark-blue hidden basis-[88%] py-4 pr-5 ltr:!ml-4 rtl:!mr-4 lg:flex">
               <nav className="hidden w-full items-center justify-center space-x-10 md:flex">
                 <div className="flex items-center justify-center">
-                  <div className="hidden space-x-6 lg:block">
+                  <div className="hidden gap-x-6 lg:flex">
                     {navigation.map((link) => (
                       <Link href={link.href} key={link.name}>
                         <a className="text-base font-medium text-white hover:text-indigo-50">
@@ -240,18 +242,20 @@ const Layout = (props: IMainProps) => {
                 </div>
               </nav>
               <div className="hidden items-center justify-start md:flex md:flex-1 md:basis-[35%] lg:w-0">
-                <i className="material-icons text-white lg:mr-2 rtl:ml-2">&#xe7fd;</i>
+                <i className="material-icons text-white rtl:ml-2 lg:ltr:mr-2">
+                  &#xe7fd;
+                </i>
                 <div className="lg:hidden xl:block">
                   {session?.token ? (
                     <>
                       <Link href="/customer/dashboard">
                         <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
-                        <FormattedMessage id="general.dashboard" />
+                          <FormattedMessage id="general.dashboard" />
                         </a>
                       </Link>
                       <Link href="/auth/newAccount">
                         <a
-                          className="ml-5 whitespace-nowrap rounded-sm bg-white py-[6px] px-2 italic hover:border-none hover:text-blue-500 lg:hidden xl:inline-block"
+                          className="whitespace-nowrap rounded-sm bg-white py-[4px] px-2 italic hover:border-none hover:text-blue-500 ltr:ml-5 rtl:mr-5 lg:hidden xl:inline-block"
                           onClick={handleSignOut}
                         >
                           <FormattedMessage id="general.signout" />
@@ -372,7 +376,7 @@ const Layout = (props: IMainProps) => {
                 <select
                   onChange={changeLanguage}
                   defaultValue={locale}
-                  className="ml-2 border-0 bg-transparent text-white focus:outline-none"
+                  className="border-0 bg-transparent text-white focus:outline-none focus:ring-0 ltr:ml-2 rtl:mr-2"
                   title="Select language"
                   name="language"
                 >
@@ -426,7 +430,7 @@ const Layout = (props: IMainProps) => {
                           className="-m-3 flex items-center rounded-lg p-3 hover:bg-gray-50"
                         >
                           <div className="ml-4 text-base font-medium text-gray-900">
-                          <FormattedMessage id={link.name} />
+                            <FormattedMessage id={link.name} />
                           </div>
                         </a>
                       ))}
@@ -439,7 +443,7 @@ const Layout = (props: IMainProps) => {
                       <>
                         <Link href="/customer/dashboard">
                           <a className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                          <FormattedMessage id="general.dashboard" />
+                            <FormattedMessage id="general.dashboard" />
                           </a>
                         </Link>
                         <p className="mt-6 text-center text-base font-medium text-gray-500">
@@ -464,7 +468,7 @@ const Layout = (props: IMainProps) => {
                           Existing customer?{' '}
                           <Link href="/login">
                             <a className="text-indigo-600 hover:text-indigo-500">
-                            <FormattedMessage id="sign.in" />
+                              <FormattedMessage id="sign.in" />
                             </a>
                           </Link>
                         </p>
@@ -493,8 +497,8 @@ const Layout = (props: IMainProps) => {
                   </a>
                 </Link>
               </div>
-              <div className="basis-[65%] sm:pl-8 md:pl-4">
-                <div className="footer-menu mb-10 flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row lg:mb-0">
+              <div className="basis-[65%] sm:pl-8 md:pl-4 my-8">
+                <div className="footer-menu mb-10 flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row">
                   <div>
                     <h4 className="text-xl font-semibold">
                       <FormattedMessage id="general.services" />
@@ -655,22 +659,24 @@ const Layout = (props: IMainProps) => {
               </div>
 
               <div>
-                <p className="font-light">
-                  <FormattedMessage id="subscribe.for.anouncements" />
-                </p>
-                <form method="post" action="" className="mb-4 py-4">
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder={intl.formatMessage({ id: 'Email' })}
-                    className="rounded-md border border-white bg-transparent placeholder:text-sm placeholder:text-white"
-                  />
-                  <input
-                    type="submit"
-                    value="Ok"
-                    className="-ml-1 rounded-r-md border bg-white px-4 py-2 pt-[11px] text-sm text-black"
-                  />
-                </form>
+                <div className="hidden">
+                  <p className="font-light">
+                    <FormattedMessage id="subscribe.for.anouncements" />
+                  </p>
+                  <form method="post" action="" className="mb-4 py-4">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder={intl.formatMessage({ id: 'Email' })}
+                      className="rounded-md border border-white bg-transparent placeholder:text-sm placeholder:text-white"
+                    />
+                    <input
+                      type="submit"
+                      value="Ok"
+                      className="-ml-1 rounded-r-md border bg-white px-4 py-2 pt-[11px] text-sm text-black"
+                    />
+                  </form>
+                </div>
                 <h4 className="text-lg font-semibold">
                   <FormattedMessage id="uae.working.hours" />
                 </h4>
@@ -685,9 +691,11 @@ const Layout = (props: IMainProps) => {
 
             <div className="my-5 border"></div>
 
-            <div className="flex-wrap justify-between gap-4 pt-2 text-center sm:flex sm:pt-12 sm:text-left">
+            <div className="flex-wrap justify-between gap-4 pt-2 text-center sm:flex sm:pt-12 sm:ltr:text-left sm:rtl:text-right">
               <div className="text-white">
-                <p className="text-lg font-light">© 2022 Nejoum Aljazeera</p>
+                <p className="text-lg font-light">
+                  © {new Date().getFullYear()} Nejoum Aljazeera
+                </p>
               </div>
 
               <div className="self-end text-white">
