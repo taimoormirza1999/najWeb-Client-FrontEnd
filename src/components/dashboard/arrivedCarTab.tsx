@@ -61,44 +61,8 @@ const ArrivedCarTab = ({
     ];
   }
   const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
-  const statusTypes = [
-    {
-      name: 'page.customer.dashboard.arrived_port',
-      href: 'port',
-    },
-    {
-      name: 'page.customer.dashboard.arrived_store',
-      href: 'store',
-    },
-  ];
   return (
     <div className="" id="tabs-arrived" role="tabpanel">
-      <nav
-        className="mt-[15px] flex max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4"
-        aria-label="Tabs"
-      >
-        {statusTypes.map((status) => (
-          <Link
-            key={status.name}
-            href={{
-              pathname: '/customer/dashboard/',
-              query: { tab: 'tabs-arrived', type: status.href },
-            }}
-          >
-            <a
-              key={status.href}
-              className={classNames(
-                type === status.href
-                  ? ' text-blue-600'
-                  : 'text-gray-500 hover:text-gray-700',
-                'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
-              )}
-            >
-              <FormattedMessage id={status.name} />
-            </a>
-          </Link>
-        ))}
-      </nav>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
