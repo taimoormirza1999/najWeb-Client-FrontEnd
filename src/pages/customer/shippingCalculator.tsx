@@ -26,7 +26,6 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
   const cancelButtonRef = useRef(null);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const okButtonErrorRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const [inputValue, setInputValue] = useState<CalculatorInputs>({
     vehicle_type: '',
@@ -75,11 +74,9 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
       })
       .then((res) => {
         setCalculatorResult(res.data.data);
-        contentRef?.current?.classList.add('blur-sm');
         setCalculatorModalOpen(true);
       })
       .catch(() => {
-        contentRef?.current?.classList.add('blur-sm');
         setErrorModalOpen(true);
       });
   };
@@ -91,7 +88,6 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
         initialFocus={cancelButtonRef}
         onClose={() => {
           setCalculatorModalOpen(false);
-          contentRef?.current?.classList.remove('blur-sm');
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -114,7 +110,6 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
             onClick={() => {
               setCalculatorModalOpen(false);
-              contentRef?.current?.classList.remove('blur-sm');
             }}
             ref={cancelButtonRef}
           >
@@ -127,7 +122,6 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
         initialFocus={okButtonErrorRef}
         onClose={() => {
           setErrorModalOpen(false);
-          contentRef?.current?.classList.remove('blur-sm');
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -147,7 +141,6 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
             className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
             onClick={() => {
               setErrorModalOpen(false);
-              contentRef?.current?.classList.remove('blur-sm');
             }}
             ref={okButtonErrorRef}
           >
@@ -156,7 +149,7 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
         </div>
       </CustomModal>
 
-      <div className="text-dark-blue px-4 py-12" ref={contentRef}>
+      <div className="text-dark-blue px-4 py-12">
         <h2 className="text-center text-5xl font-semibold">
           <span className="font-bold">
             <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />

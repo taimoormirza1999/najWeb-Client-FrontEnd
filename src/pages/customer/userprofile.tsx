@@ -18,7 +18,6 @@ const Profile = ({ apiUrl }) => {
   const [newPasswordError, setNewPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [passswordSuccess, setPassswordSuccess] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
   const fullName = session?.profile[0]?.full_name;
   const phoneNo = session?.profile[0]?.phone;
@@ -62,7 +61,6 @@ const Profile = ({ apiUrl }) => {
         .then(function (response) {
           if (response.data.success === true) {
             setPassswordSuccess(true);
-            contentRef?.current?.classList.add('blur-sm');
             setShowProfile(true);
           } else {
             setOldPasswordError(response.data.message);
@@ -76,7 +74,7 @@ const Profile = ({ apiUrl }) => {
 
   return (
     <Layout meta={<Meta title="Terms and Conditions" description="" />}>
-      <div className="m-4" ref={contentRef}>
+      <div className="m-4">
         <div>
           <h4 className="text-dark-blue pb-8 text-3xl font-bold sm:text-2xl">
             <i
@@ -149,7 +147,6 @@ const Profile = ({ apiUrl }) => {
                       className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
                       onClick={() => {
                         setPassswordSuccess(false);
-                        contentRef?.current?.classList.remove('blur-sm');
                       }}
                     >
                       Okay

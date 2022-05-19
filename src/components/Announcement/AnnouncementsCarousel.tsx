@@ -61,11 +61,11 @@ const AnnouncementsCarousel = ({ children }) => {
 
   return (
     <>
-      <div className="embla relative">
+      <div className="embla relative" dir="ltr">
         <div className="embla__viewport" ref={viewportRef}>
           <div className="embla__container"> {children} </div>
         </div>
-        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 xl:left-auto xl:right-4 xl:translate-x-0">
+        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 xl:left-auto xl:ltr:right-4 xl:translate-x-0 xl:rtl:left-4">
           <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
           <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
         </div>

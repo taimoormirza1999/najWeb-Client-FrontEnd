@@ -15,7 +15,6 @@ const Contact = () => {
   const intl = useIntl();
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const okButtonRef = useRef(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const okButtonErrorRef = useRef(null);
   const [inputValue, setInputValue] = useState({
@@ -38,7 +37,6 @@ const Contact = () => {
 
     if (response.success === true) {
       setSubmitModalOpen(true);
-      contentRef?.current?.classList.add('blur-sm');
       setInputValue(() => ({
         name: '',
         email: '',
@@ -47,7 +45,6 @@ const Contact = () => {
       }));
     } else {
       setErrorModalOpen(true);
-      contentRef?.current?.classList.add('blur-sm');
     }
   };
 
@@ -63,7 +60,6 @@ const Contact = () => {
         initialFocus={okButtonRef}
         onClose={() => {
           setSubmitModalOpen(false);
-          contentRef?.current?.classList.remove('blur-sm');
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -86,7 +82,6 @@ const Contact = () => {
             className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
             onClick={() => {
               setSubmitModalOpen(false);
-              contentRef?.current?.classList.remove('blur-sm');
             }}
             ref={okButtonRef}
           >
@@ -99,7 +94,6 @@ const Contact = () => {
         initialFocus={okButtonErrorRef}
         onClose={() => {
           setErrorModalOpen(false);
-          contentRef?.current?.classList.remove('blur-sm');
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -119,7 +113,6 @@ const Contact = () => {
             className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
             onClick={() => {
               setErrorModalOpen(false);
-              contentRef?.current?.classList.remove('blur-sm');
             }}
             ref={okButtonErrorRef}
           >
@@ -127,7 +120,7 @@ const Contact = () => {
           </button>
         </div>
       </CustomModal>
-      <div className="container mx-auto" ref={contentRef}>
+      <div className="container mx-auto">
         <Breadcrumbs
           breadcrumbs={[
             {
@@ -138,7 +131,7 @@ const Contact = () => {
         />
       </div>
 
-      <div className="bg-light-grey text-dark-blue py-12" ref={contentRef}>
+      <div className="bg-light-grey text-dark-blue py-12">
         <div className="container mx-auto">
           <h2 className="text-center text-5xl font-semibold">
             <FormattedMessage id="Stay.in.Touch" />

@@ -38,7 +38,7 @@ const CarProfile = ({ carProfileData }) => {
           <i className="material-icons text-yellow-orange align-middle text-5xl">
             &#xe66b;
           </i>
-          <span className="text-dark-blue ml-4 align-middle text-5xl font-bold">
+          <span className="text-dark-blue ltr:ml-4 rtl:mr-4 align-middle text-5xl font-bold">
             <FormattedMessage id="Car_Profile" />
           </span>
         </p>
@@ -88,7 +88,7 @@ const CarProfile = ({ carProfileData }) => {
             </div>
             <div className="mb-4 bg-white px-12 py-2 shadow-md">
               <div className="flex">
-                <i className="material-icons text-yellow-orange mr-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">VIN</h3>
@@ -99,7 +99,7 @@ const CarProfile = ({ carProfileData }) => {
             </div>
             <div className="mb-4 bg-white px-12 py-2 shadow-md">
               <div className="flex">
-                <i className="material-icons text-yellow-orange mr-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">
@@ -112,7 +112,7 @@ const CarProfile = ({ carProfileData }) => {
             </div>
             <div className="mb-4 bg-white px-12 py-2 shadow-md">
               <div className="flex">
-                <i className="material-icons text-yellow-orange mr-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">
@@ -125,7 +125,7 @@ const CarProfile = ({ carProfileData }) => {
             </div>
             <div className="mb-4 bg-white px-12 py-2 shadow-md">
               <div className="flex">
-                <i className="material-icons text-yellow-orange mr-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">
@@ -138,7 +138,7 @@ const CarProfile = ({ carProfileData }) => {
             </div>
             <div className="mb-4 bg-white px-12 py-2 shadow-md">
               <div className="flex">
-                <i className="material-icons text-yellow-orange mr-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
                   &#xe9ef;
                 </i>
                 <h3 className="text-dark-blue py-2 text-3xl font-bold">

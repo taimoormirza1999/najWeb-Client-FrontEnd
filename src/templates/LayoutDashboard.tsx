@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useState } from 'react';
-import { FormattedMessage, useIntl  } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
@@ -34,7 +34,7 @@ const Layout = (props: IMainProps) => {
         <FormattedMessage id="page.customer.dashboard.navigation_statement" />
       ),
       href: '/customer/statement',
-      gicon: '&#xe853;',
+      gicon: '&#xe873;',
       current: false,
     },
     {
@@ -42,7 +42,7 @@ const Layout = (props: IMainProps) => {
         <FormattedMessage id="page.customer.dashboard.navigation_price_lists" />
       ),
       href: `/customer/lists`,
-      gicon: '&#xe14f;',
+      gicon: '&#xf1b6;',
       current: false,
     },
     {
@@ -50,7 +50,7 @@ const Layout = (props: IMainProps) => {
         <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
       ),
       href: '/customer/shippingCalculator',
-      gicon: 'e14f',
+      gicon: '&#xe24a;',
       current: false,
     },
     {
@@ -58,7 +58,7 @@ const Layout = (props: IMainProps) => {
         <FormattedMessage id="page.customer.dashboard.navigation_tracking" />
       ),
       href: '/customer/tracking',
-      gicon: '&#xe853;',
+      gicon: '&#xf05f;',
       current: false,
     },
     {
@@ -66,7 +66,7 @@ const Layout = (props: IMainProps) => {
         <FormattedMessage id="page.customer.dashboard.navigation_complaints" />
       ),
       href: '/customer/complaints',
-      gicon: '&#xe14f;',
+      gicon: '&#xe560;',
       current: false,
     },
     {
@@ -74,7 +74,7 @@ const Layout = (props: IMainProps) => {
         <FormattedMessage id="page.customer.dashboard.navigation_terms_conditions" />
       ),
       href: '/customer/termsandconditions',
-      gicon: '&#xe14f;',
+      gicon: '&#xe048;',
       current: false,
     },
   ];
@@ -163,8 +163,8 @@ const Layout = (props: IMainProps) => {
                     </Link>
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
-                    {navigation.map((item) => (
-                      <Link key={item.name} href={item.href}>
+                    {navigation.map((item, index) => (
+                      <Link key={index} href={item.href}>
                         <a
                           className={classNames(
                             router.pathname === item.href
@@ -173,7 +173,7 @@ const Layout = (props: IMainProps) => {
                             'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                           )}
                         >
-                          <i className="material-icons text-xs lg:mr-2">
+                          <i className="material-icons text-xs lg:ltr:mr-2 lg:rtl:ml-2">
                             &#xe14f;
                           </i>
                           {item.name}
@@ -195,7 +195,7 @@ const Layout = (props: IMainProps) => {
                           {fullName}
                         </p>
                         <p
-                          className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
+                          className="text-medium-gray px-1 text-xs font-medium group-hover:text-gray-700"
                           onClick={() =>
                             signOut({
                               callbackUrl: `${window.location.origin}`,
@@ -205,7 +205,7 @@ const Layout = (props: IMainProps) => {
                           <i className="material-icons text-xs lg:mr-2">
                             &#xe9ba;
                           </i>
-                          {intl.formatMessage({ id: "general.signout" })}
+                          {intl.formatMessage({ id: 'general.signout' })}
                         </p>
                       </div>
                     </div>
@@ -236,19 +236,20 @@ const Layout = (props: IMainProps) => {
                 </Link>
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-1">
-                {navigation.map((item) => (
-                  <Link key={item.name} href={item.href}>
+                {navigation.map((item, index) => (
+                  <Link key={index} href={item.href}>
                     <a
                       className={classNames(
                         router.pathname === item.href
                           ? 'bg-hover-grey text-gray-900'
                           : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                        'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl'
+                        'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
                       )}
                     >
-                      <i className="material-icons text-3xl lg:mr-2">
-                        &#xe14f;
-                      </i>
+                      <i
+                        className="material-icons lg:ltr::mr-2 text-3xl lg:rtl:ml-2"
+                        dangerouslySetInnerHTML={{ __html: item.gicon }}
+                      ></i>
                       {item.name}
                     </a>
                   </Link>
@@ -258,21 +259,21 @@ const Layout = (props: IMainProps) => {
             <div className="flex shrink-0 border-t border-gray-200 p-4">
               <div className="flex">
                 <div>
-                  <i className="material-icons text-yellow-orange text-3xl">
+                  <i className="material-icons text-yellow-orange text-3xl ltr:mr-2 rtl:ml-2">
                     &#xe853;
                   </i>
                 </div>
                 <div className="">
                   <Link href="/customer/userprofile">
-                    <a className="group block w-full shrink-0 hover:border-inherit">
-                      <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl ">
+                    <a className="group block w-full shrink-0 hover:border-0">
+                      <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 sm:text-xl ">
                         {fullName}
                       </p>
                     </a>
                   </Link>
                   <a
                     href="#"
-                    className="group block w-full shrink-0 hover:border-inherit"
+                    className="group block w-full shrink-0 hover:border-0 hover:border-inherit"
                   >
                     <p
                       className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
@@ -282,7 +283,9 @@ const Layout = (props: IMainProps) => {
                         })
                       }
                     >
-                      <i className="material-icons text-xs lg:mr-2">&#xe9ba;</i>
+                      <i className="material-icons text-xs lg:ltr:mr-2 lg:rtl:ml-2">
+                        &#xe9ba;
+                      </i>
                       {intl.formatMessage({ id: 'general.signout' })}
                     </p>
                   </a>
@@ -307,7 +310,7 @@ const Layout = (props: IMainProps) => {
               <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
-                    {intl.formatMessage({ id: 'general.welcome' })} {fullName}
+                    {intl.formatMessage({ id: 'general.welcome' })}: {fullName}
                   </h2>
                 </div>
                 <select
