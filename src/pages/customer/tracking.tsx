@@ -24,24 +24,28 @@ export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
   const session: any = await getSession(context);
   let carDetail = {};
+  let errorModal = false;
   if (search) {
     axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
     await axios
       .get(`${process.env.API_URL}getTrackSearch?lot_vin=${search}`)
       .then(function (response) {
-        if (response?.data) {
+        if (response?.data?.data?.car_data) {
           carDetail = response.data?.data;
+        } else {
+          errorModal = true;
         }
       })
       .catch(function (apiError) {
+        errorModal = true;
         console.log(apiError);
       });
   }
   return {
-    props: { search, carDetail },
+    props: { search, carDetail, errorModal },
   };
 }
-const Tracking = ({ search, carDetail }) => {
+const Tracking = ({ search, carDetail, errorModal }) => {
   const { setLoading } = useContext(UserContext);
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState(search);
@@ -68,7 +72,7 @@ const Tracking = ({ search, carDetail }) => {
   );
   const [vin, setVin] = useState(carDetail?.car_data?.vin);
   const [lotnumber, setLotnumber] = useState(carDetail?.car_data?.lotnumber);
-  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(errorModal);
   const okButtonErrorRef = useRef(null);
   const intl = useIntl();
   let carDetails: {
@@ -85,7 +89,7 @@ const Tracking = ({ search, carDetail }) => {
       // setLoading(true);
       axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
       await axios
-        .get(`/api/customer/tracking?lot_vin=${searchValue}`)
+        .get(`/api/customer/tracking/?lot_vin=${searchValue}`)
         .then(function (response) {
           if (response?.data?.data?.data.car_data) {
             carDetails = response.data.data?.data;
@@ -111,6 +115,12 @@ const Tracking = ({ search, carDetail }) => {
         });
     }
   };
+
+  const startTracking = async (e) => {
+    e.preventDefault();
+    getTracking();
+  };
+
   return (
     <Layout meta={<Meta title="Tracking" description="" />}>
       <CustomModal
@@ -159,65 +169,66 @@ const Tracking = ({ search, carDetail }) => {
               alt="Nejoum Al Jazeera"
             />
             <div className="relative m-auto">
-              <input
-                type="text"
-                className="
-                        m-auto
-                        mt-4
-                        block
-                        w-full
-                        rounded
-                        border
-                        border-solid
-                        border-[#8F9294]
-                        bg-white
-                        bg-clip-padding px-3
-                        py-1.5 text-center text-base
-                        font-normal
-                        italic
-                        text-[#818181]
-                        transition
-                        ease-in-out
-                        focus:text-gray-700 focus:outline-none
-                      "
-                name="lotSearch"
-                required
-                id="lotSearch"
-                value={searchValue}
-                onInput={(e) =>
-                  setSearchValue((e.target as HTMLInputElement).value)
-                }
-                placeholder={intl.formatMessage({
-                  id: 'Track.Car.by.Vin.Number',
-                })}
-              />
-              <svg
-                type="submit"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-1 h-8 w-7 cursor-pointer text-[#818181] ltr:right-1 rtl:left-1 rtl:rotate-180"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                onClick={() => {
-                  getTracking();
-                }}
-              >
-                {' '}
-                <path
-                  fillRule="evenodd"
-                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />{' '}
-              </svg>
+              <form method="post" onSubmit={startTracking}>
+                <input
+                  type="text"
+                  className="
+                            m-auto
+                            mt-4
+                            block
+                            w-full
+                            rounded
+                            border
+                            border-solid
+                            border-[#8F9294]
+                            bg-white
+                            bg-clip-padding px-3
+                            py-1.5 text-center text-base
+                            font-normal
+                            italic
+                            text-[#818181]
+                            transition
+                            ease-in-out
+                            focus:text-gray-700 focus:outline-none
+                          "
+                  name="lotSearch"
+                  required
+                  id="lotSearch"
+                  value={searchValue}
+                  onInput={(e) =>
+                    setSearchValue((e.target as HTMLInputElement).value)
+                  }
+                  placeholder={intl.formatMessage({
+                    id: 'Track.Car.by.Vin.Number',
+                  })}
+                />
+                <button type="submit">
+                  <svg
+                    type="submit"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute top-1 h-8 w-7 cursor-pointer text-[#818181] ltr:right-1 rtl:left-1 rtl:rotate-180"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    {' '}
+                    <path
+                      fillRule="evenodd"
+                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />{' '}
+                  </svg>
+                </button>
+              </form>
               <p className="mt-3 flex rounded-md bg-[#045FB7] py-2 text-white">
                 <span className="flex-1 ltr:mr-3 ltr:text-right rtl:ml-3 rtl:text-left">
-                  Vin:{vin}
+                  Vin: {vin}
                 </span>
                 <span className="flex-1 ltr:ml-3 ltr:text-left rtl:mr-3 rtl:text-right">
-                  Lot:{lotnumber}
+                  Lot: {lotnumber}
                 </span>
               </p>
             </div>
-            <div className="dd mt-4 flex overflow-x-scroll xl:overflow-x-visible">
+            <div className="mt-4 flex overflow-x-scroll xl:overflow-x-visible">
               <div className="flex-1">
                 <NewCarIcon
                   color={purchaseDate ? '#0193FF' : '#045FB7'}
