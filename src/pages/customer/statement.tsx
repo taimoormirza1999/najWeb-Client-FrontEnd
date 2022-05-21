@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getSession } from 'next-auth/react';
 import React, { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Deposits } from '@/components/dashboard/carsStatement/deposits';
 import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntries';
@@ -8,7 +9,6 @@ import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCar
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
-import { FormattedMessage, useIntl } from 'react-intl';
 
 const Statement = ({
   selectedParams,
@@ -32,21 +32,21 @@ const Statement = ({
     <Layout meta={<Meta title="General Statement" description="" />}>
       <div className="mx-auto px-8">
         <div className="m-4">
-          <h4 className="text-dark-blue py-4 text-center text-xl font-semibold sm:text-3xl">
+          <h4 className="text-dark-blue py-4 text-center text-2xl font-semibold md:text-3xl xl:text-4xl">
             <FormattedMessage id="page.customer.dashboard.navigation_statement" />
           </h4>
         </div>
         <p className="py-3">
-          <i className="material-icons text-yellow-orange align-middle text-5xl">
+          <i className="material-icons text-yellow-orange align-middle text-2xl lg:text-5xl">
             &#xe164;
           </i>
-          <span className="text-dark-blue ml-4 align-middle text-4xl">
+          <span className="text-dark-blue ml-4 align-middle text-2xl lg:text-4xl">
             <FormattedMessage id="statement.filter" />
           </span>
         </p>
 
-        <form className="mt-4 mb-12" method="get">
-          <div className="my-8 flex gap-10">
+        <form className="mt-2 mb-12" method="get">
+          <div className="my-2 flex flex-col gap-4 lg:my-8 lg:flex-row lg:gap-10">
             <select
               name="arrived_status"
               className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"

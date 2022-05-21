@@ -10,7 +10,7 @@ import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
-import { Fragment, ReactNode, useRef, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import AnnouncementsCarousel from '@/components/Announcement/AnnouncementsCarousel';
@@ -56,7 +56,8 @@ const Layout = (props: IMainProps) => {
     document.body.setAttribute('dir', getDirection(locale));
   }
   const { data: session } = useSession();
-  // const { t } = useTranslation('common');
+  const [headerFixed, setHeaderFixed] = useState(false);
+
   const [anouncementModalOpen, setAnouncementModalOpen] = useState(false);
   const closeAnouncementButtonRef = useRef(null);
   const [anouncementDetail, setAnouncementDetail] = useState<Announcement>({
@@ -67,6 +68,12 @@ const Layout = (props: IMainProps) => {
     announcement_type: '',
     file_path: '',
   });
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      setHeaderFixed(window.scrollY > 200);
+    });
+  }, []);
 
   const changeLanguage = (e) => {
     const selectedLocale = e.target.value;
@@ -137,7 +144,7 @@ const Layout = (props: IMainProps) => {
         {props.announcements ? (
           <div className="bg-light-grey mb-5 xl:flex">
             <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
-              <div className="top-0 right-0 hidden w-[75px] overflow-hidden xl:absolute xl:inline-block rtl:hidden">
+              <div className="top-0 hidden w-[75px] overflow-hidden ltr:right-0 rtl:rotate-[-90deg] xl:absolute xl:inline-block rtl:xl:left-[17px] rtl:xl:top-[-18px]">
                 <div className="bg-light-grey h-[110px] origin-top-left -rotate-45"></div>
               </div>
               <h3 className="text-center text-xl font-semibold text-white sm:text-2xl md:text-3xl">
@@ -147,9 +154,13 @@ const Layout = (props: IMainProps) => {
             <div className="text-dark-blue basis-2/3">
               <AnnouncementsCarousel>
                 {props.announcements.map((row, index) => (
-                  <div className="embla__slide" key={index}>
-                    <div className="embla__slide__inner pb-9 xl:pb-0">
-                      <p className="p-2 pr-2 text-[14px] md:text-xl xl:pr-6 rtl:text-right">
+                  <div
+                    className="relative flex-1"
+                    style={{ flex: '0 0 100%' }}
+                    key={index}
+                  >
+                    <div className="pb-9 xl:pb-0">
+                      <p className="p-2 pr-2 text-[14px] rtl:text-right md:text-xl xl:pr-6">
                         <span className="font-bold">
                           {locale === 'ar'
                             ? row.title_arabic
@@ -195,9 +206,14 @@ const Layout = (props: IMainProps) => {
         ) : (
           <div className="my-5"></div>
         )}
-        <Popover className="relative bg-white">
-          <div className="mb-7 flex items-center justify-between lg:justify-start lg:gap-10">
-            <div className="flex justify-end lg:w-0 lg:basis-[19%]">
+        <Popover
+          className={classNames(
+            headerFixed ? 'header-fixed shadow-2xl' : '',
+            'sticky top-0 z-50 bg-white'
+          )}
+        >
+          <div className="mb-7 flex items-center justify-between px-4 md:px-8 lg:px-0 xl:justify-start xl:gap-10">
+            <div className="flex justify-end ltr:lg:pl-[7%] rtl:lg:pr-[7%]">
               <Link href="/">
                 <a className="hover:border-0">
                   <span className="sr-only">{AppConfig.title}</span>
@@ -215,13 +231,25 @@ const Layout = (props: IMainProps) => {
                 <MenuIcon className="h-6 w-6" aria-hidden="true" />
               </Popover.Button>
             </div>
-            <div className="bg-dark-blue hidden basis-[88%] py-4 pr-5 ltr:!ml-4 rtl:!mr-4 lg:flex">
+            <div
+              className={classNames(
+                headerFixed ? 'bg-white' : 'bg-dark-blue',
+                'hidden w-full py-4 pr-5 ltr:!ml-4 rtl:!mr-4 lg:flex'
+              )}
+            >
               <nav className="hidden w-full items-center justify-center space-x-10 md:flex">
                 <div className="flex items-center justify-center">
                   <div className="hidden gap-x-6 lg:flex">
                     {navigation.map((link) => (
                       <Link href={link.href} key={link.name}>
-                        <a className="text-base font-medium text-white hover:text-indigo-50">
+                        <a
+                          className={classNames(
+                            headerFixed
+                              ? 'text-dark-blue font-semibold hover:text-blue-700'
+                              : 'text-white font-medium hover:text-indigo-50',
+                            'text-base'
+                          )}
+                        >
                           <FormattedMessage id={link.name} />
                         </a>
                       </Link>
@@ -270,7 +298,12 @@ const Layout = (props: IMainProps) => {
                         </a>
                       </Link>
                       <Link href="/auth/newAccount">
-                        <a className="ml-5 whitespace-nowrap rounded-sm bg-white py-[6px] px-2 italic hover:border-none hover:text-blue-500">
+                        <a
+                          className={classNames(
+                            headerFixed ? 'border border-azure-blue' : '',
+                            'ml-5 whitespace-nowrap rounded-sm bg-white py-[4px] px-2 italic hover:border-none hover:text-blue-500'
+                          )}
+                        >
                           <FormattedMessage id="sign.up" />
                         </a>
                       </Link>
@@ -280,7 +313,7 @@ const Layout = (props: IMainProps) => {
                 <div className="hidden lg:block xl:hidden">
                   <Menu as="div" className="relative inline-block text-left">
                     <div>
-                      <Menu.Button className="inline-flex w-full justify-center rounded-md px-4 py-2 text-white">
+                      <Menu.Button className="inline-flex w-full justify-center rounded-md p-2 text-white">
                         Account
                         <ChevronDownIcon
                           className="-mr-1 ml-2 h-5 w-5"
@@ -376,7 +409,10 @@ const Layout = (props: IMainProps) => {
                 <select
                   onChange={changeLanguage}
                   defaultValue={locale}
-                  className="border-0 bg-transparent text-white focus:outline-none focus:ring-0 ltr:ml-2 rtl:mr-2"
+                  className={classNames(
+                    headerFixed ? 'text-dark-blue' : ' text-white',
+                    'border-0 bg-transparent focus:outline-none focus:ring-0 ltr:ml-2 rtl:mr-2'
+                  )}
                   title="Select language"
                   name="language"
                 >
@@ -485,7 +521,7 @@ const Layout = (props: IMainProps) => {
 
         <footer className="bg-outer-space py-12">
           <div className="container mx-auto">
-            <div className="flex-col flex-wrap justify-center sm:flex sm:flex-row">
+            <div className="flex flex-col flex-wrap justify-center xl:flex-row">
               <div className="basis-[10%]">
                 <Link href="/">
                   <a>
@@ -497,30 +533,30 @@ const Layout = (props: IMainProps) => {
                   </a>
                 </Link>
               </div>
-              <div className="basis-[65%] sm:pl-8 md:pl-4 my-8">
+              <div className="my-8 basis-[65%] xl:pl-4">
                 <div className="footer-menu mb-10 flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row">
                   <div>
-                    <h4 className="text-xl font-semibold">
+                    <h4 className="text-lg font-semibold md:text-xl">
                       <FormattedMessage id="general.services" />
                     </h4>
-                    <ul>
+                    <ul className="text-base font-light md:text-lg">
                       <li>
                         <Link href="/">
-                          <a className="text-white">
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="buying.from.auctions" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/services/shipping">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="shipping.cars" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/cars/showroom">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="selling.cars" />
                           </a>
                         </Link>
@@ -528,39 +564,41 @@ const Layout = (props: IMainProps) => {
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold">
+                    <h4 className="text-lg font-semibold md:text-xl">
                       <FormattedMessage id="legal" />
                     </h4>
-                    <ul>
+                    <ul className="text-base font-light md:text-lg">
                       <li>
                         <Link href="/customer/termsandconditions">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="page.customer.dashboard.navigation_terms_conditions" />
                           </a>
                         </Link>
                       </li>
                       <li>
-                        <a href="#">
-                          <FormattedMessage id="privacy.policy" />
-                        </a>
+                        <Link href="#">
+                          <a className="text-white hover:border-b-0">
+                            <FormattedMessage id="privacy.policy" />
+                          </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold">
+                    <h4 className="text-lg font-semibold md:text-xl">
                       <FormattedMessage id="company" />
                     </h4>
-                    <ul>
+                    <ul className="text-base font-light md:text-lg">
                       <li>
                         <Link href="/about/story">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="our.story" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/about/vision">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="general.about" />
                           </a>
                         </Link>
@@ -571,24 +609,24 @@ const Layout = (props: IMainProps) => {
                     <h4 className="text-xl font-semibold">
                       <FormattedMessage id="general.contact" />
                     </h4>
-                    <ul>
+                    <ul className="text-base font-light md:text-lg">
                       <li>
                         <Link href="/customer/complaint">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="customer.service" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/branches">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="nejoum.branches" />
                           </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/career">
-                          <a>
+                          <a className="text-white hover:border-b-0">
                             <FormattedMessage id="general.career" />
                           </a>
                         </Link>
@@ -598,8 +636,8 @@ const Layout = (props: IMainProps) => {
                 </div>
               </div>
 
-              <div className="basis-[25%]">
-                <div className="mb-8 flex gap-3 sm:justify-end lg:mb-0">
+              <div className="basis-1/4">
+                <div className="mb-8 flex justify-between gap-3 md:justify-start xl:mb-0 xl:justify-end">
                   <span className="py-1 text-white">
                     <FormattedMessage id="follow.us" />
                   </span>
@@ -648,12 +686,12 @@ const Layout = (props: IMainProps) => {
               </div>
             </div>
 
-            <div className="flex-wrap justify-between text-white sm:flex">
-              <div className="mb-8 self-end lg:mb-0">
+            <div className="flex flex-col justify-between text-white lg:flex-row">
+              <div className="mb-8 lg:mb-0 lg:self-end">
                 <h4 className="text-lg font-semibold">
                   <FormattedMessage id="we.are.in" />
                 </h4>
-                <p className="text-lg font-light">
+                <p className="text-base font-light md:text-lg">
                   <FormattedMessage id="uae_usa_oman_jordan_iraq_yemen_cambodia" />
                 </p>
               </div>
@@ -680,10 +718,10 @@ const Layout = (props: IMainProps) => {
                 <h4 className="text-lg font-semibold">
                   <FormattedMessage id="uae.working.hours" />
                 </h4>
-                <p className="text-[16px] md:text-lg">
+                <p className="text-base md:text-lg">
                   <FormattedMessage id="Sat-Thu:08:30am-01:00pm/" />
                 </p>
-                <p className="text-[16px] md:text-lg">
+                <p className="text-base md:text-lg">
                   <FormattedMessage id="04:00pm-09:00pm" />
                 </p>
               </div>
@@ -699,10 +737,10 @@ const Layout = (props: IMainProps) => {
               </div>
 
               <div className="self-end text-white">
-                <p className="text-[16px] md:text-lg">
+                <p className="text-base md:text-lg">
                   <FormattedMessage id="Industrial.Area4.Sharjah.UAE" />
                 </p>
-                <p className="text-[16px] md:text-lg">
+                <p className="text-base md:text-lg">
                   <FormattedMessage id="Nejoum_Aljazeera_Used_Cars_L.L.C." />
                 </p>
               </div>

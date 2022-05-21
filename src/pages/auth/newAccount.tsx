@@ -136,167 +136,165 @@ const NewAccount = () => {
       </div>
 
       <div className="text-dark-blue container mx-auto py-12">
-        <div className="container mx-auto">
-          <h2 className="text-center text-5xl font-semibold">
-            <FormattedMessage id="general.apply_for_account" />
-          </h2>
-          <p className="mb-8 py-6 text-2xl">
-            <FormattedMessage id="apply_for_account_desc" />
-          </p>
+        <h2 className="text-center text-3xl font-semibold lg:text-4xl xl:text-5xl">
+          <FormattedMessage id="general.apply_for_account" />
+        </h2>
+        <p className="mb-8 py-6 text-lg lg:text-2xl">
+          <FormattedMessage id="apply_for_account_desc" />
+        </p>
 
-          <form onSubmit={handleSubmit} autoComplete="false" method="post">
-            <div className="flex w-full flex-col justify-center gap-20 md:flex-row">
-              <div className="basis-1/2">
-                <div className="flex w-full justify-between gap-2">
-                  <label
-                    htmlFor="name"
-                    className="text-dark-blue block basis-1/4 text-xl font-semibold"
-                  >
-                    <FormattedMessage id="Name" />
-                  </label>
-                  <div className="mt-1 basis-3/4">
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      required
-                      placeholder="Your name"
-                      value={inputValue.name}
-                      onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
-                    />
-                  </div>
-                </div>
-                <div className="my-6 flex w-full justify-between gap-2">
-                  <label
-                    htmlFor="email"
-                    className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
-                  >
-                    <FormattedMessage id="Email" />
-                  </label>
-                  <div className="mt-1 basis-3/4">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      placeholder="Your email"
-                      value={inputValue.email}
-                      onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
-                    />
-                  </div>
-                </div>
-                <div className="my-6 flex w-full justify-between gap-2">
-                  <label
-                    htmlFor="phone"
-                    className="text-dark-blue mt-4 block basis-1/4  text-xl font-semibold"
-                  >
-                    <FormattedMessage id="Phone" />
-                  </label>
-                  <div className="mt-1 basis-3/4">
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="text"
-                      required
-                      placeholder="Your phone"
-                      value={inputValue.phone}
-                      onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="hidden my-4 text-2xl">
-                    <input type="checkbox" className="-mt-1 rounded-sm" />
-                    <span className="ml-4">
-                      I have read the
-                      <Link href="/">
-                        <a className="border-azure-blue border-b-2">
-                          {' '}
-                          terms of services
-                        </a>
-                      </Link>
-                    </span>
-                  </label>
+        <form onSubmit={handleSubmit} autoComplete="false" method="post">
+          <div className="flex w-full flex-col justify-center gap-0 lg:flex-row lg:gap-12 xl:gap-20">
+            <div className="basis-1/2">
+              <div className="mb-6 w-full justify-between gap-2 lg:flex">
+                <label
+                  htmlFor="name"
+                  className="text-dark-blue block basis-1/4 text-xl font-semibold"
+                >
+                  <FormattedMessage id="Name" />
+                </label>
+                <div className="mt-1 basis-3/4">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    value={inputValue.name}
+                    onChange={handleChange}
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                  />
                 </div>
               </div>
-              <div className="basis-1/2">
-                <div className="flex w-full justify-between gap-2">
-                  <label
-                    htmlFor="monthly_import"
-                    className="text-dark-blue block basis-1/4 text-xl font-semibold"
-                  >
-                    <FormattedMessage id="Monthly_Import" />
-                  </label>
-                  <div className="mt-1 basis-3/4">
-                    <input
-                      id="monthly_import"
-                      name="monthly_import"
-                      type="number"
-                      required
-                      placeholder="No. of cars imported monthly"
-                      value={inputValue.monthly_import}
-                      onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
-                    />
-                  </div>
+              <div className="mb-6 w-full justify-between gap-2 lg:flex">
+                <label
+                  htmlFor="email"
+                  className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
+                >
+                  <FormattedMessage id="Email" />
+                </label>
+                <div className="mt-1 basis-3/4">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="Your email"
+                    value={inputValue.email}
+                    onChange={handleChange}
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                  />
                 </div>
-                <div className="my-6 flex w-full justify-between gap-2">
-                  <label
-                    htmlFor="company_name"
-                    className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
-                  >
-                    <FormattedMessage id="company" />
-                  </label>
-                  <div className="mt-1 basis-3/4">
-                    <input
-                      id="company_name"
-                      name="company_name"
-                      type="text"
-                      required
-                      placeholder="Company name"
-                      value={inputValue.company_name}
-                      onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
-                    />
-                  </div>
+              </div>
+              <div className="mb-6 w-full justify-between gap-2 lg:flex">
+                <label
+                  htmlFor="phone"
+                  className="text-dark-blue mt-4 block basis-1/4  text-xl font-semibold"
+                >
+                  <FormattedMessage id="Phone" />
+                </label>
+                <div className="mt-1 basis-3/4">
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="text"
+                    required
+                    placeholder="Your phone"
+                    value={inputValue.phone}
+                    onChange={handleChange}
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                  />
                 </div>
-                <div className="my-6 flex w-full justify-between gap-2">
-                  <label
-                    htmlFor="message"
-                    className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
-                  >
-                    <FormattedMessage id="page.customer.dashboard.table.detail" />
-                  </label>
-                  <div className="mt-1 basis-3/4">
-                    <textarea
-                      rows={5}
-                      className="placeholder:text-medium-grey border-dark-blue w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
-                      id="message"
-                      name="message"
-                      placeholder="Any further details about your application"
-                      value={inputValue.message}
-                      onChange={handleChange}
-                    ></textarea>
-                  </div>
+              </div>
+              <div>
+                <label className="my-4 hidden text-2xl">
+                  <input type="checkbox" className="-mt-1 rounded-sm" />
+                  <span className="ml-4">
+                    I have read the
+                    <Link href="/">
+                      <a className="border-azure-blue border-b-2">
+                        {' '}
+                        terms of services
+                      </a>
+                    </Link>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div className="basis-1/2">
+              <div className="mb-6 w-full justify-between gap-2 lg:flex">
+                <label
+                  htmlFor="monthly_import"
+                  className="text-dark-blue block basis-1/4 text-xl font-semibold"
+                >
+                  <FormattedMessage id="Monthly_Import" />
+                </label>
+                <div className="mt-1 basis-3/4">
+                  <input
+                    id="monthly_import"
+                    name="monthly_import"
+                    type="number"
+                    required
+                    placeholder="No. of cars imported monthly"
+                    value={inputValue.monthly_import}
+                    onChange={handleChange}
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                  />
+                </div>
+              </div>
+              <div className="mb-6 w-full justify-between gap-2 lg:flex">
+                <label
+                  htmlFor="company_name"
+                  className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
+                >
+                  <FormattedMessage id="company" />
+                </label>
+                <div className="mt-1 basis-3/4">
+                  <input
+                    id="company_name"
+                    name="company_name"
+                    type="text"
+                    required
+                    placeholder="Company name"
+                    value={inputValue.company_name}
+                    onChange={handleChange}
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                  />
+                </div>
+              </div>
+              <div className="w-full justify-between gap-2 lg:flex">
+                <label
+                  htmlFor="message"
+                  className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
+                >
+                  <FormattedMessage id="page.customer.dashboard.table.detail" />
+                </label>
+                <div className="mt-1 basis-3/4">
+                  <textarea
+                    rows={5}
+                    className="placeholder:text-medium-grey border-dark-blue w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
+                    id="message"
+                    name="message"
+                    placeholder="Any further details about your application"
+                    value={inputValue.message}
+                    onChange={handleChange}
+                  ></textarea>
                 </div>
               </div>
             </div>
+          </div>
 
-            <button
-              type="submit"
-              className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-[6px] px-6 text-lg font-semibold text-white shadow-sm"
-            >
-              <FormattedMessage id="general.submit" />
-            </button>
-          </form>
-        </div>
+          <button
+            type="submit"
+            className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-[6px] px-6 text-lg font-semibold text-white shadow-sm"
+          >
+            <FormattedMessage id="general.submit" />
+          </button>
+        </form>
       </div>
 
       <div className="text-dark-blue container mx-auto pt-8 pb-16">
-        <p className="py-4 text-center text-3xl">
+        <p className="py-4 text-xl md:text-center lg:text-3xl">
           <FormattedMessage id="apply_for_account_desc2" />
         </p>
         <ContactDetails />

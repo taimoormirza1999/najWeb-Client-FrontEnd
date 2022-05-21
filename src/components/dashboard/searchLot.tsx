@@ -23,19 +23,11 @@ const SearchLot = () => {
         <input
           type="text"
           className="
-                      m-auto
-                      mt-0
-                      block
-                      w-full
-                      max-w-[300px]
+                      w-[220px]
                       rounded
                       border
-                      border-solid
                       border-[#8F9294]
-                      bg-white
-                      bg-clip-padding
                       px-3
-                      py-1.5 text-center
                       text-base font-normal italic
                       text-[#818181]
                       transition
@@ -53,7 +45,7 @@ const SearchLot = () => {
         <button type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="absolute top-[8px] h-5 w-5 cursor-pointer text-[#818181] ltr:right-[8px] rtl:left-[8px] rtl:rotate-180"
+            className="absolute top-2 h-6 w-6 cursor-pointer text-[#818181] ltr:right-2 rtl:left-2 rtl:rotate-180"
             viewBox="0 0 20 20"
             fill="currentColor"
           >

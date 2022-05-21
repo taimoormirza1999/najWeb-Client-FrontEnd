@@ -1,7 +1,7 @@
 const NewCarIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[8px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill={color}
@@ -17,7 +17,7 @@ const NewCarIcon = ({ color = '#0193FF' }) => {
 const PaymentIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       enableBackground="new 0 0 24 24"
       viewBox="0 0 24 24"
@@ -34,7 +34,7 @@ const PaymentIcon = ({ color = '#0193FF' }) => {
 const MonetizationIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill={color}
@@ -48,7 +48,7 @@ const MonetizationIcon = ({ color = '#0193FF' }) => {
 const AddRoadIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       enableBackground="new 0 0 24 24"
       viewBox="0 0 24 24"
@@ -75,7 +75,7 @@ const LocalShippingIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
       version="1.1"
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
@@ -99,7 +99,7 @@ const LocalShippingIcon = ({ color = '#0193FF' }) => {
 const WarehouseIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       enableBackground="new 0 0 24 24"
       viewBox="0 0 24 24"
@@ -118,7 +118,7 @@ const WarehouseIcon = ({ color = '#0193FF' }) => {
 const BoatIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill={color}
@@ -133,7 +133,7 @@ const PortIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
       version="1.1"
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
@@ -201,7 +201,7 @@ const MovingCarIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
       version="1.1"
-      className="w-[30px] sm:w-[40px] md:w-[50px] ml-[6px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
@@ -234,7 +234,7 @@ const MovingCarIcon = ({ color = '#0193FF' }) => {
 const CheckCircleIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill={color}
@@ -247,7 +247,7 @@ const CheckCircleIcon = ({ color = '#0193FF' }) => {
 const ArrivedIcon = ({ color = '#0193FF' }) => {
   return (
     <svg
-      className="w-[30px] sm:w-[40px] md:w-[50px]"
+      className="mx-auto w-[40px] md:w-[50px]"
       fill={color}
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"

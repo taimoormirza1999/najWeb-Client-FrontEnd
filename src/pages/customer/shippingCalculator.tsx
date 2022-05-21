@@ -3,11 +3,11 @@ import axios from 'axios';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import CustomModal from '@/components/CustomModal';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutDashboard';
-import { FormattedMessage, useIntl } from 'react-intl';
 
 export type CalculatorInputs = {
   vehicle_type: string;
@@ -150,12 +150,12 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
       </CustomModal>
 
       <div className="text-dark-blue px-4 py-12">
-        <h2 className="text-center text-5xl font-semibold">
+        <h2 className="text-center text-2xl font-semibold lg:text-3xl xl:text-5xl">
           <span className="font-bold">
             <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
           </span>
         </h2>
-        <p className="mb-8 py-6 text-center text-2xl">
+        <p className="mb-8 py-6 text-center text-xl lg:text-2xl">
           <FormattedMessage id="estimate_calculator_desc" />
         </p>
 
