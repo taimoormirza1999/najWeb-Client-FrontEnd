@@ -21,21 +21,21 @@ const InAuctionCars = ({ tableData }) => {
 
   return (
     <>
-      <div className="mt-20 flex justify-between">
-        <h3 className="text-dark-blue my-4 self-start py-4 text-2xl font-semibold">
+      <div className="mt-20 flex flex-col justify-between md:flex-row">
+        <h3 className="text-dark-blue my-1 self-start text-2xl font-semibold md:my-4 md:py-4">
           <FormattedMessage id="statement.shipped_cars.cars_amount_in_the_auction" />
         </h3>
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'Search' })}
-          className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
+          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg italic text-gray-700 md:self-end"
           value={inAuctionTableSearch}
           onChange={(e) => {
             setInAuctionTableSearch(e.target.value);
           }}
         />
       </div>
-      <div className="border-azure-blue overflow-hidden rounded-xl border">
+      <div className="border-azure-blue overflow-x-auto rounded-xl border">
         <table className="w-full table-auto">
           <thead>
             <tr className="w-full">

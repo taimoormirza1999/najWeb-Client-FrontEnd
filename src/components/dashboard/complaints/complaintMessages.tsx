@@ -12,7 +12,7 @@ const ComplaintMessages = ({ complaintMessages, notes }) => {
             parseInt(row.parent_id, 10) === 0
               ? 'bg-teal-blue ltr:self-end rtl:self-start text-white'
               : 'ltr:self-start rtl:self-end bg-white text-dark-blue',
-            'border-medium-grey mb-4 w-1/2 rounded-md border p-3 text-[16px] shadow-xl'
+            'border-medium-grey mb-4 w-4/5 xl:w-1/2 rounded-md border p-3 text-[16px] shadow-xl'
           )}
         >
           {row.message}

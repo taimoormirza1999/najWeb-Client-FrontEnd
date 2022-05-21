@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const PrevButton = ({ enabled, onClick }) => (
   <button
-    className="embla__button embla__button--next"
+    className="embla__button embla__button--next disabled:cursor-no-drop"
     onClick={onClick}
     disabled={!enabled}
   >
@@ -16,7 +16,7 @@ export const PrevButton = ({ enabled, onClick }) => (
 
 export const NextButton = ({ enabled, onClick }) => (
   <button
-    className="embla__button embla__button--next ml-2"
+    className="embla__button embla__button--next ml-2 disabled:cursor-no-drop"
     onClick={onClick}
     disabled={!enabled}
   >
@@ -61,11 +61,11 @@ const AnnouncementsCarousel = ({ children }) => {
 
   return (
     <>
-      <div className="embla relative" dir="ltr">
+      <div className="relative overflow-hidden" dir="ltr">
         <div className="embla__viewport" ref={viewportRef}>
-          <div className="embla__container"> {children} </div>
+          <div className="flex"> {children} </div>
         </div>
-        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 xl:left-auto xl:ltr:right-4 xl:translate-x-0 xl:rtl:left-4">
+        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 xl:left-auto xl:translate-x-0 xl:ltr:right-4 xl:rtl:left-4">
           <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
           <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
         </div>

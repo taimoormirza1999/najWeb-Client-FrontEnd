@@ -1,11 +1,11 @@
 import axios from 'axios';
 import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 import { SRLWrapper } from 'simple-react-lightbox';
 
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/LayoutHome';
-import { FormattedMessage } from 'react-intl';
 
 export async function getServerSideProps(context) {
   const res = await axios.get(`${process.env.API_URL}CarsForSaleDetails`, {
@@ -35,15 +35,15 @@ const CarProfile = ({ carProfileData }) => {
 
       <div className="container mx-auto">
         <p className="py-3">
-          <i className="material-icons text-yellow-orange align-middle text-5xl">
+          <i className="material-icons text-yellow-orange align-middle text-4xl lg:text-5xl">
             &#xe66b;
           </i>
-          <span className="text-dark-blue ltr:ml-4 rtl:mr-4 align-middle text-5xl font-bold">
+          <span className="text-dark-blue g:text-4xl align-middle text-3xl font-bold ltr:ml-4 rtl:mr-4">
             <FormattedMessage id="Car_Profile" />
           </span>
         </p>
 
-        <div className="my-8 flex gap-12">
+        <div className="my-8 flex flex-col gap-12 lg:flex-row">
           <div className="basis-1/2">
             <SRLWrapper>
               <div className="flex basis-1/2 flex-col gap-4">
@@ -53,7 +53,7 @@ const CarProfile = ({ carProfileData }) => {
                   className="h-[500px] w-full cursor-pointer object-cover"
                 />
                 <div className="flex basis-1/3 justify-between">
-                  <div className="my-4 grid grid-cols-6 flex-wrap gap-4 gap-x-1 gap-y-4">
+                  <div className="my-4 grid grid-cols-3 flex-wrap gap-1 md:grid-cols-6">
                     {photos.length > 0
                       ? photos.map((object, index) => {
                           return index > 5 ? (
@@ -80,68 +80,70 @@ const CarProfile = ({ carProfileData }) => {
           </div>
 
           <div className="basis-1/2">
-            <div className="text-dark-blue mb-4 bg-white px-12 py-2 shadow-md">
-              <h3 className="py-2 text-3xl font-bold">
+            <div className="text-dark-blue mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
+              <h3 className="py-2 text-2xl font-bold lg:text-3xl">
                 {carData.carMakerName} {carData.carModelName}
               </h3>
               <p className="text-2xl font-semibold">{carData.car_year}</p>
             </div>
-            <div className="mb-4 bg-white px-12 py-2 shadow-md">
+            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex">
-                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
                   &#xe9ef;
                 </i>
-                <h3 className="text-dark-blue py-2 text-3xl font-bold">VIN</h3>
+                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
+                  VIN
+                </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-2xl font-semibold">
+              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
                 {carData.vin}
               </p>
             </div>
-            <div className="mb-4 bg-white px-12 py-2 shadow-md">
+            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex">
-                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
                   &#xe9ef;
                 </i>
-                <h3 className="text-dark-blue py-2 text-3xl font-bold">
+                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="statement.lot.no" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-2xl font-semibold">
+              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
                 {carData.lotnumber}
               </p>
             </div>
-            <div className="mb-4 bg-white px-12 py-2 shadow-md">
+            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex">
-                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
                   &#xe9ef;
                 </i>
-                <h3 className="text-dark-blue py-2 text-3xl font-bold">
+                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="color" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-2xl font-semibold">
+              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
                 {carData.color_name}
               </p>
             </div>
-            <div className="mb-4 bg-white px-12 py-2 shadow-md">
+            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex">
-                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
                   &#xe9ef;
                 </i>
-                <h3 className="text-dark-blue py-2 text-3xl font-bold">
+                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="statement.description" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-2xl font-semibold">
+              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
                 {carData.notes}
               </p>
             </div>
-            <div className="mb-4 bg-white px-12 py-2 shadow-md">
+            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex">
-                <i className="material-icons text-yellow-orange ltr:mr-2 rtl:ml-2 self-center text-3xl">
+                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
                   &#xe9ef;
                 </i>
-                <h3 className="text-dark-blue py-2 text-3xl font-bold">
+                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="page.customer.dashboard.table.price" />
                 </h3>
               </div>
@@ -159,7 +161,7 @@ const CarProfile = ({ carProfileData }) => {
           >
             <a
               href="#"
-              className="bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-2xl text-white hover:border-0 hover:bg-gray-700"
+              className="bg-outer-space mx-auto my-5 block max-w-max rounded-md py-3 px-8 text-xl text-white hover:border-0 hover:bg-gray-700 md:text-2xl"
             >
               <FormattedMessage id="whatsapp.deal" />
             </a>

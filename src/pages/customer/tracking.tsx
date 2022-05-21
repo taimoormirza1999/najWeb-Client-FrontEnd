@@ -162,7 +162,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
             </i>
             <FormattedMessage id="page.customer.dashboard.navigation_tracking" />
           </h3>
-          <div className="m-auto text-center  lg:w-[60%]">
+          <div className="m-auto text-center xl:w-3/5">
             <img
               className="m-auto w-auto max-w-[250px]"
               src="/assets/images/logo-en.png"
@@ -173,18 +173,15 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <input
                   type="text"
                   className="
-                            m-auto
                             mt-4
                             block
                             w-full
                             rounded
                             border
-                            border-solid
                             border-[#8F9294]
                             bg-white
-                            bg-clip-padding px-3
+                            px-3
                             py-1.5 text-center text-base
-                            font-normal
                             italic
                             text-[#818181]
                             transition
@@ -228,140 +225,144 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 </span>
               </p>
             </div>
-            <div className="mt-4 flex overflow-x-scroll xl:overflow-x-visible">
+            <div className="mt-4 flex min-h-[130px] overflow-x-scroll md:overflow-x-visible">
               <div className="flex-1">
-                <NewCarIcon
-                  color={purchaseDate ? '#0193FF' : '#045FB7'}
-                ></NewCarIcon>
-                <div className="relative mt-5 min-w-[75px] border-t-2 border-[#707070] ltr:ml-3 rtl:mr-3">
+                <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2">
+                    <NewCarIcon
+                      color={purchaseDate ? '#0193FF' : '#045FB7'}
+                    ></NewCarIcon>
+                  </div>
                   <div
                     className={classNames(
                       purchaseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-0 rtl:right-0 rounded-full p-1'
+                      'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
-                </div>
-                <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  <FormattedMessage id="tracking.new_car" />
-                  <br />
-                  <span>{purchaseDate}</span>
+                  <div className="absolute -bottom-12 h-10 w-full text-center text-xs text-[#2576C1] sm:text-xs md:text-sm">
+                    <FormattedMessage id="tracking.new_car" />
+                    <br />
+                    <span>{purchaseDate}</span>
+                  </div>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ltr:ml-[5%] rtl:mr-[5%]">
-                  <LocalShippingIcon
-                    color={purchaseDate ? '#0193FF' : '#045FB7'}
-                  ></LocalShippingIcon>
-                </div>
-                <div className="relative mt-5 min-w-[75px] border-t-2 border-[#707070]">
+                <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2">
+                    <LocalShippingIcon
+                      color={purchaseDate ? '#0193FF' : '#045FB7'}
+                    ></LocalShippingIcon>
+                  </div>
                   <div
                     className={classNames(
                       pickedDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
+                      'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
-                </div>
-                <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  <FormattedMessage id="tracking.towing" />
-                  <br />
-                  <span>{pickedDate}</span>
+                  <div className="absolute -bottom-12 h-10 w-full text-center text-xs text-[#2576C1] sm:text-xs md:text-sm">
+                    <FormattedMessage id="tracking.towing" />
+                    <br />
+                    <span>{pickedDate}</span>
+                  </div>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ltr:ml-[5%] rtl:mr-[5%]">
-                  <WarehouseIcon
-                    color={warehouseDate ? '#0193FF' : '#045FB7'}
-                  ></WarehouseIcon>
-                </div>
-                <div className="relative mt-5 min-w-[75px] border-t-2 border-[#707070]">
+                <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2">
+                    <WarehouseIcon
+                      color={warehouseDate ? '#0193FF' : '#045FB7'}
+                    ></WarehouseIcon>
+                  </div>
                   <div
                     className={classNames(
                       warehouseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
+                      'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
-                </div>
-                <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  <FormattedMessage id="tracking.warehouse" />
-                  <br />
-                  <span>{warehouseDate}</span>
+                  <div className="absolute -bottom-12 h-10 w-full text-center text-xs text-[#2576C1] sm:text-xs md:text-sm">
+                    <FormattedMessage id="tracking.warehouse" />
+                    <br />
+                    <span>{warehouseDate}</span>
+                  </div>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ltr:ml-[5%] rtl:mr-[5%]">
-                  <BoatIcon
-                    color={shippingDate ? '#0193FF' : '#045FB7'}
-                  ></BoatIcon>
-                </div>
-                <div className="relative mt-5 min-w-[75px] border-t-2 border-[#707070]">
+                <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2">
+                    <BoatIcon
+                      color={shippingDate ? '#0193FF' : '#045FB7'}
+                    ></BoatIcon>
+                  </div>
                   <div
                     className={classNames(
                       shippingDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
+                      'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
-                </div>
-                <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  <FormattedMessage id="Shipping" /> <br />
-                  <span>{shippingDate}</span>
+                  <div className="absolute -bottom-12 h-10 w-full text-center text-xs text-[#2576C1] sm:text-xs md:text-sm">
+                    <FormattedMessage id="Shipping" /> <br />
+                    <span>{shippingDate}</span>
+                  </div>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ltr:ml-[5%] rtl:mr-[5%]">
-                  <PortIcon color={portDate ? '#0193FF' : '#045FB7'}></PortIcon>
-                </div>
-                <div className="relative mt-5 min-w-[75px] border-t-2 border-[#707070]">
+                <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2">
+                    <PortIcon
+                      color={portDate ? '#0193FF' : '#045FB7'}
+                    ></PortIcon>
+                  </div>
                   <div
                     className={classNames(
                       portDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-[15%] rtl:right-[15%] rounded-full p-1'
+                      'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
-                </div>
-                <div className="text-xs text-[#2576C1] ltr:text-left rtl:text-right sm:text-xs md:text-sm">
-                  <FormattedMessage id="tracking.port" />
-                  <br />
-                  <span>{portDate}</span>
+                  <div className="absolute -bottom-12 h-10 w-full text-center text-xs text-[#2576C1] sm:text-xs md:text-sm">
+                    <FormattedMessage id="tracking.port" />
+                    <br />
+                    <span>{portDate}</span>
+                  </div>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ltr:ml-[35%] rtl:mr-[35%]">
-                  <ArrivedIcon
-                    color={storeDate ? '#0193FF' : '#045FB7'}
-                  ></ArrivedIcon>
-                </div>
-                <div className="relative mt-5 min-w-[75px] border-t-2 border-[#707070]">
+                <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2">
+                    <ArrivedIcon
+                      color={storeDate ? '#0193FF' : '#045FB7'}
+                    ></ArrivedIcon>
+                  </div>
                   <div
                     className={classNames(
                       storeDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:left-[50%] rtl:right-[50%] rounded-full p-1'
+                      'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
-                </div>
-                <div className="text-xs text-[#2576C1] ltr:text-center sm:text-xs md:text-sm">
-                  <FormattedMessage id="tracking.store" />
-                  <br />
-                  <span>{storeDate}</span>
+                  <div className="absolute -bottom-12 h-10 w-full text-center text-xs text-[#2576C1] sm:text-xs md:text-sm">
+                    <FormattedMessage id="tracking.store" />
+                    <br />
+                    <span>{storeDate}</span>
+                  </div>
                 </div>
               </div>
               <div className="flex-1">
-                <div className="ltr:ml-[50%] rtl:mr-[50%]">
-                  <CheckCircleIcon
-                    color={deliveredDate ? '#0193FF' : '#045FB7'}
-                  ></CheckCircleIcon>
-                </div>
-                <div className="relative mt-5 min-w-[75px] border-t-2 border-[#707070] ltr:mr-6 rtl:ml-6">
+                <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2">
+                    <CheckCircleIcon
+                      color={deliveredDate ? '#0193FF' : '#045FB7'}
+                    ></CheckCircleIcon>
+                  </div>
                   <div
                     className={classNames(
                       deliveredDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
-                      ' absolute bottom-[-3px] ltr:right-0 rtl:left-0 rounded-full p-1'
+                      'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
-                </div>
-                <div className="text-xs text-[#2576C1] ltr:text-right rtl:text-left sm:text-xs md:text-sm">
-                  <FormattedMessage id="tracking.delivered" />
-                  <br />
-                  <span>{deliveredDate}</span>
+                  <div className="absolute -bottom-12 h-10 w-full text-center text-xs text-[#2576C1] sm:text-xs md:text-sm">
+                    <FormattedMessage id="tracking.delivered" />
+                    <br />
+                    <span>{deliveredDate}</span>
+                  </div>
                 </div>
               </div>
             </div>

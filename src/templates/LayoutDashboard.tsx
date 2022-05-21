@@ -84,9 +84,8 @@ const Layout = (props: IMainProps) => {
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
-  const changeLanguage = (e) => {
-    const selectedLocale = e.target.value;
-    document.cookie = `NEXT_LOCALE=${e.target.value}`;
+  const changeLanguage = (selectedLocale) => {
+    document.cookie = `NEXT_LOCALE=${selectedLocale}`;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
   const intl = useIntl();
@@ -173,13 +172,43 @@ const Layout = (props: IMainProps) => {
                             'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                           )}
                         >
-                          <i className="material-icons text-xs lg:ltr:mr-2 lg:rtl:ml-2">
-                            &#xe14f;
-                          </i>
+                          <i
+                            className="material-icons text-lg ltr:mr-2 rtl:ml-2"
+                            dangerouslySetInnerHTML={{ __html: item.gicon }}
+                          ></i>
                           {item.name}
                         </a>
                       </Link>
                     ))}
+                    {locale === 'en' ? (
+                      <Link href="/ar/customer/dashboard">
+                        <a
+                          className="group flex items-center p-2 text-base font-bold"
+                          onClick={() => {
+                            changeLanguage('en');
+                          }}
+                        >
+                          <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
+                            &#xe8e2;
+                          </i>
+                          Arabic
+                        </a>
+                      </Link>
+                    ) : (
+                      <Link href="/customer/dashboard">
+                        <a
+                          className="group flex items-center p-2 text-base font-bold"
+                          onClick={() => {
+                            changeLanguage('en');
+                          }}
+                        >
+                          <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
+                            &#xe8e2;
+                          </i>
+                          English
+                        </a>
+                      </Link>
+                    )}
                   </nav>
                 </div>
                 <div className="flex shrink-0 border-t border-gray-200 p-4">
@@ -247,7 +276,7 @@ const Layout = (props: IMainProps) => {
                       )}
                     >
                       <i
-                        className="material-icons lg:ltr::mr-2 text-3xl lg:rtl:ml-2"
+                        className="material-icons text-3xl ltr:mr-2 rtl:ml-2"
                         dangerouslySetInnerHTML={{ __html: item.gicon }}
                       ></i>
                       {item.name}
@@ -265,15 +294,15 @@ const Layout = (props: IMainProps) => {
                 </div>
                 <div className="">
                   <Link href="/customer/userprofile">
-                    <a className="group block w-full shrink-0 hover:border-0">
-                      <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 sm:text-xl ">
+                    <a className="group block w-full shrink-0 break-all hover:border-0">
+                      <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 md:text-base lg:text-xl">
                         {fullName}
                       </p>
                     </a>
                   </Link>
                   <a
                     href="#"
-                    className="group block w-full shrink-0 hover:border-0 hover:border-inherit"
+                    className="group mt-1 block w-full shrink-0 hover:border-0 hover:border-inherit"
                   >
                     <p
                       className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
@@ -283,7 +312,7 @@ const Layout = (props: IMainProps) => {
                         })
                       }
                     >
-                      <i className="material-icons text-xs lg:ltr:mr-2 lg:rtl:ml-2">
+                      <i className="material-icons align-middle text-xs lg:ltr:mr-2 lg:rtl:ml-2">
                         &#xe9ba;
                       </i>
                       {intl.formatMessage({ id: 'general.signout' })}
@@ -307,16 +336,18 @@ const Layout = (props: IMainProps) => {
           </div>
           <main className="flex-1">
             <div className="bg-dark-blue pb-5 pt-8">
-              <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 lg:flex lg:justify-between lg:px-6 lg:pt-12">
+              <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 md:flex md:justify-between md:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
                     {intl.formatMessage({ id: 'general.welcome' })}: {fullName}
                   </h2>
                 </div>
                 <select
-                  onChange={changeLanguage}
+                  onChange={(e) => {
+                    changeLanguage(e.target.value);
+                  }}
                   defaultValue={locale}
-                  className="ml-2 border-0 bg-transparent text-white focus:outline-none"
+                  className="hidden border-0 bg-transparent p-2 pr-8 text-white focus:outline-none md:ml-2 md:block"
                   title="Select language"
                   name="language"
                 >
