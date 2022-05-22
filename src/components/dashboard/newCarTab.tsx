@@ -242,9 +242,9 @@ const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-white">
                     <tr>
-                      {carTableData.map((th) => (
+                      {carTableData.map((th, index) => (
                         <th
-                          key={th.header}
+                          key={index}
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >

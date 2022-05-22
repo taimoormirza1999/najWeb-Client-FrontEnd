@@ -77,7 +77,7 @@ const Layout = (props: IMainProps) => {
 
   const changeLanguage = (e) => {
     const selectedLocale = e.target.value;
-    document.cookie = `NEXT_LOCALE=${e.target.value}`;
+    document.cookie = `NEXT_LOCALE=${e.target.value};path=/`;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
 

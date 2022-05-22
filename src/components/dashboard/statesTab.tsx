@@ -1,18 +1,19 @@
-import { classNames } from '@/utils/Functions';
 import { FormattedMessage } from 'react-intl';
 
+import { classNames } from '@/utils/Functions';
+
 const carTableHeader = [
-  { name: <FormattedMessage id="status.new_jersey" /> },
-  { name: <FormattedMessage id="status.texas" /> },
-  { name: <FormattedMessage id="status.georgia" /> },
-  { name: <FormattedMessage id="status.washington" /> },
-  { name: <FormattedMessage id="status.california" /> },
+  { name: 'status.new_jersey' },
+  { name: 'status.texas' },
+  { name: 'status.georgia' },
+  { name: 'status.washington' },
+  { name: 'status.california' },
 ];
 
 const StatesTab = ({ carsRecords }) => {
   const carTableData = [
     {
-      name: <FormattedMessage id="page.customer.dashboard.new_cars" />,
+      name: 'page.customer.dashboard.new_cars',
       ng: carsRecords?.newCarsNG,
       tx: carsRecords?.newCarsTX,
       ga: carsRecords?.newCarsGA,
@@ -20,7 +21,7 @@ const StatesTab = ({ carsRecords }) => {
       ca: carsRecords?.newCarsCA,
     },
     {
-      name: <FormattedMessage id="status.left" />,
+      name: 'status.left',
       ng: carsRecords?.newLeftCarsNG,
       tx: carsRecords?.newLeftCarsTX,
       ga: carsRecords?.newLeftCarsGA,
@@ -28,7 +29,7 @@ const StatesTab = ({ carsRecords }) => {
       ca: carsRecords?.newLeftCarsCA,
     },
     {
-      name: <FormattedMessage id="page.customer.dashboard.at_warehouse" />,
+      name: 'page.customer.dashboard.at_warehouse',
       ng: carsRecords?.newWearhouseCarsNG,
       tx: carsRecords?.newWearhouseCarsTX,
       ga: carsRecords?.newWearhouseCarsGA,
@@ -36,7 +37,7 @@ const StatesTab = ({ carsRecords }) => {
       ca: carsRecords?.newWearhouseCarsCA,
     },
     {
-      name: <FormattedMessage id="page.customer.dashboard.in_shipping" />,
+      name: 'page.customer.dashboard.in_shipping',
       ng: carsRecords?.newLoadingCarsNG,
       tx: carsRecords?.newLoadingCarsTX,
       ga: carsRecords?.newLoadingCarsGA,
@@ -45,7 +46,7 @@ const StatesTab = ({ carsRecords }) => {
     },
 
     {
-      name: <FormattedMessage id="page.customer.dashboard.arrived" />,
+      name: 'page.customer.dashboard.arrived',
       ng: carsRecords?.newArriveCarsNG,
       tx: carsRecords?.newArriveCarsTX,
       ga: carsRecords?.newArriveCarsGA,
@@ -71,13 +72,13 @@ const StatesTab = ({ carsRecords }) => {
                   <thead className="bg-white">
                     <tr>
                       <th></th>
-                      {carTableHeader.map((th) => (
+                      {carTableHeader.map((th, index) => (
                         <th
-                          key={th.name}
+                          key={index}
                           scope="col"
                           className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl"
                         >
-                          {th.name}
+                          <FormattedMessage id={th.name} />
                         </th>
                       ))}
                     </tr>
@@ -85,14 +86,14 @@ const StatesTab = ({ carsRecords }) => {
                   <tbody>
                     {carTableData.map((tr, index) => (
                       <tr
-                        key={tr.name}
+                        key={index}
                         className={classNames(
                           index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
                           'text-xs sm:text-[17px]'
                         )}
                       >
                         <td className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl">
-                          {tr.name}
+                          <FormattedMessage id={tr.name} />
                         </td>
                         <td
                           className={classNames(
