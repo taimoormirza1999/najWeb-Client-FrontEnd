@@ -7,15 +7,13 @@ export default async function handler(req, res) {
   const carId = req.query.car_id ? req.query.car_id : '';
   const type = req.query.type ? req.query.type : 'warehouse';
   let arr = [];
-  let images = [];
-  // let filenames = [];
+  let images;
   const zip = JSZip();
   const fold = zip.folder('images');
   axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
   await axios
     .get(`${process.env.API_URL}getImages?type=${type}&car_id=${carId}`)
     .then(function (response) {
-      // handle success
       arr = response.data.images;
     })
     .catch(function (error) {
@@ -29,15 +27,10 @@ export default async function handler(req, res) {
           axios.get(endpoint, { responseType: 'arraybuffer' })
         )
       )
-      .then(
-        axios.spread(({ data }) => {
-          images.push(data);
-        })
-      );
-    console.log(images);
+      .then((results) => {
+        images = results.map((r) => r.data);
+      });
     images.forEach((d, i) => {
-      console.log(i);
-      console.log(d);
       fold.file(`img${i}.jpg`, d, { binary: true });
     });
     const fzip = await zip.generateAsync({ type: 'nodebuffer' });
