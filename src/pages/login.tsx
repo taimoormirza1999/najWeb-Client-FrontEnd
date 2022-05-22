@@ -28,7 +28,7 @@ const SignInError = ({ error, className }) => {
 
 export default function Login({ locale }) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('nejoum2020');
+  const [password, setPassword] = useState('');
 
   const router = useRouter();
   const { error } = useRouter().query;

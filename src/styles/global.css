@@ -154,27 +154,12 @@ a:hover {
     color: var(--color-yellow-orange);
 }
 
-footer .footer-menu li a{
-  color: #fff;
-  font-weight:lighter;
-  font-size: 1.2em;
-  border-bottom:none;
-}
-
 .container{
   max-width: 85%;
 }
 
-.embla {
-  overflow: hidden;
-}
-.embla__container {
-  display: flex;
-}
-.embla__slide {
-  position: relative;
-  flex: 0 0 100%;
-}
-.embla__button:disabled{
-  cursor: no-drop;
+@media screen and (max-width:768px){
+  .container{
+    max-width: 90%;
+  }
 }

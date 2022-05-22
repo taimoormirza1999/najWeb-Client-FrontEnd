@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,7 +7,8 @@ import { PaidByCustomer } from '@/components/dashboard/newCar/paid_by_customer';
 import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
 import { Pagination } from '@/components/dashboard/pagination';
-import { classNames } from '@/utils/Functions';
+
+import { SubMenu } from './subMenu';
 
 const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
   let carTableData;
@@ -224,63 +224,9 @@ const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
       },
     ];
   }
-
-  const statusTypes = [
-    {
-      name: <FormattedMessage id="page.customer.dashboard.unpaid" />,
-      href: 'unpaid',
-      current: type === 'unpaid',
-    },
-    {
-      name: <FormattedMessage id="page.customer.dashboard.cancelled" />,
-      href: 'cancelled',
-      current: type === 'cancelled',
-    },
-    {
-      name: <FormattedMessage id="page.customer.dashboard.paid" />,
-      href: 'paid',
-      current: type === 'paid',
-    },
-    {
-      name: <FormattedMessage id="page.customer.dashboard.paid_by_customer" />,
-      href: 'paid_bycustomer',
-      current: type === 'paid_bycustomer',
-    },
-    {
-      name: <FormattedMessage id="page.customer.dashboard.in_towing" />,
-      href: 'towing',
-      current: type === 'towing',
-    },
-  ];
   const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
-      <nav
-        className="mt-[15px] flex max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4"
-        aria-label="Tabs"
-      >
-        {statusTypes.map((status) => (
-          <Link
-            key={status.name}
-            href={{
-              pathname: '/customer/dashboard/',
-              query: { tab: 'tabs-newcar', type: status.href },
-            }}
-          >
-            <a
-              key={status.href}
-              className={classNames(
-                status.current
-                  ? ' text-blue-600'
-                  : 'text-gray-500 hover:text-gray-700',
-                'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
-              )}
-            >
-              {status.name}
-            </a>
-          </Link>
-        ))}
-      </nav>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">

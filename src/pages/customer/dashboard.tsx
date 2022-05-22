@@ -2,7 +2,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
@@ -11,6 +11,7 @@ import { NewCarTab } from '@/components/dashboard/newCarTab';
 import { SearchLot } from '@/components/dashboard/searchLot';
 import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
 import { StatesTab } from '@/components/dashboard/statesTab';
+import { SubMenu } from '@/components/dashboard/subMenu';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
 import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
@@ -113,40 +114,41 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
   const {
     query: { tab, type, page },
   } = router;
+  const [subMenu, setSubMenu] = useState(tab);
   let currentPage = page;
   if (!currentPage) {
     currentPage = 0;
   }
   const tabs = [
     {
-      name: <FormattedMessage id="page.customer.dashboard.new_cars" />,
+      name: 'page.customer.dashboard.new_cars',
       href: 'tabs-newcar',
-      current: tab === 'tabs-newcar',
+      subMenu: true,
     },
     {
-      name: <FormattedMessage id="page.customer.dashboard.at_warehouse" />,
+      name: 'page.customer.dashboard.at_warehouse',
       href: 'tabs-warehouse',
-      current: tab === 'tabs-warehouse',
+      subMenu: false,
     },
     {
-      name: <FormattedMessage id="page.customer.dashboard.in_shipping" />,
+      name: 'page.customer.dashboard.in_shipping',
       href: 'tabs-shipping',
-      current: tab === 'tabs-shipping',
+      subMenu: false,
     },
     {
-      name: <FormattedMessage id="page.customer.dashboard.arrived" />,
+      name: 'page.customer.dashboard.arrived',
       href: 'tabs-arrived',
-      current: tab === 'tabs-arrived',
+      subMenu: true,
     },
     {
-      name: <FormattedMessage id="page.customer.dashboard.delivered" />,
+      name: 'page.customer.dashboard.delivered',
       href: 'tabs-delivered',
-      current: tab === 'tabs-delivered',
+      subMenu: true,
     },
     {
-      name: <FormattedMessage id="page.customer.dashboard.states" />,
+      name: 'page.customer.dashboard.states',
       href: 'tabs-states',
-      current: tab === 'tabs-states' || tab == null,
+      subMenu: false,
     },
   ];
   let carsRecords;
@@ -172,28 +174,46 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
           </div>
           <div>
             <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
-              {tabs.map((tabData) => (
-                <Link
-                  key={tabData.name}
-                  href={{
-                    pathname: '/customer/dashboard/',
-                    query: { tab: tabData.href },
-                  }}
-                >
+              {tabs.map((tabData) =>
+                tabData.subMenu ? (
                   <a
+                    key={tabData.href}
                     className={classNames(
-                      tabData.current
+                      (!tab && tabData.href === 'tabs-states') ||
+                        tab === tabData.href
                         ? 'bg-blue-700 text-white'
                         : 'text-blue-600 hover:text-gray-700',
-                      'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      'px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                     )}
-                    aria-current={tabData.current ? 'page' : undefined}
+                    onClick={() => setSubMenu(tabData.href)}
                   >
-                    {tabData.name}
+                    <FormattedMessage id={tabData.name} />
                   </a>
-                </Link>
-              ))}
+                ) : (
+                  <Link
+                    key={tabData.name}
+                    href={{
+                      pathname: '/customer/dashboard/',
+                      query: { tab: tabData.href },
+                    }}
+                  >
+                    <a
+                      className={classNames(
+                        (!tab && tabData.href === 'tabs-states') ||
+                          tab === tabData.href
+                          ? 'bg-blue-700 text-white'
+                          : 'text-blue-600 hover:text-gray-700',
+                        'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      )}
+                      onClick={() => setSubMenu('')}
+                    >
+                      <FormattedMessage id={tabData.name} />
+                    </a>
+                  </Link>
+                )
+              )}
             </nav>
+            <SubMenu type={subMenu} subType={type}></SubMenu>
             <div>
               {tab === 'tabs-newcar' && (
                 <React.Fragment>

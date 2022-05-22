@@ -35,21 +35,21 @@ const ShippedCars = ({ tableData }) => {
 
   return (
     <>
-      <div className="flex justify-between">
-        <h3 className="text-dark-blue my-4 self-start py-4 text-2xl font-semibold">
+      <div className="flex flex-col justify-between md:flex-row">
+        <h3 className="text-dark-blue my-1 self-start text-2xl font-semibold md:my-4 md:py-2">
           <FormattedMessage id="statement.shipped_cars" />
         </h3>
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'Search' })}
-          className="border-medium-grey my-4 basis-1/6 self-end rounded-md border py-1 text-lg italic text-gray-700"
+          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg italic text-gray-700 md:self-end"
           value={shippedTableSearch}
           onChange={(e) => {
             setShippedTableSearch(e.target.value);
           }}
         />
       </div>
-      <div className="border-azure-blue overflow-hidden rounded-xl border">
+      <div className="border-azure-blue overflow-x-auto rounded-xl border">
         <table className="w-full table-auto">
           <thead>
             <tr className="w-full">

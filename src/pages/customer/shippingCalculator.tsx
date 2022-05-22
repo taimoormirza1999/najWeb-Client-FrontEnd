@@ -151,12 +151,12 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
       </CustomModal>
 
       <div className="text-dark-blue px-4 py-12">
-        <h2 className="text-center text-5xl font-semibold">
+        <h2 className="text-center text-2xl font-semibold lg:text-3xl xl:text-5xl">
           <span className="font-bold">
             <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
           </span>
         </h2>
-        <p className="mb-8 py-6 text-center text-2xl">
+        <p className="mb-8 py-6 text-center text-xl lg:text-2xl">
           <FormattedMessage id="estimate_calculator_desc" />
         </p>
 

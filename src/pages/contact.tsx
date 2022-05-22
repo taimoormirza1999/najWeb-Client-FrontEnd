@@ -133,15 +133,15 @@ const Contact = () => {
 
       <div className="bg-light-grey text-dark-blue py-12">
         <div className="container mx-auto">
-          <h2 className="text-center text-5xl font-semibold">
+          <h2 className="text-center text-3xl font-semibold lg:text-5xl">
             <FormattedMessage id="Stay.in.Touch" />
           </h2>
-          <p className="py-4 text-center text-2xl">
+          <p className="py-4 text-center text-xl lg:text-2xl">
             <FormattedMessage id="Stay.in.Touch.Desc" />
           </p>
 
           <form onSubmit={handleSubmit} autoComplete="false" method="post">
-            <div className="flex w-full flex-col justify-center gap-8 md:flex-row">
+            <div className="flex w-full flex-col justify-center lg:flex-row lg:gap-8">
               <div className="basis-2/6">
                 <div>
                   <label
@@ -159,14 +159,14 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.name' })}
                       value={inputValue.name}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
                 <div>
                   <label
                     htmlFor="email"
-                    className="text-dark-blue mt-4 block text-xl font-semibold"
+                    className="text-dark-blue mb-4 block text-xl font-semibold"
                   >
                     <FormattedMessage id="Email" />
                   </label>
@@ -179,14 +179,14 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.email' })}
                       value={inputValue.email}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
                 <div>
                   <label
                     htmlFor="phone"
-                    className="text-dark-blue mt-4 block text-xl font-semibold"
+                    className="text-dark-blue block text-xl font-semibold"
                   >
                     <FormattedMessage id="Phone" />
                   </label>
@@ -199,7 +199,7 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.phone' })}
                       value={inputValue.phone}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
@@ -215,8 +215,7 @@ const Contact = () => {
                 </div>
                 <div className="mt-1">
                   <textarea
-                    rows={9}
-                    className="placeholder:text-medium-grey border-dark-blue w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="placeholder:text-medium-grey border-dark-blue h-[245px] w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
                     name="message"
                     placeholder={intl.formatMessage({ id: 'messages.message' })}
                     value={inputValue.message}
@@ -237,17 +236,17 @@ const Contact = () => {
       </div>
 
       <div className="text-dark-blue container mx-auto py-8">
-        <h2 className="text-center text-5xl font-semibold">
+        <h2 className="text-center text-3xl font-semibold lg:text-5xl">
           <FormattedMessage id="Visit.Us" />
         </h2>
-        <p className="mb-8 py-4 text-center text-2xl">
+        <p className="mb-8 py-4 text-center text-xl lg:text-2xl">
           <FormattedMessage id="Visit.Us.Desc" />
         </p>
-        <div className="mx-auto flex w-4/5 gap-8">
+        <div className="mx-auto flex flex-col gap-8 lg:w-4/5 lg:flex-row">
           <div className="basis-2/5">
             <div className="border-dark-blue rounded-xl border p-4">
               <div
-                className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-3xl"
+                className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-xl lg:text-3xl"
                 id="address_text"
               >
                 <FormattedMessage id="NEJOUM.ALJAZEERA.Group.Industrial.area4.Sharjah.UAE" />
@@ -261,7 +260,7 @@ const Contact = () => {
                     navigator.clipboard.writeText(copyText);
                   }}
                 >
-                  <i className="material-icons text-azure-blue text-5xl">
+                  <i className="material-icons text-azure-blue text-4xl lg:text-5xl">
                     &#xe14d;
                   </i>
                 </button>
@@ -273,13 +272,13 @@ const Contact = () => {
                 >
                   <FontAwesomeIcon
                     icon={faExternalLink}
-                    className="bg-azure-blue rounded-md py-2 px-3 text-3xl text-white"
+                    className="bg-azure-blue rounded-md py-2 px-3 text-xl text-white lg:text-3xl"
                   />
                 </a>
               </div>
             </div>
 
-            <p className="text-dark-blue pt-16 text-3xl">
+            <p className="text-dark-blue pt-8 text-xl lg:pt-16 lg:text-3xl">
               <FormattedMessage id="Copy.upper.location.using.the.copy.button.press.the.new.link.button.get.directions.in.Google.Maps." />
             </p>
           </div>
@@ -295,35 +294,32 @@ const Contact = () => {
         </div>
       </div>
 
-      <div className="text-dark-blue container mx-auto py-8">
-        <h2 className="text-center text-5xl font-semibold">
+      <div className="text-dark-blue container mx-auto mt-12">
+        <h2 className="text-center text-3xl font-semibold lg:text-5xl">
           {' '}
           <FormattedMessage id="general.contact" />{' '}
         </h2>
-        <p className="py-4 text-center text-2xl">
+        <p className="py-4 text-center text-xl lg:text-2xl">
           <FormattedMessage id="Contact.Us.Desc" />
         </p>
         <ContactDetails />
       </div>
 
       <div className="container mx-auto py-16">
-        <h3 className="text-center !text-5xl font-semibold">
-          <FormattedMessage id="general.contact" />
-        </h3>
         <img
-          className="relative -z-10 mx-auto max-w-[75%] rounded-t-[40px]"
+          className="relative -z-10 mx-auto rounded-t-[40px] lg:max-w-[75%]"
           src="/assets/images/contact-us.jpg"
           alt="Contact Us"
         />
-        <div className="bg-light-grey mx-auto -mt-16 max-w-[75%] rounded-b-[40px] p-8 text-center">
-          <p className="text-dark-blue py-3 text-3xl">
+        <div className="bg-light-grey mx-auto -mt-16 rounded-b-[40px] p-2 text-center lg:max-w-[75%] lg:p-8">
+          <p className="text-dark-blue py-3 text-xl lg:text-3xl">
             <FormattedMessage id="WhatsApp" />
           </p>
           <a
             href="https://wa.me/+971543662194?text=welcome to Nejoum aljazeera"
             target="_blank"
             rel="noreferrer"
-            className="bg-azure-blue my-4 inline-block rounded-lg px-5 py-2.5 text-xl font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="bg-azure-blue my-2 inline-block rounded-lg px-5 py-2 text-lg font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:text-xl"
           >
             <FormattedMessage id="general.text_nejoum" />
           </a>
@@ -331,39 +327,39 @@ const Contact = () => {
       </div>
 
       <div className="text-dark-blue container mx-auto py-8">
-        <h2 className="text-center text-5xl font-semibold">
+        <h2 className="text-center text-3xl font-semibold lg:text-5xl">
           <FormattedMessage id="Working_Times" />
         </h2>
-        <p className="py-4 text-center text-3xl">
+        <p className="py-4 text-center text-xl lg:text-2xl">
           <FormattedMessage id="Our_working_hours_are_the_following" />
         </p>
 
-        <div className="border-azure-blue mx-auto mb-12 w-3/4 overflow-hidden rounded-xl border">
+        <div className="border-azure-blue mx-auto mb-12 overflow-hidden rounded-xl border lg:w-3/4">
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-light-grey">
-                <th className="border border-t-0 border-l-0 border-r-gray-500 border-b-gray-500 p-4 text-2xl font-semibold">
+                <th className="border border-t-0 border-l-0 border-r-gray-500 border-b-gray-500 p-4 text-xl font-semibold lg:text-2xl">
                   <FormattedMessage id="Weekdays" />
                 </th>
-                <th className="border border-t-0 border-r-0 border-b-gray-500 p-4 text-2xl font-semibold">
+                <th className="border border-t-0 border-r-0 border-b-gray-500 p-4 text-xl font-semibold lg:text-2xl">
                   <FormattedMessage id="Time" />
                 </th>
               </tr>
             </thead>
             <tbody className="text-center">
               <tr>
-                <td className="border border-t-0 border-l-0 border-r-gray-500 border-b-gray-500 py-4 text-xl">
+                <td className="border border-t-0 border-l-0 border-r-gray-500 border-b-gray-500 py-4 text-base lg:text-xl">
                   <FormattedMessage id="Saturday-Thursday" />
                 </td>
-                <td className="border border-t-0 border-r-0 border-b-gray-500 py-4 text-xl">
+                <td className="border border-t-0 border-r-0 border-b-gray-500 py-4 text-base lg:text-xl">
                   <FormattedMessage id="08:30am-01:00pm/04:00pm-08:30pm" />
                 </td>
               </tr>
               <tr>
-                <td className="border border-y-0 border-l-0 border-r-gray-500 py-4 text-xl">
+                <td className="border border-y-0 border-l-0 border-r-gray-500 py-4 text-base lg:text-xl">
                   <FormattedMessage id="Friday" />
                 </td>
-                <td className="border border-y-0 border-r-0 border-l-gray-500 py-4 text-xl">
+                <td className="border border-y-0 border-r-0 border-l-gray-500 py-4 text-base lg:text-xl">
                   <FormattedMessage id="N/A" />
                 </td>
               </tr>

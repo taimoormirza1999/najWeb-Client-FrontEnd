@@ -111,12 +111,12 @@ export default function App({ carsMakerData, YearData }) {
                         py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
-                      <span className="block truncate text-lg">
+                      <span className="block truncate text-lg md:text-sm lg:text-lg">
                         {selectedYear || (
                           <FormattedMessage id="page.cars.showroom.year" />
                         )}
                       </span>
-                      <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
+                      <span className="bg-teal-blue absolute right-0 top-0 h-full px-4 py-3 text-center md:p-2 lg:p-4">
                         <FontAwesomeIcon
                           icon={faChevronDown}
                           className="h-5 w-5 text-white"
@@ -196,14 +196,14 @@ export default function App({ carsMakerData, YearData }) {
                         py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
-                      <span className="block truncate text-lg">
+                      <span className="block truncate text-lg md:text-sm lg:text-lg">
                         {selectedMaker ? (
                           selectedMaker.name
                         ) : (
                           <FormattedMessage id="page.cars.showroom.maker" />
                         )}
                       </span>
-                      <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
+                      <span className="bg-teal-blue absolute right-0 top-0 h-full px-4 py-3 text-center md:p-2 lg:p-4">
                         <FontAwesomeIcon
                           icon={faChevronDown}
                           className="h-5 w-5 text-white"
@@ -280,14 +280,14 @@ export default function App({ carsMakerData, YearData }) {
                         py-3 pr-10 text-center text-xl font-medium italic 
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
-                      <span className="block truncate text-lg">
+                      <span className="block truncate text-lg md:text-sm lg:text-lg">
                         {selectedModel ? (
                           selectedModel.name
                         ) : (
                           <FormattedMessage id="page.cars.showroom.model" />
                         )}
                       </span>
-                      <span className="bg-teal-blue absolute right-0 top-0 h-full p-4 text-center">
+                      <span className="bg-teal-blue absolute right-0 top-0 h-full px-4 py-3 text-center md:p-2 lg:p-4">
                         <FontAwesomeIcon
                           icon={faChevronDown}
                           className="h-5 w-5 text-white"
@@ -434,7 +434,7 @@ export default function App({ carsMakerData, YearData }) {
             <FormattedMessage id="page.cars.showroom.load_more" />
           )}
         </button>
-        <p className="text-dark-blue my-12 text-center text-xl md:my-24 md:text-3xl">
+        <p className="text-dark-blue my-12 text-center text-xl md:my-24 md:text-2xl lg:text-3xl">
           <FormattedMessage id="page.cars.showroom.showroom-desc" />
         </p>
       </div>

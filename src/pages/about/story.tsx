@@ -48,7 +48,7 @@ const Story = () => (
         </h3>
 
         <ol className="relative mt-16 border-[#707070] ltr:border-l-[3px] rtl:border-r-[3px]">
-          <li className="relative -top-10 pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+          <li className="relative -top-10 pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2002
@@ -57,7 +57,7 @@ const Story = () => (
               <FormattedMessage id="page.story.Story-2002" />
             </h4>
           </li>
-          <li className="relative pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+          <li className="relative pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2003
@@ -66,7 +66,7 @@ const Story = () => (
               <FormattedMessage id="page.story.Story-2003" />
             </h4>
           </li>
-          <li className="relative pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+          <li className="relative pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2009
@@ -75,7 +75,7 @@ const Story = () => (
               <FormattedMessage id="page.story.Story-2009" />
             </h4>
           </li>
-          <li className="relative pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+          <li className="relative pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2016
@@ -84,7 +84,7 @@ const Story = () => (
               <FormattedMessage id="page.story.Story-2016" />
             </h4>
           </li>
-          <li className="relative pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+          <li className="relative pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2017
@@ -93,7 +93,7 @@ const Story = () => (
               <FormattedMessage id="page.story.Story-2017" />
             </h4>
           </li>
-          <li className="relative pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+          <li className="relative pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2018
@@ -102,7 +102,7 @@ const Story = () => (
               <FormattedMessage id="page.story.Story-2018" />
             </h4>
           </li>
-          <li className="relative pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+          <li className="relative pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2019
@@ -111,7 +111,7 @@ const Story = () => (
               <FormattedMessage id="page.story.Story-2019" />
             </h4>
           </li>
-          <li className="relative top-32 !-mt-32 mb-28 pt-9 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:ltr:pl-14 md:rtl:pr-14 lg:top-40 lg:pt-0 2xl:top-32">
+          <li className="relative top-32 !-mt-32 mb-28 pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:top-40 lg:pt-0 2xl:top-32">
             <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
             <time className="mb-1 text-2xl font-semibold md:text-4xl lg:text-6xl xl:text-[80px]">
               2022
