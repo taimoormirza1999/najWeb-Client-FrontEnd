@@ -85,7 +85,7 @@ const Tracking = ({ search, carDetail }) => {
       // setLoading(true);
       axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
       await axios
-        .get(`/api/customer/tracking?lot_vin=${searchValue}`)
+        .get(`/api/customer/tracking/?lot_vin=${searchValue}`)
         .then(function (response) {
           if (response?.data?.data?.data.car_data) {
             carDetails = response.data.data?.data;
