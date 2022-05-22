@@ -13,7 +13,7 @@ import {
   LocalShippingIcon,
   NewCarIcon,
   PortIcon,
-  WarehouseIcon,
+  WarehouseIcon
 } from '@/components/dashboard/trackingIcons';
 import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
