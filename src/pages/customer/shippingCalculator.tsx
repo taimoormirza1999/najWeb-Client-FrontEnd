@@ -3,11 +3,12 @@ import axios from 'axios';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 
-import CustomModal from '@/components/CustomModal';
+import CustomModal from '@/components/customModal';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 export type CalculatorInputs = {
   vehicle_type: string;
@@ -260,6 +261,7 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
 };
 
 export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
   const session: Session | null = await getSession(context);
   let vehicleData = [];
   let auctionData = [];

@@ -5,7 +5,7 @@ import { getSession, useSession } from 'next-auth/react';
 import { useContext, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import CustomModal from '@/components/CustomModal';
+import CustomModal from '@/components/customModal';
 import {
   ArrivedIcon,
   BoatIcon,
@@ -13,14 +13,18 @@ import {
   LocalShippingIcon,
   NewCarIcon,
   PortIcon,
-  WarehouseIcon,
+  WarehouseIcon
 } from '@/components/dashboard/trackingIcons';
-import UserContext from '@/components/UserContext';
+import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+
+
   const search = context.query.search ? context.query.search : '';
   const session: any = await getSession(context);
   let carDetail = {};

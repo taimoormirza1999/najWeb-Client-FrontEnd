@@ -8,8 +8,6 @@ import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
 import { Pagination } from '@/components/dashboard/pagination';
 
-import { SubMenu } from './subMenu';
-
 const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
   let carTableData;
   if (!type) {

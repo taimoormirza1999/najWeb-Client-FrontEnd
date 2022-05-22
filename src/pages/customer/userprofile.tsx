@@ -4,12 +4,20 @@ import { useSession } from 'next-auth/react';
 import { Fragment, useContext, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import CustomModal from '@/components/CustomModal';
+import CustomModal from '@/components/customModal';
 import UserContext from '@/components/UserContext';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
+export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+
+  return {
+    props: { apiUrl: process.env.API_URL },
+  };
+}
 const Profile = () => {
   const { setLoading } = useContext(UserContext);
   const [showProfile, setShowProfile] = useState(true);

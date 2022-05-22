@@ -8,11 +8,11 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import SimpleReactLightbox from 'simple-react-lightbox';
 
-import Loader from '@/components/Loader';
+import Loader from '@/components/loader';
 
 import ar from '../../lang/ar.json';
 import en from '../../lang/en.json';
-import UserContext from '../components/UserContext';
+import UserContext from '../components/userContext';
 
 config.autoAddCss = false;
 

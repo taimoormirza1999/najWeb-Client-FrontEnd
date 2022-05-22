@@ -9,10 +9,10 @@ import { FormattedMessage } from 'react-intl';
 import useSWRInfinite from 'swr/infinite';
 
 import ApplyForAccount from '@/components/ApplyForAccount';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import ContactDetails from '@/components/ContactDetails';
+import Breadcrumbs from '@/components/breadcrumbs';
+import ContactDetails from '@/components/contactDetails';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 import { classNames } from '@/utils/Functions';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -108,7 +108,7 @@ export default function App({ carsMakerData, YearData }) {
                   <div className="relative mt-1">
                     <Listbox.Button
                       className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
-                        py-3 pr-10 text-center text-xl font-medium italic 
+                        py-3 pr-10 text-center text-xl font-medium italic
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate text-lg md:text-sm lg:text-lg">
@@ -193,7 +193,7 @@ export default function App({ carsMakerData, YearData }) {
                   <div className="relative mt-1">
                     <Listbox.Button
                       className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
-                        py-3 pr-10 text-center text-xl font-medium italic 
+                        py-3 pr-10 text-center text-xl font-medium italic
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate text-lg md:text-sm lg:text-lg">
@@ -277,7 +277,7 @@ export default function App({ carsMakerData, YearData }) {
                   <div className="relative mt-1">
                     <Listbox.Button
                       className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
-                        py-3 pr-10 text-center text-xl font-medium italic 
+                        py-3 pr-10 text-center text-xl font-medium italic
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate text-lg md:text-sm lg:text-lg">

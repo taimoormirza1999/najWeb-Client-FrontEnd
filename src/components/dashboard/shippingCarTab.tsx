@@ -3,7 +3,7 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import React, { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import CustomModal from '@/components/CustomModal';
+import CustomModal from '@/components/customModal';
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
