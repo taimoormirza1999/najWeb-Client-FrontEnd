@@ -137,6 +137,7 @@
   "messages.complaintRecorded": "تم تسجيل الشكوى",
   "general.sorry": "!عذراً",
   "general.technicalErr": "لقد حدث خطأ تقني. حاول مرة اخرى",
+  "general.passwordErr": "كلمة السر القديمة التي أدخلتها ليست صحيحة",
   "general.welcome": "مرحباً",
   "general.signout": "تسجيل الخروج",
   "general.dashboard": "لوحة التحكم",
