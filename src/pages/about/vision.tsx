@@ -1,14 +1,22 @@
+import Breadcrumbs from '@/components/breadcrumbs';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
-
-import Breadcrumbs from '../components/Breadcrumbs';
+import { Layout } from '@/templates/layoutHome';
+import { FormattedMessage } from 'react-intl';
 
 const Vision = () => (
   <Layout
     meta={<Meta title="Vision & Mission" description="Vision & Mission" />}
   >
     <div className="container mx-auto">
-      <Breadcrumbs />
+      <Breadcrumbs
+        breadcrumbs={[
+          { name: <FormattedMessage id="general.about" />, href: '#' },
+          {
+            name: <FormattedMessage id="general.vision" />,
+            href: '/about/vision',
+          },
+        ]}
+      />
     </div>
 
     <div className="container mx-auto">
@@ -34,14 +42,14 @@ const Vision = () => (
 
       <div className="text-dark-blue py-10 text-center">
         <h3 className="text-6xl font-semibold ">Our Values</h3>
-        <p className="py-4 text-4xl">
+        <p className="py-4 text-3xl">
           Our values are derived from the passion of providing you the best
           possible service
         </p>
 
         <div className="flex">
           <div className="basis-1/6"></div>
-          <ul className="our-values text-left text-4xl leading-[5.5rem]">
+          <ul className="our-values text-left text-3xl leading-[5.5rem]">
             <li>Integrity and Transparency</li>
             <li>Openness</li>
             <li>Excellence in performance and customer service</li>

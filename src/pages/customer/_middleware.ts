@@ -1,11 +1,12 @@
-import { getToken } from "next-auth/jwt"
-import { NextResponse } from "next/server"
+import { NextResponse } from 'next/server';
 
 export async function middleware(req) {
-  const { pathname, origin } = req.nextUrl
-
-  const session = await getToken({ req, secret: process.env.JWT_SECRET})
-  if (!session) return NextResponse.rewrite(`${origin}/login`)
-
-  return NextResponse.next()
+ /* const { origin } = req.nextUrl;
+  const session = await getToken({ req, secret: process.env.JWT_SECRET });
+  if (!session) return NextResponse.rewrite(`${origin}/login`);
+  if (session?.error === 'RefreshAccessTokenError') {
+    signIn(); // Force sign in to refresh token
+  }
+*/
+  return NextResponse.next();
 }

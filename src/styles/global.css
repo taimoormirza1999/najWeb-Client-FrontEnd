@@ -9,10 +9,14 @@
 --color-outer-space: #343D40;
 --color-medium-grey: #7f7f7f;
 --color-light-grey: #ebebeb;
+--color-hover-grey: #e0e0e0;
 }
-
 body{
   font-family: 'Source Sans Pro', sans-serif;
+}
+
+.font-sen{
+  font-family: 'Sen', sans-serif;
 }
 
 a {
@@ -38,7 +42,15 @@ a:hover {
 .bg-dark-blue{
   background: var(--color-dark-blue)
 }
-
+.bg-light-grey{
+  background: var(--color-light-grey)
+}
+.bg-medium-grey{
+  background: var(--color-medium-grey)
+}
+.bg-hover-grey{
+  background: var(--color-hover-grey)
+}
 .bg-teal-blue{
   background: var(--color-teal-blue)
 }
@@ -53,14 +65,6 @@ a:hover {
 
 .bg-outer-space{
   background: var(--color-outer-space)
-}
-
-.bg-medium-grey{
-  background: var(--color-medium-space)
-}
-
-.bg-light-grey{
-  background: var(--color-light-grey)
 }
 
 .border-dark-blue{
@@ -90,7 +94,9 @@ a:hover {
 .border-light-grey{
   border-color: var(--color-light-grey)
 }
-
+.text-medium-gray{
+  color: var(--color-medium-grey)
+}
 .text-dark-blue{
   color: var(--color-dark-blue)
 }
@@ -119,34 +125,19 @@ a:hover {
   color: var(--color-light-grey)
 }
 
-.block-heading{
-  font-size: 2.6rem;
-  font-weight: 600;
-  color: var(--color-dark-blue);
-  padding: 12px 0;
-}
-
-.block-text{
-  font-size: 2.2rem;
-  color: var(--color-dark-blue);
-  padding: 12px 0;
-  max-width: 75%;
-}
-
-.block-more-link{
-  display: block;
-  font-size: 1.6rem;
-  color: var(--color-azure-blue);
-  padding: 12px 0;
-  border-bottom: none;
-}
-
 .partners-logo-box{
   box-shadow: 0px 2px 4px #eee, 0px -1px 4px #eee
 }
 
+.complaint-box{
+  box-shadow: 1px 1px 6px 0px #999;
+}
+
 .story-cover-text-shadow{
   text-shadow: 4px 4px 8px #333;
+}
+.shadow-lg{
+  box-shadow: 1px 1px 6px 0px #999;
 }
 
 .breadcrumb li:not(:last-child):after{
@@ -163,9 +154,12 @@ a:hover {
     color: var(--color-yellow-orange);
 }
 
-footer .footer-menu li a{
-  color: #fff;
-  font-weight:lighter;
-  font-size: 1.2em;
-  border-bottom:none;
+.container{
+  max-width: 85%;
+}
+
+@media screen and (max-width:768px){
+  .container{
+    max-width: 90%;
+  }
 }

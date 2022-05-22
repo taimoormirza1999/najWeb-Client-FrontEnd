@@ -1,224 +1,285 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { Popover, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { Fragment } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import { withRouter } from 'next/router';
+import { getSession } from 'next-auth/react';
+import React, { useContext, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-];
+import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
+import { DeliveredCarTab } from '@/components/dashboard/deliveredCarTab';
+import { NewCarTab } from '@/components/dashboard/newCarTab';
+import { SearchLot } from '@/components/dashboard/searchLot';
+import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
+import { StatesTab } from '@/components/dashboard/statesTab';
+import { SubMenu } from '@/components/dashboard/subMenu';
+import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
+import UserContext from '@/components/userContext';
+import { Meta } from '@/layout/Meta';
+import { Layout } from '@/templates/layoutDashboard';
+import { classNames } from '@/utils/Functions';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
-export default function Dashboard() {
+export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+
+
+
+
+  const tab = context.query.tab ? context.query.tab : 'tabs-states';
+  let type = context.query.type ? context.query.type : '';
+  const page = context.query.page ? context.query.page : 0;
+  const session: any = await getSession(context);
+
+  let carsData = {};
+  let apiTab = 'statesCount';
+  if (tab === 'tabs-newcar') {
+    apiTab = 'newCars';
+  }
+  if (tab === 'tabs-warehouse') {
+    apiTab = 'warehouseCars';
+  }
+  if (tab === 'tabs-shipping') {
+    apiTab = 'onWayCars';
+  }
+  if (tab === 'tabs-arrived') {
+    if (!type || type === 'port') {
+      type = 'port';
+      apiTab = 'portCars';
+    } else {
+      type = 'store';
+      apiTab = 'carsArrivedStore';
+    }
+  }
+  if (tab === 'tabs-states') {
+    apiTab = 'statesCount';
+  }
+  if (tab === 'tabs-delivered') {
+    apiTab = 'deliveredCars';
+  }
+  let apiUrl = process.env.API_URL + apiTab;
+  if (tab === 'tabs-delivered') {
+    if (!type) {
+      type = 'Paid';
+    }
+    apiUrl += `?${type}=1`;
+  }
+  if (apiTab === 'newCars') {
+    if (!type) {
+      type = 'unpaid';
+    }
+    if (type === 'paid' || type === 'unpaid' || type === 'paid_bycustomer') {
+      apiUrl += `?${type}=1`;
+    }
+    if (type === 'towing') {
+      apiUrl = `${process.env.API_URL}towingCars`;
+    }
+    if (type === 'cancelled') {
+      apiUrl = `${process.env.API_URL}customer/allCancelledCars`;
+    }
+  }
+  if (
+    tab === 'tabs-arrived' ||
+    apiTab === 'warehouseCars' ||
+    apiTab === 'onWayCars' ||
+    type === 'towing' ||
+    type === 'cancelled'
+  ) {
+    apiUrl = `${apiUrl}?page=${page}`;
+  } else if (apiTab !== 'statesCount') {
+    apiUrl = `${apiUrl}&page=${page}`;
+  }
+  if (session && session.token && session.token.access_token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
+    await axios
+      .get(`${apiUrl}`)
+      .then(function (response) {
+        // handle success
+        carsData = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  return {
+    props: {
+      carsData,
+      baseUrl: process.env.NEXTAUTH_URL,
+    },
+  };
+}
+const Dashboard = ({ router, carsData, baseUrl }) => {
+
+
+  const { setLoading } = useContext(UserContext);
+  const {
+    query: { tab, type, page },
+  } = router;
+  const [subMenu, setSubMenu] = useState(tab);
+  let currentPage = page;
+  if (!currentPage) {
+    currentPage = 0;
+  }
+  const tabs = [
+    {
+      name: 'page.customer.dashboard.new_cars',
+      href: 'tabs-newcar',
+      subMenu: true,
+    },
+    {
+      name: 'page.customer.dashboard.at_warehouse',
+      href: 'tabs-warehouse',
+      subMenu: false,
+    },
+    {
+      name: 'page.customer.dashboard.in_shipping',
+      href: 'tabs-shipping',
+      subMenu: false,
+    },
+    {
+      name: 'page.customer.dashboard.arrived',
+      href: 'tabs-arrived',
+      subMenu: true,
+    },
+    {
+      name: 'page.customer.dashboard.delivered',
+      href: 'tabs-delivered',
+      subMenu: true,
+    },
+    {
+      name: 'page.customer.dashboard.states',
+      href: 'tabs-states',
+      subMenu: false,
+    },
+  ];
+  let carsRecords;
+  let totalRecords = 0;
+  if (carsData.data) {
+    carsRecords = carsData.data;
+    totalRecords = carsData.totalRecords;
+  } else {
+    carsRecords = [];
+  }
   return (
-    <div className="relative overflow-hidden bg-gray-50">
-      <div
-        className="hidden sm:absolute sm:inset-y-0 sm:block sm:h-full sm:w-full"
-        aria-hidden="true"
-      >
-        <div className="relative mx-auto h-full max-w-7xl">
-          <svg
-            className="absolute right-full translate-y-1/4 translate-x-1/4 lg:translate-x-1/2"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="f210dbf6-a58d-4871-961e-36d5016a0f49"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  className="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"
-            />
-          </svg>
-          <svg
-            className="absolute left-full -translate-y-3/4 -translate-x-1/4 md:-translate-y-1/2 lg:-translate-x-1/2"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="5d0dd344-b041-4d26-bec4-8d33ea57ec9b"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  className="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)"
-            />
-          </svg>
-        </div>
-      </div>
-
-      <div className="relative pt-6 pb-16 sm:pb-24">
-        <Popover>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <nav
-              className="relative flex items-center justify-between sm:h-10 md:justify-center"
-              aria-label="Global"
-            >
-              <div className="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
-                <div className="flex w-full items-center justify-between md:w-auto">
-                  <a href="#">
-                    <span className="sr-only">Workflow</span>
-                    <img
-                      className="h-8 w-auto sm:h-10"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt=""
-                    />
-                  </a>
-                  <div className="-mr-2 flex items-center md:hidden">
-                    <Popover.Button className="inline-flex items-center justify-center rounded-md bg-gray-50 p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                      <span className="sr-only">Open main menu</span>
-                      <MenuIcon className="h-6 w-6" aria-hidden="true" />
-                    </Popover.Button>
-                  </div>
-                </div>
-              </div>
-              <div className="hidden md:flex md:space-x-10">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="font-medium text-gray-500 hover:text-gray-900"
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-              {/* <div className="hidden md:absolute md:inset-y-0 md:right-0 md:flex md:items-center md:justify-end">
-                <span className="inline-flex rounded-md shadow">
-                  <a
-                    href="#"
-                    className="inline-flex items-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-indigo-600 hover:bg-gray-50"
-                  >
-                    Log in
-                  </a>
-                </span>
-              </div> */}
-            </nav>
+    <Layout meta={<Meta title="Dashboard" description="" />}>
+      <div>
+        <div className="m-4">
+          <div className="flex">
+            <h4 className="text-dark-blue flex-1 pb-8 text-xl sm:text-2xl">
+              <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
+                &#xe14f;
+              </i>
+              <FormattedMessage id="page.customer.dashboard.cars_summary" />
+            </h4>
+            <SearchLot></SearchLot>
           </div>
-
-          <Transition
-            as={Fragment}
-            enter="duration-150 ease-out"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="duration-100 ease-in"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
-            <Popover.Panel
-              focus
-              className="absolute inset-x-0 top-0 z-10 origin-top-right p-2 transition md:hidden"
-            >
-              <div className="overflow-hidden rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
-                <div className="flex items-center justify-between px-5 pt-4">
-                  <div>
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt=""
-                    />
-                  </div>
-                  <div className="-mr-2">
-                    <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                      <span className="sr-only">Close menu</span>
-                      <XIcon className="h-6 w-6" aria-hidden="true" />
-                    </Popover.Button>
-                  </div>
-                </div>
-                <div className="px-2 pt-2 pb-3">
-                  {navigation.map((item) => (
+          <div>
+            <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
+              {tabs.map((tabData) =>
+                tabData.subMenu ? (
+                  <a
+                    key={tabData.href}
+                    className={classNames(
+                      (!tab && tabData.href === 'tabs-states') ||
+                        tab === tabData.href
+                        ? 'bg-blue-700 text-white'
+                        : 'text-blue-600 hover:text-gray-700',
+                      'px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                    )}
+                    onClick={() => setSubMenu(tabData.href)}
+                  >
+                    <FormattedMessage id={tabData.name} />
+                  </a>
+                ) : (
+                  <Link
+                    key={tabData.name}
+                    href={{
+                      pathname: '/customer/dashboard/',
+                      query: { tab: tabData.href },
+                    }}
+                  >
                     <a
-                      key={item.name}
-                      href={item.href}
-                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                      className={classNames(
+                        (!tab && tabData.href === 'tabs-states') ||
+                          tab === tabData.href
+                          ? 'bg-blue-700 text-white'
+                          : 'text-blue-600 hover:text-gray-700',
+                        'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      )}
+                      onClick={() => setSubMenu('')}
                     >
-                      {item.name}
+                      <FormattedMessage id={tabData.name} />
                     </a>
-                  ))}
-                </div>
-                <a
-                  href="#"
-                  className="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-indigo-600 hover:bg-gray-100"
-                >
-                  Log in
-                </a>
-              </div>
-            </Popover.Panel>
-          </Transition>
-        </Popover>
-
-        <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-              <span className="block xl:inline">Data to enrich your</span>{' '}
-              <span className="block text-indigo-600 xl:inline">
-                online business
-              </span>
-            </h1>
-            <p className="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-              lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-              fugiat aliqua.
-            </p>
-            <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
-                <a
-                  href="#"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
-                >
-                  Get started
-                </a>
-              </div>
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <a
-                  href="#"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-indigo-600 hover:bg-gray-50 md:py-4 md:px-10 md:text-lg"
-                >
-                  Live demo
-                </a>
-              </div>
+                  </Link>
+                )
+              )}
+            </nav>
+            <SubMenu type={subMenu} subType={type}></SubMenu>
+            <div>
+              {tab === 'tabs-newcar' && (
+                <React.Fragment>
+                  <NewCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                    type={type}
+                  ></NewCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-warehouse' && (
+                <React.Fragment>
+                  <WarehouseCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                    setLoading={setLoading}
+                  ></WarehouseCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-shipping' && (
+                <React.Fragment>
+                  <ShippingCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                  ></ShippingCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-arrived' && (
+                <React.Fragment>
+                  <ArrivedCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                    type={type}
+                  ></ArrivedCarTab>
+                </React.Fragment>
+              )}
+              {tab === 'tabs-delivered' && (
+                <React.Fragment>
+                  <DeliveredCarTab
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    baseUrl={baseUrl}
+                    page={currentPage}
+                    type={type}
+                  ></DeliveredCarTab>
+                </React.Fragment>
+              )}
+              {(tab === 'tabs-states' || tab == null) && (
+                <React.Fragment>
+                  <StatesTab carsRecords={carsRecords}></StatesTab>
+                </React.Fragment>
+              )}
             </div>
           </div>
-        </main>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
-}
+};
+
+export default withRouter(Dashboard);

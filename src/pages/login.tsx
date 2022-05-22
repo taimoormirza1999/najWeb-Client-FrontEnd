@@ -1,6 +1,11 @@
+import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { getCsrfToken, signIn, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { getCsrfToken, signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import { AppConfig } from '@/utils/AppConfig';
 
 const errors = {
   Signin: 'Try signing with a different account.',
@@ -21,19 +26,18 @@ const SignInError = ({ error, className }) => {
   return <div className={className}>{errorMessage}</div>;
 };
 
-export default function Login() {
-  const { data: session, status } = useSession();
-  const loading = status === 'loading';
+export default function Login({ locale }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const router = useRouter();
   const { error } = useRouter().query;
 
-  useEffect(() => {
-    if (!loading && session) {
-      router.push('/');
-    }
-  }, [loading, session]);
+  /*   useEffect(() => {
+      if (!loading && session) {
+        router.push('/');
+      }
+    }, [loading, session]); */
 
   const handleSignIn = async (e: any) => {
     e.preventDefault();
@@ -41,40 +45,72 @@ export default function Login() {
       email,
       password,
       redirect: true,
-      callbackUrl: `${window.location.origin}/`,
+      callbackUrl: `${locale !== 'en' ? `/${locale}` : ''}/customer/dashboard`,
     });
   };
 
   return (
     <>
-      <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-            alt="Workflow"
-          />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
+      <Head>
+        <meta charSet="UTF-8" key="charset" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1"
+          key="viewport"
+        />
+        <link
+          rel="apple-touch-icon"
+          href={`${router.basePath}/apple-touch-icon.png`}
+          key="apple"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`${router.basePath}/favicon-32x32.png`}
+          key="icon32"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`${router.basePath}/favicon-16x16.png`}
+          key="icon16"
+        />
+        <link
+          rel="icon"
+          href={`${router.basePath}/favicon.png`}
+          key="favicon"
+        />
+        <title>Login - {AppConfig.title}</title>
+      </Head>
+      <div className="bg-teal-blue flex h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="mx-5 rounded-md bg-white sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="py-5 sm:mx-auto sm:w-full sm:max-w-md">
+            <img
+              className="mx-auto h-20 w-auto"
+              src="/assets/images/logo-icon-blue.png"
+              alt={AppConfig.title}
+            />
+            <h2 className="text-dark-blue mt-6 text-center text-5xl font-semibold">
+              <FormattedMessage id="sign.in" />
+            </h2>
+          </div>
+          <div className="p-4 shadow sm:rounded-lg sm:px-10">
+            {error && (
+              <SignInError
+                error={error}
+                className="py-4 text-center text-red-400"
+              />
+            )}
 
-        {error && (
-          <SignInError
-            error={error}
-            className="py-4 text-center text-red-400"
-          />
-        )}
-
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={(e) => handleSignIn(e)}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+                  className="text-dark-blue block text-xl font-semibold"
                 >
-                  Email
+                  <FormattedMessage id="Email" />
                 </label>
                 <div className="mt-1">
                   <input
@@ -92,9 +128,9 @@ export default function Login() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
+                  className="text-dark-blue block text-xl font-semibold"
                 >
-                  Password
+                  <FormattedMessage id="Password" />
                 </label>
                 <div className="mt-1">
                   <input
@@ -112,11 +148,17 @@ export default function Login() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="border-azure-blue bg-azure-blue hover:bg-dark-blue flex w-full justify-center rounded-md border-2 py-2 px-4 text-lg font-semibold text-white shadow-sm"
                   onClick={handleSignIn}
                 >
-                  Sign in
+                  <FormattedMessage id="sign.in" />
                 </button>
+
+                <Link href="/auth/newAccount">
+                  <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-lg font-semibold shadow-sm">
+                    <FormattedMessage id="sign.up" />
+                  </a>
+                </Link>
               </div>
             </form>
           </div>
