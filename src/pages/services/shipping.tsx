@@ -1,10 +1,4 @@
-import {
-  faClipboardCheck,
-  faCrosshairs,
-  faGaugeHigh,
-  faShield,
-  faUsersLine,
-} from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faCrosshairs, faGaugeHigh, faShield, faUsersLine } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

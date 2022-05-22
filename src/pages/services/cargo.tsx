@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl';
 
-import ApplyForAccount from '@/components/applyForAccount';
+import ApplyForAccount from '@/components/ApplyForAccount';
 import Breadcrumbs from '@/components/breadcrumbs';
 import ContactDetails from '@/components/contactDetails';
 import DownloadApps from '@/components/lownloadApps';

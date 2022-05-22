@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
-import { checkIfLoggedIn, grantIfLogin, NetworkStatus } from '@/utils/network';
+import { grantIfLogin } from '@/utils/network';
 
 const TermsAndConditions = () => {
   return (

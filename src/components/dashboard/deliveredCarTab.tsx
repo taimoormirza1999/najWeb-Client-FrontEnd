@@ -1,6 +1,5 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 import { Pagination } from '@/components/dashboard/pagination';
