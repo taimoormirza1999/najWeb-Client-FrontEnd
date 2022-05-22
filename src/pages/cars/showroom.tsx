@@ -8,11 +8,11 @@ import { Fragment, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import useSWRInfinite from 'swr/infinite';
 
-import ApplyForAccount from '@/components/ApplyForAccount';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import ContactDetails from '@/components/ContactDetails';
+import ApplyForAccount from '@/components/applyForAccount';
+import Breadcrumbs from '@/components/breadcrumbs';
+import ContactDetails from '@/components/contactDetails';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 import { classNames } from '@/utils/Functions';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());

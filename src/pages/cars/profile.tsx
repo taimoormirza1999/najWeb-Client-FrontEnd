@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 import { SRLWrapper } from 'simple-react-lightbox';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
+import Breadcrumbs from '@/components/breadcrumbs';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 
 export async function getServerSideProps(context) {
   const res = await axios.get(`${process.env.API_URL}CarsForSaleDetails`, {

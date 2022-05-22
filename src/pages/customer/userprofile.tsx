@@ -1,13 +1,16 @@
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useState } from 'react';
 
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
 import { Meta } from '@/layout/Meta';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+
   return {
     props: { apiUrl: process.env.API_URL },
   };

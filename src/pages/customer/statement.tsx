@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { getSession } from 'next-auth/react';
 import React, { useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Deposits } from '@/components/dashboard/carsStatement/deposits';
 import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntries';
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 const Statement = ({
   selectedParams,
@@ -135,6 +136,7 @@ const Statement = ({
 };
 
 export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
   const session: any = await getSession(context);
 
   axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;

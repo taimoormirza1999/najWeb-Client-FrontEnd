@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 
-import DownloadApps from '../components/DownloadApps';
+import DownloadApps from '../components/lownloadApps';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.API_URL;
 
 const Index = ({ announcements }) => {
   return (

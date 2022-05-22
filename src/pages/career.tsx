@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
-import CustomModal from '@/components/CustomModal';
+import Breadcrumbs from '@/components/breadcrumbs';
+import CustomModal from '@/components/customModal';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 
 const Career = () => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);

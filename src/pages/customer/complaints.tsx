@@ -3,12 +3,12 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import CustomModal from '@/components/CustomModal';
+import CustomModal from '@/components/customModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
+import { grantIfLogin, postData } from '@/utils/network';
 import { classNames } from '@/utils/Functions';
-import { postData } from '@/utils/network';
 
 export interface Complaint {
   complaint_message_id: string;
@@ -272,5 +272,9 @@ const Complaints = () => {
     </Layout>
   );
 };
+export async function getServerSideProps(context) {
+  return grantIfLogin(context);
+}
+
 
 export default Complaints;

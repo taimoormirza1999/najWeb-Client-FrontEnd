@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { getSession } from 'next-auth/react';
 
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
 import { FormattedMessage } from 'react-intl';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 const Lists = ({ lists }) => {
   const todayDateArray = Date().toLocaleLowerCase().split(' ');
@@ -70,6 +71,7 @@ const Lists = ({ lists }) => {
 };
 
 export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
   const session: any = await getSession(context);
   const apiUrl = process.env.API_URL;
   let lists = [];

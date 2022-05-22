@@ -2,7 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
+import { checkIfLoggedIn, grantIfLogin, NetworkStatus } from '@/utils/network';
 
 const TermsAndConditions = () => {
   return (
@@ -41,5 +42,9 @@ const TermsAndConditions = () => {
     </Layout>
   );
 };
-
 export default TermsAndConditions;
+export async function getServerSideProps(context) {
+  return grantIfLogin(context);
+}
+
+
