@@ -5,7 +5,7 @@ import { Fragment, useContext, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
-import UserContext from '@/components/UserContext';
+import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
