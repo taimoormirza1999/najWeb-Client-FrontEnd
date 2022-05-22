@@ -135,7 +135,7 @@ const Layout = (props: IMainProps) => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <div className="absolute top-0 right-0 -mr-12 pt-2">
+                  <div className="absolute top-0 pt-2 ltr:right-0 ltr:-mr-12 rtl:left-0 rtl:-ml-12">
                     <button
                       type="button"
                       className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -181,33 +181,31 @@ const Layout = (props: IMainProps) => {
                       </Link>
                     ))}
                     {locale === 'en' ? (
-                      <Link href="#" scroll={false}>
-                        <a
-                          className="group flex items-center p-2 text-base font-bold"
-                          onClick={() => {
-                            changeLanguage('en');
-                          }}
-                        >
-                          <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
-                            &#xe8e2;
-                          </i>
-                          Arabic
-                        </a>
-                      </Link>
+                      <a
+                        href="#"
+                        className="group flex items-center p-2 text-base font-bold"
+                        onClick={() => {
+                          changeLanguage('ar');
+                        }}
+                      >
+                        <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
+                          &#xe8e2;
+                        </i>
+                        Arabic
+                      </a>
                     ) : (
-                      <Link href="#" scroll={false}>
-                        <a
-                          className="group flex items-center p-2 text-base font-bold"
-                          onClick={() => {
-                            changeLanguage('en');
-                          }}
-                        >
-                          <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
-                            &#xe8e2;
-                          </i>
-                          English
-                        </a>
-                      </Link>
+                      <a
+                        href="#"
+                        className="group flex items-center p-2 text-base font-bold"
+                        onClick={() => {
+                          changeLanguage('en');
+                        }}
+                      >
+                        <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
+                          &#xe8e2;
+                        </i>
+                        English
+                      </a>
                     )}
                   </nav>
                 </div>
