@@ -1,8 +1,6 @@
-import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 import { Pagination } from '@/components/dashboard/pagination';
-import { classNames } from '@/utils/Functions';
 
 import { Port } from './arrived/port';
 import { Store } from './arrived/store';
@@ -78,9 +76,9 @@ const ArrivedCarTab = ({
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-white">
                     <tr>
-                      {carTableHeader.map((th) => (
+                      {carTableHeader.map((th, index) => (
                         <th
-                          key={th}
+                          key={index}
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >

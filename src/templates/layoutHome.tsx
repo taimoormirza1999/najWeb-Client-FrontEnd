@@ -1,9 +1,4 @@
-import {
-  faFacebookSquare,
-  faInstagramSquare,
-  faLinkedin,
-  faTwitterSquare,
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faInstagramSquare, faLinkedin, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Menu, Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -13,7 +8,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import AnnouncementsCarousel from '@/components/Announcement/announcementsCarousel';
+import AnnouncementsCarousel from '@/components/Announcement/AnnouncementsCarousel';
 import CustomModal from '@/components/customModal';
 import { AppConfig } from '@/utils/AppConfig';
 import { classNames } from '@/utils/Functions';
@@ -71,13 +66,12 @@ const Layout = (props: IMainProps) => {
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      setHeaderFixed(window.scrollY > 200);
+      setHeaderFixed(window.scrollY > 120);
     });
   }, []);
 
-  const changeLanguage = (e) => {
-    const selectedLocale = e.target.value;
-    document.cookie = `NEXT_LOCALE=${e.target.value}`;
+  const changeLanguage = (selectedLocale) => {
+    document.cookie = `NEXT_LOCALE=${e.target.value};path=/`;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
 
@@ -143,10 +137,7 @@ const Layout = (props: IMainProps) => {
 
         {props.announcements ? (
           <div className="bg-light-grey mb-5 xl:flex">
-            <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2">
-              <div className="top-0 hidden w-[75px] overflow-hidden ltr:right-0 rtl:rotate-[-90deg] xl:absolute xl:inline-block rtl:xl:left-[17px] rtl:xl:top-[-18px]">
-                <div className="bg-light-grey h-[110px] origin-top-left -rotate-45"></div>
-              </div>
+            <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2 before:absolute before:top-0 before:border-t-[#ebebeb] ltr:before:right-0 ltr:before:border-l-[#005fb7] rtl:before:left-0 rtl:before:border-r-[#005fb7] xl:before:border-t-[105px] ltr:xl:before:border-l-[100px] rtl:xl:before:border-r-[100px] 2xl:before:border-t-[76px]">
               <h3 className="text-center text-xl font-semibold text-white sm:text-2xl md:text-3xl">
                 Important Anouncements
               </h3>
@@ -208,8 +199,8 @@ const Layout = (props: IMainProps) => {
         )}
         <Popover
           className={classNames(
-            headerFixed ? 'header-fixed shadow-2xl' : '',
-            'sticky top-0 z-50 bg-white'
+            headerFixed ? 'sticky header-fixed shadow-2xl top-0 z-50 ' : '',
+            'relative bg-white'
           )}
         >
           <div className="mb-7 flex items-center justify-between px-4 md:px-8 lg:px-0 xl:justify-start xl:gap-10">
@@ -218,7 +209,7 @@ const Layout = (props: IMainProps) => {
                 <a className="hover:border-0">
                   <span className="sr-only">{AppConfig.title}</span>
                   <img
-                    className="h-10 w-auto sm:h-14"
+                    className="w-52"
                     src="/assets/images/logo-en.png"
                     alt={AppConfig.title}
                   />
@@ -259,13 +250,11 @@ const Layout = (props: IMainProps) => {
 
                 <div className="flex flex-wrap justify-center space-x-6 py-4 lg:hidden">
                   {navigation.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      className="text-base font-medium text-white hover:text-indigo-50"
-                    >
-                      <FormattedMessage id={link.name} />
-                    </a>
+                    <Link key={link.name} href={link.href}>
+                      <a className="text-base font-medium text-white hover:text-indigo-50">
+                        <FormattedMessage id={link.name} />
+                      </a>
+                    </Link>
                   ))}
                 </div>
               </nav>
@@ -407,7 +396,9 @@ const Layout = (props: IMainProps) => {
                   </Menu>
                 </div>
                 <select
-                  onChange={changeLanguage}
+                  onChange={(e) => {
+                    changeLanguage(e.target.value);
+                  }}
                   defaultValue={locale}
                   className={classNames(
                     headerFixed ? 'text-dark-blue' : ' text-white',
@@ -460,16 +451,45 @@ const Layout = (props: IMainProps) => {
                   <div className="mt-6">
                     <nav className="grid grid-cols-1 gap-7">
                       {navigation.map((link) => (
+                        <Link key={link.name} href={link.href}>
+                          <a className="-m-3 flex items-center rounded-lg p-3 hover:bg-gray-50">
+                            <div className="ml-4 text-base font-medium text-gray-900">
+                              <FormattedMessage id={link.name} />
+                            </div>
+                          </a>
+                        </Link>
+                      ))}
+                      {locale === 'en' ? (
                         <a
-                          key={link.name}
-                          href={link.href}
+                          href="#"
                           className="-m-3 flex items-center rounded-lg p-3 hover:bg-gray-50"
+                          onClick={() => {
+                            changeLanguage('ar');
+                          }}
                         >
                           <div className="ml-4 text-base font-medium text-gray-900">
-                            <FormattedMessage id={link.name} />
+                            <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
+                              &#xe8e2;
+                            </i>
+                            Arabic
                           </div>
                         </a>
-                      ))}
+                      ) : (
+                        <a
+                          href="#"
+                          className="-m-3 flex items-center rounded-lg p-3 hover:bg-gray-50"
+                          onClick={() => {
+                            changeLanguage('en');
+                          }}
+                        >
+                          <div className="ml-4 text-base font-medium text-gray-900">
+                            <i className="material-icons text-lg ltr:mr-2 rtl:ml-2">
+                              &#xe8e2;
+                            </i>
+                            English
+                          </div>
+                        </a>
+                      )}
                     </nav>
                   </div>
                 </div>

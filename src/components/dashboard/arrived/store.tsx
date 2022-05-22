@@ -6,7 +6,7 @@ import { classNames } from '@/utils/Functions';
 const Store = ({ carsRecords }) => {
   return carsRecords.map((car, index) => (
     <tr
-      key={car.carId}
+      key={index}
       className={classNames(
         index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
         'text-sm'

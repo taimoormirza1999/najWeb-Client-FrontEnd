@@ -1,6 +1,5 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 import { Pagination } from '@/components/dashboard/pagination';
@@ -87,9 +86,9 @@ const DeliveredCarTab = ({
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-white">
                     <tr>
-                      {carTableHeader.map((th) => (
+                      {carTableHeader.map((th, index) => (
                         <th
-                          key={th}
+                          key={index}
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
@@ -101,7 +100,7 @@ const DeliveredCarTab = ({
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
-                        key={car.carId}
+                        key={index}
                         className={classNames(
                           index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
                           'text-sm'

@@ -1,4 +1,3 @@
-import { getSession } from 'next-auth/react';
 import { getToken } from 'next-auth/jwt';
 
 export default async function handler(req, res) {
