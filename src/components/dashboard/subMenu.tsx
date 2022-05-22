@@ -63,7 +63,7 @@ const SubMenu = ({ type, subType }) => {
           key={status.name}
           href={{
             pathname: '/customer/dashboard/',
-            query: { tab: 'tabs-newcar', type: status.href },
+            query: { tab: type, type: status.href },
           }}
         >
           <a

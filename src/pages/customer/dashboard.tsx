@@ -103,10 +103,10 @@ export async function getServerSideProps(context) {
 }
 const Dashboard = ({ router, carsData, baseUrl }) => {
   const { setLoading } = useContext(UserContext);
-  const [subMenu, setSubMenu] = useState('');
   const {
     query: { tab, type, page },
   } = router;
+  const [subMenu, setSubMenu] = useState(tab);
   let currentPage = page;
   if (!currentPage) {
     currentPage = 0;
@@ -171,11 +171,11 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <a
                     key={tabData.href}
                     className={classNames(
-                      (tab === null && tabData.href === 'tabs-states') ||
+                      (!tab && tabData.href === 'tabs-states') ||
                         tab === tabData.href
                         ? 'bg-blue-700 text-white'
                         : 'text-blue-600 hover:text-gray-700',
-                      'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      'px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                     )}
                     onClick={() => setSubMenu(tabData.href)}
                   >
@@ -191,12 +191,13 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   >
                     <a
                       className={classNames(
-                        (tab === null && tabData.href === 'tabs-states') ||
+                        (!tab && tabData.href === 'tabs-states') ||
                           tab === tabData.href
                           ? 'bg-blue-700 text-white'
                           : 'text-blue-600 hover:text-gray-700',
                         'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                       )}
+                      onClick={() => setSubMenu('')}
                     >
                       <FormattedMessage id={tabData.name} />
                     </a>
