@@ -58,9 +58,9 @@ const SubMenu = ({ type, subType }) => {
       className="mt-[15px] flex max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4"
       aria-label="Tabs"
     >
-      {subMenus.map((status) => (
+      {subMenus.map((status, index) => (
         <Link
-          key={status.name}
+          key={index}
           href={{
             pathname: '/customer/dashboard/',
             query: { tab: type, type: status.href },

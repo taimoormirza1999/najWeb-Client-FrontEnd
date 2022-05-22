@@ -174,10 +174,10 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
           </div>
           <div>
             <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
-              {tabs.map((tabData) =>
+              {tabs.map((tabData, index) =>
                 tabData.subMenu ? (
                   <a
-                    key={tabData.href}
+                    key={index}
                     className={classNames(
                       (!tab && tabData.href === 'tabs-states') ||
                         tab === tabData.href
@@ -191,7 +191,7 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   </a>
                 ) : (
                   <Link
-                    key={tabData.name}
+                    key={index}
                     href={{
                       pathname: '/customer/dashboard/',
                       query: { tab: tabData.href },

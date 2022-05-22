@@ -85,7 +85,7 @@ const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const changeLanguage = (selectedLocale) => {
-    document.cookie = `NEXT_LOCALE=${selectedLocale}`;
+    document.cookie = `NEXT_LOCALE=${selectedLocale};path=/`;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
   const intl = useIntl();
@@ -181,7 +181,7 @@ const Layout = (props: IMainProps) => {
                       </Link>
                     ))}
                     {locale === 'en' ? (
-                      <Link href="/ar/customer/dashboard">
+                      <Link href="#" scroll={false}>
                         <a
                           className="group flex items-center p-2 text-base font-bold"
                           onClick={() => {
@@ -195,7 +195,7 @@ const Layout = (props: IMainProps) => {
                         </a>
                       </Link>
                     ) : (
-                      <Link href="/customer/dashboard">
+                      <Link href="#" scroll={false}>
                         <a
                           className="group flex items-center p-2 text-base font-bold"
                           onClick={() => {

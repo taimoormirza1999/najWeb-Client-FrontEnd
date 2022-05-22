@@ -90,7 +90,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
   };
   const getTracking = async () => {
     if (searchValue) {
-      // setLoading(true);
+      setLoading(true);
       axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
       await axios
         .get(`/api/customer/tracking/?lot_vin=${searchValue}`)
@@ -107,7 +107,6 @@ const Tracking = ({ search, carDetail, errorModal }) => {
             setPortDate(carDetails?.arrived_port?.arrival_date);
             setDeliveredDate(carDetails?.deliver_customer?.deliver_create_date);
             // set the completed modules
-            // setLoading(false);
           } else {
             setErrorModalOpen(true);
           }
@@ -115,8 +114,8 @@ const Tracking = ({ search, carDetail, errorModal }) => {
         .catch(function (apiError) {
           setErrorModalOpen(true);
           console.log(apiError);
-          setLoading(false);
         });
+      setLoading(false);
     }
   };
 

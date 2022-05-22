@@ -111,9 +111,9 @@ const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-white">
                     <tr>
-                      {carTableHeader.map((th) => (
+                      {carTableHeader.map((th, index) => (
                         <th
-                          key={th.name}
+                          key={index}
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
@@ -125,7 +125,7 @@ const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
-                        key={car.carId}
+                        key={index}
                         className={classNames(
                           index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
                           'text-sm'
