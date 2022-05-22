@@ -8,7 +8,7 @@ import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
 import { Pagination } from '@/components/dashboard/pagination';
 
-const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
+const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
   let carTableData;
   if (!type) {
     type = 'unpaid';
@@ -222,7 +222,7 @@ const NewCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0, type }) => {
       },
     ];
   }
-  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
       <div className="pt-14">

@@ -220,7 +220,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <NewCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     type={type}
                   ></NewCarTab>
@@ -231,7 +230,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <WarehouseCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     setLoading={setLoading}
                   ></WarehouseCarTab>
@@ -242,7 +240,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <ShippingCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                   ></ShippingCarTab>
                 </React.Fragment>
@@ -252,7 +249,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <ArrivedCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     type={type}
                   ></ArrivedCarTab>
@@ -263,7 +259,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <DeliveredCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     type={type}
                   ></DeliveredCarTab>
