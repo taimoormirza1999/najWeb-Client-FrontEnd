@@ -11,9 +11,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
+import Breadcrumbs from '@/components/breadcrumbs';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 
 const Shipping = () => {
   const receiveServiceRef = useRef<HTMLDivElement>(null);

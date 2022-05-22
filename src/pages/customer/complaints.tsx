@@ -2,11 +2,11 @@ import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl  } from 'react-intl';
-import CustomModal from '@/components/CustomModal';
+import CustomModal from '@/components/customModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
-import { postData } from '@/utils/network';
+import { Layout } from '@/templates/layoutDashboard';
+import { grantIfLogin, postData } from '@/utils/network';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -122,7 +122,7 @@ const Complaints = () => {
           <div className="mt-2">
             <p className="mb-4 py-6 text-xl">
               {intl.formatMessage({ id: "messages.receivedmsg" })}{' '}
-              <br /> {intl.formatMessage({ id: "messages.getbacksoon" })} 
+              <br /> {intl.formatMessage({ id: "messages.getbacksoon" })}
             </p>
           </div>
         </div>
@@ -135,7 +135,7 @@ const Complaints = () => {
             }}
             ref={okButtonRef}
           >
-            {intl.formatMessage({ id: "messages.ok" })} 
+            {intl.formatMessage({ id: "messages.ok" })}
           </button>
         </div>
       </CustomModal>
@@ -271,5 +271,9 @@ const Complaints = () => {
     </Layout>
   );
 };
+export async function getServerSideProps(context) {
+  return grantIfLogin(context);
+}
+
 
 export default Complaints;

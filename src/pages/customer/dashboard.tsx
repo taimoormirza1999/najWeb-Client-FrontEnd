@@ -12,12 +12,18 @@ import { SearchLot } from '@/components/dashboard/searchLot';
 import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
 import { StatesTab } from '@/components/dashboard/statesTab';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
-import UserContext from '@/components/UserContext';
+import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutDashboard';
+import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+
+
+
+
   const tab = context.query.tab ? context.query.tab : 'tabs-states';
   let type = context.query.type ? context.query.type : '';
   const page = context.query.page ? context.query.page : 0;
@@ -101,6 +107,8 @@ export async function getServerSideProps(context) {
   };
 }
 const Dashboard = ({ router, carsData, baseUrl }) => {
+
+
   const { setLoading } = useContext(UserContext);
   const {
     query: { tab, type, page },

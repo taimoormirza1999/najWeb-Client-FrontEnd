@@ -2,9 +2,9 @@ import axios from 'axios';
 import Link from 'next/link';
 import { SRLWrapper } from 'simple-react-lightbox';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
+import Breadcrumbs from '@/components/breadcrumbs';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 import { FormattedMessage } from 'react-intl';
 
 export async function getServerSideProps(context) {

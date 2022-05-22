@@ -3,11 +3,11 @@ import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
-import ContactDetails from '@/components/ContactDetails';
-import CustomModal from '@/components/CustomModal';
+import Breadcrumbs from '@/components/breadcrumbs';
+import ContactDetails from '@/components/contactDetails';
+import CustomModal from '@/components/customModal';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 import { postData } from '@/utils/network';
 
 const NewAccount = () => {

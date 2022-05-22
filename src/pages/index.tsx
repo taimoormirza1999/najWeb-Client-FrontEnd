@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 
-import DownloadApps from '../components/DownloadApps';
+import DownloadApps from '../components/lownloadApps';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.API_URL;
 
 const Index = ({ announcements }) => {
   return (

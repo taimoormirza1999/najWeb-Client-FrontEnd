@@ -1,9 +1,9 @@
-import ApplyForAccount from '@/components/ApplyForAccount';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import ContactDetails from '@/components/ContactDetails';
-import DownloadApps from '@/components/DownloadApps';
+import ApplyForAccount from '@/components/applyForAccount';
+import Breadcrumbs from '@/components/breadcrumbs';
+import ContactDetails from '@/components/contactDetails';
+import DownloadApps from '@/components/lownloadApps';
 import { Meta } from '@/layout/Meta';
-import { Layout } from '@/templates/LayoutHome';
+import { Layout } from '@/templates/layoutHome';
 import { FormattedMessage } from 'react-intl';
 
 const Shipping = () => (
