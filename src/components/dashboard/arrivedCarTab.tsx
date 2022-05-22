@@ -5,13 +5,7 @@ import { Pagination } from '@/components/dashboard/pagination';
 import { Port } from './arrived/port';
 import { Store } from './arrived/store';
 
-const ArrivedCarTab = ({
-  carsRecords,
-  totalRecords,
-  baseUrl,
-  page = 0,
-  type,
-}) => {
+const ArrivedCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
   if (!type) {
     type = 'port';
   }
@@ -58,7 +52,7 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.Total',
     ];
   }
-  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
   return (
     <div className="" id="tabs-arrived" role="tabpanel">
       <div className="pt-14">

@@ -5,13 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
-const DeliveredCarTab = ({
-  carsRecords,
-  totalRecords,
-  baseUrl,
-  page = 0,
-  type,
-}) => {
+const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
   if (!type) {
     type = 'Paid';
   }
@@ -68,7 +62,7 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.images',
     ];
   }
-  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
       <div className="pt-14">

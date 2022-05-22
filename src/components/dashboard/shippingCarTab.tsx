@@ -62,10 +62,10 @@ const carTableHeader = [
   },
 ];
 
-const ShippingCarTab = ({ carsRecords, totalRecords, baseUrl, page = 0 }) => {
+const ShippingCarTab = ({ carsRecords, totalRecords, page = 0 }) => {
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
-  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-shipping&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   return (
