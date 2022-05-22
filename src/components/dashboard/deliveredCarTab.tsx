@@ -69,45 +69,9 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.images',
     ];
   }
-  const statusTypes = [
-    {
-      name: 'page.customer.dashboard.paid',
-      href: 'Paid',
-    },
-    {
-      name: 'page.customer.dashboard.unpaid',
-      href: 'unpaid',
-    },
-  ];
   const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
-      <nav
-        className="mt-[15px] flex max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4"
-        aria-label="Tabs"
-      >
-        {statusTypes.map((status) => (
-          <Link
-            key={status.name}
-            href={{
-              pathname: '/customer/dashboard/',
-              query: { tab: 'tabs-delivered', type: status.href },
-            }}
-          >
-            <a
-              key={status.href}
-              className={classNames(
-                type === status.href
-                  ? ' text-blue-600'
-                  : 'text-gray-500 hover:text-gray-700',
-                'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
-              )}
-            >
-              <FormattedMessage id={status.name} />
-            </a>
-          </Link>
-        ))}
-      </nav>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
