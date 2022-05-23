@@ -5,10 +5,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
+import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
-import { grantIfLogin, postData } from '@/utils/network';
 import { classNames } from '@/utils/Functions';
+import { grantIfLogin, postData } from '@/utils/network';
 
 export interface Complaint {
   complaint_message_id: string;
@@ -168,19 +169,23 @@ const Complaints = () => {
           </button>
         </div>
       </CustomModal>
-      <div className="mx-auto px-8">
-        <h4 className="text-dark-blue mt-4 py-4 text-2xl font-semibold md:text-3xl">
-          <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
-            &#xe14f;
-          </i>
-          <span className="pl-1 align-middle">
-            <FormattedMessage id="page.complaints.title" />
-          </span>
-        </h4>
-        <p className="text-dark-blue text-xl lg:text-2xl">
+      <div className="m-4">
+        <div className="flex">
+          <h4 className="text-dark-blue flex-1 text-2xl font-semibold md:text-3xl">
+            <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
+              &#xe14f;
+            </i>
+            <span className="pl-1 align-middle">
+              <FormattedMessage id="page.complaints.title" />
+            </span>
+          </h4>
+          <SearchLot></SearchLot>
+        </div>
+        <p className="text-dark-blue ml-5 text-xl lg:text-2xl">
           <FormattedMessage id="page.complaints.header" />
         </p>
-
+      </div>
+      <div className="mx-auto px-8">
         <form method="post" onSubmit={handleSubmit} className="mt-8 mb-4">
           <div className="mt-1 ltr:pl-6 rtl:pr-6">
             <input

@@ -3,11 +3,12 @@ import axios from 'axios';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
+import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 export type CalculatorInputs = {
@@ -150,13 +151,17 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
         </div>
       </CustomModal>
 
-      <div className="text-dark-blue px-4 py-12">
-        <h2 className="text-center text-2xl font-semibold lg:text-3xl xl:text-5xl">
-          <span className="font-bold">
+      <div className="m-4">
+        <div className="flex">
+          <h4 className="text-dark-blue flex-1 text-2xl font-bold lg:text-3xl xl:text-5xl">
+            <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
+              &#xe24a;
+            </i>
             <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
-          </span>
-        </h2>
-        <p className="mb-8 py-6 text-center text-xl lg:text-2xl">
+          </h4>
+          <SearchLot></SearchLot>
+        </div>
+        <p className="text-dark-blue mb-8 text-left text-xl lg:text-2xl">
           <FormattedMessage id="estimate_calculator_desc" />
         </p>
 
