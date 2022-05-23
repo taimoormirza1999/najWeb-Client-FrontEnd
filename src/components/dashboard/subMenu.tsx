@@ -3,29 +3,34 @@ import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
-const SubMenu = ({ type, subType }) => {
+const SubMenu = ({ type, subType, dashboardCount }) => {
   let subMenus: any;
   if (type === 'tabs-newcar') {
     subMenus = [
       {
         name: 'page.customer.dashboard.unpaid',
         href: 'unpaid',
+        count: dashboardCount?.newCarsUnpaidCount,
       },
       {
         name: 'page.customer.dashboard.cancelled',
         href: 'cancelled',
+        count: dashboardCount?.newCarsCancelledCount,
       },
       {
         name: 'page.customer.dashboard.paid',
         href: 'paid',
+        count: dashboardCount?.newCarsPaidCount,
       },
       {
         name: 'page.customer.dashboard.paid_by_customer',
         href: 'paid_bycustomer',
+        count: dashboardCount?.newCarsPaidByCustomerCount,
       },
       {
         name: 'page.customer.dashboard.in_towing',
         href: 'towing',
+        count: dashboardCount?.newCarsPickedCount,
       },
     ];
   }
@@ -34,10 +39,12 @@ const SubMenu = ({ type, subType }) => {
       {
         name: 'page.customer.dashboard.paid',
         href: 'Paid',
+        count: dashboardCount?.carsDeliverdPaidCount,
       },
       {
         name: 'page.customer.dashboard.unpaid',
         href: 'unpaid',
+        count: dashboardCount?.carsDeliverdUnPaidCount,
       },
     ];
   }
@@ -46,10 +53,12 @@ const SubMenu = ({ type, subType }) => {
       {
         name: 'page.customer.dashboard.arrived_port',
         href: 'port',
+        count: dashboardCount?.carsArrivedPortCount,
       },
       {
         name: 'page.customer.dashboard.arrived_store',
         href: 'store',
+        count: dashboardCount?.carsArrivedStoreCount,
       },
     ];
   }
@@ -75,7 +84,7 @@ const SubMenu = ({ type, subType }) => {
               'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
             )}
           >
-            <FormattedMessage id={status.name} />
+            <FormattedMessage id={status.name} /> ({status.count})
           </a>
         </Link>
       ))}

@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         images = results.map((r) => r.data);
       });
     images.forEach((d, i) => {
-      fold.file(`img${i}.jpg`, d, { binary: true });
+      fold?.file(`img${i}.jpg`, d, { binary: true });
     });
     const fzip = await zip.generateAsync({ type: 'nodebuffer' });
     res.setHeader('Content-Disposition', `attachment; filename="archive.zip"`);
