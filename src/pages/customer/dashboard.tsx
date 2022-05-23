@@ -125,11 +125,11 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     currentPage = 0;
   }
   const newCarCount =
-    parseInt(dashboardCount?.newCarsUnpaidCount) +
-    parseInt(dashboardCount?.newCarsPaidCount) +
-    parseInt(dashboardCount?.newCarsPaidByCustomerCount) +
-    parseInt(dashboardCount?.newCarsCancelledCount) +
-    parseInt(dashboardCount?.newCarsPickedCount);
+    parseInt(dashboardCount?.newCarsUnpaidCount, 10) +
+    parseInt(dashboardCount?.newCarsPaidCount, 10) +
+    parseInt(dashboardCount?.newCarsPaidByCustomerCount, 10) +
+    parseInt(dashboardCount?.newCarsCancelledCount, 10) +
+    parseInt(dashboardCount?.newCarsPickedCount, 10);
   const tabs = [
     {
       name: 'page.customer.dashboard.new_cars',
@@ -140,29 +140,29 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     {
       name: 'page.customer.dashboard.at_warehouse',
       href: 'tabs-warehouse',
-      count: parseInt(dashboardCount?.carsOnWarehouseCount),
+      count: parseInt(dashboardCount?.carsOnWarehouseCount, 10),
       subMenu: false,
     },
     {
       name: 'page.customer.dashboard.in_shipping',
       href: 'tabs-shipping',
-      count: parseInt(dashboardCount?.carsShippingStatusCount),
+      count: parseInt(dashboardCount?.carsShippingStatusCount, 10),
       subMenu: false,
     },
     {
       name: 'page.customer.dashboard.arrived',
       href: 'tabs-arrived',
       count:
-        parseInt(dashboardCount?.carsArrivedPortCount) +
-        parseInt(dashboardCount?.carsArrivedStoreCount),
+        parseInt(dashboardCount?.carsArrivedPortCount, 10) +
+        parseInt(dashboardCount?.carsArrivedStoreCount, 10),
       subMenu: true,
     },
     {
       name: 'page.customer.dashboard.delivered',
       href: 'tabs-delivered',
       count:
-        parseInt(dashboardCount?.carsDeliverdPaidCount) +
-        parseInt(dashboardCount?.carsDeliverdUnPaidCount),
+        parseInt(dashboardCount?.carsDeliverdPaidCount, 10) +
+        parseInt(dashboardCount?.carsDeliverdUnPaidCount, 10),
       subMenu: true,
     },
     {

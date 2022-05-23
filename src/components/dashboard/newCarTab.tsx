@@ -16,209 +16,155 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
   if (type === 'paid' || type === 'paid_bycustomer') {
     carTableData = [
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.no" />,
+        header: 'page.customer.dashboard.table.no',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.auction_photo" />
-        ),
+        header: 'page.customer.dashboard.table.auction_photo',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+        header: 'page.customer.dashboard.table.detail',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+        header: 'page.customer.dashboard.table.lot_vin',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+        header: 'page.customer.dashboard.table.auction',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.destination" />
-        ),
+        header: 'page.customer.dashboard.table.destination',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.purchase_date" />
-        ),
+        header: 'page.customer.dashboard.table.purchase_date',
       },
-      { header: <FormattedMessage id="page.customer.dashboard.table.price" /> },
+      { header: 'page.customer.dashboard.table.price' },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.payment_date" />
-        ),
+        header: 'page.customer.dashboard.table.payment_date',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.amount_paid" />
-        ),
+        header: 'page.customer.dashboard.table.amount_paid',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.amount_remaining" />
-        ),
+        header: 'page.customer.dashboard.table.amount_remaining',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.status" />,
+        header: 'page.customer.dashboard.table.status',
       },
     ];
   }
   if (type === 'towing') {
     carTableData = [
-      { header: <FormattedMessage id="page.customer.dashboard.table.no" /> },
+      { header: 'page.customer.dashboard.table.no' },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.auction_photo" />
-        ),
+        header: 'page.customer.dashboard.table.auction_photo',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+        header: 'page.customer.dashboard.table.detail',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+        header: 'page.customer.dashboard.table.lot_vin',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+        header: 'page.customer.dashboard.table.auction',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.destination" />
-        ),
+        header: 'page.customer.dashboard.table.destination',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.purchase_date" />
-        ),
+        header: 'page.customer.dashboard.table.purchase_date',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.payment_date" />
-        ),
+        header: 'page.customer.dashboard.table.payment_date',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.date_pick" />
-        ),
+        header: 'page.customer.dashboard.table.date_pick',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.eta_to_warehouse" />
-        ),
+        header: 'page.customer.dashboard.table.eta_to_warehouse',
       },
     ];
   }
   if (type === 'cancelled') {
     carTableData = [
-      { header: <FormattedMessage id="page.customer.dashboard.table.no" /> },
+      { header: 'page.customer.dashboard.table.no' },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.auction_photo" />
-        ),
+        header: 'page.customer.dashboard.table.auction_photo',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+        header: 'page.customer.dashboard.table.detail',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+        header: 'page.customer.dashboard.table.lot_vin',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+        header: 'page.customer.dashboard.table.auction',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.destination" />
-        ),
+        header: 'page.customer.dashboard.table.destination',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.purchase_date" />
-        ),
+        header: 'page.customer.dashboard.table.purchase_date',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.date_of_cancellation" />
-        ),
+        header: 'page.customer.dashboard.table.date_of_cancellation',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.cost_car" />
-        ),
+        header: 'page.customer.dashboard.table.cost_car',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.rule" />,
+        header: 'page.customer.dashboard.table.rule',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.storage" />,
+        header: 'page.customer.dashboard.table.storage',
       },
     ];
   }
   if (!type || type === 'unpaid') {
     carTableData = [
-      { header: <FormattedMessage id="page.customer.dashboard.table.no" /> },
+      { header: 'page.customer.dashboard.table.no' },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.auction_photo" />
-        ),
+        header: 'page.customer.dashboard.table.auction_photo',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+        header: 'page.customer.dashboard.table.detail',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+        header: 'page.customer.dashboard.table.lot_vin',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+        header: 'page.customer.dashboard.table.auction',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.destination" />
-        ),
+        header: 'page.customer.dashboard.table.destination',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.purchase_date" />
-        ),
+        header: 'page.customer.dashboard.table.purchase_date',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.last_day_to_pay" />
-        ),
+        header: 'page.customer.dashboard.table.last_day_to_pay',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.days_off" />
-        ),
+        header: 'page.customer.dashboard.table.days_off',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.date_extra" />
-        ),
+        header: 'page.customer.dashboard.table.date_extra',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.days_remaining" />
-        ),
+        header: 'page.customer.dashboard.table.days_remaining',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.start_storage" />
-        ),
+        header: 'page.customer.dashboard.table.start_storage',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.car" />,
+        header: 'page.customer.dashboard.table.car',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.storage_late" />
-        ),
+        header: 'page.customer.dashboard.table.storage_late',
       },
       {
-        header: (
-          <FormattedMessage id="page.customer.dashboard.table.total_cost_storage" />
-        ),
+        header: 'page.customer.dashboard.table.total_cost_storage',
       },
       {
-        header: <FormattedMessage id="page.customer.dashboard.table.Total" />,
+        header: 'page.customer.dashboard.table.Total',
       },
     ];
   }
@@ -246,7 +192,7 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          {th.header}
+                          <FormattedMessage id={th.header} />
                         </th>
                       ))}
                     </tr>
