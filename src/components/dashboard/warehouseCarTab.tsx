@@ -10,42 +10,42 @@ import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
 const carTableHeader = [
-  { name: <FormattedMessage id="page.customer.dashboard.table.no" /> },
+  { name: 'page.customer.dashboard.table.no' },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction_photo" />,
+    name: 'page.customer.dashboard.table.auction_photo',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+    name: 'page.customer.dashboard.table.detail',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+    name: 'page.customer.dashboard.table.lot_vin',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+    name: 'page.customer.dashboard.table.auction',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.destination" />,
+    name: 'page.customer.dashboard.table.destination',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.purchase_date" />,
+    name: 'page.customer.dashboard.table.purchase_date',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.payment_date" />,
+    name: 'page.customer.dashboard.table.payment_date',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.date_pick" />,
+    name: 'page.customer.dashboard.table.date_pick',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.arrived" />,
+    name: 'page.customer.dashboard.table.arrived',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.title" />,
+    name: 'page.customer.dashboard.table.title',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.key" />,
+    name: 'page.customer.dashboard.table.key',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.images" />,
+    name: 'page.customer.dashboard.table.images',
   },
 ];
 const WarehouseCarTab = ({
@@ -260,7 +260,7 @@ const WarehouseCarTab = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          {th.name}
+                          <FormattedMessage id={th.name} />
                         </th>
                       ))}
                     </tr>
