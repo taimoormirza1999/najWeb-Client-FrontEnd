@@ -229,7 +229,7 @@ const Contact = () => {
               type="submit"
               className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-[6px] px-6 text-lg font-semibold text-white shadow-sm"
             >
-              <FormattedMessage id="Submit" />
+              <FormattedMessage id="general.submit" />
             </button>
           </form>
         </div>
