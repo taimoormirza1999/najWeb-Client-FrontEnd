@@ -1,9 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
@@ -19,60 +20,54 @@ function getDirection(locale) {
   return 'ltr';
 }
 const Layout = (props: IMainProps) => {
+  const [customerBalance, setCustomerBalance] = useState(0);
+  const GetCustomerBalance = async () => {
+    const res = await axios.get(`/api/customer/customer_balance`);
+    setCustomerBalance(parseFloat(res.data?.data));
+  };
+  useEffect(() => {
+    GetCustomerBalance();
+  });
   const router = useRouter();
   const navigation = [
     {
-      name: (
-        <FormattedMessage id="page.customer.dashboard.navigation_summaries" />
-      ),
+      name: 'page.customer.dashboard.navigation_summaries',
       href: `/customer/dashboard`,
       gicon: '&#xe14f;',
       current: true,
     },
     {
-      name: (
-        <FormattedMessage id="page.customer.dashboard.navigation_statement" />
-      ),
+      name: 'page.customer.dashboard.navigation_statement',
       href: '/customer/statement',
       gicon: '&#xe873;',
       current: false,
     },
     {
-      name: (
-        <FormattedMessage id="page.customer.dashboard.navigation_price_lists" />
-      ),
+      name: 'page.customer.dashboard.navigation_price_lists',
       href: `/customer/lists`,
       gicon: '&#xf1b6;',
       current: false,
     },
     {
-      name: (
-        <FormattedMessage id="page.customer.dashboard.navigation_estimate_calculator" />
-      ),
+      name: 'page.customer.dashboard.navigation_estimate_calculator',
       href: '/customer/shippingCalculator',
       gicon: '&#xe24a;',
       current: false,
     },
     {
-      name: (
-        <FormattedMessage id="page.customer.dashboard.navigation_tracking" />
-      ),
+      name: 'page.customer.dashboard.navigation_tracking',
       href: '/customer/tracking',
       gicon: '&#xf05f;',
       current: false,
     },
     {
-      name: (
-        <FormattedMessage id="page.customer.dashboard.navigation_complaints" />
-      ),
+      name: 'page.customer.dashboard.navigation_complaints',
       href: '/customer/complaints',
       gicon: '&#xe560;',
       current: false,
     },
     {
-      name: (
-        <FormattedMessage id="page.customer.dashboard.navigation_terms_conditions" />
-      ),
+      name: 'page.customer.dashboard.navigation_terms_conditions',
       href: '/customer/termsandconditions',
       gicon: '&#xe048;',
       current: false,
@@ -176,7 +171,7 @@ const Layout = (props: IMainProps) => {
                             className="material-icons text-lg ltr:mr-2 rtl:ml-2"
                             dangerouslySetInnerHTML={{ __html: item.gicon }}
                           ></i>
-                          {item.name}
+                          <FormattedMessage id={item.name} />
                         </a>
                       </Link>
                     ))}
@@ -279,7 +274,7 @@ const Layout = (props: IMainProps) => {
                         className="material-icons text-3xl ltr:mr-2 rtl:ml-2"
                         dangerouslySetInnerHTML={{ __html: item.gicon }}
                       ></i>
-                      {item.name}
+                      <FormattedMessage id={item.name} />
                     </a>
                   </Link>
                 ))}
@@ -336,6 +331,18 @@ const Layout = (props: IMainProps) => {
           </div>
           <main className="flex-1">
             <div className="bg-dark-blue pb-5 pt-8">
+              <div className="ltr:text-right rtl:text-left">
+                {customerBalance > 0 && (
+                  <span className="mt-1 mr-8 inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xl font-medium text-red-800">
+                    {customerBalance} AED
+                  </span>
+                )}
+                {customerBalance < 0 && (
+                  <span className="mt-1 inline-flex items-center rounded-md bg-green-100 px-2.5 py-0.5 text-xl font-medium text-green-800">
+                    {0 - customerBalance} AED
+                  </span>
+                )}
+              </div>
               <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 md:flex md:justify-between md:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
