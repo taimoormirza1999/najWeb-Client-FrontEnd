@@ -110,12 +110,6 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
       {
         header: 'page.customer.dashboard.table.cost_car',
       },
-      {
-        header: 'page.customer.dashboard.table.rule',
-      },
-      {
-        header: 'page.customer.dashboard.table.storage',
-      },
     ];
   }
   if (!type || type === 'unpaid') {
