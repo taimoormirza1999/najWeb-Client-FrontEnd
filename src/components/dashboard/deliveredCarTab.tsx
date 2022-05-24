@@ -251,13 +251,17 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
                           <td
                             scope="col"
                             className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                          ></td>
+                          >
+                            {car.amount_paid}
+                          </td>
                         )}
                         {type === 'Paid' && (
                           <td
                             scope="col"
                             className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                          ></td>
+                          >
+                            {car.remaining_amount}
+                          </td>
                         )}
                         <td
                           scope="col"
