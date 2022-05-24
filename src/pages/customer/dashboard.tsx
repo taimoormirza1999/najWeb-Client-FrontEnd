@@ -59,7 +59,7 @@ export async function getServerSideProps(context) {
     if (!type) {
       type = 'Paid';
     }
-    apiUrl += `?${type}=1`;
+    apiUrl += `?type=${type}`;
   }
   if (apiTab === 'newCars') {
     if (!type) {
