@@ -179,7 +179,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                             mt-4
                             block
                             w-full
-                            rounded
+                            rounded-full
                             border
                             border-[#8F9294]
                             bg-white
