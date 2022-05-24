@@ -24,7 +24,7 @@ const SearchLot = () => {
           type="text"
           className="
                       w-[220px]
-                      rounded
+                      rounded-full
                       border
                       border-[#8F9294]
                       px-3
