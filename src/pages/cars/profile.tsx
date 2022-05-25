@@ -4,6 +4,13 @@ import { FormattedMessage } from 'react-intl';
 import { SRLWrapper } from 'simple-react-lightbox';
 
 import Breadcrumbs from '@/components/breadcrumbs';
+import {
+  CarIcon,
+  HashIcon,
+  OfferIcon,
+  PaymentIcon,
+  SpaceDashbaordIcon,
+} from '@/components/themeIcons';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutHome';
 
@@ -35,10 +42,10 @@ const CarProfile = ({ carProfileData }) => {
 
       <div className="container mx-auto">
         <p className="py-3">
-          <i className="material-icons text-yellow-orange align-middle text-4xl lg:text-5xl">
-            &#xe66b;
-          </i>
-          <span className="text-dark-blue g:text-4xl align-middle text-3xl font-bold ltr:ml-4 rtl:mr-4">
+          <SpaceDashbaordIcon
+            className={'text-yellow-orange h-8 w-8 lg:h-12 lg:w-12'}
+          />
+          <span className="text-dark-blue align-middle text-3xl font-bold ltr:ml-4 rtl:mr-4 lg:text-4xl">
             <FormattedMessage id="Car_Profile" />
           </span>
         </p>
@@ -87,67 +94,77 @@ const CarProfile = ({ carProfileData }) => {
               <p className="text-2xl font-semibold">{carData.car_year}</p>
             </div>
             <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
-              <div className="flex">
-                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
-                  &#xe9ef;
-                </i>
+              <div className="flex items-center">
+                <HashIcon
+                  className={
+                    'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
+                  }
+                />
                 <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   VIN
                 </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
                 {carData.vin}
               </p>
             </div>
             <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
-              <div className="flex">
-                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
-                  &#xe9ef;
-                </i>
+              <div className="flex items-center">
+                <HashIcon
+                  className={
+                    'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
+                  }
+                />
                 <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="statement.lot.no" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
                 {carData.lotnumber}
               </p>
             </div>
             <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
-              <div className="flex">
-                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
-                  &#xe9ef;
-                </i>
+              <div className="flex items-center">
+                <CarIcon
+                  className={
+                    'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
+                  }
+                />
                 <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="color" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
                 {carData.color_name}
               </p>
             </div>
             <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
-              <div className="flex">
-                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
-                  &#xe9ef;
-                </i>
+              <div className="flex items-center">
+                <OfferIcon
+                  className={
+                    'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
+                  }
+                />
                 <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="statement.description" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-10 text-xl font-semibold lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
                 {carData.notes}
               </p>
             </div>
             <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
-              <div className="flex">
-                <i className="material-icons text-yellow-orange self-center text-3xl ltr:mr-2 rtl:ml-2">
-                  &#xe9ef;
-                </i>
+              <div className="flex items-center">
+                <PaymentIcon
+                  className={
+                    'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
+                  }
+                />
                 <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="page.customer.dashboard.table.price" />
                 </h3>
               </div>
-              <p className="pl-10 text-2xl font-bold text-green-600">
+              <p className="pl-8 text-2xl font-bold text-green-600 lg:pl-10">
                 AED {carData.price}
               </p>
             </div>
