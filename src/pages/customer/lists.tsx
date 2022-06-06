@@ -46,11 +46,11 @@ const Lists = ({ lists }) => {
                       <a className="text-white hover:border-0" target="_blank">
                         <div className="bg-teal-blue relative rounded-lg px-10 py-16 ">
                           {row.port_name ? (
-                            <div className="text-3xl font-medium">
+                            <div className="max-w-[200px] break-all text-xl font-medium">
                               {row.port_name}
                             </div>
                           ) : (
-                            <div className="text-xl font-medium">
+                            <div className="max-w-[200px] break-all text-xl font-medium">
                               {row.name}
                             </div>
                           )}

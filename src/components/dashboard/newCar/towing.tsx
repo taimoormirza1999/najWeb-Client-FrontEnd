@@ -42,7 +42,9 @@ const Towing = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[64px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.portName}
+      </td>
       <td
         scope="col"
         className="min-w-[55px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
@@ -52,15 +54,21 @@ const Towing = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.paymentDate}
+      </td>
       <td
         scope="col"
         className="min-w-[30px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.pickedDate}
+      </td>
       <td
         scope="col"
         className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.ETD}
+      </td>
     </tr>
   ));
 };
