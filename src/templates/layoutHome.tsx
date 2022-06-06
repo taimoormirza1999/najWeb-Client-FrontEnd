@@ -208,8 +208,14 @@ const Layout = (props: IMainProps) => {
             'relative bg-white'
           )}
         >
-          <div className="mb-7 flex items-center justify-between px-4 md:px-8 lg:px-0 xl:justify-start xl:gap-10">
-            <div className="flex justify-end ltr:lg:pl-[7%] rtl:lg:pr-[7%]">
+          <div className="mb-7 flex items-center justify-between px-4 sm:py-1 md:px-8 lg:p-0 xl:justify-start xl:gap-4">
+            <div
+              className={classNames(
+                headerFixed ? 'bg-white' : 'bg-dark-blue',
+                'basis-[7%] p-9 hidden lg:block'
+              )}
+            ></div>
+            <div className="flex justify-end ">
               <Link href="/">
                 <a className="hover:border-0">
                   <span className="sr-only">{AppConfig.title}</span>
