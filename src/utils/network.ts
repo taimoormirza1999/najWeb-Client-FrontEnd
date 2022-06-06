@@ -102,7 +102,7 @@ export async function checkIfLoggedIn(
     raw: false,
     secureCookie: NetworkStatus.IS_PRODUCTION,
   });
-  if (!token) return false;
+  if (!token || !token.access_token) return false;
   return true;
 }
 
