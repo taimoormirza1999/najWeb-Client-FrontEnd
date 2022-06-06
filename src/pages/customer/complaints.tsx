@@ -13,9 +13,11 @@ import { grantIfLogin, postData } from '@/utils/network';
 
 export interface Complaint {
   complaint_message_id: string;
+  complaint_no: string;
   title: string;
   lot_vin: string;
   message: string;
+  readable_create_date: string;
 }
 
 const Complaints = () => {
@@ -247,15 +249,24 @@ const Complaints = () => {
                     key={index}
                     className={classNames(
                       index % 2 === 0 ? 'bg-teal-blue text-white' : '',
-                      'complaint-box rounded-md p-3 mb-3 cursor-pointer'
+                      'complaint-box rounded-md mb-3 cursor-pointer'
                     )}
                     onClick={() => {
                       getComplaintMessageDetails(row.complaint_message_id);
                     }}
                   >
-                    <h4 className="mb-2 text-lg font-semibold">{row.title}</h4>
-                    <p className="mb-1 text-[16px]">Lot: {row.lot_vin}</p>
-                    <p className="text-sm">{row.message.substring(0, 175)}</p>
+                    <div className="p-3">
+                      <h4 className="mb-2 text-lg font-semibold">
+                        {row.title}
+                      </h4>
+                      <p className="mb-1 text-[16px]">Lot: {row.lot_vin}</p>
+                      <p className="text-sm">{row.message.substring(0, 175)}</p>
+                    </div>
+                    <hr className="mt-2" />
+                    <div className="flex justify-between px-3 py-2">
+                      <small>Complaint # {row.complaint_no}</small>
+                      <small>{row.readable_create_date}</small>
+                    </div>
                   </div>
                 ))}
               </div>

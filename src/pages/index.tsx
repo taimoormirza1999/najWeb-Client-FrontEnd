@@ -26,7 +26,7 @@ const Index = ({ announcements }) => {
           className="absolute top-1/2 left-1/2 flex h-[12rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] p-4 md:h-[20rem] md:w-[20rem] lg:h-[30rem] lg:w-[30rem] xl:left-auto xl:right-[5rem] xl:top-[18%] xl:h-[35rem] xl:w-[35rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]"
         >
           <div className="basis-1/3">
-            <h2 className="py-6 text-center text-2xl font-extrabold text-white md:text-4xl lg:text-6xl xl:text-[80px]">
+            <h2 className="py-6 text-center text-2xl font-extrabold text-white md:text-4xl lg:text-6xl xl:text-[70px]">
               <FormattedMessage id="you.want.to" />
             </h2>
 
