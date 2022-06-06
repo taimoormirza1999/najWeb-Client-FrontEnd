@@ -5,12 +5,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const GeneralEntries = ({ tableData }) => {
+const GeneralEntries = ({ tableData, lastTotalRow }) => {
   const intl = useIntl();
   const [generalEntriesState, setGeneralEntries] = useState(tableData);
   const [generalEntriesTableSearch, setGeneralEntriesTableSearch] =
     useState('');
-  const lastTotalRow = tableData.length > 1 ? tableData.pop() : null;
 
   useEffect(() => {
     setGeneralEntries(
