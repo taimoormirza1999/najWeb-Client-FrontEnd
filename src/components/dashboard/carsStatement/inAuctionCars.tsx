@@ -5,11 +5,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const InAuctionCars = ({ tableData }) => {
+const InAuctionCars = ({ tableData, lastTotalRow }) => {
   const intl = useIntl();
   const [inAuctionCarsState, setInAuctionCars] = useState(tableData);
   const [inAuctionTableSearch, setInAuctionTableSearch] = useState('');
-  const lastTotalRow = tableData.length > 1 ? tableData.pop() : null;
 
   useEffect(() => {
     setInAuctionCars(

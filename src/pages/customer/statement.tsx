@@ -14,8 +14,11 @@ import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 const Statement = ({
   selectedParams,
   shippedCars,
+  shippedCarsTotal,
   inAuctionCars,
+  inAuctionCarsTotal,
   generalEntries,
+  generalEntriesTotal,
   deposits,
 }) => {
   /*   const [shippedCarsState, setShippedCars] = useState(shippedCars);
@@ -119,14 +122,25 @@ const Statement = ({
           </div>
         </form>
 
-        {shippedCars.length ? <ShippedCars tableData={shippedCars} /> : null}
+        {shippedCars.length ? (
+          <ShippedCars
+            tableData={shippedCars}
+            lastTotalRow={shippedCarsTotal}
+          />
+        ) : null}
 
         {inAuctionCars.length ? (
-          <InAuctionCars tableData={inAuctionCars} />
+          <InAuctionCars
+            tableData={inAuctionCars}
+            lastTotalRow={inAuctionCarsTotal}
+          />
         ) : null}
 
         {generalEntries.length ? (
-          <GeneralEntries tableData={generalEntries} />
+          <GeneralEntries
+            tableData={generalEntries}
+            lastTotalRow={generalEntriesTotal}
+          />
         ) : null}
 
         {deposits.length ? <Deposits tableData={deposits} /> : null}
@@ -177,13 +191,20 @@ export async function getServerSideProps(context) {
       generalEntriesResponse.data.data,
       depositsResponse.data.data,
     ]);
-
+  const generalEntriesTotal =
+    generalEntries.length > 1 ? generalEntries.pop() : null;
+  const shippedCarsTotal = shippedCars.length > 1 ? shippedCars.pop() : null;
+  const inAuctionCarsTotal =
+    inAuctionCars.length > 1 ? inAuctionCars.pop() : null;
   return {
     props: {
       selectedParams,
       shippedCars,
+      shippedCarsTotal,
       inAuctionCars,
+      inAuctionCarsTotal,
       generalEntries,
+      generalEntriesTotal,
       deposits,
     },
   };
