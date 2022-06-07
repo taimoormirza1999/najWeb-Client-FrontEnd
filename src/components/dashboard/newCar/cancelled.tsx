@@ -44,7 +44,9 @@ const Cancelled = ({ carsRecords }) => {
       <td
         scope="col"
         className="min-w-[64px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
+      >
+        {car.port_name}
+      </td>
       <td
         scope="col"
         className="min-w-[55px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
@@ -63,14 +65,6 @@ const Cancelled = ({ carsRecords }) => {
       >
         {car.totalAED}
       </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      ></td>
     </tr>
   ));
 };

@@ -5,16 +5,19 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
+import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
-import { grantIfLogin, postData } from '@/utils/network';
 import { classNames } from '@/utils/Functions';
+import { grantIfLogin, postData } from '@/utils/network';
 
 export interface Complaint {
   complaint_message_id: string;
+  complaint_no: string;
   title: string;
   lot_vin: string;
   message: string;
+  readable_create_date: string;
 }
 
 const Complaints = () => {
@@ -168,19 +171,23 @@ const Complaints = () => {
           </button>
         </div>
       </CustomModal>
-      <div className="mx-auto px-8">
-        <h4 className="text-dark-blue mt-4 py-4 text-2xl font-semibold md:text-3xl">
-          <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
-            &#xe14f;
-          </i>
-          <span className="pl-1 align-middle">
-            <FormattedMessage id="page.complaints.title" />
-          </span>
-        </h4>
-        <p className="text-dark-blue text-xl lg:text-2xl">
+      <div className="m-4">
+        <div className="flex">
+          <h4 className="text-dark-blue flex-1 text-2xl font-semibold md:text-3xl">
+            <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
+              &#xe14f;
+            </i>
+            <span className="pl-1 align-middle">
+              <FormattedMessage id="page.complaints.title" />
+            </span>
+          </h4>
+          <SearchLot></SearchLot>
+        </div>
+        <p className="text-dark-blue ml-5 text-xl lg:text-2xl">
           <FormattedMessage id="page.complaints.header" />
         </p>
-
+      </div>
+      <div className="mx-auto px-8">
         <form method="post" onSubmit={handleSubmit} className="mt-8 mb-4">
           <div className="mt-1 ltr:pl-6 rtl:pr-6">
             <input
@@ -242,15 +249,24 @@ const Complaints = () => {
                     key={index}
                     className={classNames(
                       index % 2 === 0 ? 'bg-teal-blue text-white' : '',
-                      'complaint-box rounded-md p-3 mb-3 cursor-pointer'
+                      'complaint-box rounded-md mb-3 cursor-pointer'
                     )}
                     onClick={() => {
                       getComplaintMessageDetails(row.complaint_message_id);
                     }}
                   >
-                    <h4 className="mb-2 text-lg font-semibold">{row.title}</h4>
-                    <p className="mb-1 text-[16px]">Lot: {row.lot_vin}</p>
-                    <p className="text-sm">{row.message.substring(0, 175)}</p>
+                    <div className="p-3">
+                      <h4 className="mb-2 text-lg font-semibold">
+                        {row.title}
+                      </h4>
+                      <p className="mb-1 text-[16px]">Lot: {row.lot_vin}</p>
+                      <p className="text-sm">{row.message.substring(0, 175)}</p>
+                    </div>
+                    <hr className="mt-2" />
+                    <div className="flex justify-between px-3 py-2">
+                      <small>Complaint # {row.complaint_no}</small>
+                      <small>{row.readable_create_date}</small>
+                    </div>
                   </div>
                 ))}
               </div>

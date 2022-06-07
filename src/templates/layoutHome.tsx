@@ -1,4 +1,9 @@
-import { faFacebookSquare, faInstagramSquare, faLinkedin, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
+import {
+  faFacebookSquare,
+  faInstagramSquare,
+  faLinkedin,
+  faTwitterSquare,
+} from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Menu, Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -71,7 +76,7 @@ const Layout = (props: IMainProps) => {
   }, []);
 
   const changeLanguage = (selectedLocale) => {
-    document.cookie = `NEXT_LOCALE=${e.target.value};path=/`;
+    document.cookie = `NEXT_LOCALE=${selectedLocale};path=/`;
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
 
@@ -199,12 +204,18 @@ const Layout = (props: IMainProps) => {
         )}
         <Popover
           className={classNames(
-            headerFixed ? 'sticky header-fixed shadow-2xl top-0 z-50 ' : '',
+            headerFixed ? 'sticky header-fixed shadow-xl top-0 z-50 ' : '',
             'relative bg-white'
           )}
         >
-          <div className="mb-7 flex items-center justify-between px-4 md:px-8 lg:px-0 xl:justify-start xl:gap-10">
-            <div className="flex justify-end ltr:lg:pl-[7%] rtl:lg:pr-[7%]">
+          <div className="mb-7 flex items-center justify-between px-4 sm:py-1 md:px-8 lg:p-0 xl:justify-start xl:gap-4">
+            <div
+              className={classNames(
+                headerFixed ? 'bg-white' : 'bg-dark-blue',
+                'basis-[7%] p-9 hidden lg:block'
+              )}
+            ></div>
+            <div className="flex justify-end ">
               <Link href="/">
                 <a className="hover:border-0">
                   <span className="sr-only">{AppConfig.title}</span>
@@ -266,13 +277,16 @@ const Layout = (props: IMainProps) => {
                   {session?.token ? (
                     <>
                       <Link href="/customer/dashboard">
-                        <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
+                        <a className="border-azure-blue bg-azure-blue whitespace-nowrap rounded-sm border py-[6px] px-2 font-light text-white hover:border">
                           <FormattedMessage id="general.dashboard" />
                         </a>
                       </Link>
                       <Link href="/auth/newAccount">
                         <a
-                          className="whitespace-nowrap rounded-sm bg-white py-[4px] px-2 italic hover:border-none hover:text-blue-500 ltr:ml-5 rtl:mr-5 lg:hidden xl:inline-block"
+                          className={classNames(
+                            headerFixed ? 'border-azure-blue' : 'border-white',
+                            'border whitespace-nowrap rounded-sm bg-white py-[4px] px-2 font-light hover:border hover:text-blue-500 ltr:ml-5 rtl:mr-5 lg:hidden xl:inline-block'
+                          )}
                           onClick={handleSignOut}
                         >
                           <FormattedMessage id="general.signout" />
@@ -282,15 +296,15 @@ const Layout = (props: IMainProps) => {
                   ) : (
                     <>
                       <Link href="/login">
-                        <a className="whitespace-nowrap rounded-sm bg-blue-500 py-[6px] px-2 font-light italic text-white hover:border-none">
+                        <a className="border-azure-blue bg-azure-blue whitespace-nowrap rounded-sm border py-[6px] px-2 font-light text-white hover:border">
                           <FormattedMessage id="sign.in" />
                         </a>
                       </Link>
                       <Link href="/auth/newAccount">
                         <a
                           className={classNames(
-                            headerFixed ? 'border border-azure-blue' : '',
-                            'ml-5 whitespace-nowrap rounded-sm bg-white py-[4px] px-2 italic hover:border-none hover:text-blue-500'
+                            headerFixed ? 'border-azure-blue' : 'border-white',
+                            'border ml-5 whitespace-nowrap rounded-sm bg-white py-[6px] px-2 font-light hover:border hover:text-blue-500'
                           )}
                         >
                           <FormattedMessage id="sign.up" />

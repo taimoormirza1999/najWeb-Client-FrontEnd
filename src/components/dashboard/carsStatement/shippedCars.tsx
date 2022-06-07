@@ -15,12 +15,10 @@ const carProfileDetail = (row) => {
   );
 };
 
-const ShippedCars = ({ tableData }) => {
+const ShippedCars = ({ tableData, lastTotalRow }) => {
   const intl = useIntl();
   const [shippedCarsState, setShippedCars] = useState(tableData);
   const [shippedTableSearch, setShippedTableSearch] = useState('');
-
-  const lastTotalRow = tableData.length > 1 ? tableData.pop() : null;
 
   useEffect(() => {
     setShippedCars(

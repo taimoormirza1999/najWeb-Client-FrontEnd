@@ -24,7 +24,7 @@ const SearchLot = () => {
           type="text"
           className="
                       w-[220px]
-                      rounded
+                      rounded-full
                       border
                       border-[#8F9294]
                       px-3
@@ -45,7 +45,7 @@ const SearchLot = () => {
         <button type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="absolute top-2 h-6 w-6 cursor-pointer text-[#818181] ltr:right-2 rtl:left-2 rtl:rotate-180"
+            className="absolute top-2 h-6 w-6 cursor-pointer text-blue-600 ltr:right-2 rtl:left-2 rtl:rotate-180"
             viewBox="0 0 20 20"
             fill="currentColor"
           >

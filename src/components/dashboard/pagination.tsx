@@ -6,8 +6,8 @@ import { classNames } from '@/utils/Functions';
 const Pagination = ({ totalRecords, url, page = 0 }) => {
   const maxPages = 10;
   const pageSize = 10;
-  const currentPage = page;
-  const totalPages = Math.ceil(totalRecords / 10);
+  const currentPage: number = page;
+  const totalPages = Math.ceil(totalRecords / pageSize);
   const enablePrev = totalPages > 1 && page > 0 ? page - 1 : 0;
   const enableNext =
     totalPages > 1 && page < totalPages - 1 ? totalPages - 1 : 0;
@@ -19,28 +19,23 @@ const Pagination = ({ totalRecords, url, page = 0 }) => {
     endPage = totalPages;
   } else {
     // total pages more than max so calculate start and end pages
-    const maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
-    const maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
+    const maxPagesBeforeCurrentPage: number = Math.floor(maxPages / 2);
+    const maxPagesAfterCurrentPage: number = Math.ceil(maxPages / 2) - 1;
     if (currentPage <= maxPagesBeforeCurrentPage) {
       // current page near the start
       startPage = 1;
       endPage = maxPages;
-    } else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
+    } else if (+currentPage + +maxPagesAfterCurrentPage >= totalPages) {
       // current page near the end
       startPage = totalPages - maxPages + 1;
       endPage = totalPages;
     } else {
       // current page somewhere in the middle
       startPage = currentPage - maxPagesBeforeCurrentPage;
-      endPage = currentPage + maxPagesAfterCurrentPage;
+      endPage = +currentPage + +maxPagesAfterCurrentPage;
     }
   }
-
-  // calculate start and end item indexes
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = Math.min(startIndex + pageSize - 1, totalRecords - 1);
-
-  // create an array of pages 
+  // create an array of pages
   const pages = Array.from(Array(endPage + 1 - startPage).keys()).map(
     (i) => startPage + i
   );
@@ -65,11 +60,11 @@ const Pagination = ({ totalRecords, url, page = 0 }) => {
         {pages.map((page1, index) => (
           <Link
             key={index}
-            href={page != page1 - 1 ? `${url}${page1 - 1}` : '#'}
+            href={page !== page1 - 1 ? `${url}${page1 - 1}` : '#'}
           >
             <a
               className={classNames(
-                page != page1 - 1
+                page !== page1 - 1
                   ? 'bg-white hover:bg-gray-50 border border-gray-300'
                   : 'bg-gray-100',
                 'relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500'

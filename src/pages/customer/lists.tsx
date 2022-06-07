@@ -1,10 +1,11 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { getSession } from 'next-auth/react';
+import { FormattedMessage } from 'react-intl';
 
+import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
-import { FormattedMessage } from 'react-intl';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 const Lists = ({ lists }) => {
@@ -12,21 +13,25 @@ const Lists = ({ lists }) => {
 
   return (
     <Layout meta={<Meta title="Price List" description="" />}>
-      <div className="mx-auto px-8">
-        <h4 className="text-dark-blue mt-4 py-4 text-xl font-semibold sm:text-4xl">
-          <i className="material-icons text-yellow-orange align-middle text-4xl">
-            &#xe24a;
-          </i>
-          <span className="pl-1 align-middle">
-            <FormattedMessage id="page.customer.dashboard.navigation_price_lists" />
-          </span>
-        </h4>
-        <p className="text-dark-blue text-xl">
+      <div className="m-4">
+        <div className="flex">
+          <h4 className="text-dark-blue flex-1 text-xl font-semibold sm:text-4xl">
+            <i className="material-icons text-yellow-orange align-middle text-4xl">
+              &#xe24a;
+            </i>
+            <span className="pl-1 align-middle">
+              <FormattedMessage id="page.customer.dashboard.navigation_price_lists" />
+            </span>
+          </h4>
+          <SearchLot></SearchLot>
+        </div>
+        <p className="text-dark-blue ml-5 text-xl">
           <FormattedMessage id="Download_latest_price_lists_of" />
           <span className="uppercase"> {todayDateArray[1]} </span>
           {todayDateArray[3]}
         </p>
-
+      </div>
+      <div className="mx-auto px-8">
         <div className="mt-10 flex gap-24">
           <div>
             {lists.length > 0 ? (
@@ -41,11 +46,11 @@ const Lists = ({ lists }) => {
                       <a className="text-white hover:border-0" target="_blank">
                         <div className="bg-teal-blue relative rounded-lg px-10 py-16 ">
                           {row.port_name ? (
-                            <div className="text-3xl font-medium">
+                            <div className="max-w-[200px] break-all text-xl font-medium">
                               {row.port_name}
                             </div>
                           ) : (
-                            <div className="text-xl font-medium">
+                            <div className="max-w-[200px] break-all text-xl font-medium">
                               {row.name}
                             </div>
                           )}

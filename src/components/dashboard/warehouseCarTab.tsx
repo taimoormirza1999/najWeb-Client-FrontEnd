@@ -10,48 +10,47 @@ import { Pagination } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
 const carTableHeader = [
-  { name: <FormattedMessage id="page.customer.dashboard.table.no" /> },
+  { name: 'page.customer.dashboard.table.no' },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction_photo" />,
+    name: 'page.customer.dashboard.table.auction_photo',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.detail" />,
+    name: 'page.customer.dashboard.table.detail',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.lot_vin" />,
+    name: 'page.customer.dashboard.table.lot_vin',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.auction" />,
+    name: 'page.customer.dashboard.table.auction',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.destination" />,
+    name: 'page.customer.dashboard.table.destination',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.purchase_date" />,
+    name: 'page.customer.dashboard.table.purchase_date',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.payment_date" />,
+    name: 'page.customer.dashboard.table.payment_date',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.date_pick" />,
+    name: 'page.customer.dashboard.table.date_pick',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.arrived" />,
+    name: 'page.customer.dashboard.table.arrived',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.title" />,
+    name: 'page.customer.dashboard.table.title',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.key" />,
+    name: 'page.customer.dashboard.table.key',
   },
   {
-    name: <FormattedMessage id="page.customer.dashboard.table.images" />,
+    name: 'page.customer.dashboard.table.images',
   },
 ];
 const WarehouseCarTab = ({
   carsRecords,
   totalRecords,
-  baseUrl,
   page = 0,
   setLoading,
 }) => {
@@ -59,14 +58,16 @@ const WarehouseCarTab = ({
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
+  const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `${baseUrl}/customer/dashboard?tab=tabs-warehouse&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
   const GetImages = async (car_id) => {
     setLoading(true);
     const res = await axios.get(
-      `${baseUrl}/api/customer/images?type=warehouse&car_id=${car_id}`
+      `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
     setImages(res.data.data);
+    setCarId(car_id);
     setLoading(false);
     setRedirectModalOpen(true);
   };
@@ -212,12 +213,12 @@ const WarehouseCarTab = ({
                           ))}
                         </Tab.Panels>
                       </Tab.Group>
-                      <button
-                        type="button"
+                      <a
+                        href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
                         className="mt-4 inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       >
                         Download
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -259,7 +260,7 @@ const WarehouseCarTab = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          {th.name}
+                          <FormattedMessage id={th.name} />
                         </th>
                       ))}
                     </tr>

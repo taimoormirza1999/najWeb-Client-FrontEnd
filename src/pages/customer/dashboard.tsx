@@ -22,15 +22,13 @@ import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 export async function getServerSideProps(context) {
   if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
 
-
-
-
   const tab = context.query.tab ? context.query.tab : 'tabs-states';
   let type = context.query.type ? context.query.type : '';
   const page = context.query.page ? context.query.page : 0;
   const session: any = await getSession(context);
 
   let carsData = {};
+  let dashboardCount = {};
   let apiTab = 'statesCount';
   if (tab === 'tabs-newcar') {
     apiTab = 'newCars';
@@ -61,7 +59,7 @@ export async function getServerSideProps(context) {
     if (!type) {
       type = 'Paid';
     }
-    apiUrl += `?${type}=1`;
+    apiUrl += `?type=${type}`;
   }
   if (apiTab === 'newCars') {
     if (!type) {
@@ -92,9 +90,18 @@ export async function getServerSideProps(context) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
     await axios
       .get(`${apiUrl}`)
-      .then(function (response) {
+      .then((response) => {
         // handle success
         carsData = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // get dashboard count
+    await axios
+      .get(`${process.env.API_URL}dashboard/cars/count`)
+      .then((response) => {
+        dashboardCount = response.data?.data;
       })
       .catch(function (error) {
         console.log(error);
@@ -103,13 +110,11 @@ export async function getServerSideProps(context) {
   return {
     props: {
       carsData,
-      baseUrl: process.env.NEXTAUTH_URL,
+      dashboardCount,
     },
   };
 }
-const Dashboard = ({ router, carsData, baseUrl }) => {
-
-
+const Dashboard = ({ router, carsData, dashboardCount }) => {
   const { setLoading } = useContext(UserContext);
   const {
     query: { tab, type, page },
@@ -119,30 +124,45 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
   if (!currentPage) {
     currentPage = 0;
   }
+  const newCarCount =
+    parseInt(dashboardCount?.newCarsUnpaidCount, 10) +
+    parseInt(dashboardCount?.newCarsPaidCount, 10) +
+    parseInt(dashboardCount?.newCarsPaidByCustomerCount, 10) +
+    parseInt(dashboardCount?.newCarsCancelledCount, 10) +
+    parseInt(dashboardCount?.newCarsPickedCount, 10);
   const tabs = [
     {
       name: 'page.customer.dashboard.new_cars',
       href: 'tabs-newcar',
+      count: newCarCount,
       subMenu: true,
     },
     {
       name: 'page.customer.dashboard.at_warehouse',
       href: 'tabs-warehouse',
+      count: parseInt(dashboardCount?.carsOnWarehouseCount, 10),
       subMenu: false,
     },
     {
       name: 'page.customer.dashboard.in_shipping',
       href: 'tabs-shipping',
+      count: parseInt(dashboardCount?.carsShippingStatusCount, 10),
       subMenu: false,
     },
     {
       name: 'page.customer.dashboard.arrived',
       href: 'tabs-arrived',
+      count:
+        parseInt(dashboardCount?.carsArrivedPortCount, 10) +
+        parseInt(dashboardCount?.carsArrivedStoreCount, 10),
       subMenu: true,
     },
     {
       name: 'page.customer.dashboard.delivered',
       href: 'tabs-delivered',
+      count:
+        parseInt(dashboardCount?.carsDeliverdPaidCount, 10) +
+        parseInt(dashboardCount?.carsDeliverdUnPaidCount, 10),
       subMenu: true,
     },
     {
@@ -187,7 +207,8 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                     )}
                     onClick={() => setSubMenu(tabData.href)}
                   >
-                    <FormattedMessage id={tabData.name} />
+                    <FormattedMessage id={tabData.name} />{' '}
+                    {tabData.count ? `(${tabData.count})` : ''}
                   </a>
                 ) : (
                   <Link
@@ -207,20 +228,24 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                       )}
                       onClick={() => setSubMenu('')}
                     >
-                      <FormattedMessage id={tabData.name} />
+                      <FormattedMessage id={tabData.name} />{' '}
+                      {tabData.count ? `(${tabData.count})` : ''}
                     </a>
                   </Link>
                 )
               )}
             </nav>
-            <SubMenu type={subMenu} subType={type}></SubMenu>
+            <SubMenu
+              type={subMenu}
+              subType={type}
+              dashboardCount={dashboardCount}
+            ></SubMenu>
             <div>
               {tab === 'tabs-newcar' && (
                 <React.Fragment>
                   <NewCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     type={type}
                   ></NewCarTab>
@@ -231,7 +256,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <WarehouseCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     setLoading={setLoading}
                   ></WarehouseCarTab>
@@ -242,7 +266,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <ShippingCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                   ></ShippingCarTab>
                 </React.Fragment>
@@ -252,9 +275,9 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <ArrivedCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     type={type}
+                    setLoading={setLoading}
                   ></ArrivedCarTab>
                 </React.Fragment>
               )}
@@ -263,7 +286,6 @@ const Dashboard = ({ router, carsData, baseUrl }) => {
                   <DeliveredCarTab
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
-                    baseUrl={baseUrl}
                     page={currentPage}
                     type={type}
                   ></DeliveredCarTab>
