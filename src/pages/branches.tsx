@@ -20,18 +20,17 @@ const Branches = () => (
       <div className="text-dark-blue py-10 text-center">
         <h3 className="text-5xl font-semibold ">Our Branches</h3>
         <p className="py-4 text-2xl">
-          <b>NEJOUM</b> ALJAZEERA is all around you!
+          <span className="font-sen">
+            <b>NEJOUM</b> ALJAZEERA
+          </span>{' '}
+          is all around you!
         </p>
-        <p className="py-8 text-left text-2xl">
-          You may reach to us on the following areas. Content required Content
-          required Content required Content requiredContent requiredContent
-          requiredContent requiredContent requiredContent required Content
-          required Content requiredContent required Content required Content
-          required Content required Content required
+        <p className="py-8 text-2xl">
+          <FormattedMessage id="branches.desc" />
         </p>
       </div>
 
-      <div className="my-20 flex gap-2 ">
+      <div className="mb-20 flex gap-2 ">
         <div className="basis-1/2">
           <img
             src="/assets/images/branch-image-1.jpg"
@@ -74,16 +73,16 @@ const Branches = () => (
                 Nejoum Aljazeera Group Sharjah, Industrial Area 4
               </p>
               <a
-                href="tel:+971 65 440 202"
+                href="tel:+971 4 354 2421"
                 className="text-azure-blue my-2 block text-2xl hover:border-0"
               >
-                Tel: +971 65 440 202
+                Tel: +971 4 354 2421
               </a>
               <a
-                href="mailto:info@naj.ae"
+                href="mailto:clearance@naj.ae"
                 className="text-azure-blue block text-2xl hover:border-0"
               >
-                info@naj.ae
+                clearance@naj.ae
               </a>
             </div>
             <div className="mb-10">
@@ -92,16 +91,16 @@ const Branches = () => (
                 Nejoum Aljazeera Group Sharjah, Industrial Area 4
               </p>
               <a
-                href="tel:+971 65 440 202"
+                href="tel:+971 6 544 0202"
                 className="text-azure-blue my-2 block text-2xl hover:border-0"
               >
-                Tel: +971 65 440 202
+                Tel: +971 6 544 0202
               </a>
               <a
                 href="mailto:info@naj.ae"
                 className="text-azure-blue block text-2xl hover:border-0"
               >
-                info@naj.ae
+                cservice@naj.ae
               </a>
             </div>
             <div className="mb-10">
@@ -109,10 +108,10 @@ const Branches = () => (
                 Nejoum Aljazeera Group Sharjah, Muweilah
               </p>
               <a
-                href="tel:+971 65 440 202"
+                href="tel:+971 6 544 0202"
                 className="text-azure-blue my-2 block text-2xl hover:border-0"
               >
-                Tel: +971 65 440 202
+                Tel: +971 6 544 0202
               </a>
               <a
                 href="mailto:info@naj.ae"
@@ -126,16 +125,16 @@ const Branches = () => (
                 Nejoum Aljazeera Group Sharjah, Sajaa
               </p>
               <a
-                href="tel:+971 65 440 202"
+                href="tel:+971 58 931 1463"
                 className="text-azure-blue my-2 block text-2xl hover:border-0"
               >
-                Tel: +971 65 440 202
+                Tel: +971 58 931 1463
               </a>
               <a
                 href="mailto:info@naj.ae"
                 className="text-azure-blue block text-2xl hover:border-0"
               >
-                info@naj.ae
+                sajaa@naj.ae
               </a>
             </div>
           </div>
@@ -157,10 +156,10 @@ const Branches = () => (
                 Tel: +971 65 440 202
               </a>
               <a
-                href="mailto:info@naj.ae"
+                href="mailto:management@nejoumexpress.com"
                 className="text-azure-blue block text-2xl hover:border-0"
               >
-                info@naj.ae
+                management@nejoumexpress.com
               </a>
             </div>
             <div className="mb-10">
@@ -169,31 +168,35 @@ const Branches = () => (
                 Nejoum Express 1 Linden Avenue E, Jersey City , NJ 07305
               </p>
               <a
-                href="tel:+971 65 440 202"
+                href="tel:+201-724-0386"
                 className="text-azure-blue my-2 block text-2xl hover:border-0"
               >
-                Tel: +971 65 440 202
+                Tel: +201-724-0386
               </a>
               <a
-                href="mailto:info@naj.ae"
+                href="mailto:nj@nejoumexpress.com"
                 className="text-azure-blue block text-2xl hover:border-0"
               >
-                info@naj.ae
+                nj@nejoumexpress.com
               </a>
             </div>
 
-            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
-              Cambodia Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
             <div className="mb-10">
-              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
-              <p className="text-outer-space w-full text-2xl">Coming soon</p>
-              <a className="text-azure-blue my-2 block text-2xl hover:border-0">
-                Tel: Coming soon
+              <h4 className="mb-4 text-3xl text-gray-900">Georgia</h4>
+              <p className="text-outer-space w-full text-2xl">
+                46 ARTLY ROAD, Savannah, GA 31408
+              </p>
+              <a
+                href="tel:+248-495-8526"
+                className="text-azure-blue my-2 block text-2xl hover:border-0"
+              >
+                Tel: +248-495-8526
               </a>
-              <a className="text-azure-blue block text-2xl hover:border-0">
-                Coming soon
+              <a
+                href="mailto:ga@nejoumexpress.com"
+                className="text-azure-blue block text-2xl hover:border-0"
+              >
+                ga@nejoumexpress.com
               </a>
             </div>
           </div>
@@ -227,54 +230,44 @@ const Branches = () => (
               <div className="border-yellow-orange w-10 border"></div>
             </h4>
             <div className="mb-10">
-              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
-              <p className="text-outer-space w-full text-2xl">Coming soon</p>
-              <a className="text-azure-blue my-2 block text-2xl hover:border-0">
-                Tel: Coming soon
+              <h4 className="mb-4 text-3xl text-gray-900">Muscat</h4>
+              <p className="text-outer-space w-full text-2xl">
+                Amabilah Al Sanaya Road No.10 , C.R.NO: 1339785
+              </p>
+              <a
+                href="tel:+968-94744020"
+                className="text-azure-blue my-2 block text-2xl hover:border-0">
+                Tel: +968-94744020
               </a>
-              <a className="text-azure-blue block text-2xl hover:border-0">
-                Coming soon
-              </a>
-            </div>
-
-            <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
-              Jordan Office
-              <div className="border-yellow-orange w-10 border"></div>
-            </h4>
-            <div className="mb-10">
-              <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
-              <p className="text-outer-space w-full text-2xl">Coming soon</p>
-              <a className="text-azure-blue my-2 block text-2xl hover:border-0">
-                Tel: Coming soon
-              </a>
-              <a className="text-azure-blue block text-2xl hover:border-0">
-                Coming soon
+              <a
+                href="mailto:oman@naj.ae"
+                className="text-azure-blue block text-2xl hover:border-0">
+                oman@naj.ae
               </a>
             </div>
           </div>
           <div className="basis-1/4">
             <h4 className="text-dark-blue mb-4 text-3xl font-semibold">
-              Canada Office
+              Cambodia Office
               <div className="border-yellow-orange w-10 border"></div>
             </h4>
 
             <div className="mb-10">
               <h4 className="mb-4 text-3xl text-gray-900">Coming soon</h4>
               <p className="text-outer-space w-full text-2xl">
-                Coming soon <br />
-                <br />
+                528 ST 1019, Sangkat, Phnom Penh tmey, Khan Sen Sok
               </p>
               <a
-                href="tel:+971 65 440 202"
+                href="tel:+855-15969538"
                 className="text-azure-blue my-2 block text-2xl hover:border-0"
               >
-                Tel: Coming soon
+                Tel: +855-15969538
               </a>
               <a
-                href="mailto:info@naj.ae"
+                href="mailto:alsadi@najshipping.com"
                 className="text-azure-blue block text-2xl hover:border-0"
               >
-                Coming soon
+                alsadi@najshipping.com
               </a>
             </div>
 
