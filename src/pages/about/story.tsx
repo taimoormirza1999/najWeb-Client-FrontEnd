@@ -35,8 +35,11 @@ const Story = () => (
           <FormattedMessage id="page.story.title" />
         </h3>
         <p className="py-4 text-lg md:text-2xl lg:text-3xl">
-          <span className="font-sen font-bold">
-            <FormattedMessage id="page.services.shipping.nejoum" />
+          <span className="font-sen">
+            <span className="font-bold">
+              <FormattedMessage id="page.services.shipping.nejoum" />
+            </span>
+            <FormattedMessage id="page.services.shipping.aljazeera" />
           </span>
           <FormattedMessage id="page.story.story_desc" />
         </p>
