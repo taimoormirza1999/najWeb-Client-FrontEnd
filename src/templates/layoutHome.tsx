@@ -1,9 +1,4 @@
-import {
-  faFacebookSquare,
-  faInstagramSquare,
-  faLinkedin,
-  faTwitterSquare,
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faInstagramSquare, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Menu, Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -12,8 +7,6 @@ import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-
-import AnnouncementsCarousel from '@/components/Announcement/AnnouncementsCarousel';
 import CustomModal from '@/components/customModal';
 import { AppConfig } from '@/utils/AppConfig';
 import { classNames } from '@/utils/Functions';
