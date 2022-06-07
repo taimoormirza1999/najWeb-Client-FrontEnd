@@ -159,7 +159,7 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.name' })}
                       value={inputValue.name}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
@@ -179,7 +179,7 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.email' })}
                       value={inputValue.email}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
@@ -199,7 +199,7 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.phone' })}
                       value={inputValue.phone}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
@@ -215,7 +215,7 @@ const Contact = () => {
                 </div>
                 <div className="mt-1">
                   <textarea
-                    className="placeholder:text-medium-grey border-dark-blue h-[245px] w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="placeholder:text-medium-grey border-dark-blue h-[245px] w-full resize-none rounded border-2 text-lg  focus:border-blue-800 focus:ring-0"
                     name="message"
                     placeholder={intl.formatMessage({ id: 'messages.message' })}
                     value={inputValue.message}
@@ -249,6 +249,12 @@ const Contact = () => {
                 className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-xl lg:text-3xl"
                 id="address_text"
               >
+                <span className="font-sen">
+                  <span className="font-bold">
+                    <FormattedMessage id="page.company.name.nejoum" />
+                  </span>
+                  <FormattedMessage id="page.company.name.aljazeera" />
+                </span>
                 <FormattedMessage id="NEJOUM.ALJAZEERA.Group.Industrial.area4.Sharjah.UAE" />
               </div>
               <div className="flex justify-end gap-4 pt-4">

@@ -141,6 +141,13 @@ const NewAccount = () => {
         </h2>
         <p className="mb-8 py-6 text-lg lg:text-2xl">
           <FormattedMessage id="apply_for_account_desc" />
+          <span className="font-sen">
+            <span className="font-bold">
+              <FormattedMessage id="page.company.name.nejoum" />
+            </span>
+            <FormattedMessage id="page.company.name.aljazeera" />
+          </span>
+          <FormattedMessage id="apply_for_account_desc1" />
         </p>
 
         <form onSubmit={handleSubmit} autoComplete="false" method="post">
@@ -151,6 +158,7 @@ const NewAccount = () => {
                   htmlFor="name"
                   className="text-dark-blue block basis-1/4 text-xl font-semibold"
                 >
+                  <span className="text-yellow-orange">*&nbsp;&nbsp;</span>{' '}
                   <FormattedMessage id="Name" />
                 </label>
                 <div className="mt-1 basis-3/4">
@@ -162,7 +170,7 @@ const NewAccount = () => {
                     placeholder="Your name"
                     value={inputValue.name}
                     onChange={handleChange}
-                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                   />
                 </div>
               </div>
@@ -171,6 +179,7 @@ const NewAccount = () => {
                   htmlFor="email"
                   className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
                 >
+                  <span className="text-yellow-orange">*&nbsp;&nbsp;</span>{' '}
                   <FormattedMessage id="Email" />
                 </label>
                 <div className="mt-1 basis-3/4">
@@ -182,7 +191,7 @@ const NewAccount = () => {
                     placeholder="Your email"
                     value={inputValue.email}
                     onChange={handleChange}
-                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                   />
                 </div>
               </div>
@@ -191,6 +200,7 @@ const NewAccount = () => {
                   htmlFor="phone"
                   className="text-dark-blue mt-4 block basis-1/4  text-xl font-semibold"
                 >
+                  <span className="text-yellow-orange">*&nbsp;&nbsp;</span>{' '}
                   <FormattedMessage id="Phone" />
                 </label>
                 <div className="mt-1 basis-3/4">
@@ -202,19 +212,20 @@ const NewAccount = () => {
                     placeholder="Your phone"
                     value={inputValue.phone}
                     onChange={handleChange}
-                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                   />
                 </div>
               </div>
               <div>
                 <label className="my-4 hidden text-2xl">
+                  &nbsp;&nbsp;
                   <input type="checkbox" className="-mt-1 rounded-sm" />
                   <span className="ml-4">
                     I have read the
                     <Link href="/">
-                      <a className="border-azure-blue border-b-2">
+                      <a className="border-azure-blue text-azure-blue border-b-2">
                         {' '}
-                        terms of services
+                        Terms of services
                       </a>
                     </Link>
                   </span>
@@ -227,6 +238,7 @@ const NewAccount = () => {
                   htmlFor="monthly_import"
                   className="text-dark-blue block basis-1/4 text-xl font-semibold"
                 >
+                  <span className="text-yellow-orange">*&nbsp;&nbsp;</span>{' '}
                   <FormattedMessage id="Monthly_Import" />
                 </label>
                 <div className="mt-1 basis-3/4">
@@ -238,7 +250,7 @@ const NewAccount = () => {
                     placeholder="No. of cars imported monthly"
                     value={inputValue.monthly_import}
                     onChange={handleChange}
-                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                   />
                 </div>
               </div>
@@ -247,6 +259,7 @@ const NewAccount = () => {
                   htmlFor="company_name"
                   className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
                 >
+                  <span className="text-yellow-orange">&nbsp;&nbsp;&nbsp;</span>{' '}
                   <FormattedMessage id="company" />
                 </label>
                 <div className="mt-1 basis-3/4">
@@ -258,7 +271,7 @@ const NewAccount = () => {
                     placeholder="Company name"
                     value={inputValue.company_name}
                     onChange={handleChange}
-                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="border-dark-blue placeholder:text-medium-grey block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                   />
                 </div>
               </div>
@@ -267,12 +280,13 @@ const NewAccount = () => {
                   htmlFor="message"
                   className="text-dark-blue mt-4 block basis-1/4 text-xl font-semibold"
                 >
+                  <span className="text-yellow-orange">&nbsp;&nbsp;&nbsp;</span>{' '}
                   <FormattedMessage id="page.customer.dashboard.table.detail" />
                 </label>
                 <div className="mt-1 basis-3/4">
                   <textarea
                     rows={5}
-                    className="placeholder:text-medium-grey border-dark-blue w-full resize-none rounded border-2 text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
+                    className="placeholder:text-medium-grey border-dark-blue w-full resize-none rounded border-2 text-lg  focus:border-blue-800 focus:ring-0"
                     id="message"
                     name="message"
                     placeholder="Any further details about your application"

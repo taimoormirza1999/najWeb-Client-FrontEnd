@@ -146,11 +146,7 @@ a:hover {
   padding: 0 4px;
 }
 
-.our-values li:before{
-    content:"·";
-    font-size:180px;
-    vertical-align:top;
-    line-height:80px;
+.our-values li::marker{
     color: var(--color-yellow-orange);
 }
 

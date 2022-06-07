@@ -78,39 +78,43 @@ const Career = () => {
 
       <div className="container mx-auto">
         <div className="text-dark-blue py-2">
-          <h3 className="mb-4 text-center text-2xl font-semibold xl:text-4xl">
+          <h3 className="mb-4 text-center text-3xl font-semibold xl:text-5xl">
             <FormattedMessage id="page.career.title" />
           </h3>
-          <p className="py-2 text-lg lg:text-2xl">
+          <p className="py-2 text-2xl lg:text-3xl">
             <FontAwesomeIcon
               icon={faBriefcase}
-              className="text-orange-400 ltr:mr-4 rtl:ml-4"
+              className="text-yellow-orange ltr:mr-4 rtl:ml-4"
             />
             <span className="font-bold">
               <span className="font-sen">
                 <FormattedMessage id="general.naj" />
               </span>{' '}
-              <FormattedMessage id="page.career.title" />
+              <FormattedMessage id="page.career.title" />{' '}
+              <span className="font-normal">Form</span>
             </span>{' '}
           </p>
           <p className="mb-4 py-4 text-lg lg:text-2xl">
             <FormattedMessage id="page.career.desc1" />{' '}
-            <span className="font-sen font-bold">
-              <FormattedMessage id="page.services.shipping.nejoum" />
+            <span className="font-sen">
+              <span className="font-bold">
+                <FormattedMessage id="page.company.name.nejoum" />
+              </span>
+              <FormattedMessage id="page.company.name.aljazeera" />
             </span>
             <FormattedMessage id="page.career.desc2" />
           </p>
           <div className="flex flex-col gap-8 pb-32 lg:flex-row lg:gap-16">
             <img
-              src="/assets/images/branch-image-3.jpg"
+              src="/assets/images/branch-image-3.png"
               alt="Career"
-              className="w-full lg:w-1/2"
+              className="w-full rounded-2xl lg:w-1/2"
             />
             <div className="flex flex-col justify-center">
-              <h3 className="text-lg font-semibold lg:text-2xl xl:text-3xl">
+              <h3 className="text-2xl font-semibold lg:text-4xl xl:text-5xl">
                 <FormattedMessage id="page.career.joinTeam" />
               </h3>
-              <p className="py-4 text-lg lg:text-xl xl:text-2xl">
+              <p className="py-4 text-lg lg:text-2xl xl:text-3xl">
                 <FormattedMessage id="page.career.joinTeamDesc" />
               </p>
 

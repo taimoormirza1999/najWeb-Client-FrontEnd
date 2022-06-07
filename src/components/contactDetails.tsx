@@ -26,7 +26,7 @@ const ContactDetails = () => {
             href="tel:+971 65 440 202"
             className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
           >
-            +971 58 931 1465
+            +971 65 440 202
           </a>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
             <FormattedMessage id="Logistics_Services" />
@@ -61,7 +61,7 @@ const ContactDetails = () => {
             href="mailto:support@naj.ae"
             className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
           >
-            support@naj.ae
+            cservice@naj.ae
           </a>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
             <FormattedMessage id="Logistics_Services" />

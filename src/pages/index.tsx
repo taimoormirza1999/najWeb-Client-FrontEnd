@@ -61,6 +61,12 @@ const Index = ({ announcements }) => {
               <FormattedMessage id="ships.cars.from.usa.canada" />
             </h3>
             <p className="text-dark-blue max-w-full py-3 text-xl md:text-2xl lg:max-w-[75%] lg:text-3xl">
+              <span className="font-sen">
+                <span className="font-bold">
+                  <FormattedMessage id="page.company.name.nejoum" />
+                </span>
+                <FormattedMessage id="page.company.name.aljazeera" />
+              </span>
               <FormattedMessage id="ships.cars.from.usa.canada.desc" />
             </p>
             <Link href="/services/shipping">
@@ -125,7 +131,7 @@ const Index = ({ announcements }) => {
         </div>
       </div>
 
-      <div className="container mx-auto">
+      {/* <div className="container mx-auto">
         <div className="flex flex-col gap-16 lg:flex-row">
           <div className="group relative basis-1/3">
             <img
@@ -188,14 +194,14 @@ const Index = ({ announcements }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="py-12 md:py-24">
         <DownloadApps />
       </div>
 
       <div className="container mx-auto text-center">
-        <h3 className="text-dark-blue py-3 text-3xl font-semibold md:text-5xl">
+        <h3 className="text-dark-blue py-3 pb-5 text-3xl font-semibold md:text-5xl">
           <FormattedMessage id="Trusted.By" />
         </h3>
         <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
@@ -219,6 +225,38 @@ const Index = ({ announcements }) => {
               className="mx-auto h-12 w-max md:h-24"
               src="/assets/images/adesa.png"
               alt="ADESA"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto mt-20 text-center">
+        <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
+          <div className="grid grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-3 lg:grid-cols-5">
+            <img
+              className="mx-auto h-12 w-max"
+              src="/assets/images/Marsek.png"
+              alt="Marsek"
+            />
+            <img
+              className="mx-auto h-16 w-max"
+              src="/assets/images/twilllogo.jpeg"
+              alt="TWILL"
+            />
+            <img
+              className="mx-auto h-16 w-max"
+              src="/assets/images/msc.jpeg"
+              alt="MSC"
+            />
+            <img
+              className="mx-auto h-12 w-max"
+              src="/assets/images/hapag lloyd .png"
+              alt="Hapag-lloyd"
+            />
+            <img
+              className="mx-auto h-16 w-max"
+              src="/assets/images/cma.png"
+              alt="cmacgm"
             />
           </div>
         </div>

@@ -84,83 +84,96 @@ export default function Login({ locale }) {
         />
         <title>Login - {AppConfig.title}</title>
       </Head>
-      <div className="bg-teal-blue flex h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="mx-5 rounded-md bg-white sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="py-5 sm:mx-auto sm:w-full sm:max-w-md">
-            <img
-              className="mx-auto h-20 w-auto"
-              src="/assets/images/logo-icon-blue.png"
-              alt={AppConfig.title}
-            />
-            <h2 className="text-dark-blue mt-6 text-center text-5xl font-semibold">
-              <FormattedMessage id="sign.in" />
-            </h2>
-          </div>
-          <div className="p-4 shadow sm:rounded-lg sm:px-10">
-            {error && (
-              <SignInError
-                error={error}
-                className="py-4 text-center text-red-400"
+      <div className="bg-teal-blue">
+        <div className="bg-teal-blue flex h-screen flex-col justify-center py-12 pt-[10%] sm:px-6 lg:px-8">
+          <div className="mx-5 rounded-md bg-white sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="py-5 sm:mx-auto sm:w-full sm:max-w-md">
+              <img
+                className="mx-auto h-20 w-auto"
+                src="/assets/images/logo-icon-blue.png"
+                alt={AppConfig.title}
               />
-            )}
+              <h2 className="text-dark-blue mt-6 text-center text-5xl font-semibold">
+                <FormattedMessage id="sign.in" />
+              </h2>
+            </div>
+            <div className="p-4 shadow sm:rounded-lg sm:px-10">
+              {error && (
+                <SignInError
+                  error={error}
+                  className="py-4 text-center text-red-400"
+                />
+              )}
 
-            <form className="space-y-6" onSubmit={(e) => handleSignIn(e)}>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="text-dark-blue block text-xl font-semibold"
-                >
-                  <FormattedMessage id="Email" />
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+              <form onSubmit={(e) => handleSignIn(e)}>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="text-dark-blue block text-base font-semibold"
+                  >
+                    <FormattedMessage id="Email" />
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="Example@mail.com"
+                      autoComplete="email"
+                      required
+                      className="border-dark-blue block w-full appearance-none rounded-md border-2 px-3 py-2 shadow-sm placeholder:text-gray-600 focus:border-azure-blue focus:outline-none sm:text-sm"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label
-                  htmlFor="password"
-                  className="text-dark-blue block text-xl font-semibold"
-                >
-                  <FormattedMessage id="Password" />
-                </label>
                 <div className="mt-1">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <label
+                    htmlFor="password"
+                    className="text-dark-blue block text-base font-semibold"
+                  >
+                    <FormattedMessage id="Password" />
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      placeholder="**********"
+                      autoComplete="current-password"
+                      required
+                      className="border-dark-blue block w-full appearance-none rounded-md border-2 px-3 py-2 shadow-sm placeholder:text-gray-600 focus:border-azure-blue focus:outline-none sm:text-sm"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <button
-                  type="submit"
-                  className="border-azure-blue bg-azure-blue hover:bg-dark-blue flex w-full justify-center rounded-md border-2 py-2 px-4 text-lg font-semibold text-white shadow-sm"
-                  onClick={handleSignIn}
-                >
-                  <FormattedMessage id="sign.in" />
-                </button>
+                <div className="mt-6">
+                  <button
+                    type="submit"
+                    className="border-azure-blue bg-azure-blue hover:bg-dark-blue flex w-full justify-center rounded-md border-2 py-2 px-4 text-base font-semibold text-white shadow-sm"
+                    onClick={handleSignIn}
+                  >
+                    <FormattedMessage id="sign.in" />
+                  </button>
 
-                <Link href="/auth/newAccount">
-                  <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-lg font-semibold shadow-sm">
-                    <FormattedMessage id="sign.up" />
-                  </a>
-                </Link>
-              </div>
-            </form>
+                  <Link href="/auth/newAccount">
+                    <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-base font-semibold shadow-sm">
+                      <FormattedMessage id="general.apply_for_account" />
+                    </a>
+                  </Link>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div className="bg-teal-blue pt-32">
+            <Link href="/">
+              <img
+                className="mx-auto w-[120px] cursor-pointer"
+                src="/assets/images/naj-02.png"
+                alt="naj"
+              />
+            </Link>
           </div>
         </div>
       </div>

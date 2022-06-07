@@ -23,9 +23,14 @@ const Vision = () => (
       <div className="text-dark-blue py-10 text-center">
         <h3 className="text-6xl font-semibold ">Vision</h3>
         <p className="py-4 text-3xl">
-          To become the first and most successful company worldwide that
-          provides to the customers outstanding services in offering full
-          logistic and trading vehicles.
+          Since day one, our dedication at{' '}
+          <span className="font-sen">
+            <span className="font-bold">
+              <FormattedMessage id="page.company.name.nejoum" />
+            </span>
+            <FormattedMessage id="page.company.name.aljazeera" />
+          </span>
+          is towards becoming the top choice for those willing to ship cars from all auctions in America to the world.
         </p>
       </div>
 
@@ -44,21 +49,28 @@ const Vision = () => (
         <h3 className="text-6xl font-semibold ">Our Values</h3>
         <p className="py-4 text-3xl">
           Our values are derived from the passion of providing you the best
-          possible service
+          car logistics service
         </p>
 
         <div className="flex">
           <div className="basis-1/6"></div>
-          <ul className="our-values text-left text-3xl leading-[5.5rem]">
-            <li>Integrity and Transparency</li>
-            <li>Openness</li>
-            <li>Excellence in performance and customer service</li>
-            <li>Entrepreneurship and Innovation</li>
+          <ul className="our-values text-left text-3xl leading-[5.5rem] list-disc">
+            <li className="leading-[3rem] ml-[38px]">
+              Speed: Providing our services at he highest possible pace.
+            </li>
+            <li className="leading-[3rem] ml-[38px]">
+              Price: Offering most competitive prices in vehicle and logistics
+              market.
+            </li>
+            <li className="leading-[3rem] ml-[38px]">
+              Excellence: Providing excellent and professional services minding
+              every minor detail
+            </li>
           </ul>
         </div>
       </div>
 
-      <p className="text-dark-blue py-12 text-center text-4xl italic">
+      <p className="text-dark-blue py-12 text-center text-2xl italic">
         We look forward giving you the best logistics’ service experience
       </p>
     </div>

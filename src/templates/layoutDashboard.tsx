@@ -242,7 +242,7 @@ const Layout = (props: IMainProps) => {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-[20%] md:flex-col">
+        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-[15%] md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200">
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
@@ -316,7 +316,7 @@ const Layout = (props: IMainProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col md:w-[100%] ltr:md:pl-[20%] rtl:md:pr-[20%]">
+        <div className="flex flex-1 flex-col md:w-[100%] ltr:md:pl-[15%] rtl:md:pr-[20%]">
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"
@@ -331,12 +331,12 @@ const Layout = (props: IMainProps) => {
             <div className="bg-dark-blue pb-5 pt-8">
               <div className="ltr:text-right rtl:text-left">
                 {customerBalance > 0 && (
-                  <span className="mt-1 mr-8 inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xl font-medium text-red-800">
+                  <span className="mt-1 mr-8 inline-flex items-center rounded-lg bg-red-100 px-2.5 py-0.5 text-xl font-medium text-[#A30000]">
                     {customerBalance} AED
                   </span>
                 )}
                 {customerBalance < 0 && (
-                  <span className="mt-1 inline-flex items-center rounded-md bg-green-100 px-2.5 py-0.5 text-xl font-medium text-green-800">
+                  <span className="mt-1 inline-flex items-center rounded-lg bg-green-100 px-2.5 py-0.5 text-xl font-medium text-green-800">
                     {0 - customerBalance} AED
                   </span>
                 )}
@@ -344,7 +344,7 @@ const Layout = (props: IMainProps) => {
               <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 md:flex md:justify-between md:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
-                    {intl.formatMessage({ id: 'general.welcome' })}: {fullName}
+                    {intl.formatMessage({ id: 'general.welcome' })} <span className="font-sen font-bold">{fullName}</span>
                   </h2>
                 </div>
                 <select
