@@ -167,8 +167,8 @@ const Tracking = ({ search, carDetail, errorModal }) => {
           </h3>
           <div className="m-auto text-center xl:w-3/5">
             <img
-              className="m-auto w-auto max-w-[250px]"
-              src="/assets/images/logo-en.png"
+              className="m-auto w-auto max-w-[320px]"
+              src="/assets/images/Full_Logo.png"
               alt="Nejoum Al Jazeera"
             />
             <div className="relative m-auto">
@@ -206,7 +206,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                   <svg
                     type="submit"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="absolute top-1 h-8 w-7 cursor-pointer text-[#818181] ltr:right-1 rtl:left-1 rtl:rotate-180"
+                    className="absolute top-1 h-8 w-7 cursor-pointer text-[#0093FF] ltr:right-1 rtl:left-1 rtl:rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >

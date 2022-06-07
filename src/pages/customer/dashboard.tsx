@@ -184,7 +184,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
       <div>
         <div className="m-4">
           <div className="flex">
-            <h4 className="text-dark-blue flex-1 pb-8 text-xl sm:text-2xl">
+            <h4 className="text-dark-blue flex-1 pb-8 text-xl font-bold sm:text-2xl">
               <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>
@@ -201,7 +201,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     className={classNames(
                       (!tab && tabData.href === 'tabs-states') ||
                         tab === tabData.href
-                        ? 'bg-blue-700 text-white'
+                        ? 'bg-[#005FB7] text-white'
                         : 'text-blue-600 hover:text-gray-700',
                       'px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                     )}

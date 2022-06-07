@@ -101,7 +101,7 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.ng}
+                          {tr.ng !== '0' ? tr.ng : '-'}
                         </td>
                         <td
                           className={classNames(
@@ -109,7 +109,7 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.tx}
+                          {tr.tx !== '0' ? tr.tx : '-'}
                         </td>
                         <td
                           className={classNames(
@@ -117,7 +117,7 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.ga}
+                          {tr.ga !== '0' ? tr.ga : '-'}
                         </td>
                         <td
                           className={classNames(
@@ -125,7 +125,7 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.wa}
+                          {tr.wa !== '0' ? tr.wa : '-'}
                         </td>
                         <td
                           className={classNames(
@@ -133,7 +133,7 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.ca}
+                          {tr.ca !== '0' ? tr.ca : '-'}
                         </td>
                       </tr>
                     ))}

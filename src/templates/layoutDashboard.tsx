@@ -288,7 +288,7 @@ const Layout = (props: IMainProps) => {
                 <div className="">
                   <Link href="/customer/userprofile">
                     <a className="group block w-full shrink-0 break-all hover:border-0">
-                      <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 md:text-base lg:text-xl">
+                      <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 md:text-base lg:text-base">
                         {fullName}
                       </p>
                     </a>
@@ -305,7 +305,7 @@ const Layout = (props: IMainProps) => {
                         })
                       }
                     >
-                      <i className="material-icons align-middle text-xs lg:ltr:mr-2 lg:rtl:ml-2">
+                      <i className="material-icons align-middle text-sm lg:ltr:mr-2 lg:rtl:ml-2">
                         &#xe9ba;
                       </i>
                       {intl.formatMessage({ id: 'general.signout' })}
