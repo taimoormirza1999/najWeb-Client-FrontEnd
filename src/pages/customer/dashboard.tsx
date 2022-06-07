@@ -222,7 +222,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                       className={classNames(
                         (!tab && tabData.href === 'tabs-states') ||
                           tab === tabData.href
-                          ? 'bg-blue-700 text-white'
+                          ? 'bg-[#005FB7] text-white'
                           : 'text-blue-600 hover:text-gray-700',
                         'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                       )}
