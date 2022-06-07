@@ -277,6 +277,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     totalRecords={totalRecords}
                     page={currentPage}
                     type={type}
+                    setLoading={setLoading}
                   ></ArrivedCarTab>
                 </React.Fragment>
               )}
