@@ -1,7 +1,6 @@
 import { faClipboardCheck, faCrosshairs, faGaugeHigh, faShield, faUsersLine } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -176,6 +175,6 @@ const Shipping = () => {
   );
 };
 
- 
+
 
 export default Shipping;
