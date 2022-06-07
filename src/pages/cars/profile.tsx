@@ -4,13 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { SRLWrapper } from 'simple-react-lightbox';
 
 import Breadcrumbs from '@/components/breadcrumbs';
-import {
-  CarIcon,
-  HashIcon,
-  OfferIcon,
-  PaymentIcon,
-  SpaceDashbaordIcon,
-} from '@/components/themeIcons';
+import { CarIcon, HashIcon, OfferIcon, PaymentIcon, SpaceDashbaordIcon } from '@/components/themeIcons';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutHome';
 
