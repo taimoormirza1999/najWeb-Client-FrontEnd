@@ -108,7 +108,7 @@ export default function App({ carsMakerData, YearData }) {
                   <div className="relative mt-1">
                     <Listbox.Button
                       className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
-                        py-3 pr-10 text-center text-xl font-medium italic
+                        py-3 pr-10 text-center text-xl font-medium ltr:italic
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate text-lg md:text-sm lg:text-lg">
@@ -193,8 +193,8 @@ export default function App({ carsMakerData, YearData }) {
                   <div className="relative mt-1">
                     <Listbox.Button
                       className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
-                        py-3 pr-10 text-center text-xl font-medium italic
-                        text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                        py-3 pr-10 text-center text-xl font-medium text-gray-700
+                        shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 ltr:italic"
                     >
                       <span className="block truncate text-lg md:text-sm lg:text-lg">
                         {selectedMaker ? (
@@ -277,7 +277,7 @@ export default function App({ carsMakerData, YearData }) {
                   <div className="relative mt-1">
                     <Listbox.Button
                       className="border-teal-blue relative w-full cursor-default border border-gray-300 bg-white
-                        py-3 pr-10 text-center text-xl font-medium italic
+                        py-3 pr-10 text-center text-xl font-medium ltr:italic
                         text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                       <span className="block truncate text-lg md:text-sm lg:text-lg">
@@ -374,7 +374,7 @@ export default function App({ carsMakerData, YearData }) {
           ) : null}
         </div>
 
-        <p className="text-medium-grey py-2 text-2xl italic md:text-xl">
+        <p className="text-medium-grey py-2 text-2xl ltr:italic md:text-xl">
           *
           <FormattedMessage id="page.cars.showroom.please_contact_us_to_negotiate_prices" />
         </p>
@@ -399,14 +399,16 @@ export default function App({ carsMakerData, YearData }) {
                                 alt="Car"
                                 className="h-[300px] w-full object-cover shadow-lg"
                               />
-                              <div className="border-dark-blue flex border py-2 px-4">
+                              <div className="flex py-2 px-4 shadow">
                                 <div className="text-dark-blue text-sm">
-                                  <p className="h-auto overflow-hidden text-ellipsis font-semibold lg:h-10 ">
+                                  <p className="h-auto overflow-hidden text-ellipsis font-semibold ">
                                     {' '}
                                     {obj.carMakerName} {obj.carModelName}{' '}
                                     {obj.car_year}
                                   </p>
-                                  <p>AED {obj.price}</p>
+                                  <p className="text-azure-blue">
+                                    AED {obj.price}
+                                  </p>
                                 </div>
                               </div>
                             </div>

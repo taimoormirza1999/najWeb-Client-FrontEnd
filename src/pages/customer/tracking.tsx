@@ -167,8 +167,8 @@ const Tracking = ({ search, carDetail, errorModal }) => {
           </h3>
           <div className="m-auto text-center xl:w-3/5">
             <img
-              className="m-auto w-auto max-w-[250px]"
-              src="/assets/images/logo-en.png"
+              className="m-auto w-auto max-w-[320px]"
+              src="/assets/images/Full_Logo.png"
               alt="Nejoum Al Jazeera"
             />
             <div className="relative m-auto">
@@ -206,7 +206,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                   <svg
                     type="submit"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="absolute top-1 h-8 w-7 cursor-pointer text-[#818181] ltr:right-1 rtl:left-1 rtl:rotate-180"
+                    className="absolute top-1 h-8 w-7 cursor-pointer text-[#0093FF] ltr:right-1 rtl:left-1 rtl:rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -219,7 +219,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                   </svg>
                 </button>
               </form>
-              <p className="mt-3 flex rounded-md bg-[#045FB7] py-2 text-white">
+              <p className="flex rounded-md bg-[#045FB7] py-2 text-white">
                 <span className="flex-1 ltr:mr-3 ltr:text-right rtl:ml-3 rtl:text-left">
                   Vin: {vin}
                 </span>
@@ -233,12 +233,12 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
                   <div className="absolute left-1/2 w-full -translate-x-1/2">
                     <NewCarIcon
-                      color={purchaseDate ? '#0193FF' : '#045FB7'}
+                      color={purchaseDate ? '#0193FF' : '#7F7F7F'}
                     ></NewCarIcon>
                   </div>
                   <div
                     className={classNames(
-                      purchaseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      purchaseDate ? 'bg-[#FFB100]' : 'bg-[#7F7F7F]',
                       'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
@@ -253,12 +253,12 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
                   <div className="absolute left-1/2 w-full -translate-x-1/2">
                     <LocalShippingIcon
-                      color={purchaseDate ? '#0193FF' : '#045FB7'}
+                      color={purchaseDate ? '#0193FF' : '#7F7F7F'}
                     ></LocalShippingIcon>
                   </div>
                   <div
                     className={classNames(
-                      pickedDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      pickedDate ? 'bg-[#FFB100]' : 'bg-[#7F7F7F]',
                       'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
@@ -273,12 +273,12 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
                   <div className="absolute left-1/2 w-full -translate-x-1/2">
                     <WarehouseIcon
-                      color={warehouseDate ? '#0193FF' : '#045FB7'}
+                      color={warehouseDate ? '#0193FF' : '#7F7F7F'}
                     ></WarehouseIcon>
                   </div>
                   <div
                     className={classNames(
-                      warehouseDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      warehouseDate ? 'bg-[#FFB100]' : 'bg-[#7F7F7F]',
                       'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
@@ -293,12 +293,12 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
                   <div className="absolute left-1/2 w-full -translate-x-1/2">
                     <BoatIcon
-                      color={shippingDate ? '#0193FF' : '#045FB7'}
+                      color={shippingDate ? '#0193FF' : '#7F7F7F'}
                     ></BoatIcon>
                   </div>
                   <div
                     className={classNames(
-                      shippingDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      shippingDate ? 'bg-[#FFB100]' : 'bg-[#7F7F7F]',
                       'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
@@ -312,12 +312,12 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
                   <div className="absolute left-1/2 w-full -translate-x-1/2">
                     <PortIcon
-                      color={portDate ? '#0193FF' : '#045FB7'}
+                      color={portDate ? '#0193FF' : '#7F7F7F'}
                     ></PortIcon>
                   </div>
                   <div
                     className={classNames(
-                      portDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      portDate ? 'bg-[#FFB100]' : 'bg-[#7F7F7F]',
                       'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
@@ -332,12 +332,12 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
                   <div className="absolute left-1/2 w-full -translate-x-1/2">
                     <ArrivedIcon
-                      color={storeDate ? '#0193FF' : '#045FB7'}
+                      color={storeDate ? '#0193FF' : '#7F7F7F'}
                     ></ArrivedIcon>
                   </div>
                   <div
                     className={classNames(
-                      storeDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      storeDate ? 'bg-[#FFB100]' : 'bg-[#7F7F7F]',
                       'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>
@@ -352,12 +352,12 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                 <div className="relative h-[75px] min-w-[75px] border-b-2 border-[#707070]">
                   <div className="absolute left-1/2 w-full -translate-x-1/2">
                     <CheckCircleIcon
-                      color={deliveredDate ? '#0193FF' : '#045FB7'}
+                      color={deliveredDate ? '#0193FF' : '#7F7F7F'}
                     ></CheckCircleIcon>
                   </div>
                   <div
                     className={classNames(
-                      deliveredDate ? 'bg-[#FFB100]' : 'bg-dark-blue',
+                      deliveredDate ? 'bg-[#FFB100]' : 'bg-[#7F7F7F]',
                       'absolute -bottom-3 left-1/2  -translate-x-1/2 -translate-y-1/2 rounded-full p-[6px]'
                     )}
                   ></div>

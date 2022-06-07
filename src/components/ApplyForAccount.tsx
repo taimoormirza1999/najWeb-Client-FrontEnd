@@ -12,9 +12,16 @@ const ApplyForAccount = () => {
             </h3>
             <p className="py-4 text-xl leading-normal lg:text-2xl xl:text-3xl xl:leading-[3rem] 2xl:leading-[3.5rem]">
               <FormattedMessage id="page.cars.showroom.apply-desc" />
+              <span className="font-sen">
+                <span className="font-bold">
+                  <FormattedMessage id="page.company.name.nejoum" />
+                </span>
+                <FormattedMessage id="page.company.name.aljazeera" />
+              </span>
+              <FormattedMessage id="page.cars.showroom.apply-desc1" />
             </p>
             <Link href="/auth/newAccount">
-              <a className="py-2 text-xl italic text-white underline xl:text-3xl">
+              <a className="py-2 text-xl text-white underline xl:text-2xl">
                 Receive Account...
               </a>
             </Link>

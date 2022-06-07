@@ -42,8 +42,11 @@ const Shipping = () => {
               <FormattedMessage id="page.services.shipping" />
             </h2>
             <p className="py-4 text-lg leading-normal md:text-xl lg:py-8 lg:text-2xl lg:leading-[2.8rem] xl:pr-10">
-              <span className="font-sen font-bold">
-                <FormattedMessage id="page.services.shipping.nejoum" />{' '}
+              <span className="font-sen">
+                <span className="font-bold">
+                  <FormattedMessage id="page.company.name.nejoum" />
+                </span>
+                <FormattedMessage id="page.company.name.aljazeera" />
               </span>
               <FormattedMessage id="page.services.shipping.shippingDesc" />
             </p>
