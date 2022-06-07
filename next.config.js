@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-
+const path = require('path')
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
@@ -22,9 +22,8 @@ module.exports = withBundleAnalyzer({
   // You can remove `basePath` if you don't need it.
   reactStrictMode: false,
   i18n: {
-    // The locales you want to support in your app
-    locales: ["ar", "en"],
-    // The default locale you want to be used when visiting a non-locale prefixed path e.g. `/hello`
     defaultLocale: "en",
-  },
+    locales: ["ar", "en"],
+    localePath: path.resolve('./public/locales'),
+  }
 });
