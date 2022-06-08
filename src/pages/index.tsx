@@ -232,7 +232,7 @@ const Index = ({ announcements }) => {
 
       <div className="container mx-auto mt-20 text-center">
         <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
-          <div className="grid grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-1 flex-row gap-8 px-16 py-2 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
             <img
               className="mx-auto h-12 w-max"
               src="/assets/images/Marsek.png"
