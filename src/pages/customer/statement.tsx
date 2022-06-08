@@ -60,9 +60,9 @@ const Statement = ({
               <option value="">
                 {intl.formatMessage({ id: 'car.status' })}
               </option>
-              <option value="3">All</option>
+              <option value="2">All</option>
               <option value="1">Arrived Cars</option>
-              <option value="2">Not Arrived</option>
+              <option value="0">Not Arrived</option>
             </select>
             <select
               name="remaining_status"
@@ -73,7 +73,7 @@ const Statement = ({
               <option value="">
                 {intl.formatMessage({ id: 'payment.status' })}
               </option>
-              <option value="3">All</option>
+              <option value="0">All</option>
               <option value="1">Paid</option>
               <option value="2">UnPaid</option>
             </select>
@@ -84,7 +84,7 @@ const Statement = ({
               onChange={handleChange}
             >
               <option value="">{intl.formatMessage({ id: 'Transfer' })}</option>
-              <option value="3">All</option>
+              <option value="0">All</option>
               <option value="1">Paid</option>
               <option value="2">UnPaid</option>
             </select>
@@ -165,32 +165,29 @@ export async function getServerSideProps(context) {
     date_from: formData.date_from || '2021-01-01',
     date_to: '',
   };
-  const [
-    shippedCarsResponse,
-    inAuctionCarsResponse,
-    generalEntriesResponse,
-    depositsResponse,
-  ] = await Promise.all([
+
+  const [shippedCarsResponse, depositsResponse] = await Promise.all([
     axios.get(`${apiUrl}carStatement/shippedCars`, {
       params: selectedParams,
     }),
-    axios.get(`${apiUrl}carStatement/carsInAuction`, {
+    /* axios.get(`${apiUrl}carStatement/carsInAuction`, {
       params: selectedParams,
     }),
     axios.get(`${apiUrl}carStatement/generalEntries`, {
       params: selectedParams,
-    }),
+    }), */
     axios.get(`${apiUrl}carStatement/deposits`, {
       params: selectedParams,
     }),
   ]);
   const [shippedCars, inAuctionCars, generalEntries, deposits] =
     await Promise.all([
-      shippedCarsResponse.data.data,
-      inAuctionCarsResponse.data.data,
-      generalEntriesResponse.data.data,
+      shippedCarsResponse.data.shippedCars,
+      shippedCarsResponse.data.inAuctionTransactions,
+      shippedCarsResponse.data.generalTransactions,
       depositsResponse.data.data,
     ]);
+
   const generalEntriesTotal =
     generalEntries.length > 1 ? generalEntries.pop() : null;
   const shippedCarsTotal = shippedCars.length > 1 ? shippedCars.pop() : null;

@@ -1,7 +1,6 @@
 import { faClipboardCheck, faCrosshairs, faGaugeHigh, faShield, faUsersLine } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -150,7 +149,7 @@ const Shipping = () => {
             <FormattedMessage id="page.services.shipping.receive_service" />
           </h3>
           <img
-            className="relative -z-10 mx-auto w-full rounded-t-[30px]"
+            className="relative -z-10 mx-auto h-[75vh] w-full rounded-t-[30px] object-cover"
             src="/assets/images/receive-service.jpg"
             alt="Contact Us"
           />
@@ -176,6 +175,6 @@ const Shipping = () => {
   );
 };
 
- 
+
 
 export default Shipping;
