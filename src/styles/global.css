@@ -154,6 +154,10 @@ a:hover {
   max-width: 85%;
 }
 
+.dirltr{
+  direction:ltr;
+}
+
 @media screen and (max-width:768px){
   .container{
     max-width: 90%;
