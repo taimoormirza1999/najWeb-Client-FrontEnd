@@ -93,12 +93,12 @@ const Pagination = ({ totalRecords, url, page = 0 }) => {
   );
 };
 
-const SelectPageRecords = (url) => {
+const SelectPageRecords = ({ url }) => {
   const [selectedLimit, setSelectLimit] = useState('10');
-  // const router = useRouter();
+  const router = useRouter();
   const changePage = (value) => {
     setSelectLimit(value);
-    // router.push(`${url}&limit=${value}`);
+    router.push(`${url}&limit=${value}`);
   };
   return (
     <div className="mt-3">
