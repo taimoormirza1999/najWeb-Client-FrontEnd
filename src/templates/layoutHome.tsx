@@ -63,9 +63,9 @@ const Layout = (props: IMainProps) => {
   });
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setHeaderFixed(window.scrollY > 120);
-    });
+    // window.addEventListener('scroll', () => {
+    //   setHeaderFixed(window.scrollY > 120);
+    // });
   }, []);
 
   const changeLanguage = (selectedLocale) => {
@@ -262,7 +262,7 @@ const Layout = (props: IMainProps) => {
                   ))}
                 </div>
               </nav>
-              <div className="hidden items-center justify-start md:flex md:flex-1 md:basis-[35%] lg:w-0">
+              <div className="hidden items-center justify-center md:flex md:flex-1 lg:basis-[35%] xl:basis-[55%]">
                 <i className="material-icons text-white rtl:ml-2 lg:ltr:mr-2">
                   &#xe7fd;
                 </i>

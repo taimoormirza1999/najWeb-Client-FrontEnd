@@ -14,6 +14,9 @@
 body{
   font-family: 'Source Sans Pro', sans-serif;
 }
+body[dir="rtl"]{
+  font-family: 'Almarai', sans-serif;
+}
 
 .font-sen{
   font-family: 'Sen', sans-serif;

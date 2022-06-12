@@ -204,25 +204,25 @@ const Index = ({ announcements }) => {
         <h3 className="text-dark-blue py-3 pb-5 text-3xl font-semibold md:text-5xl">
           <FormattedMessage id="Trusted.By" />
         </h3>
-        <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
-          <div className="grid grid-cols-1 flex-row gap-16 px-16 py-2 md:grid-cols-2 lg:grid-cols-4 xl:gap-[13rem]">
+        <div className="partners-logo-box mx-auto rounded-xl p-8">
+          <div className="mx-auto grid max-w-[875px] grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-2 md:gap-2 lg:grid-cols-4">
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/copart.png"
               alt="Copart"
             />
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/iaai.png"
               alt="IAAI"
             />
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/manheim.png"
               alt="Manheim"
             />
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/adesa.png"
               alt="ADESA"
             />
@@ -231,30 +231,30 @@ const Index = ({ announcements }) => {
       </div>
 
       <div className="container mx-auto mt-20 text-center">
-        <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
-          <div className="grid grid-cols-1 flex-row gap-8 px-16 py-2 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
+        <div className="partners-logo-box m-auto rounded-xl p-8">
+          <div className="mx-auto grid max-w-[1100px] grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-3 md:gap-2 lg:grid-cols-5">
             <img
-              className="mx-auto h-12 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/Marsek.png"
               alt="Marsek"
             />
             <img
-              className="mx-auto h-16 w-max"
+              className="mx-auto h-12 w-max"
               src="/assets/images/twilllogo.jpeg"
               alt="TWILL"
             />
             <img
-              className="mx-auto h-16 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/msc.jpeg"
               alt="MSC"
             />
             <img
-              className="mx-auto h-12 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/hapag lloyd .png"
               alt="Hapag-lloyd"
             />
             <img
-              className="mx-auto h-16 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/cma.png"
               alt="cmacgm"
             />
