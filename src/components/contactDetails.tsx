@@ -12,39 +12,45 @@ const ContactDetails = () => {
             <FormattedMessage id="Main" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
-          <a
-            href="tel:+971 65 440 202"
-            className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
-          >
-            +971 65 440 202
-          </a>
+          <div className="rtl:text-right dirltr">
+            <a
+              href="tel:+971 65 440 202"
+              className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
+            >
+              +971 65 440 202
+            </a>
+          </div>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
-          <FormattedMessage id="customer.service" />
+            <FormattedMessage id="customer.service" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
-          <a
-            href="tel:+971 65 440 202"
-            className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
-          >
-            +971 65 440 202
-          </a>
+          <div className="rtl:text-right dirltr">
+            <a
+              href="tel:+971 65 440 202"
+              className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
+            >
+              +971 65 440 202
+            </a>
+          </div>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
             <FormattedMessage id="Logistics_Services" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
-          <a
-            href="tel:+971 65 440 202"
-            className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
-          >
-            +971 58 931 1461
-          </a>
+          <div className="rtl:text-right dirltr">
+            <a
+              href="tel:+971 65 440 202"
+              className="text-azure-blue text-lg md:text-2xl lg:text-3xl hover:border-0"
+            >
+              +971 58 931 1461
+            </a>
+          </div>
         </div>
         <div>
           <h3 className="text-dark-blue py-4 text-2xl md:text-3xl lg:text-5xl font-semibold">
             <FormattedMessage id="Email" />
           </h3>
           <h4 className="text-dark-blue py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
-          <FormattedMessage id="Main" />
+            <FormattedMessage id="Main" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
           <a
@@ -54,7 +60,7 @@ const ContactDetails = () => {
             info@naj.ae
           </a>
           <h4 className="text-dark-blue mt-6 py-3 text-xl md:text-2xl lg:text-3xl font-semibold">
-          <FormattedMessage id="customer.service" />
+            <FormattedMessage id="customer.service" />
             <div className="border-yellow-orange w-10 border"></div>
           </h4>
           <a
