@@ -25,6 +25,7 @@ export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-states';
   let type = context.query.type ? context.query.type : '';
   const page = context.query.page ? context.query.page : 0;
+  const limit = context.query.limit ? context.query.limit : '10';
   const session: any = await getSession(context);
 
   let carsData = {};
@@ -86,6 +87,7 @@ export async function getServerSideProps(context) {
   } else if (apiTab !== 'statesCount') {
     apiUrl = `${apiUrl}&page=${page}`;
   }
+  apiUrl = `${apiUrl}&limit=${limit}`;
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
     await axios
