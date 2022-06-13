@@ -5,9 +5,9 @@ import { useState } from 'react';
 
 import { classNames } from '@/utils/Functions';
 
-const Pagination = ({ totalRecords, url, page = 0 }) => {
+const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   const maxPages = 10;
-  const pageSize = 10;
+  const pageSize = limit === 'all' ? totalRecords : limit;
   const currentPage: number = page;
   const totalPages = Math.ceil(totalRecords / pageSize);
   const enablePrev = totalPages > 1 && page > 0 ? page - 1 : 0;
