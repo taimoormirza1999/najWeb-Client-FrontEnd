@@ -41,18 +41,18 @@ const Branches = () => (
           <img
             src="/assets/images/branch-image-1.jpg"
             alt="Our Branches"
-            className="mb-1 h-[400px] w-full object-cover"
+            className="mb-1 h-[300px] w-full object-cover"
           />
           <div className="flex gap-1">
             <img
               src="/assets/images/branch-image-2.jpg"
               alt="Our Branches"
-              className="h-[200px] w-full basis-1/2 object-cover"
+              className="h-[300px] w-full basis-1/2 object-cover"
             />
             <img
               src="/assets/images/branch-image-3.jpg"
               alt="Our Branches"
-              className="h-[200px] w-full basis-1/2 object-cover"
+              className="h-[300px] w-full basis-1/2 object-cover"
             />
           </div>
         </div>
