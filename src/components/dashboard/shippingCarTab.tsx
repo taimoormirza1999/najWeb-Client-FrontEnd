@@ -62,10 +62,11 @@ const carTableHeader = [
   },
 ];
 
-const ShippingCarTab = ({ carsRecords, totalRecords, page = 0 }) => {
+const ShippingCarTab = ({ carsRecords, totalRecords, page = 0, limit }) => {
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
-  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&limit=${limit}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   return (
@@ -105,7 +106,7 @@ const ShippingCarTab = ({ carsRecords, totalRecords, page = 0 }) => {
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={paginationUrl} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
@@ -293,6 +294,7 @@ const ShippingCarTab = ({ carsRecords, totalRecords, page = 0 }) => {
           totalRecords={totalRecords}
           page={page}
           url={paginationUrl}
+          limit={limit}
         ></Pagination>
       </div>
     </div>

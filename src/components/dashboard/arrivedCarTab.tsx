@@ -15,6 +15,7 @@ const ArrivedCarTab = ({
   page = 0,
   type,
   setLoading,
+  limit,
 }) => {
   if (!type) {
     type = 'port';
@@ -67,7 +68,8 @@ const ArrivedCarTab = ({
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&limit=${limit}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
   const GetImages = async (car_id) => {
     setLoading(true);
     const res = await axios.get(
@@ -229,7 +231,7 @@ const ArrivedCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={paginationUrl} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
@@ -265,6 +267,7 @@ const ArrivedCarTab = ({
           totalRecords={totalRecords}
           page={page}
           url={paginationUrl}
+          limit={limit}
         ></Pagination>
       </div>
     </div>

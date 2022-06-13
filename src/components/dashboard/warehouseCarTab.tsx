@@ -53,6 +53,7 @@ const WarehouseCarTab = ({
   totalRecords,
   page = 0,
   setLoading,
+  limit,
 }) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
@@ -60,7 +61,8 @@ const WarehouseCarTab = ({
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&limit=${limit}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
   const GetImages = async (car_id) => {
     setLoading(true);
     const res = await axios.get(
@@ -248,7 +250,7 @@ const WarehouseCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={paginationUrl} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
@@ -412,6 +414,7 @@ const WarehouseCarTab = ({
           totalRecords={totalRecords}
           page={page}
           url={paginationUrl}
+          limit={limit}
         ></Pagination>
       </div>
     </div>

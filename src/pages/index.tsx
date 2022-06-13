@@ -26,7 +26,7 @@ const Index = ({ announcements }) => {
           className="absolute top-1/2 left-1/2 flex h-[12rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] p-4 md:h-[20rem] md:w-[20rem] lg:h-[30rem] lg:w-[30rem] xl:left-auto xl:right-[5rem] xl:top-[18%] xl:h-[35rem] xl:w-[35rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]"
         >
           <div className="basis-1/3">
-            <h2 className="py-6 text-center text-2xl font-extrabold text-white md:text-4xl lg:text-6xl xl:text-[70px]">
+            <h2 className="py-6 text-center text-2xl font-extrabold text-white md:text-4xl lg:text-6xl rtl:lg:text-5xl xl:text-[70px]">
               <FormattedMessage id="you.want.to" />
             </h2>
 
@@ -227,12 +227,7 @@ const Index = ({ announcements }) => {
               alt="ADESA"
             />
           </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto mt-20 text-center">
-        <div className="partners-logo-box m-auto rounded-xl p-8">
-          <div className="mx-auto grid max-w-[1100px] grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-3 md:gap-2 lg:grid-cols-5">
+          <div className="mx-auto grid max-w-[1100px] grid-cols-1 flex-row gap-4 px-16 pt-12 pb-2 md:grid-cols-3 md:gap-2 lg:grid-cols-5">
             <img
               className="mx-auto h-10 w-max"
               src="/assets/images/Marsek.png"
