@@ -52,7 +52,7 @@ const Branches = () => (
             <img
               src="/assets/images/branch-image-3.jpg"
               alt="Our Branches"
-              className="h-[300px] w-full basis-1/2 object-cover"
+              className="h-[300px] w-full basis-1/2 overflow-hidden object-cover"
             />
           </div>
         </div>
