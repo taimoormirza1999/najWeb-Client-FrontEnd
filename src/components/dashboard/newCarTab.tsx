@@ -6,7 +6,7 @@ import { Paid } from '@/components/dashboard/newCar/paid';
 import { PaidByCustomer } from '@/components/dashboard/newCar/paid_by_customer';
 import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
-import { Pagination } from '@/components/dashboard/pagination';
+import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
 
 const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
   let carTableData;
@@ -173,7 +173,8 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
             </h1>
           </div>
         </div>
-        <div className="mt-8 flex flex-col">
+        <div className="flex flex-col">
+          <SelectPageRecords url={paginationUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden  border border-[#005fb7] md:rounded-lg">
