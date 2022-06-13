@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
-import { Pagination } from '@/components/dashboard/pagination';
+import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
 const carTableHeader = [
@@ -104,7 +104,8 @@ const ShippingCarTab = ({ carsRecords, totalRecords, page = 0 }) => {
             </h1>
           </div>
         </div>
-        <div className="mt-8 flex flex-col">
+        <div className="flex flex-col">
+          <SelectPageRecords url={paginationUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
