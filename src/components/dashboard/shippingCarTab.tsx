@@ -99,7 +99,7 @@ const ShippingCarTab = ({ carsRecords, totalRecords, page = 0 }) => {
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-xl font-semibold">
+            <h1 className="text-dark-blue text-3xl font-semibold">
               <FormattedMessage id="page.customer.dashboard.in_shipping" />
             </h1>
           </div>

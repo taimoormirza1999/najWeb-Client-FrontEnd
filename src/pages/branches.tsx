@@ -36,23 +36,23 @@ const Branches = () => (
         </p>
       </div>
 
-      <div className="mb-20 flex gap-2 ">
+      <div className="mb-20 flex gap-1 ">
         <div className="basis-1/2">
           <img
             src="/assets/images/branch-image-1.jpg"
             alt="Our Branches"
-            className="mb-2 h-[400px] w-full border border-black object-cover"
+            className="mb-1 h-[300px] w-full object-cover"
           />
-          <div className="flex gap-2">
+          <div className="flex gap-1">
             <img
               src="/assets/images/branch-image-2.jpg"
               alt="Our Branches"
-              className="h-[200px] w-full basis-1/2 border border-black object-cover"
+              className="h-[300px] w-full basis-1/2 object-cover"
             />
             <img
               src="/assets/images/branch-image-3.jpg"
               alt="Our Branches"
-              className="h-[200px] w-full basis-1/2 border border-black object-cover"
+              className="h-[300px] w-full basis-1/2 object-cover"
             />
           </div>
         </div>
@@ -60,7 +60,7 @@ const Branches = () => (
           <img
             src="/assets/images/branch-image-4.jpg"
             alt="Our Branches"
-            className="h-[608px] w-full border border-black object-cover"
+            className="h-[604px] w-full object-cover"
           />
         </div>
       </div>

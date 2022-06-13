@@ -35,6 +35,7 @@ const SearchLot = () => {
                       focus:text-gray-700
                       focus:outline-none
                       ltr:float-right rtl:float-left
+                      rtl:text-sm
                     "
           name="lotSearch"
           id="lotSearch"
