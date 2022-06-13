@@ -150,7 +150,7 @@ const Layout = (props: IMainProps) => {
                       <a className="hover:border-0">
                         <img
                           className="h-8 w-auto"
-                          src="/assets/images/logo-en.png"
+                          src={`/assets/images/logo-${locale}.png`}
                           alt="Nejoum Al Jazeera"
                         />
                       </a>
@@ -251,7 +251,7 @@ const Layout = (props: IMainProps) => {
                   <a className="hover:border-0">
                     <img
                       className="w-auto"
-                      src="/assets/images/logo-en.png"
+                      src={`/assets/images/logo-${locale}.png`}
                       alt="Nejoum Al Jazeera"
                     />
                   </a>

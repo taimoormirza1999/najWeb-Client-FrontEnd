@@ -214,7 +214,7 @@ const Layout = (props: IMainProps) => {
                   <span className="sr-only">{AppConfig.title}</span>
                   <img
                     className="w-52"
-                    src="/assets/images/logo-en.png"
+                    src={`/assets/images/logo-${locale}.png`}
                     alt={AppConfig.title}
                   />
                 </a>
@@ -444,7 +444,7 @@ const Layout = (props: IMainProps) => {
                     <div>
                       <img
                         className="h-8 w-auto"
-                        src="/assets/images/logo-en.png"
+                        src={`/assets/images/logo-${locale}.png`}
                         alt={AppConfig.title}
                       />
                     </div>

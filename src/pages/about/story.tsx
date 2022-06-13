@@ -24,7 +24,7 @@ const Story = () => (
         alt="Nejoum Aljazeera"
         className="max-h-screen w-full object-cover"
       />
-      <h1 className="story-cover-text-shadow 4xl:text-[200px] absolute top-1/4 -translate-y-1/2 text-4xl font-extrabold uppercase leading-none tracking-wide text-white ltr:left-1/2 ltr:translate-x-[-80%] rtl:right-1/2 rtl:translate-x-[80%] md:text-6xl lg:text-[100px] 2xl:text-[140px]">
+      <h1 className="story-cover-text-shadow 4xl:text-[200px] absolute top-[28%] w-[55%] -translate-y-1/2 text-4xl font-extrabold uppercase leading-none tracking-wide text-white ltr:left-1/2 ltr:translate-x-[-80%] rtl:right-1/2 rtl:translate-x-[80%] md:text-6xl lg:text-[100px] 2xl:text-[170px]">
         <FormattedMessage id="page.story.heading" />
       </h1>
     </div>
