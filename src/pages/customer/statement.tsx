@@ -53,7 +53,7 @@ const Statement = ({
           <div className="my-2 flex flex-col gap-4 lg:my-8 lg:flex-row lg:gap-10">
             <select
               name="arrived_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.arrived_status}
               onChange={handleChange}
             >
@@ -66,7 +66,7 @@ const Statement = ({
             </select>
             <select
               name="remaining_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.remaining_status}
               onChange={handleChange}
             >
@@ -79,7 +79,7 @@ const Statement = ({
             </select>
             <select
               name="transfer_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.transfer_status}
               onChange={handleChange}
             >
@@ -90,7 +90,7 @@ const Statement = ({
             </select>
             <select
               name="currency"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.currency}
               onChange={handleChange}
             >
@@ -101,14 +101,14 @@ const Statement = ({
               <input
                 name="date_from"
                 type="date"
-                className="border-medium-grey basis-1/2 rounded-md border py-1 italic text-gray-700"
+                className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700"
                 value={inputValue.date_from}
                 onChange={handleChange}
               />
               <input
                 name="date_to"
                 type="date"
-                className="border-medium-grey basis-1/2 rounded-md border py-1 italic text-gray-700"
+                className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700"
                 value={inputValue.date_to}
                 onChange={handleChange}
               />

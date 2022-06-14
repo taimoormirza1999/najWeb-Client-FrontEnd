@@ -138,7 +138,7 @@ const Story = () => (
       </div>
     </div>
 
-    <p className="text-dark-blue mt-12 mb-24 px-4 text-center text-xl italic md:text-2xl lg:text-3xl">
+    <p className="text-dark-blue mt-12 mb-24 px-4 text-center text-xl ltr:italic md:text-2xl lg:text-3xl">
       <FormattedMessage id="page.story.end" />
     </p>
   </Layout>

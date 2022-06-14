@@ -50,7 +50,7 @@ const Shipping = () => {
               <FormattedMessage id="page.services.shipping.shippingDesc" />
             </p>
             <button
-              className="text-azure-blue block cursor-pointer py-3 text-lg italic hover:border-0 md:text-xl lg:text-2xl"
+              className="text-azure-blue block cursor-pointer py-3 text-lg ltr:italic hover:border-0 md:text-xl lg:text-2xl"
               onClick={() => {
                 scrollToReceiveService();
               }}

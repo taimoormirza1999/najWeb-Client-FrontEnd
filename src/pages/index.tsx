@@ -43,7 +43,7 @@ const Index = ({ announcements }) => {
               </Link>
             </div>
           </div>
-          {/* <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light italic text-blue-100 underline hover:border-0 md:text-[22px]"></a> */}
+          {/* <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light ltr:italic text-blue-100 underline hover:border-0 md:text-[22px]"></a> */}
         </div>
       </div>
 
@@ -147,7 +147,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.buying.from.US.auctions" />
               </p>
               <Link href="/">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -167,7 +167,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.shipping.cars.from.USA" />
               </p>
               <Link href="/services/shipping">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -187,7 +187,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.selling.cars.in.our.yard" />
               </p>
               <Link href="/">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
