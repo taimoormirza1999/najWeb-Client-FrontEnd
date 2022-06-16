@@ -106,7 +106,7 @@ const Career = () => {
           </p>
           <div className="flex flex-col gap-8 pb-32 lg:flex-row lg:gap-16">
             <img
-              src="/assets/images/branch-image-3.png"
+              src="/assets/images/career.jpg"
               alt="Career"
               className="w-full rounded-2xl lg:w-1/2"
             />
