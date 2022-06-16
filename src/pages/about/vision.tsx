@@ -70,7 +70,7 @@ const Vision = () => (
         </div>
       </div>
 
-      <p className="text-dark-blue py-12 text-center text-2xl italic">
+      <p className="text-dark-blue py-12 text-center text-2xl ltr:italic">
         We look forward giving you the best logistics’ service experience
       </p>
     </div>

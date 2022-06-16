@@ -50,7 +50,7 @@ const Shipping = () => {
               <FormattedMessage id="page.services.shipping.shippingDesc" />
             </p>
             <button
-              className="text-azure-blue block cursor-pointer py-3 text-lg italic hover:border-0 md:text-xl lg:text-2xl"
+              className="text-azure-blue block cursor-pointer py-3 text-lg ltr:italic hover:border-0 md:text-xl lg:text-2xl"
               onClick={() => {
                 scrollToReceiveService();
               }}
@@ -144,12 +144,12 @@ const Shipping = () => {
           </div>
         </div>
 
-        <div className="mb-16 py-8" ref={receiveServiceRef}>
+        <div className="mb-16 py-8 xl:px-16" ref={receiveServiceRef}>
           <h3 className="text-dark-blue mb-4 text-center text-4xl font-semibold">
             <FormattedMessage id="page.services.shipping.receive_service" />
           </h3>
           <img
-            className="relative -z-10 mx-auto h-[75vh] w-full rounded-t-[30px]"
+            className="relative -z-10 mx-auto w-[100%] rounded-t-[40px] object-cover md:h-[70vh] lg:h-[86vh]"
             src="/assets/images/receive-service.jpg"
             alt="Contact Us"
           />

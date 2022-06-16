@@ -30,11 +30,8 @@
 body{
   font-family: 'Source Sans Pro', sans-serif;
 }
-body[dir="rtl"]{
+body[dir="rtl"],body[dir="rtl"] .font-sen{
   font-family: 'Almarai', sans-serif;
-}
-body[dir="rtl"] .font-sen{
-  font-family: 'Lina soft';
 }
 .font-sen{
   font-family: 'Sen', sans-serif;
@@ -178,7 +175,6 @@ a:hover {
 .dirltr{
   direction:ltr;
 }
-
 @media screen and (max-width:768px){
   .container{
     max-width: 90%;

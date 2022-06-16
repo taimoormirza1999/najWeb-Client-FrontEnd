@@ -283,7 +283,7 @@ const Branches = () => (
         className="w-full"
       />
 
-      <p className="text-dark-blue pb-12 text-center text-2xl italic">
+      <p className="text-dark-blue pb-12 text-center text-2xl ltr:italic">
         You’re always welcome to pay a visit!
       </p>
     </div>

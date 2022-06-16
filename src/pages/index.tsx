@@ -43,7 +43,7 @@ const Index = ({ announcements }) => {
               </Link>
             </div>
           </div>
-          {/* <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light italic text-blue-100 underline hover:border-0 md:text-[22px]"></a> */}
+          {/* <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light ltr:italic text-blue-100 underline hover:border-0 md:text-[22px]"></a> */}
         </div>
       </div>
 
@@ -147,7 +147,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.buying.from.US.auctions" />
               </p>
               <Link href="/">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -167,7 +167,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.shipping.cars.from.USA" />
               </p>
               <Link href="/services/shipping">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -187,7 +187,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.selling.cars.in.our.yard" />
               </p>
               <Link href="/">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -196,7 +196,7 @@ const Index = ({ announcements }) => {
         </div>
       </div> */}
 
-      <div className="py-12 md:py-24">
+      <div className="pt-12 md:pt-24">
         <DownloadApps />
       </div>
 
@@ -205,7 +205,7 @@ const Index = ({ announcements }) => {
           <FormattedMessage id="Trusted.By" />
         </h3>
         <div className="partners-logo-box mx-auto rounded-xl p-8">
-          <div className="mx-auto grid max-w-[875px] grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-2 md:gap-2 lg:grid-cols-4">
+          <div className="mx-auto grid max-w-[600px] grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-2 md:gap-1 lg:grid-cols-4">
             <img
               className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/copart.png"
@@ -227,7 +227,7 @@ const Index = ({ announcements }) => {
               alt="ADESA"
             />
           </div>
-          <div className="mx-auto grid max-w-[1100px] grid-cols-1 flex-row gap-4 px-16 pt-12 pb-2 md:grid-cols-3 md:gap-2 lg:grid-cols-5">
+          <div className="mx-auto grid max-w-[750px] grid-cols-1 flex-row gap-4 px-16 pt-12 pb-2 md:grid-cols-3 md:gap-1 lg:grid-cols-5">
             <img
               className="mx-auto h-10 w-max"
               src="/assets/images/Marsek.png"
