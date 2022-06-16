@@ -195,7 +195,7 @@ const Complaints = () => {
               name="lot_vin"
               type="text"
               placeholder={intl.formatMessage({ id: 'messages.vin_lot' })}
-              className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+              className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm ltr:placeholder:italic focus:border-blue-800 focus:ring-0"
               value={inputValue.lot_vin}
               onChange={handleChange}
             />
@@ -207,7 +207,7 @@ const Complaints = () => {
               type="text"
               required
               placeholder={intl.formatMessage({ id: 'messages.subject' })}
-              className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm placeholder:italic focus:border-blue-800 focus:ring-0"
+              className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm ltr:placeholder:italic focus:border-blue-800 focus:ring-0"
               value={inputValue.subject}
               onChange={handleChange}
             />
@@ -218,7 +218,7 @@ const Complaints = () => {
           <div className="relative mt-1 ltr:pl-6 rtl:pr-6">
             <textarea
               rows={6}
-              className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg placeholder:italic focus:border-blue-800 focus:ring-0"
+              className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg ltr:placeholder:italic focus:border-blue-800 focus:ring-0"
               name="message"
               placeholder={intl.formatMessage({ id: 'messages.message' })}
               value={inputValue.message}
