@@ -24,7 +24,7 @@ const Shipping = ({ locale }) => (
     </div>
 
     <h3 className="text-dark-blue text-center text-3xl font-semibold lg:text-5xl">
-      Cargo Tracking
+      <FormattedMessage id="Cargo_Tracking" />
     </h3>
 
     <div className="bg-teal-blue my-8 md:mt-[10rem]">
