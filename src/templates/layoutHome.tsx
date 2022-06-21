@@ -553,7 +553,7 @@ const Layout = (props: IMainProps) => {
                 <Link href="/">
                   <a>
                     <img
-                      src="/assets/images/logo-white-3.png"
+                      src={`/assets/images/logo-white-3-${locale}.png`}
                       className="h-12"
                       alt={AppConfig.title}
                     />
