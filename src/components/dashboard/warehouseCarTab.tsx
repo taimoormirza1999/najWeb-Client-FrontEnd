@@ -65,6 +65,7 @@ const WarehouseCarTab = ({
   const limitUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
   const GetImages = async (car_id) => {
     setLoading(true);
+    setDownloading(false)
     const res = await axios.get(
       `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
@@ -73,7 +74,7 @@ const WarehouseCarTab = ({
     setLoading(false);
     setRedirectModalOpen(true);
   };
-
+const [downloading, setDownloading] = useState(false);
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
       <CustomModal
@@ -215,22 +216,22 @@ const WarehouseCarTab = ({
                           ))}
                         </Tab.Panels>
                       </Tab.Group>
-                      <a
+                      <button
+                        disabled={downloading}
+
                         // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
                         onClick={() => {
                           const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=warehouse&car_id=${carId}`
-                          try {
-                            window.open(url, '_blank');
-                          }
-                          catch (error) {
-                            console.log(error)
-                          }
+                          // use fetch to download the zip file
+                        if(window.open( url, '_parent' )) {
+                          setDownloading(true)
                         }
                         }
-                        className="mt-4 inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        }
+                        className={`mt-4 ${downloading? "bg-indigo-200":"bg-indigo-600"}  inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                       >
-                        Zip and Download
-                      </a>
+                        {downloading ? "File will be downloaded shortly" : "Zip and Download"}
+                      </button>
                       <br/>
                       <small>please note that it may take a while to zip all images</small>
                     </div>
