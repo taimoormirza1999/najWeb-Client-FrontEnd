@@ -2,10 +2,10 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import { FormattedMessage } from 'react-intl';
 
-import { Pagination } from '@/components/dashboard/pagination';
+import { Pagination, SelectPageRecords  } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
-const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
+const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit }) => {
   if (!type) {
     type = 'Paid';
   }
@@ -62,18 +62,20 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
       'page.customer.dashboard.table.images',
     ];
   }
-  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&limit=${limit}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-xl font-semibold">
+            <h1 className="text-dark-blue text-3xl font-semibold">
               <FormattedMessage id="page.customer.dashboard.delivered" />
             </h1>
           </div>
         </div>
-        <div className="mt-8 flex flex-col">
+        <div className="flex flex-col">
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
@@ -285,6 +287,7 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
           totalRecords={totalRecords}
           page={page}
           url={paginationUrl}
+          limit={limit}
         ></Pagination>
       </div>
     </div>

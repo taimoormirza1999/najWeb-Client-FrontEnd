@@ -22,7 +22,7 @@ const ApplyForAccount = () => {
             </p>
             <Link href="/auth/newAccount">
               <a className="py-2 text-xl text-white underline xl:text-2xl">
-                Receive Account...
+                <FormattedMessage id="receive_account" />
               </a>
             </Link>
           </div>

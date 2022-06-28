@@ -26,7 +26,7 @@ const Index = ({ announcements }) => {
           className="absolute top-1/2 left-1/2 flex h-[12rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] p-4 md:h-[20rem] md:w-[20rem] lg:h-[30rem] lg:w-[30rem] xl:left-auto xl:right-[5rem] xl:top-[18%] xl:h-[35rem] xl:w-[35rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]"
         >
           <div className="basis-1/3">
-            <h2 className="py-6 text-center text-2xl font-extrabold text-white md:text-4xl lg:text-6xl xl:text-[70px]">
+            <h2 className="py-6 text-center text-2xl font-extrabold text-white md:text-4xl lg:text-6xl rtl:lg:text-5xl xl:text-[70px]">
               <FormattedMessage id="you.want.to" />
             </h2>
 
@@ -43,7 +43,7 @@ const Index = ({ announcements }) => {
               </Link>
             </div>
           </div>
-          {/* <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light italic text-blue-100 underline hover:border-0 md:text-[22px]"></a> */}
+          {/* <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light ltr:italic text-blue-100 underline hover:border-0 md:text-[22px]"></a> */}
         </div>
       </div>
 
@@ -147,7 +147,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.buying.from.US.auctions" />
               </p>
               <Link href="/">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -167,7 +167,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.shipping.cars.from.USA" />
               </p>
               <Link href="/services/shipping">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -187,7 +187,7 @@ const Index = ({ announcements }) => {
                 <FormattedMessage id="Get.to.know.the.features.of.selling.cars.in.our.yard" />
               </p>
               <Link href="/">
-                <a className="text-azure-blue py-2 text-lg italic hover:border-0 md:text-2xl">
+                <a className="text-azure-blue py-2 text-lg ltr:italic hover:border-0 md:text-2xl">
                   <FormattedMessage id="learn.more" />
                 </a>
               </Link>
@@ -196,7 +196,7 @@ const Index = ({ announcements }) => {
         </div>
       </div> */}
 
-      <div className="py-12 md:py-24">
+      <div className="pt-12 md:pt-24">
         <DownloadApps />
       </div>
 
@@ -204,57 +204,52 @@ const Index = ({ announcements }) => {
         <h3 className="text-dark-blue py-3 pb-5 text-3xl font-semibold md:text-5xl">
           <FormattedMessage id="Trusted.By" />
         </h3>
-        <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
-          <div className="grid grid-cols-1 flex-row gap-16 px-16 py-2 md:grid-cols-2 lg:grid-cols-4 xl:gap-[13rem]">
+        <div className="partners-logo-box mx-auto rounded-xl p-8">
+          <div className="mx-auto grid max-w-[600px] grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-2 md:gap-1 lg:grid-cols-4">
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/copart.png"
               alt="Copart"
             />
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/iaai.png"
               alt="IAAI"
             />
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/manheim.png"
               alt="Manheim"
             />
             <img
-              className="mx-auto h-12 w-max md:h-24"
+              className="mx-auto h-8 w-max md:h-12"
               src="/assets/images/adesa.png"
               alt="ADESA"
             />
           </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto mt-20 text-center">
-        <div className="partners-logo-box mx-auto max-w-max rounded-xl p-8">
-          <div className="grid grid-cols-1 flex-row gap-4 px-16 py-2 md:grid-cols-3 lg:grid-cols-5">
+          <div className="mx-auto grid max-w-[750px] grid-cols-1 flex-row gap-4 px-16 pt-12 pb-2 md:grid-cols-3 md:gap-1 lg:grid-cols-5">
             <img
-              className="mx-auto h-12 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/Marsek.png"
               alt="Marsek"
             />
             <img
-              className="mx-auto h-16 w-max"
+              className="mx-auto h-12 w-max"
               src="/assets/images/twilllogo.jpeg"
               alt="TWILL"
             />
             <img
-              className="mx-auto h-16 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/msc.jpeg"
               alt="MSC"
             />
             <img
-              className="mx-auto h-12 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/hapag lloyd .png"
               alt="Hapag-lloyd"
             />
             <img
-              className="mx-auto h-16 w-max"
+              className="mx-auto h-10 w-max"
               src="/assets/images/cma.png"
               alt="cmacgm"
             />

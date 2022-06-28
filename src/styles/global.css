@@ -11,10 +11,28 @@
 --color-light-grey: #ebebeb;
 --color-hover-grey: #e0e0e0;
 }
+
+@font-face {
+    font-family: Lina soft;
+    font-weight: bold;
+    src: url("/assets/font/Zaza type - Lina soft Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: Lina soft;
+    font-weight: light;
+    src: url("/assets/font/Zaza type - Lina soft Light.otf") format("opentype");
+}
+@font-face {
+    font-family: Lina soft;
+    src: url("/assets/font/Zaza type - Lina soft Regular.otf") format("opentype");
+}
+
 body{
   font-family: 'Source Sans Pro', sans-serif;
 }
-
+body[dir="rtl"],body[dir="rtl"] .font-sen{
+  font-family: 'Almarai', sans-serif;
+}
 .font-sen{
   font-family: 'Sen', sans-serif;
 }
@@ -134,7 +152,7 @@ a:hover {
 }
 
 .story-cover-text-shadow{
-  text-shadow: 4px 4px 8px #333;
+  text-shadow: 5px 5px 35px #626d7a;
 }
 .shadow-lg{
   box-shadow: 1px 1px 6px 0px #999;
@@ -154,6 +172,9 @@ a:hover {
   max-width: 85%;
 }
 
+.dirltr{
+  direction:ltr;
+}
 @media screen and (max-width:768px){
   .container{
     max-width: 90%;

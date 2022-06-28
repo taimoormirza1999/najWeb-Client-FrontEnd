@@ -185,10 +185,10 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                             bg-white
                             px-3
                             py-1.5 text-center text-base
-                            italic
-                            text-[#818181]
+                            text-[#7F7F7F]
                             transition
                             ease-in-out
+                            placeholder:text-[#7F7F7F]
                             focus:text-gray-700 focus:outline-none
                           "
                   name="lotSearch"
@@ -219,7 +219,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                   </svg>
                 </button>
               </form>
-              <p className="flex rounded-md bg-[#045FB7] py-2 text-white">
+              <p className="flex rounded-md bg-[#045FB7] py-2 font-light text-white">
                 <span className="flex-1 ltr:mr-3 ltr:text-right rtl:ml-3 rtl:text-left">
                   Vin: {vin}
                 </span>

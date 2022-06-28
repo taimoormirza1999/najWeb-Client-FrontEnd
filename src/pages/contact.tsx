@@ -313,8 +313,8 @@ const Contact = () => {
 
       <div className="container mx-auto py-16">
         <img
-          className="relative -z-10 mx-auto rounded-t-[40px] lg:max-w-[75%]"
-          src="/assets/images/contact-us.jpg"
+          className="relative -z-10 mx-auto rounded-t-[40px] object-cover lg:max-w-[75%]"
+          src="/assets/images/contact-service.jpg"
           alt="Contact Us"
         />
         <div className="bg-light-grey mx-auto -mt-16 rounded-b-[40px] p-2 text-center lg:max-w-[75%] lg:p-8">

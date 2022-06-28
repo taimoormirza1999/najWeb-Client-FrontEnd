@@ -53,44 +53,44 @@ const Statement = ({
           <div className="my-2 flex flex-col gap-4 lg:my-8 lg:flex-row lg:gap-10">
             <select
               name="arrived_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.arrived_status}
               onChange={handleChange}
             >
               <option value="">
                 {intl.formatMessage({ id: 'car.status' })}
               </option>
-              <option value="3">All</option>
+              <option value="2">All</option>
               <option value="1">Arrived Cars</option>
-              <option value="2">Not Arrived</option>
+              <option value="0">Not Arrived</option>
             </select>
             <select
               name="remaining_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.remaining_status}
               onChange={handleChange}
             >
               <option value="">
                 {intl.formatMessage({ id: 'payment.status' })}
               </option>
-              <option value="3">All</option>
+              <option value="0">All</option>
               <option value="1">Paid</option>
               <option value="2">UnPaid</option>
             </select>
             <select
               name="transfer_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.transfer_status}
               onChange={handleChange}
             >
               <option value="">{intl.formatMessage({ id: 'Transfer' })}</option>
-              <option value="3">All</option>
+              <option value="0">All</option>
               <option value="1">Paid</option>
               <option value="2">UnPaid</option>
             </select>
             <select
               name="currency"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg italic text-gray-700"
+              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
               value={inputValue.currency}
               onChange={handleChange}
             >
@@ -101,14 +101,14 @@ const Statement = ({
               <input
                 name="date_from"
                 type="date"
-                className="border-medium-grey basis-1/2 rounded-md border py-1 italic text-gray-700"
+                className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700"
                 value={inputValue.date_from}
                 onChange={handleChange}
               />
               <input
                 name="date_to"
                 type="date"
-                className="border-medium-grey basis-1/2 rounded-md border py-1 italic text-gray-700"
+                className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700"
                 value={inputValue.date_to}
                 onChange={handleChange}
               />
@@ -154,6 +154,7 @@ export async function getServerSideProps(context) {
   const session: any = await getSession(context);
 
   axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
+  axios.defaults.timeout = 300000;
   const apiUrl = process.env.API_URL;
   const formData = context.query;
 
@@ -165,32 +166,29 @@ export async function getServerSideProps(context) {
     date_from: formData.date_from || '2021-01-01',
     date_to: '',
   };
-  const [
-    shippedCarsResponse,
-    inAuctionCarsResponse,
-    generalEntriesResponse,
-    depositsResponse,
-  ] = await Promise.all([
+
+  const [shippedCarsResponse, depositsResponse] = await Promise.all([
     axios.get(`${apiUrl}carStatement/shippedCars`, {
       params: selectedParams,
     }),
-    axios.get(`${apiUrl}carStatement/carsInAuction`, {
+    /* axios.get(`${apiUrl}carStatement/carsInAuction`, {
       params: selectedParams,
     }),
     axios.get(`${apiUrl}carStatement/generalEntries`, {
       params: selectedParams,
-    }),
+    }), */
     axios.get(`${apiUrl}carStatement/deposits`, {
       params: selectedParams,
     }),
   ]);
   const [shippedCars, inAuctionCars, generalEntries, deposits] =
     await Promise.all([
-      shippedCarsResponse.data.data,
-      inAuctionCarsResponse.data.data,
-      generalEntriesResponse.data.data,
+      shippedCarsResponse.data.shippedCars,
+      shippedCarsResponse.data.inAuctionTransactions,
+      shippedCarsResponse.data.generalTransactions,
       depositsResponse.data.data,
     ]);
+
   const generalEntriesTotal =
     generalEntries.length > 1 ? generalEntries.pop() : null;
   const shippedCarsTotal = shippedCars.length > 1 ? shippedCars.pop() : null;

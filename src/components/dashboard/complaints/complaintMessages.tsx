@@ -19,7 +19,7 @@ const ComplaintMessages = ({ complaintMessages, notes }) => {
         </p>
       ))}
 
-      <p className="text-medium-grey absolute bottom-10 text-lg italic">
+      <p className="text-medium-grey absolute bottom-10 text-lg ltr:italic">
         * {notes}
       </p>
     </div>

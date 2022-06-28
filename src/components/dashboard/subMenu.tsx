@@ -79,7 +79,7 @@ const SubMenu = ({ type, subType, dashboardCount }) => {
             key={status.href}
             className={classNames(
               subType === status.href
-                ? ' text-blue-600'
+                ? ' text-[#0093FF]'
                 : 'text-gray-500 hover:text-gray-700',
               'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
             )}

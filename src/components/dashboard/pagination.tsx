@@ -1,11 +1,13 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 import { classNames } from '@/utils/Functions';
 
-const Pagination = ({ totalRecords, url, page = 0 }) => {
+const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   const maxPages = 10;
-  const pageSize = 10;
+  const pageSize = limit === 'all' ? totalRecords : limit;
   const currentPage: number = page;
   const totalPages = Math.ceil(totalRecords / pageSize);
   const enablePrev = totalPages > 1 && page > 0 ? page - 1 : 0;
@@ -91,4 +93,29 @@ const Pagination = ({ totalRecords, url, page = 0 }) => {
   );
 };
 
-export { Pagination };
+const SelectPageRecords = ({ url }) => {
+  const [selectedLimit, setSelectLimit] = useState('10');
+  const router = useRouter();
+  const changePage = (value) => {
+    setSelectLimit(value);
+    router.push(`${url}&limit=${value}`);
+  };
+  return (
+    <div className="mt-3">
+      <select
+        className="float-right  mb-3 rounded-md border border-[#005fb7] py-1 text-lg text-gray-700"
+        value={selectedLimit}
+        onChange={(event) => changePage(event.target.value)}
+      >
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="all">All</option>
+      </select>
+    </div>
+  );
+};
+
+export { Pagination, SelectPageRecords };
