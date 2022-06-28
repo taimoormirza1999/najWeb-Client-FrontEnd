@@ -39,3 +39,13 @@ export default async function handler(req, res) {
     res.send(fzip);
   }
 }
+
+// override default size of the zip file
+
+export const config = {
+  api: {
+    responseLimit: false,
+    bodyParser: false,
+  },
+}
+
