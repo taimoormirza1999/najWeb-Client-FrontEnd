@@ -170,7 +170,7 @@ const Profile = () => {
         </div>
         <Transition.Root show={showProfile} as={Fragment}>
           <div className="text-center">
-            <p className="text-dark-blue text-left text-xl italic">
+            <p className="text-dark-blue text-left text-xl ltr:italic">
               Below are your account details. Please contact Customer Service
               Center to request for amendments
             </p>
@@ -204,7 +204,7 @@ const Profile = () => {
         </Transition.Root>
         <Transition.Root show={!showProfile} as={Fragment}>
           <div className="text-center">
-            <p className="text-dark-blue text-xl italic">
+            <p className="text-dark-blue text-xl ltr:italic">
               Please fill up the following form to complete your request
             </p>
             <form method="post" onSubmit={updatePassword}>
@@ -222,7 +222,7 @@ const Profile = () => {
                       bg-white bg-clip-padding
                       px-3 py-1.5 text-base
                       font-normal
-                      italic
+                      ltr:italic
                       text-[#999999]
                       transition
                       ease-in-out
@@ -254,7 +254,7 @@ const Profile = () => {
                       bg-white bg-clip-padding
                       px-3 py-1.5 text-base
                       font-normal
-                      italic
+                      ltr:italic
                       text-[#999999]
                       transition
                       ease-in-out
@@ -286,7 +286,7 @@ const Profile = () => {
                       bg-white bg-clip-padding
                       px-3 py-1.5 text-base
                       font-normal
-                      italic
+                      ltr:italic
                       text-[#999999]
                       transition
                       ease-in-out

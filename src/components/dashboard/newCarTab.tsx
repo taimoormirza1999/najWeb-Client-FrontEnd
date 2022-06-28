@@ -6,9 +6,9 @@ import { Paid } from '@/components/dashboard/newCar/paid';
 import { PaidByCustomer } from '@/components/dashboard/newCar/paid_by_customer';
 import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
-import { Pagination } from '@/components/dashboard/pagination';
+import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
 
-const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
+const NewCarTab = ({ carsRecords, totalRecords, page = 0, type, limit }) => {
   let carTableData;
   if (!type) {
     type = 'unpaid';
@@ -162,18 +162,20 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
       },
     ];
   }
-  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&limit=${limit}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-xl font-semibold">
+            <h1 className="text-dark-blue text-3xl font-semibold">
               <FormattedMessage id="page.customer.dashboard.new_cars" />
             </h1>
           </div>
         </div>
-        <div className="mt-8 flex flex-col">
+        <div className="flex flex-col">
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden  border border-[#005fb7] md:rounded-lg">
@@ -217,6 +219,7 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type }) => {
           totalRecords={totalRecords}
           page={page}
           url={paginationUrl}
+          limit={limit}
         ></Pagination>
       </div>
     </div>

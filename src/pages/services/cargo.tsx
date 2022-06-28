@@ -7,7 +7,7 @@ import DownloadApps from '@/components/lownloadApps';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutHome';
 
-const Shipping = () => (
+const Shipping = ({ locale }) => (
   <Layout
     meta={<Meta title="Cargo Tracking" description="Cargo Tracking Services" />}
   >
@@ -24,7 +24,7 @@ const Shipping = () => (
     </div>
 
     <h3 className="text-dark-blue text-center text-3xl font-semibold lg:text-5xl">
-      Cargo Tracking
+      <FormattedMessage id="Cargo_Tracking" />
     </h3>
 
     <div className="bg-teal-blue my-8 md:mt-[10rem]">
@@ -32,15 +32,21 @@ const Shipping = () => (
         <div className="relative flex flex-col gap-4 lg:gap-16 xl:flex-row">
           <div className="basis-3/5 xl:pr-20 xl:leading-[3.5em] xl:tracking-wider 2xl:py-[35px]">
             <p className="py-6 text-xl text-white lg:text-3xl">
-              If you are contracted with us, you can use{' '}
-              <span className="font-sen font-bold">NEJOUM</span> ALJAZEERA
-              Online System to track your vehicle wherever it is around the
-              world. Once you purchased your car.
+              <FormattedMessage id="cargo.tracking3" /> 
+              {locale === 'en' ? (
+                <>
+                  <span className="font-sen font-bold"> NEJOUM</span> ALJAZEERA{' '}
+                </>
+              ) : (
+                <>
+                  <br />
+                  <br />
+                </>
+              )}
+              <FormattedMessage id="cargo.tracking1" />
             </p>
             <p className="py-6 text-xl text-white lg:text-3xl">
-              You can use our system from your mobile devices and PC. Get
-              notified when a pickup is scheduled, the delivery date and
-              receives an update about the status at any time.
+              <FormattedMessage id="cargo.tracking2" />
             </p>
           </div>
           <div className="relative basis-2/5 ltr:right-0 rtl:left-[-175px] xl:absolute xl:top-[-158px] xl:ltr:right-[-120px] 2xl:top-[-200px] 2xl:ltr:right-[-175px]">

@@ -98,7 +98,7 @@ const CarProfile = ({ carProfileData }) => {
                   VIN
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
                 {carData.vin}
               </p>
             </div>
@@ -113,7 +113,7 @@ const CarProfile = ({ carProfileData }) => {
                   <FormattedMessage id="statement.lot.no" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
                 {carData.lotnumber}
               </p>
             </div>
@@ -128,7 +128,7 @@ const CarProfile = ({ carProfileData }) => {
                   <FormattedMessage id="color" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
                 {carData.color_name}
               </p>
             </div>
@@ -143,7 +143,7 @@ const CarProfile = ({ carProfileData }) => {
                   <FormattedMessage id="statement.description" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-semibold lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
                 {carData.notes}
               </p>
             </div>
@@ -158,7 +158,7 @@ const CarProfile = ({ carProfileData }) => {
                   <FormattedMessage id="page.customer.dashboard.table.price" />
                 </h3>
               </div>
-              <p className="pl-8 text-2xl font-bold text-green-600 lg:pl-10">
+              <p className="pl-8 text-2xl font-semibold text-green-600 lg:pl-10">
                 AED {carData.price}
               </p>
             </div>

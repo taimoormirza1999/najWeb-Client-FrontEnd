@@ -150,7 +150,7 @@ const Layout = (props: IMainProps) => {
                       <a className="hover:border-0">
                         <img
                           className="h-8 w-auto"
-                          src="/assets/images/logo-en.png"
+                          src={`/assets/images/logo-${locale}.png`}
                           alt="Nejoum Al Jazeera"
                         />
                       </a>
@@ -162,9 +162,9 @@ const Layout = (props: IMainProps) => {
                         <a
                           className={classNames(
                             router.pathname === item.href
-                              ? 'bg-gray-100 text-gray-900'
+                              ? 'bg-[#CEDAE5] text-[#0D3C8E]'
                               : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                            'group flex items-center px-2 py-2 text-base rounded-md font-semibold'
                           )}
                         >
                           <i
@@ -251,7 +251,7 @@ const Layout = (props: IMainProps) => {
                   <a className="hover:border-0">
                     <img
                       className="w-auto"
-                      src="/assets/images/logo-en.png"
+                      src={`/assets/images/logo-${locale}.png`}
                       alt="Nejoum Al Jazeera"
                     />
                   </a>
@@ -263,9 +263,9 @@ const Layout = (props: IMainProps) => {
                     <a
                       className={classNames(
                         router.pathname === item.href
-                          ? 'bg-hover-grey text-gray-900'
+                          ? 'bg-[#CEDAE5] text-[#0D3C8E]'
                           : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                        'group flex items-center pl-1 pr-0 py-2 font-medium rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
+                        'group flex items-center pl-1 pr-0 py-2 font-semibold rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
                       )}
                     >
                       <i
@@ -316,7 +316,7 @@ const Layout = (props: IMainProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col md:w-[100%] ltr:md:pl-[15%] rtl:md:pr-[20%]">
+        <div className="flex flex-1 flex-col md:w-[100%] ltr:md:pl-[15%] rtl:md:pr-[15%]">
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"
@@ -344,7 +344,8 @@ const Layout = (props: IMainProps) => {
               <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 md:flex md:justify-between md:px-6 lg:pt-12">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
-                    {intl.formatMessage({ id: 'general.welcome' })} <span className="font-sen font-bold">{fullName}</span>
+                    {intl.formatMessage({ id: 'general.welcome' })}{' '}
+                    <span className="font-sen font-bold">{fullName}</span>
                   </h2>
                 </div>
                 <select

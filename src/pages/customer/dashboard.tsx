@@ -25,6 +25,7 @@ export async function getServerSideProps(context) {
   const tab = context.query.tab ? context.query.tab : 'tabs-states';
   let type = context.query.type ? context.query.type : '';
   const page = context.query.page ? context.query.page : 0;
+  const limit = context.query.limit ? context.query.limit : '10';
   const session: any = await getSession(context);
 
   let carsData = {};
@@ -82,9 +83,9 @@ export async function getServerSideProps(context) {
     type === 'towing' ||
     type === 'cancelled'
   ) {
-    apiUrl = `${apiUrl}?page=${page}`;
+    apiUrl = `${apiUrl}?page=${page}&limit=${limit}`;
   } else if (apiTab !== 'statesCount') {
-    apiUrl = `${apiUrl}&page=${page}`;
+    apiUrl = `${apiUrl}&page=${page}&limit=${limit}`;
   }
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
@@ -119,10 +120,16 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
   const {
     query: { tab, type, page },
   } = router;
+  let {
+    query: { limit },
+  } = router;
   const [subMenu, setSubMenu] = useState(tab);
   let currentPage = page;
   if (!currentPage) {
     currentPage = 0;
+  }
+  if (!limit) {
+    limit = 10;
   }
   const newCarCount =
     parseInt(dashboardCount?.newCarsUnpaidCount, 10) +
@@ -182,9 +189,9 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
   return (
     <Layout meta={<Meta title="Dashboard" description="" />}>
       <div>
-        <div className="m-4">
+        <div className="m-8">
           <div className="flex">
-            <h4 className="text-dark-blue flex-1 pb-8 text-xl font-bold sm:text-2xl">
+            <h4 className="text-dark-blue flex-1 pb-8 text-2xl font-semibold sm:text-4xl">
               <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>
@@ -248,6 +255,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     totalRecords={totalRecords}
                     page={currentPage}
                     type={type}
+                    limit={limit}
                   ></NewCarTab>
                 </React.Fragment>
               )}
@@ -258,6 +266,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     totalRecords={totalRecords}
                     page={currentPage}
                     setLoading={setLoading}
+                    limit={limit}
                   ></WarehouseCarTab>
                 </React.Fragment>
               )}
@@ -267,6 +276,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
                     page={currentPage}
+                    limit={limit}
                   ></ShippingCarTab>
                 </React.Fragment>
               )}
@@ -278,6 +288,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     type={type}
                     setLoading={setLoading}
+                    limit={limit}
                   ></ArrivedCarTab>
                 </React.Fragment>
               )}
@@ -288,6 +299,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     totalRecords={totalRecords}
                     page={currentPage}
                     type={type}
+                    limit={limit}
                   ></DeliveredCarTab>
                 </React.Fragment>
               )}

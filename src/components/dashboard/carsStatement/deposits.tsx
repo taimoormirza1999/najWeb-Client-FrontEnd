@@ -28,7 +28,7 @@ const Deposits = ({ tableData }) => {
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'Search' })}
-          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg italic text-gray-700 md:self-end"
+          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg ltr:italic text-gray-700 md:self-end"
           value={depositsTableSearch}
           onChange={(e) => {
             setDepositsTableSearch(e.target.value);
