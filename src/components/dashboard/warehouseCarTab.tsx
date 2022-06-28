@@ -8,7 +8,6 @@ import { FormattedMessage } from 'react-intl';
 import CustomModal from '@/components/customModal';
 import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-import { useSession } from 'next-auth/react';
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -75,7 +74,6 @@ const WarehouseCarTab = ({
     setLoading(false);
     setRedirectModalOpen(true);
   };
-const {data:session}=useSession();
 const [downloading, setDownloading] = useState(false);
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
