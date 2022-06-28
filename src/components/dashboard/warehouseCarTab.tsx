@@ -216,11 +216,23 @@ const WarehouseCarTab = ({
                         </Tab.Panels>
                       </Tab.Group>
                       <a
-                        href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
+                        // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
+                        onClick={() => {
+                          const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=warehouse&car_id=${carId}`
+                          try {
+                            window.open(url, '_blank');
+                          }
+                          catch (error) {
+                            console.log(error)
+                          }
+                        }
+                        }
                         className="mt-4 inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       >
-                        Download
+                        Zip and Download
                       </a>
+                      <br/>
+                      <small>please note that it may take a while to zip all images</small>
                     </div>
                   </div>
                 </div>
