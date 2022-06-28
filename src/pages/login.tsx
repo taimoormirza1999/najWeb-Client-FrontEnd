@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { AppConfig } from '@/utils/AppConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LoaderIcon from '@/components/LoaderIcon';
 
 const errors = {
   Signin: 'Try signing with a different account.',
@@ -32,6 +34,7 @@ export default function Login({ locale }) {
 
   const router = useRouter();
   const { error } = useRouter().query;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   /*   useEffect(() => {
       if (!loading && session) {
@@ -41,12 +44,15 @@ export default function Login({ locale }) {
 
   const handleSignIn = async (e: any) => {
     e.preventDefault();
-    signIn('credentials', {
+    setIsSubmitting(true);
+    const result =await signIn('credentials', {
       email,
       password,
       redirect: true,
       callbackUrl: `${locale !== 'en' ? `/${locale}` : ''}/customer/dashboard`,
     });
+    console.log("=>(login.tsx:52) result", result);
+
   };
 
   return (
@@ -154,7 +160,11 @@ export default function Login({ locale }) {
                     className="border-azure-blue bg-azure-blue hover:bg-dark-blue flex w-full justify-center rounded-md border-2 py-2 px-4 text-base font-semibold text-white shadow-sm"
                     onClick={handleSignIn}
                   >
-                    <FormattedMessage id="sign.in" />
+                    {isSubmitting ? (
+                     <LoaderIcon/>
+                    ) : (
+                      <FormattedMessage id="sign.in" />
+                    )}
                   </button>
 
                   <Link href="/auth/newAccount">
