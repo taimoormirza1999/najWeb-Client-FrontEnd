@@ -154,6 +154,7 @@ export async function getServerSideProps(context) {
   const session: any = await getSession(context);
 
   axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
+  axios.defaults.timeout = 300000;
   const apiUrl = process.env.API_URL;
   const formData = context.query;
 
