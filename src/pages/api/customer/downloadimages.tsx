@@ -2,7 +2,7 @@ import axios from 'axios';
 import JSZip from 'jszip';
 import { getSession } from 'next-auth/react';
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   const session: any = await getSession({ req });
   const carId = req.query.car_id ? req.query.car_id : '';
   const type = req.query.type ? req.query.type : 'warehouse';
@@ -38,14 +38,14 @@ export default async function handler(req, res) {
     res.setHeader('Content-Type', 'application/zip');
     res.send(fzip);
   }
-}
+};
 
 // override default size of the zip file
 
 export const config = {
   api: {
-    responseLimit: false,
     bodyParser: false,
+    responseLimit: false,
   },
-}
-
+};
+export default handler
