@@ -150,7 +150,9 @@ const ShowAllCars = ({
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          {index + 1}
+                          {isNaN(page * limit)
+                            ? index + 1
+                            : page * limit + index + 1}
                         </td>
                         <td
                           scope="col"
