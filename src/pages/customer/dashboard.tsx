@@ -10,6 +10,7 @@ import { DeliveredCarTab } from '@/components/dashboard/deliveredCarTab';
 import { NewCarTab } from '@/components/dashboard/newCarTab';
 import { SearchLot } from '@/components/dashboard/searchLot';
 import { ShippingCarTab } from '@/components/dashboard/shippingCarTab';
+import { ShowAllCars } from '@/components/dashboard/showAllCars';
 import { StatesTab } from '@/components/dashboard/statesTab';
 import { SubMenu } from '@/components/dashboard/subMenu';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
@@ -31,6 +32,9 @@ export async function getServerSideProps(context) {
   let carsData = {};
   let dashboardCount = {};
   let apiTab = 'statesCount';
+  if (tab === 'showAllCars') {
+    apiTab = 'showAllCars';
+  }
   if (tab === 'tabs-newcar') {
     apiTab = 'newCars';
   }
@@ -80,6 +84,7 @@ export async function getServerSideProps(context) {
     tab === 'tabs-arrived' ||
     apiTab === 'warehouseCars' ||
     apiTab === 'onWayCars' ||
+    apiTab === 'showAllCars' ||
     type === 'towing' ||
     type === 'cancelled'
   ) {
@@ -200,7 +205,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
             <SearchLot></SearchLot>
           </div>
           <div>
-            <nav className="flex flex-wrap gap-2 sm:gap-4" aria-label="Tabs">
+            <nav className="flex flex-wrap gap-2 lg:inline" aria-label="Tabs">
               {tabs.map((tabData, index) =>
                 tabData.subMenu ? (
                   <a
@@ -210,7 +215,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                         tab === tabData.href
                         ? 'bg-[#005FB7] text-white'
                         : 'text-blue-600 hover:text-gray-700',
-                      'px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      'mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                     )}
                     onClick={() => setSubMenu(tabData.href)}
                   >
@@ -231,7 +236,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                           tab === tabData.href
                           ? 'bg-[#005FB7] text-white'
                           : 'text-blue-600 hover:text-gray-700',
-                        'px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                        'mr-3 px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                       )}
                       onClick={() => setSubMenu('')}
                     >
@@ -241,6 +246,16 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                   </Link>
                 )
               )}
+              <Link
+                href={{
+                  pathname: '/customer/dashboard/',
+                  query: { tab: 'showAllCars' },
+                }}
+              >
+                <a className="float-right text-sm font-medium text-gray-900 underline sm:text-xl">
+                  Show All
+                </a>
+              </Link>
             </nav>
             <SubMenu
               type={subMenu}
@@ -306,6 +321,17 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
               {(tab === 'tabs-states' || tab == null) && (
                 <React.Fragment>
                   <StatesTab carsRecords={carsRecords}></StatesTab>
+                </React.Fragment>
+              )}
+              {tab === 'showAllCars' && (
+                <React.Fragment>
+                  <ShowAllCars
+                    carsRecords={carsRecords}
+                    totalRecords={totalRecords}
+                    page={currentPage}
+                    setLoading={setLoading}
+                    limit={limit}
+                  ></ShowAllCars>
                 </React.Fragment>
               )}
             </div>
