@@ -216,7 +216,7 @@
   "page.customer.dashboard.table.date_delivered": "تاريخ  التسليم",
   "page.customer.dashboard.table.shipping_date": "تاريخ الشحن",
   "page.customer.dashboard.table.eta": "الزمن المتوقع للوصول",
-  "page.customer.dashboard.table.etd": "الزمن المتوقع للشحن",
+  "page.customer.dashboard.table.etd": "الزمن المتوقع للمغادرة",
   "status.california": "كاليفورنيا",
   "status.washington": "واشنطن",
   "status.georgia": "جورجيا",
