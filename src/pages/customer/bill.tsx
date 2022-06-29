@@ -79,10 +79,10 @@ const Bill = ({ billDetails, totalDebit, totalCredit, amountRemaining }) => {
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
                 </td>
                 <td className="w-[8%] p-3 text-lg text-[green] ">
-                  {totalDebit}
+                  {totalDebit.toFixed(2)}
                 </td>
                 <td className="w-[8%] p-3 text-lg text-[#b51414]">
-                  {totalCredit}
+                  {totalCredit.toFixed(2)}
                 </td>
                 <td className="w-[68%] p-3 text-lg text-[#1C1C1C]"></td>
               </tr>

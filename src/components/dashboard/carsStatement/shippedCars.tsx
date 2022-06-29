@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -110,7 +111,18 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
                   {row.car_price}
                 </td>
                 <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.shipping_amount}
+                  {row.car_id ? (
+                    <Link
+                      href={{
+                        pathname: '/customer/bill/',
+                        query: { car: row.car_id },
+                      }}
+                    >
+                      <a className="text-[#1C1C1C]">{row.shipping_amount}</a>
+                    </Link>
+                  ) : (
+                    row.shipping_amount
+                  )}
                 </td>
                 <td className="w-[10%] p-3 text-lg text-[#0B9A21]">
                   {row.debit}
