@@ -326,7 +326,7 @@ const ShippingCarTab = ({
                           className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           <img
-                            className="max-h-[50px]"
+                            className="max-h-[50px] cursor-pointer"
                             src={car.image}
                             alt=""
                             onClick={() => {
