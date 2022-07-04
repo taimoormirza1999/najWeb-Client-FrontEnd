@@ -291,6 +291,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
                     page={currentPage}
+                    setLoading={setLoading}
                     limit={limit}
                   ></ShippingCarTab>
                 </React.Fragment>
