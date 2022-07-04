@@ -61,7 +61,6 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.date_arrived_port',
       'page.customer.dashboard.table.date_arrived_store',
       'page.customer.dashboard.table.Total',
-      'page.customer.dashboard.table.images',
     ];
   }
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
