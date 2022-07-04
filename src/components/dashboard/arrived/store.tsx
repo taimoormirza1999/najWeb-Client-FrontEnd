@@ -22,7 +22,14 @@ const Store = ({ carsRecords, GetImages }) => {
         scope="col"
         className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
-        <img className="max-h-[50px]" src={car.image_small} alt="" />
+        <img
+          className="max-h-[50px] cursor-pointer"
+          src={car.image_small}
+          alt=""
+          onClick={() => {
+            GetImages(car.id);
+          }}
+        />
       </td>
       <td
         scope="col"
@@ -135,19 +142,6 @@ const Store = ({ carsRecords, GetImages }) => {
         className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
         {car.total_price}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
-        <img
-          className="max-h-[50px]"
-          src={car.image_small}
-          alt=""
-          onClick={() => {
-            GetImages(car.id);
-          }}
-        />
       </td>
     </tr>
   ));

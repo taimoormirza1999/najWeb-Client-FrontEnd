@@ -44,9 +44,6 @@ const carTableHeader = [
   {
     name: 'page.customer.dashboard.table.key',
   },
-  {
-    name: 'page.customer.dashboard.table.images',
-  },
 ];
 const WarehouseCarTab = ({
   carsRecords,
@@ -305,9 +302,12 @@ const WarehouseCarTab = ({
                           className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           <img
-                            className="max-h-[50px]"
+                            className="max-h-[50px] cursor-pointer"
                             src={car.image}
                             alt=""
+                            onClick={() => {
+                              GetImages(car.carId);
+                            }}
                           />
                         </td>
                         <td
@@ -406,19 +406,6 @@ const WarehouseCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          <img
-                            className="max-h-[50px]"
-                            src={car.image}
-                            alt=""
-                            onClick={() => {
-                              GetImages(car.carId);
-                            }}
-                          />
                         </td>
                       </tr>
                     ))}
