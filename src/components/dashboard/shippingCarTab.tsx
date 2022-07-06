@@ -1,10 +1,15 @@
+import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import React, { useRef, useState } from 'react';
+import axios from 'axios';
+import React, { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
-import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
+import {
+  Pagination,
+  SelectPageRecords,
+} from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
 const carTableHeader = [
@@ -62,13 +67,34 @@ const carTableHeader = [
   },
 ];
 
-const ShippingCarTab = ({ carsRecords, totalRecords, page = 0, limit }) => {
+const ShippingCarTab = ({
+  carsRecords,
+  totalRecords,
+  page = 0,
+  setLoading,
+  limit,
+}) => {
+  const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
+  const [images, setImages] = useState([]);
   const paginationUrl = `/customer/dashboard?tab=tabs-shipping&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [carId, setCarId] = useState('');
+  const [downloading, setDownloading] = useState(false);
+  const GetImages = async (car_id) => {
+    setLoading(true);
+    setDownloading(false);
+    const res = await axios.get(
+      `/api/customer/images?type=shipping&car_id=${car_id}`
+    );
+    setImages(res.data.data);
+    setCarId(car_id);
+    setLoading(false);
+    setRedirectModalOpen(true);
+  };
   return (
     <div className="" id="tabs-shipping" role="tabpanel">
       <CustomModal
@@ -97,6 +123,162 @@ const ShippingCarTab = ({ carsRecords, totalRecords, page = 0, limit }) => {
           </button>
         </div>
       </CustomModal>
+      <Transition.Root show={redirectModalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          initialFocus={cancelButtonRef}
+          onClose={setRedirectModalOpen}
+        >
+          <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0 transition-opacity" />
+            </Transition.Child>
+
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span
+              className="hidden sm:inline-block sm:h-screen sm:align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
+                <div>
+                  <div className="text-dark-blue mt-6 text-center sm:mt-16">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-5xl font-bold leading-6"
+                    ></Dialog.Title>
+                    <div className="mt-2">
+                      {/* <SRLWrapper>
+                        {images && (
+                          <div className="flex basis-1/2 flex-col gap-4">
+                            <img
+                              src={images[0]}
+                              alt=""
+                              className="basis-2/3 cursor-pointer object-cover"
+                            />
+                            <div className="flex basis-1/3 flex-wrap justify-between">
+                              {images.map((image, index) => {
+                                return (
+                                  <img
+                                    key={index}
+                                    src={image}
+                                    className="h-[150px] cursor-pointer"
+                                    alt=""
+                                  />
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </SRLWrapper> */}
+                      <Tab.Group as="div" className="flex flex-col-reverse">
+                        {/* Image selector */}
+                        <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
+                          <Tab.List className="grid grid-cols-4 gap-6">
+                            {images.map((image, index) => (
+                              <Tab
+                                key={index}
+                                className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                              >
+                                {({ selected }) => (
+                                  <>
+                                    <span className="sr-only"></span>
+                                    <span className="absolute inset-0 overflow-hidden rounded-md">
+                                      <img
+                                        src={image}
+                                        alt=""
+                                        className="h-full w-full object-cover object-center"
+                                      />
+                                    </span>
+                                    <span
+                                      className={classNames(
+                                        selected
+                                          ? 'ring-indigo-500'
+                                          : 'ring-transparent',
+                                        'absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none'
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                  </>
+                                )}
+                              </Tab>
+                            ))}
+                          </Tab.List>
+                        </div>
+
+                        <Tab.Panels className="aspect-w-1 aspect-h-1 w-full">
+                          {images.map((image, index) => (
+                            <Tab.Panel key={index}>
+                              <img
+                                src={image}
+                                alt=""
+                                className="h-full w-full object-cover object-center sm:rounded-lg"
+                              />
+                            </Tab.Panel>
+                          ))}
+                        </Tab.Panels>
+                      </Tab.Group>
+                      <button
+                        disabled={downloading}
+                        // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
+                        onClick={() => {
+                          const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=shipping&car_id=${carId}`;
+                          // use fetch to download the zip file
+                          if (window.open(url, '_parent')) {
+                            setDownloading(true);
+                          }
+                        }}
+                        className={`mt-4 ${
+                          downloading ? 'bg-indigo-200' : 'bg-indigo-600'
+                        }  inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                      >
+                        {downloading
+                          ? 'File will be downloaded shortly'
+                          : 'Zip and Download'}
+                      </button>
+                      <br />
+                      <small>
+                        please note that it may take a while to zip all images
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+                  <button
+                    type="button"
+                    className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
+                    onClick={() => {
+                      setRedirectModalOpen(false);
+                    }}
+                    ref={cancelButtonRef}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition.Root>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -144,9 +326,12 @@ const ShippingCarTab = ({ carsRecords, totalRecords, page = 0, limit }) => {
                           className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           <img
-                            className="max-h-[50px]"
+                            className="max-h-[50px] cursor-pointer"
                             src={car.image}
                             alt=""
+                            onClick={() => {
+                              GetImages(car.carId);
+                            }}
                           />
                         </td>
                         <td
