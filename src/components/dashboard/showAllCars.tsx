@@ -180,6 +180,9 @@ const ShowAllCars = ({
                           scope="col"
                           className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
+                          <span className="text-[#810808]">
+                            {car.region_name}
+                          </span>{' '}
                           {car.auction_location_name} <br /> {car.aTitle}
                         </td>
                         <td
