@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 function classNames(...classes) {
@@ -38,8 +39,16 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
           }}
         />
       </div>
+      <ReactHTMLTableToExcel
+        id="generalEntry-xls-button"
+        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        table="generalEntry"
+        filename="generalEntry"
+        sheet="tablexls"
+        buttonText="Excel"
+      />
       <div className="border-azure-blue overflow-x-auto rounded-xl border">
-        <table className="w-full table-auto">
+        <table id="generalEntry" className="w-full table-auto">
           <thead>
             <tr className="w-full">
               <td className="text-dark-blue p-4 text-xl font-semibold">
