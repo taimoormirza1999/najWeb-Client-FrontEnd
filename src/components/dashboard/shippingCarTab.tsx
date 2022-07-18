@@ -57,7 +57,7 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.container',
   },
   {
-    name: 'page.customer.dashboard.table.eed',
+    name: 'page.customer.dashboard.table.etd',
   },
   {
     name: 'page.customer.dashboard.table.shipping_date',
