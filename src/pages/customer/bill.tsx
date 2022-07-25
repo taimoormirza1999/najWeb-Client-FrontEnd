@@ -120,34 +120,38 @@ export async function getServerSideProps(context) {
   const apiUrl = process.env.API_URL;
   let carsData = {};
   const car = context.query.car ? context.query.car : '';
-  if (car && session && session.token && session.token.access_token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
-    await axios
-      .get(`${apiUrl}car/shippingBillDetail/${car}`)
-      .then((response) => {
-        // handle success
-        carsData = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  try {
+    if (car && session && session.token && session.token.access_token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
+      await axios
+        .get(`${apiUrl}car/shippingBillDetail/${car}`)
+        .then((response) => {
+          // handle success
+          carsData = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    const billDetails = carsData.data ? carsData.data : [];
+    const amountRemaining = carsData.total ? carsData.total: 0;
+    let totalDebit = 0;
+    let totalCredit = 0;
+    billDetails.forEach((element) => {
+      totalDebit += parseFloat(element.debit);
+      totalCredit += parseFloat(element.credit);
+    });
+    return {
+      props: {
+        billDetails,
+        totalDebit,
+        totalCredit,
+        amountRemaining,
+      },
+    };
+  } catch (err) {
+    return NetworkStatus.LOGIN_PAGE;
   }
-  const billDetails = carsData.data ? carsData.data : [];
-  const amountRemaining = carsData.total ? carsData.total: 0;
-  let totalDebit = 0;
-  let totalCredit = 0;
-  billDetails.forEach((element) => {
-    totalDebit += parseFloat(element.debit);
-    totalCredit += parseFloat(element.credit);
-  });
-  return {
-    props: {
-      billDetails,
-      totalDebit,
-      totalCredit,
-      amountRemaining,
-    },
-  };
 }
 
 export default Bill;
