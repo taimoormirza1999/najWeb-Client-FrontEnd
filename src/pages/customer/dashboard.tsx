@@ -28,7 +28,7 @@ export async function getServerSideProps(context) {
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
   const session: any = await getSession(context);
-
+  let networkError = false;
   let carsData = {};
   let dashboardCount = {};
   let apiTab = 'statesCount';
@@ -101,7 +101,7 @@ export async function getServerSideProps(context) {
         carsData = response.data;
       })
       .catch(function (error) {
-        console.log(error);
+        networkError = true;
       });
     // get dashboard count
     await axios
@@ -110,8 +110,11 @@ export async function getServerSideProps(context) {
         dashboardCount = response.data?.data;
       })
       .catch(function (error) {
-        console.log(error);
+        networkError = true;
       });
+  }
+  if (networkError) {
+    return NetworkStatus.LOGIN_PAGE;
   }
   return {
     props: {

@@ -87,8 +87,8 @@ export async function getServerSideProps(context) {
     if (res.data) {
       lists = res.data.data;
     }
-  } catch (error: any) {
-    console.error('Something went wrong...');
+  } catch (err) {
+    return NetworkStatus.LOGIN_PAGE;
   }
 
   return {
