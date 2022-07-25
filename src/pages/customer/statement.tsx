@@ -157,7 +157,6 @@ export async function getServerSideProps(context) {
   axios.defaults.timeout = 300000;
   const apiUrl = process.env.API_URL;
   const formData = context.query;
-
   const selectedParams = {
     arrived_status: formData.arrived_status || '1',
     remaining_status: formData.remaining_status || '0',
@@ -166,46 +165,48 @@ export async function getServerSideProps(context) {
     date_from: formData.date_from || '2021-01-01',
     date_to: '',
   };
-
-  const [shippedCarsResponse, depositsResponse] = await Promise.all([
-    axios.get(`${apiUrl}carStatement/shippedCars`, {
-      params: selectedParams,
-    }),
-    /* axios.get(`${apiUrl}carStatement/carsInAuction`, {
+  try {
+    const [shippedCarsResponse, depositsResponse] = await Promise.all([
+      axios.get(`${apiUrl}carStatement/shippedCars`, {
+        params: selectedParams,
+      }),
+      /* axios.get(`${apiUrl}carStatement/carsInAuction`, {
       params: selectedParams,
     }),
     axios.get(`${apiUrl}carStatement/generalEntries`, {
       params: selectedParams,
     }), */
-    axios.get(`${apiUrl}carStatement/deposits`, {
-      params: selectedParams,
-    }),
-  ]);
-  const [shippedCars, inAuctionCars, generalEntries, deposits] =
-    await Promise.all([
+      axios.get(`${apiUrl}carStatement/deposits`, {
+        params: selectedParams,
+      }),
+    ]);
+    const [shippedCars, inAuctionCars, generalEntries, deposits] = [
       shippedCarsResponse.data.shippedCars,
       shippedCarsResponse.data.inAuctionTransactions,
       shippedCarsResponse.data.generalTransactions,
       depositsResponse.data.data,
-    ]);
+    ];
 
-  const generalEntriesTotal =
-    generalEntries.length > 1 ? generalEntries.pop() : null;
-  const shippedCarsTotal = shippedCars.length > 1 ? shippedCars.pop() : null;
-  const inAuctionCarsTotal =
-    inAuctionCars.length > 1 ? inAuctionCars.pop() : null;
-  return {
-    props: {
-      selectedParams,
-      shippedCars,
-      shippedCarsTotal,
-      inAuctionCars,
-      inAuctionCarsTotal,
-      generalEntries,
-      generalEntriesTotal,
-      deposits,
-    },
-  };
+    const generalEntriesTotal =
+      generalEntries.length > 1 ? generalEntries.pop() : null;
+    const shippedCarsTotal = shippedCars.length > 1 ? shippedCars.pop() : null;
+    const inAuctionCarsTotal =
+      inAuctionCars.length > 1 ? inAuctionCars.pop() : null;
+    return {
+      props: {
+        selectedParams,
+        shippedCars,
+        shippedCarsTotal,
+        inAuctionCars,
+        inAuctionCarsTotal,
+        generalEntries,
+        generalEntriesTotal,
+        deposits,
+      },
+    };
+  } catch (err) {
+    return NetworkStatus.LOGIN_PAGE;
+  }
 }
 
 export default Statement;

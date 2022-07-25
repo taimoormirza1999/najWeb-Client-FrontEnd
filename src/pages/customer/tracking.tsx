@@ -29,25 +29,29 @@ export async function getServerSideProps(context) {
   const session: any = await getSession(context);
   let carDetail = {};
   let errorModal = false;
-  if (search) {
-    axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
-    await axios
-      .get(`${process.env.API_URL}getTrackSearch?lot_vin=${search}`)
-      .then(function (response) {
-        if (response?.data?.data?.car_data) {
-          carDetail = response.data?.data;
-        } else {
+  try {
+    if (search) {
+      axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
+      await axios
+        .get(`${process.env.API_URL}getTrackSearch?lot_vin=${search}`)
+        .then(function (response) {
+          if (response?.data?.data?.car_data) {
+            carDetail = response.data?.data;
+          } else {
+            errorModal = true;
+          }
+        })
+        .catch(function (apiError) {
           errorModal = true;
-        }
-      })
-      .catch(function (apiError) {
-        errorModal = true;
-        console.log(apiError);
-      });
+          console.log(apiError);
+        });
+    }
+    return {
+      props: { search, carDetail, errorModal },
+    };
+  } catch (err) {
+    return NetworkStatus.LOGIN_PAGE;
   }
-  return {
-    props: { search, carDetail, errorModal },
-  };
 }
 const Tracking = ({ search, carDetail, errorModal }) => {
   const { setLoading } = useContext(UserContext);
