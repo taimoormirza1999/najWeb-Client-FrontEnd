@@ -6,7 +6,7 @@ import { Layout } from '@/templates/layoutHome';
 
 const Branches = () => (
   <Layout meta={<Meta title="Nejoum Branches" description="Nejoum Branches" />}>
-    <div className="container mx-auto">
+    <div className="container mx-auto max-w-[85%]">
       <Breadcrumbs
         breadcrumbs={[
           {
@@ -17,7 +17,7 @@ const Branches = () => (
       />
     </div>
 
-    <div className="container mx-auto">
+    <div className="container mx-auto max-w-[85%]">
       <div className="text-dark-blue py-10 text-center">
         <h3 className="text-5xl font-semibold ">
           <FormattedMessage id="page.branches.title" />
@@ -39,7 +39,7 @@ const Branches = () => (
       <div className="mb-20 flex gap-1 ">
         <div className="basis-1/2">
           <img
-            src="/assets/images/branch-image-1.jpg"
+            src="/assets/images/branch-image-1.png"
             alt="Our Branches"
             className="mb-1 h-[300px] w-full object-cover"
           />
@@ -47,10 +47,10 @@ const Branches = () => (
             <img
               src="/assets/images/branch-image-2.jpg"
               alt="Our Branches"
-              className="h-[300px] w-full basis-1/2 object-cover"
+              className="h-[300px] w-full  basis-1/2 object-cover"
             />
             <img
-              src="/assets/images/branch-image-3.jpg"
+              src="/assets/images/branch-image-3.png"
               alt="Our Branches"
               className="h-[300px] w-full basis-1/2 overflow-hidden object-cover"
             />
@@ -58,7 +58,7 @@ const Branches = () => (
         </div>
         <div className="basis-1/2">
           <img
-            src="/assets/images/branch-image-4.jpg"
+            src="/assets/images/branch-image-4.png"
             alt="Our Branches"
             className="h-[604px] w-full object-cover"
           />

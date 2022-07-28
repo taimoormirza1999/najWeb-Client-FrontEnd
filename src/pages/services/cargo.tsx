@@ -49,7 +49,7 @@ const Shipping = ({ locale }) => (
               <FormattedMessage id="cargo.tracking2" />
             </p>
           </div>
-          <div className="relative basis-2/5 ltr:right-0 rtl:left-[-175px] xl:absolute xl:top-[-158px] xl:ltr:right-[-120px] 2xl:top-[-200px] 2xl:ltr:right-[-175px]">
+          <div className="relative basis-2/5 ltr:right-0 rtl:left-[-175px] xl:absolute xl:top-[-88px] xl:ltr:right-[-120px] 2xl:ltr:right-[-175px]">
             <img
               src="/assets/images/cargo-tracking.png"
               alt="Cargo Tracking"

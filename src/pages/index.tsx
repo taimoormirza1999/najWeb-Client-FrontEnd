@@ -17,22 +17,34 @@ const Index = ({ announcements }) => {
     >
       <div className="relative">
         <img
-          src="/assets/images/slider-bg.jpg"
-          className="w-full"
+          src="/assets/images/slider-bg.png"
+          className="md:[h-68vh] w-full lg:h-[83vh]"
           alt="banner"
         />
+        <div className="absolute top-1/3 left-[7%] max-w-[500px] text-white">
+          <h4 className="text-3xl font-semibold">
+            Shipping your Cars from <br/>
+            all American Auctions
+          </h4>
+
+          <p className="text-xl mt-[10px]">
+            Working day and night to facilitate your car transportation starting
+            from providing buyer accounts, towing, shipping, and tracking it at
+            all times
+          </p>
+        </div>
         <div
-          style={{ backgroundColor: 'rgba(0,61,117, .6)' }}
-          className="absolute top-1/2 left-1/2 flex h-[12rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] p-4 md:h-[20rem] md:w-[20rem] lg:h-[30rem] lg:w-[30rem] xl:left-auto xl:right-[5rem] xl:top-[18%] xl:h-[35rem] xl:w-[35rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]"
+          style={{ backgroundColor: 'rgba(0,95,183, .6)' }}
+          className="absolute top-1/2 left-1/2 flex w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] p-4 md:h-[30vh] md:w-[20rem] lg:h-[35vh] lg:w-[30rem] xl:left-auto xl:right-[5rem] xl:top-[18%] xl:h-[45vh] xl:w-[35rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]"
         >
           <div className="basis-1/3">
-            <h2 className="py-6 text-center text-2xl font-extrabold text-white md:text-4xl lg:text-6xl rtl:lg:text-5xl xl:text-[70px]">
+            <h2 className="py-6 text-center text-2xl font-semibold text-white md:text-4xl lg:text-6xl rtl:lg:text-5xl xl:text-[70px]">
               <FormattedMessage id="you.want.to" />
             </h2>
 
             <div className="flex justify-center gap-4">
               <Link href="/services/shipping">
-                <a className="rounded-sm bg-blue-500 p-1 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:px-4 md:text-xl lg:py-3 xl:text-2xl">
+                <a className="rounded-sm bg-[#0093FF] p-1 text-lg font-medium text-white hover:border-0 hover:bg-blue-400 md:px-4 md:text-xl lg:py-3 xl:text-2xl">
                   <FormattedMessage id="Ship cars" />
                 </a>
               </Link>
@@ -52,7 +64,7 @@ const Index = ({ announcements }) => {
           <div className="basis-1/2">
             <img
               className="h-auto rounded-xl lg:h-[470px]"
-              src="/assets/images/ship-cars.jpg"
+              src="/assets/images/ship-cars.png"
               alt="Shipping Cars"
             />
           </div>
@@ -229,27 +241,27 @@ const Index = ({ announcements }) => {
           </div>
           <div className="mx-auto grid max-w-[750px] grid-cols-1 flex-row gap-4 px-16 pt-12 pb-2 md:grid-cols-3 md:gap-1 lg:grid-cols-5">
             <img
-              className="mx-auto h-10 w-max"
+              className="mx-auto mt-[13px] w-max"
               src="/assets/images/Marsek.png"
               alt="Marsek"
             />
             <img
-              className="mx-auto h-12 w-max"
+              className="mx-auto ml-[12px] w-max"
               src="/assets/images/twilllogo.jpeg"
               alt="TWILL"
             />
             <img
-              className="mx-auto h-10 w-max"
+              className="mx-auto h-10 mt-[8px] w-max"
               src="/assets/images/msc.jpeg"
               alt="MSC"
             />
             <img
-              className="mx-auto h-10 w-max"
+              className="mx-auto mt-[17px] w-max"
               src="/assets/images/hapag lloyd .png"
               alt="Hapag-lloyd"
             />
             <img
-              className="mx-auto h-10 w-max"
+              className="mx-auto h-10 mt-[6px] w-max"
               src="/assets/images/cma.png"
               alt="cmacgm"
             />
