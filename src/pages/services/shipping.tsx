@@ -60,7 +60,7 @@ const Shipping = () => {
           </div>
           <div className="relative basis-2/5">
             <img
-              src="/assets/images/usa-warehouse-2.jpg"
+              src="/assets/images/usa-warehouse-2.png"
               alt="Shipping car"
               className="border-dark-blue h-full min-h-[450px] w-full rounded-xl border object-cover lg:min-h-[650px]"
             />

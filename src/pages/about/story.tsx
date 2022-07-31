@@ -20,11 +20,11 @@ const Story = () => (
 
     <div className="relative">
       <img
-        src="/assets/images/story-cover.jpg"
+        src="/assets/images/story-cover.png"
         alt="Nejoum Aljazeera"
-        className="max-h-screen w-full object-cover"
+        className="w-full md:h-[60vh] lg:h-[73vh]"
       />
-      <h1 className="story-cover-text-shadow 4xl:text-[200px] absolute top-[28%] w-[55%] -translate-y-1/2 text-4xl font-extrabold uppercase leading-none tracking-wide text-white ltr:left-1/2 ltr:translate-x-[-80%] rtl:right-1/2 rtl:translate-x-[80%] md:text-6xl lg:text-[100px] 2xl:text-[170px]">
+      <h1 className="story-cover-text-shadow 4xl:text-[200px] absolute top-[28%] w-[60%] -translate-y-1/2  text-4xl font-extrabold uppercase leading-none tracking-wide text-white ltr:left-[71%] ltr:translate-x-[-80%] rtl:right-[71%] rtl:translate-x-[80%] md:text-4xl lg:text-[60px] 2xl:text-[85px]">
         <FormattedMessage id="page.story.heading" />
       </h1>
     </div>
