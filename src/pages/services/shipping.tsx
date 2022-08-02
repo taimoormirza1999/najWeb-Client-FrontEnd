@@ -22,17 +22,15 @@ const Shipping = () => {
     <Layout
       meta={<Meta title="Shipping Services" description="Shipping Services" />}
     >
-      <div className="container mx-auto">
-        <Breadcrumbs
-          breadcrumbs={[
-            { name: <FormattedMessage id="general.services" />, href: '#' },
-            {
-              name: <FormattedMessage id="page.services.shipping" />,
-              href: '/services/shipping',
-            },
-          ]}
-        />
-      </div>
+      <Breadcrumbs
+        breadcrumbs={[
+          { name: <FormattedMessage id="general.services" />, href: '#' },
+          {
+            name: <FormattedMessage id="page.services.shipping" />,
+            href: '/services/shipping',
+          },
+        ]}
+      />
 
       <div className="container mx-auto">
         <div className="border-dark-blue flex flex-col rounded-lg border p-4 lg:p-8 xl:flex-row">
@@ -174,7 +172,5 @@ const Shipping = () => {
     </Layout>
   );
 };
-
-
 
 export default Shipping;

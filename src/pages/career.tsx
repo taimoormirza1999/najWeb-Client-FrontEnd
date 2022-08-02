@@ -68,13 +68,11 @@ const Career = () => {
         </div>
       </CustomModal>
 
-      <div className="container mx-auto">
-        <Breadcrumbs
-          breadcrumbs={[
-            { name: <FormattedMessage id="general.career" />, href: '/career' },
-          ]}
-        />
-      </div>
+      <Breadcrumbs
+        breadcrumbs={[
+          { name: <FormattedMessage id="general.career" />, href: '/career' },
+        ]}
+      />
 
       <div className="container mx-auto">
         <div className="text-dark-blue py-2">

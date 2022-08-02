@@ -9,9 +9,9 @@ const Breadcrumbs = ({ breadcrumbs }) => {
   return (
     <nav
       aria-label="breadcrumbs"
-      className="border-outer-space my-6 rounded-lg border py-1 px-6 text-xl shadow-lg md:py-2 md:px-10"
+      className="border-medium-grey my-6 border border-x-0 py-1 text-xl shadow-lg md:py-2"
     >
-      <ol className="breadcrumb capitalize">
+      <ol className="breadcrumb capitalize lg:pl-[7%]">
         <li className="inline">
           <Link href="/">
             <a className="text-medium-grey hover:border-0">
