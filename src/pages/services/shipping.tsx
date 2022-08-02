@@ -84,10 +84,10 @@ const Shipping = () => {
           </p>
 
           <div className="mb-4 flex gap-16 lg:mb-8">
-            <div className="border-teal-blue bg-teal-blue hidden rounded-full border-[3px] py-7 lg:block">
+            <div className="border-teal-blue bg-teal-blue hidden rounded-full border-[1px] p-7 lg:block">
               <FontAwesomeIcon
                 icon={faCrosshairs}
-                className="h-24 w-24 text-4xl text-white"
+                className="h-12 w-12 text-4xl text-white"
               />
             </div>
             <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem] w-full">
@@ -96,10 +96,10 @@ const Shipping = () => {
           </div>
 
           <div className="mb-4 flex gap-16 lg:mb-8">
-            <div className="border-teal-blue hidden rounded-full border-[3px] py-7 lg:block">
+            <div className="border-teal-blue hidden rounded-full border-[1px] bg-white p-7 lg:block">
               <FontAwesomeIcon
                 icon={faShield}
-                className="text-teal-blue h-24 w-24 text-4xl"
+                className="text-teal-blue h-12 w-12 text-4xl"
               />
             </div>
             <p className="border-teal-blue text-teal-blue flex w-full items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem] w-full">
@@ -108,10 +108,10 @@ const Shipping = () => {
           </div>
 
           <div className="mb-4 flex gap-16 lg:mb-8">
-            <div className="border-teal-blue bg-teal-blue hidden rounded-full border-[3px] py-7 lg:block">
+            <div className="border-teal-blue bg-teal-blue hidden rounded-full border-[1px] p-7 lg:block">
               <FontAwesomeIcon
                 icon={faClipboardCheck}
-                className="h-24 w-24 text-4xl text-white"
+                className="h-12 w-12 text-4xl text-white"
               />
             </div>
             <p className="bg-teal-blue flex w-full items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem]">
@@ -120,10 +120,10 @@ const Shipping = () => {
           </div>
 
           <div className="mb-4 flex gap-16 lg:mb-8">
-            <div className="border-teal-blue hidden rounded-full border-[3px] py-7 lg:block">
+            <div className="border-teal-blue hidden rounded-full border-[1px] bg-white p-7 lg:block">
               <FontAwesomeIcon
                 icon={faUsersLine}
-                className="text-teal-blue h-24 w-24 text-4xl"
+                className="text-teal-blue h-12 w-12 text-4xl"
               />
             </div>
             <p className="border-teal-blue text-teal-blue flex items-center rounded-2xl border p-4 text-lg md:border-[3px] lg:text-[1.3rem] w-full">
@@ -132,10 +132,10 @@ const Shipping = () => {
           </div>
 
           <div className="mb-4 flex gap-16 lg:mb-8">
-            <div className="border-teal-blue bg-teal-blue hidden rounded-full border-[3px] py-7 lg:block">
+            <div className="border-teal-blue bg-teal-blue hidden rounded-full border-[1px] p-7 lg:block">
               <FontAwesomeIcon
                 icon={faGaugeHigh}
-                className="h-24 w-24 text-4xl text-white"
+                className="h-12 w-12 text-4xl text-white"
               />
             </div>
             <p className="bg-teal-blue flex items-center rounded-2xl p-4 text-lg text-white lg:text-[1.3rem] w-full">
