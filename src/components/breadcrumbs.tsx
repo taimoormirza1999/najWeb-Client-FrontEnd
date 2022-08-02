@@ -11,7 +11,7 @@ const Breadcrumbs = ({ breadcrumbs }) => {
       aria-label="breadcrumbs"
       className="border-medium-grey my-6 border border-x-0 py-1 text-xl shadow-lg md:py-2"
     >
-      <ol className="breadcrumb capitalize lg:pl-[7%]">
+      <ol className="breadcrumb px-4 capitalize md:px-8 lg:pl-[6.6%]">
         <li className="inline">
           <Link href="/">
             <a className="text-medium-grey hover:border-0">
