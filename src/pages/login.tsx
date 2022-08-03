@@ -90,9 +90,9 @@ export default function Login({ locale }) {
         />
         <title>Login - {AppConfig.title}</title>
       </Head>
-      <div className="bg-teal-blue">
-        <div className="bg-teal-blue flex h-screen flex-col justify-center py-12 pt-[10%] sm:px-6 lg:px-8">
-          <div className="mx-5 rounded-md bg-white sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="bg-[#EDEDED]">
+        <div className="flex h-screen flex-col justify-center bg-[#EDEDED] py-12 pt-[10%] sm:px-6 lg:px-8">
+          <div className="mx-5 rounded-md bg-white sm:mx-auto sm:w-full sm:max-w-[24rem]">
             <div className="py-5 sm:mx-auto sm:w-full sm:max-w-md">
               <img
                 className="mx-auto h-20 w-auto"
@@ -176,7 +176,7 @@ export default function Login({ locale }) {
               </form>
             </div>
           </div>
-          <div className="bg-teal-blue pt-32">
+          <div className="bg-[#EDEDED] pt-32">
             <Link href="/">
               <img
                 className="mx-auto w-[120px] cursor-pointer"
