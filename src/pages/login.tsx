@@ -179,8 +179,8 @@ export default function Login({ locale }) {
           <div className="bg-[#EDEDED] pt-32">
             <Link href="/">
               <img
-                className="mx-auto w-[120px] cursor-pointer"
-                src="/assets/images/naj-02.png"
+                className="mx-auto w-[100px] cursor-pointer"
+                src="/assets/images/naj-01.png"
                 alt="naj"
               />
             </Link>
