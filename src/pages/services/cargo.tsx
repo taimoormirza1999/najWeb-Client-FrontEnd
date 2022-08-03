@@ -11,17 +11,15 @@ const Shipping = ({ locale }) => (
   <Layout
     meta={<Meta title="Cargo Tracking" description="Cargo Tracking Services" />}
   >
-    <div className="container mx-auto">
-      <Breadcrumbs
-        breadcrumbs={[
-          { name: <FormattedMessage id="general.services" />, href: '#' },
-          {
-            name: <FormattedMessage id="Cargo_Tracking" />,
-            href: '/services/cargo',
-          },
-        ]}
-      />
-    </div>
+    <Breadcrumbs
+      breadcrumbs={[
+        { name: <FormattedMessage id="general.services" />, href: '#' },
+        {
+          name: <FormattedMessage id="Cargo_Tracking" />,
+          href: '/services/cargo',
+        },
+      ]}
+    />
 
     <h3 className="text-dark-blue text-center text-3xl font-semibold lg:text-5xl">
       <FormattedMessage id="Cargo_Tracking" />
@@ -32,7 +30,7 @@ const Shipping = ({ locale }) => (
         <div className="relative flex flex-col gap-4 lg:gap-16 xl:flex-row">
           <div className="basis-3/5 xl:pr-20 xl:leading-[3.5em] xl:tracking-wider 2xl:py-[35px]">
             <p className="py-6 text-xl text-white lg:text-3xl">
-              <FormattedMessage id="cargo.tracking3" /> 
+              <FormattedMessage id="cargo.tracking3" />
               {locale === 'en' ? (
                 <>
                   <span className="font-sen font-bold"> NEJOUM</span> ALJAZEERA{' '}

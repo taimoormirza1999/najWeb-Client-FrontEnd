@@ -7,17 +7,15 @@ const Vision = () => (
   <Layout
     meta={<Meta title="Vision & Mission" description="Vision & Mission" />}
   >
-    <div className="container mx-auto">
-      <Breadcrumbs
-        breadcrumbs={[
-          { name: <FormattedMessage id="general.about" />, href: '#' },
-          {
-            name: <FormattedMessage id="general.vision" />,
-            href: '/about/vision',
-          },
-        ]}
-      />
-    </div>
+    <Breadcrumbs
+      breadcrumbs={[
+        { name: <FormattedMessage id="general.about" />, href: '#' },
+        {
+          name: <FormattedMessage id="general.vision" />,
+          href: '/about/vision',
+        },
+      ]}
+    />
 
     <div className="container mx-auto">
       <div className="text-dark-blue py-10 text-center">
@@ -30,7 +28,8 @@ const Vision = () => (
             </span>
             <FormattedMessage id="page.company.name.aljazeera" />
           </span>
-          is towards becoming the top choice for those willing to ship cars from all auctions in America to the world.
+          is towards becoming the top choice for those willing to ship cars from
+          all auctions in America to the world.
         </p>
       </div>
 
@@ -48,8 +47,8 @@ const Vision = () => (
       <div className="text-dark-blue py-10 text-center">
         <h3 className="text-6xl font-semibold ">Our Values</h3>
         <p className="py-4 text-3xl">
-          Our values are derived from the passion of providing you the best
-          car logistics service
+          Our values are derived from the passion of providing you the best car
+          logistics service
         </p>
 
         <div className="flex">
