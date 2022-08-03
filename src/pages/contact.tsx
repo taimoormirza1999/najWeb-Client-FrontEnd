@@ -120,16 +120,14 @@ const Contact = () => {
           </button>
         </div>
       </CustomModal>
-      <div className="container mx-auto">
-        <Breadcrumbs
-          breadcrumbs={[
-            {
-              name: <FormattedMessage id="general.contact" />,
-              href: '/contact',
-            },
-          ]}
-        />
-      </div>
+      <Breadcrumbs
+        breadcrumbs={[
+          {
+            name: <FormattedMessage id="general.contact" />,
+            href: '/contact',
+          },
+        ]}
+      />
 
       <div className="bg-light-grey text-dark-blue py-12">
         <div className="container mx-auto">

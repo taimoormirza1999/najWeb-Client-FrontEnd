@@ -159,8 +159,8 @@ a:hover {
 }
 
 .breadcrumb li:not(:last-child):after{
-  content: ' > ';
-  color: var(--color-yellow-orange);
+  content: '/ ';
+  color: var(--color-medium-grey);
   padding: 0 4px;
 }
 

@@ -75,16 +75,14 @@ export default function App({ carsMakerData, YearData }) {
 
   return (
     <Layout meta={<Meta title="Cars Showroom" description="Cars Showroom" />}>
-      <div className="container mx-auto">
-        <Breadcrumbs
-          breadcrumbs={[
-            {
-              name: <FormattedMessage id="page.cars.showroom.cars_showroom" />,
-              href: '#',
-            },
-          ]}
-        />
-      </div>
+      <Breadcrumbs
+        breadcrumbs={[
+          {
+            name: <FormattedMessage id="page.cars.showroom.cars_showroom" />,
+            href: '#',
+          },
+        ]}
+      />
 
       <h3 className="text-dark-blue py-2 text-center text-3xl font-semibold lg:text-4xl xl:text-5xl">
         <FormattedMessage id="page.cars.showroom.cars_showroom" />

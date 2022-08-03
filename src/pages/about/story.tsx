@@ -6,17 +6,15 @@ import { Layout } from '@/templates/layoutHome';
 
 const Story = () => (
   <Layout meta={<Meta title="Our Story" description="Our Story" />}>
-    <div className="container mx-auto">
-      <Breadcrumbs
-        breadcrumbs={[
-          { name: <FormattedMessage id="general.about" />, href: '#' },
-          {
-            name: <FormattedMessage id="page.story.title" />,
-            href: '/about/story',
-          },
-        ]}
-      />
-    </div>
+    <Breadcrumbs
+      breadcrumbs={[
+        { name: <FormattedMessage id="general.about" />, href: '#' },
+        {
+          name: <FormattedMessage id="page.story.title" />,
+          href: '/about/story',
+        },
+      ]}
+    />
 
     <div className="relative">
       <img
