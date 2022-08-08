@@ -123,7 +123,7 @@ const Index = ({ announcements }) => {
           <div className="basis-1/2">
             <img
               className="max-h-[500px] rounded-xl md:h-[600px]"
-              src="/assets/images/car-tracking.jpg"
+              src="/assets/images/car-tracking-2.png"
               alt="Tracking Cars"
             />
           </div>

@@ -554,7 +554,7 @@ const Layout = (props: IMainProps) => {
                   <a>
                     <img
                       src={`/assets/images/logo-white-3-${locale}.png`}
-                      className="h-12"
+                      className="w-52"
                       alt={AppConfig.title}
                     />
                   </a>
