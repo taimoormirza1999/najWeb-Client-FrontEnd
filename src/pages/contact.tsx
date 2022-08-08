@@ -241,10 +241,10 @@ const Contact = () => {
           <FormattedMessage id="Visit.Us.Desc" />
         </p>
         <div className="mx-auto flex flex-col gap-8 lg:w-4/5 lg:flex-row">
-          <div className="basis-2/5">
+          <div className="basis-[45%]">
             <div className="border-dark-blue rounded-xl border p-4">
               <div
-                className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 text-xl lg:text-3xl"
+                className="border-dark-blue text-dark-blue bg-light-grey rounded-xl border p-4 pb-8 text-xl lg:text-3xl"
                 id="address_text"
               >
                 <span className="font-sen">
@@ -282,14 +282,14 @@ const Contact = () => {
               </div>
             </div>
 
-            <p className="text-dark-blue pt-8 text-xl lg:pt-16 lg:text-3xl">
+            <p className="text-dark-blue pt-12 text-2xl lg:pt-20 lg:text-4xl">
               <FormattedMessage id="Copy.upper.location.using.the.copy.button.press.the.new.link.button.get.directions.in.Google.Maps." />
             </p>
           </div>
-          <div className="border-azure-blue basis-3/5 overflow-hidden rounded-xl border">
+          <div className="border-azure-blue basis-[55%] overflow-hidden rounded-xl border-2">
             <iframe
               className="w-full"
-              height="500"
+              height="600"
               src="https://maps.google.com/maps?q=Nejoum%20Al%20Jazeera%20Used%20Cars%20&t=&z=13&ie=UTF8&iwloc=&output=embed"
               frameBorder="0"
               scrolling="no"
