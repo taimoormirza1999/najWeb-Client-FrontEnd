@@ -25,6 +25,7 @@ export async function getServerSideProps(context) {
 
   const tab = context.query.tab ? context.query.tab : 'tabs-states';
   let type = context.query.type ? context.query.type : '';
+  const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
   const session: any = await getSession(context);
@@ -91,6 +92,9 @@ export async function getServerSideProps(context) {
     apiUrl = `${apiUrl}?page=${page}&limit=${limit}`;
   } else if (apiTab !== 'statesCount') {
     apiUrl = `${apiUrl}&page=${page}&limit=${limit}`;
+  }
+  if (search) {
+    apiUrl = `${apiUrl}&search=${search}`;
   }
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;

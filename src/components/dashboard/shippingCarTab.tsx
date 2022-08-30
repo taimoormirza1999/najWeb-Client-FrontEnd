@@ -84,11 +84,11 @@ const ShippingCarTab = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const [carId, setCarId] = useState('');
   const [downloading, setDownloading] = useState(false);
-  const GetImages = async (car_id) => {
+  const GetImages = async (car_id, type) => {
     setLoading(true);
     setDownloading(false);
     const res = await axios.get(
-      `/api/customer/images?type=shipping&car_id=${car_id}`
+      `/api/customer/images?type=${type}&car_id=${car_id}`
     );
     setImages(res.data.data);
     setCarId(car_id);
@@ -330,7 +330,7 @@ const ShippingCarTab = ({
                             src={car.image}
                             alt=""
                             onClick={() => {
-                              GetImages(car.carId);
+                              GetImages(car.carId, 'shipping');
                             }}
                           />
                         </td>
@@ -433,7 +433,10 @@ const ShippingCarTab = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[50px] cursor-pointer px-3 py-3.5  text-left font-semibold text-[#1C1C1C]"
+                          onClick={() => {
+                            GetImages(car.carId, 'loading');
+                          }}
                         >
                           {car.loaded_date}
                         </td>
