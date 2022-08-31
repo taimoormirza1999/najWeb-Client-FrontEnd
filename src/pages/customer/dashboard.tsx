@@ -130,7 +130,7 @@ export async function getServerSideProps(context) {
 const Dashboard = ({ router, carsData, dashboardCount }) => {
   const { setLoading } = useContext(UserContext);
   const {
-    query: { tab, type, page },
+    query: { tab, type, page, search },
   } = router;
   let {
     query: { limit },
@@ -278,6 +278,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     type={type}
                     limit={limit}
+                    search={search}
                   ></NewCarTab>
                 </React.Fragment>
               )}
@@ -289,6 +290,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></WarehouseCarTab>
                 </React.Fragment>
               )}
@@ -300,6 +302,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></ShippingCarTab>
                 </React.Fragment>
               )}
@@ -312,6 +315,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     type={type}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></ArrivedCarTab>
                 </React.Fragment>
               )}
@@ -323,6 +327,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     type={type}
                     limit={limit}
+                    search={search}
                   ></DeliveredCarTab>
                 </React.Fragment>
               )}
@@ -339,6 +344,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></ShowAllCars>
                 </React.Fragment>
               )}

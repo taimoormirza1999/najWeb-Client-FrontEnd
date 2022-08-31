@@ -73,13 +73,14 @@ const ShippingCarTab = ({
   page = 0,
   setLoading,
   limit,
+  search,
 }) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
-  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&limit=${limit}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&page=`;
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [carId, setCarId] = useState('');
@@ -288,7 +289,7 @@ const ShippingCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} />
+          <SelectPageRecords url={limitUrl} search={search} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
