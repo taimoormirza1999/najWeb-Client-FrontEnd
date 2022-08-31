@@ -1,11 +1,11 @@
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { Fragment, useContext, useRef, useState } from 'react';
+import NProgress from 'nprogress';
+import { Fragment, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
-import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
@@ -19,7 +19,6 @@ export async function getServerSideProps(context) {
   };
 }
 const Profile = () => {
-  const { setLoading } = useContext(UserContext);
   const [showProfile, setShowProfile] = useState(true);
   const [oldPasswordError, setOldPasswordError] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -38,7 +37,7 @@ const Profile = () => {
   const updatePassword = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
-    setLoading(true);
+    NProgress.start();
     let error = false;
     // Get data from the form.
     const data = {
@@ -88,7 +87,7 @@ const Profile = () => {
           setErrorMsgPop(true);
         });
     }
-    setLoading(false);
+    NProgress.done();
   };
 
   return (

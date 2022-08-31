@@ -1,5 +1,6 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import axios from 'axios';
+import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -14,7 +15,6 @@ const ArrivedCarTab = ({
   totalRecords,
   page = 0,
   type,
-  setLoading,
   limit,
   search,
 }) => {
@@ -71,13 +71,13 @@ const ArrivedCarTab = ({
   const paginationUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&type=${type}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
   const GetImages = async (car_id) => {
-    setLoading(true);
+    NProgress.start();
     const res = await axios.get(
       `/api/customer/images?type=store&car_id=${car_id}`
     );
     setImages(res.data.data);
     setCarId(car_id);
-    setLoading(false);
+    NProgress.done();
     setRedirectModalOpen(true);
   };
   return (
