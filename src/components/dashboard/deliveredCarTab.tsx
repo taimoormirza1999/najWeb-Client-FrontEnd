@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Pagination, SelectPageRecords  } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
-const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search }) => {
+const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search = '' }) => {
   if (!type) {
     type = 'Paid';
   }

@@ -16,7 +16,7 @@ const ArrivedCarTab = ({
   page = 0,
   type,
   limit,
-  search,
+  search = '',
 }) => {
   if (!type) {
     type = 'port';
