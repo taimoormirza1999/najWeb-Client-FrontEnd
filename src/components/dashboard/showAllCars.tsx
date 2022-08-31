@@ -16,7 +16,7 @@ const ShowAllCars = ({
   totalRecords,
   page = 0,
   limit,
-  search,
+  search = '',
 }) => {
   const carTableHeader = [
     'page.customer.dashboard.table.no',
