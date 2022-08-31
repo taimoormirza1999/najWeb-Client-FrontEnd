@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Pagination, SelectPageRecords  } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
-const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit }) => {
+const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search }) => {
   if (!type) {
     type = 'Paid';
   }
@@ -62,7 +62,7 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit }) =
       'page.customer.dashboard.table.images',
     ];
   }
-  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
@@ -75,7 +75,7 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit }) =
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} />
+          <SelectPageRecords url={limitUrl} search={search} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">

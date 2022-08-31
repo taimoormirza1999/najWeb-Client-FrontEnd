@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
@@ -93,15 +94,31 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 };
 
-const SelectPageRecords = ({ url }) => {
+const SelectPageRecords = ({ url, search = '' }) => {
+  const intl = useIntl();
   const [selectedLimit, setSelectLimit] = useState('10');
+  const [tableSearch, setTableSearch] = useState(search);
   const router = useRouter();
   const changePage = (value) => {
     setSelectLimit(value);
-    router.push(`${url}&limit=${value}`);
+    router.push(`${url}&limit=${value}&search=${tableSearch}`);
   };
   return (
     <div className="mt-3">
+      <input
+        type="text"
+        placeholder={intl.formatMessage({ id: 'Search' })}
+        className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
+        value={tableSearch}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            router.push(`${url}&limit=${selectedLimit}&search=${tableSearch}`);
+          }
+        }}
+        onChange={(e) => {
+          setTableSearch(e.target.value);
+        }}
+      />
       <select
         className="float-right  mb-3 rounded-md border border-[#005fb7] py-1 text-lg text-gray-700"
         value={selectedLimit}

@@ -25,6 +25,7 @@ export async function getServerSideProps(context) {
 
   const tab = context.query.tab ? context.query.tab : 'tabs-states';
   let type = context.query.type ? context.query.type : '';
+  const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
   const session: any = await getSession(context);
@@ -92,6 +93,9 @@ export async function getServerSideProps(context) {
   } else if (apiTab !== 'statesCount') {
     apiUrl = `${apiUrl}&page=${page}&limit=${limit}`;
   }
+  if (search) {
+    apiUrl = `${apiUrl}&search=${search}`;
+  }
   if (session && session.token && session.token.access_token) {
     axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
     await axios
@@ -126,7 +130,7 @@ export async function getServerSideProps(context) {
 const Dashboard = ({ router, carsData, dashboardCount }) => {
   const { setLoading } = useContext(UserContext);
   const {
-    query: { tab, type, page },
+    query: { tab, type, page, search },
   } = router;
   let {
     query: { limit },
@@ -274,6 +278,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     type={type}
                     limit={limit}
+                    search={search}
                   ></NewCarTab>
                 </React.Fragment>
               )}
@@ -285,6 +290,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></WarehouseCarTab>
                 </React.Fragment>
               )}
@@ -296,6 +302,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></ShippingCarTab>
                 </React.Fragment>
               )}
@@ -308,6 +315,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     type={type}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></ArrivedCarTab>
                 </React.Fragment>
               )}
@@ -319,6 +327,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     type={type}
                     limit={limit}
+                    search={search}
                   ></DeliveredCarTab>
                 </React.Fragment>
               )}
@@ -335,6 +344,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     setLoading={setLoading}
                     limit={limit}
+                    search={search}
                   ></ShowAllCars>
                 </React.Fragment>
               )}
