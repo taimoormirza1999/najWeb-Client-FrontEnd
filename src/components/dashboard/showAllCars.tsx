@@ -44,7 +44,7 @@ const ShowAllCars = ({
   // const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
   const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=showAllCars&search=${search}&page=`;
+  const limitUrl = `/customer/dashboard?tab=showAllCars&page=`;
   // const GetImages = async (car_id) => {
   //   setLoading(true);
   //   const res = await axios.get(

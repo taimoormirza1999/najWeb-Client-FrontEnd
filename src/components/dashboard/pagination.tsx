@@ -94,9 +94,10 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 };
 
-const SelectPageRecords = ({ url, search }) => {
+const SelectPageRecords = ({ url, search = '' }) => {
   const intl = useIntl();
   const [selectedLimit, setSelectLimit] = useState('10');
+  console.log(search);
   const [tableSearch, setTableSearch] = useState(search);
   const router = useRouter();
   const changePage = (value) => {

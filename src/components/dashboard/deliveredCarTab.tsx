@@ -63,7 +63,7 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, sea
     ];
   }
   const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
       <div className="pt-14">

@@ -60,7 +60,7 @@ const WarehouseCarTab = ({
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
   const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
   const GetImages = async (car_id) => {
     setLoading(true);
     setDownloading(false);

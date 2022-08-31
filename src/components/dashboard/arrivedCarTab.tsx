@@ -69,7 +69,7 @@ const ArrivedCarTab = ({
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
   const paginationUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&type=${type}&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&type=${type}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
   const GetImages = async (car_id) => {
     setLoading(true);
     const res = await axios.get(

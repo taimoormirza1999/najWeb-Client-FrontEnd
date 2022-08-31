@@ -163,7 +163,7 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search })
     ];
   }
   const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
       <div className="pt-14">
