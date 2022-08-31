@@ -120,7 +120,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
         }}
       />
       <select
-        className="float-right  mb-3 rounded-md border border-[#005fb7] py-1 text-lg text-gray-700"
+        className="mb-3 rounded-md  border border-[#005fb7] py-1 text-lg text-gray-700 ltr:float-right rtl:float-left"
         value={selectedLimit}
         onChange={(event) => changePage(event.target.value)}
       >
