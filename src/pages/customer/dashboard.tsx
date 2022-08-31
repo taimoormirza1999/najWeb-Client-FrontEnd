@@ -128,7 +128,6 @@ export async function getServerSideProps(context) {
   };
 }
 const Dashboard = ({ router, carsData, dashboardCount }) => {
-  const { setLoading } = useContext(UserContext);
   const {
     query: { tab, type, page, search },
   } = router;
@@ -288,7 +287,6 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
                     page={currentPage}
-                    setLoading={setLoading}
                     limit={limit}
                     search={search}
                   ></WarehouseCarTab>
@@ -300,7 +298,6 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
                     page={currentPage}
-                    setLoading={setLoading}
                     limit={limit}
                     search={search}
                   ></ShippingCarTab>
@@ -313,7 +310,6 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     totalRecords={totalRecords}
                     page={currentPage}
                     type={type}
-                    setLoading={setLoading}
                     limit={limit}
                     search={search}
                   ></ArrivedCarTab>
@@ -342,7 +338,6 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     carsRecords={carsRecords}
                     totalRecords={totalRecords}
                     page={currentPage}
-                    setLoading={setLoading}
                     limit={limit}
                     search={search}
                   ></ShowAllCars>
