@@ -8,7 +8,7 @@ import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
 import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
 
-const NewCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search }) => {
+const NewCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search = '' }) => {
   let carTableData;
   if (!type) {
     type = 'unpaid';

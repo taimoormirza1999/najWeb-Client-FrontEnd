@@ -51,7 +51,7 @@ const WarehouseCarTab = ({
   totalRecords,
   page = 0,
   limit,
-  search,
+  search = '',
 }) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
