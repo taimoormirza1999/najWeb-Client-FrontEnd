@@ -435,7 +435,7 @@ const ShippingCarTab = ({
                         >
                           {car.loaded_date} <br />
                           <i
-                            className="material-icons cursor-pointer text-lg ltr:mr-2 rtl:ml-2"
+                            className="material-icons cursor-pointer text-3xl ltr:mr-2 rtl:ml-2"
                             onClick={() => {
                               GetImages(car.carId, 'loading');
                             }}
@@ -467,7 +467,7 @@ const ShippingCarTab = ({
                         >
                           {car.shipping_date} <br />
                           <i
-                            className="material-icons cursor-pointer text-lg ltr:mr-2 rtl:ml-2"
+                            className="material-icons cursor-pointer text-3xl ltr:mr-2 rtl:ml-2"
                             onClick={() => {
                               GetImages(car.carId, 'shipping');
                             }}
