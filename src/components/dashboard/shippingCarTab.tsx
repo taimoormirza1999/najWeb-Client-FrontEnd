@@ -2,6 +2,7 @@ import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
+import NProgress from 'nprogress';
 import React, { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -71,7 +72,6 @@ const ShippingCarTab = ({
   carsRecords,
   totalRecords,
   page = 0,
-  setLoading,
   limit,
   search,
 }) => {
@@ -86,14 +86,14 @@ const ShippingCarTab = ({
   const [carId, setCarId] = useState('');
   const [downloading, setDownloading] = useState(false);
   const GetImages = async (car_id, type) => {
-    setLoading(true);
+    NProgress.start();
     setDownloading(false);
     const res = await axios.get(
       `/api/customer/images?type=${type}&car_id=${car_id}`
     );
     setImages(res.data.data);
     setCarId(car_id);
-    setLoading(false);
+    NProgress.done();
     setRedirectModalOpen(true);
   };
   return (

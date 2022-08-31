@@ -2,7 +2,8 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import { getSession, useSession } from 'next-auth/react';
-import { useContext, useRef, useState } from 'react';
+import NProgress from 'nprogress';
+import { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
@@ -13,9 +14,8 @@ import {
   LocalShippingIcon,
   NewCarIcon,
   PortIcon,
-  WarehouseIcon
+  WarehouseIcon,
 } from '@/components/dashboard/trackingIcons';
-import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
@@ -54,7 +54,6 @@ export async function getServerSideProps(context) {
   }
 }
 const Tracking = ({ search, carDetail, errorModal }) => {
-  const { setLoading } = useContext(UserContext);
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState(search);
   const [storeDate, setStoreDate] = useState(
@@ -94,7 +93,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
   };
   const getTracking = async () => {
     if (searchValue) {
-      setLoading(true);
+      NProgress.start();
       axios.defaults.headers.common.Authorization = `Bearer ${session?.token?.access_token}`;
       await axios
         .get(`/api/customer/tracking/?lot_vin=${searchValue}`)
@@ -119,7 +118,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
           setErrorModalOpen(true);
           console.log(apiError);
         });
-      setLoading(false);
+      NProgress.done();
     }
   };
 

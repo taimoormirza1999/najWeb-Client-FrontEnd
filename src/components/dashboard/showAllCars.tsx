@@ -15,7 +15,6 @@ const ShowAllCars = ({
   carsRecords,
   totalRecords,
   page = 0,
-  setLoading,
   limit,
   search,
 }) => {

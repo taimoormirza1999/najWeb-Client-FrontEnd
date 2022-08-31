@@ -2,6 +2,7 @@ import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
+import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -49,7 +50,6 @@ const WarehouseCarTab = ({
   carsRecords,
   totalRecords,
   page = 0,
-  setLoading,
   limit,
   search,
 }) => {
@@ -61,18 +61,18 @@ const WarehouseCarTab = ({
   const cancelButtonRef = useRef(null);
   const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
+  const [downloading, setDownloading] = useState(false);
   const GetImages = async (car_id) => {
-    setLoading(true);
+    NProgress.start();
     setDownloading(false);
     const res = await axios.get(
       `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
     setImages(res.data.data);
     setCarId(car_id);
-    setLoading(false);
+    NProgress.done();
     setRedirectModalOpen(true);
   };
-  const [downloading, setDownloading] = useState(false);
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
       <CustomModal
