@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getSession } from 'next-auth/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { Meta } from '@/layout/Meta';
@@ -8,13 +8,55 @@ import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
-const Bill = ({ billDetails, totalDebit, totalCredit, amountRemaining }) => {
+const Bill = ({
+  billDetails,
+  totalDebit,
+  totalCredit,
+  amountRemaining,
+  car_id,
+}) => {
+  const [printButtonLabel, setPrintButtonLabel] = useState('Print');
+
+  const printShippingBill = async (e) => {
+    e.stopPropagation();
+    setPrintButtonLabel('Printing...');
+
+    const res = await axios.get(`/api/customer/shipping/billDetails`, {
+      params: { car_id },
+    });
+    const html = res.data ? res.data.html : '';
+
+    const win = window.open(
+      '',
+      'Shipping Statement',
+      `toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${
+        window.screen.width - 300
+      },height=${window.screen.height - 300}`
+    );
+    setPrintButtonLabel('Print');
+    if (win) {
+      win.document.body.innerHTML = html;
+      setTimeout(() => {
+        win.document.close();
+        win.focus();
+        win.print();
+        win.close();
+      }, 500);
+    }
+  };
+
   return (
     <Layout meta={<Meta title="Bill" description="" />}>
       <div className="mx-auto px-8">
         <div className="m-4">
           <h4 className="text-dark-blue py-4 text-2xl font-semibold md:text-3xl xl:text-4xl">
-            Shipment Statement
+            <FormattedMessage id="page.customer.bill.shipping.title" />
+            <button
+              className="ml-4 mb-4 rounded bg-blue-500 py-2 px-4 text-lg font-bold text-white hover:bg-blue-700"
+              onClick={(e) => printShippingBill(e)}
+            >
+              {printButtonLabel}
+            </button>
           </h4>
         </div>
         <div className="overflow-hidden rounded-xl border border-gray-600">
@@ -147,6 +189,7 @@ export async function getServerSideProps(context) {
         totalDebit,
         totalCredit,
         amountRemaining,
+        car_id: car,
       },
     };
   } catch (err) {
