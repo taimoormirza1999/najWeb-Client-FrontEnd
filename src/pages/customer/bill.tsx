@@ -52,7 +52,7 @@ const Bill = ({
           <h4 className="text-dark-blue py-4 text-2xl font-semibold md:text-3xl xl:text-4xl">
             <FormattedMessage id="page.customer.bill.shipping.title" />
             <button
-              className="ml-4 mb-4 rounded bg-blue-500 py-2 px-4 text-lg font-bold text-white hover:bg-blue-700"
+              className="invisible ml-4 mb-4 rounded bg-blue-500 py-2 px-4 text-lg font-bold text-white hover:bg-blue-700"
               onClick={(e) => printShippingBill(e)}
             >
               {printButtonLabel}
