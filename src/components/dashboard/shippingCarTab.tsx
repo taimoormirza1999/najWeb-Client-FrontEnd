@@ -73,12 +73,13 @@ const ShippingCarTab = ({
   page = 0,
   setLoading,
   limit,
+  search,
 }) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
-  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -288,7 +289,7 @@ const ShippingCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} />
+          <SelectPageRecords url={limitUrl} search={search} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
@@ -329,9 +330,6 @@ const ShippingCarTab = ({
                             className="max-h-[50px] cursor-pointer"
                             src={car.image}
                             alt=""
-                            onClick={() => {
-                              GetImages(car.carId, 'shipping');
-                            }}
                           />
                         </td>
                         <td
@@ -433,12 +431,17 @@ const ShippingCarTab = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[50px] cursor-pointer px-3 py-3.5  text-left font-semibold text-[#1C1C1C]"
-                          onClick={() => {
-                            GetImages(car.carId, 'loading');
-                          }}
+                          className="min-w-[50px] px-3 py-3.5  text-left font-semibold text-[#1C1C1C]"
                         >
-                          {car.loaded_date}
+                          {car.loaded_date} <br />
+                          <i
+                            className="material-icons cursor-pointer text-3xl ltr:mr-2 rtl:ml-2"
+                            onClick={() => {
+                              GetImages(car.carId, 'loading');
+                            }}
+                          >
+                            &#xe3f4;
+                          </i>
                         </td>
                         <td
                           scope="col"
@@ -462,7 +465,15 @@ const ShippingCarTab = ({
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          {car.shipping_date}
+                          {car.shipping_date} <br />
+                          <i
+                            className="material-icons cursor-pointer text-3xl ltr:mr-2 rtl:ml-2"
+                            onClick={() => {
+                              GetImages(car.carId, 'shipping');
+                            }}
+                          >
+                            &#xe3f4;
+                          </i>
                         </td>
                         <td
                           scope="col"

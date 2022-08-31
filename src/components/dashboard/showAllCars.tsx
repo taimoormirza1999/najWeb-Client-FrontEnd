@@ -17,6 +17,7 @@ const ShowAllCars = ({
   page = 0,
   setLoading,
   limit,
+  search,
 }) => {
   const carTableHeader = [
     'page.customer.dashboard.table.no',
@@ -42,7 +43,7 @@ const ShowAllCars = ({
   // const [images, setImages] = useState([]);
   // const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=showAllCars&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=showAllCars&page=`;
   // const GetImages = async (car_id) => {
   //   setLoading(true);
@@ -119,7 +120,7 @@ const ShowAllCars = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} />
+          <SelectPageRecords url={limitUrl} search={search} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
