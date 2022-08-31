@@ -80,8 +80,7 @@ const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const changeLanguage = (selectedLocale) => {
-    document.cookie = `NEXT_LOCALE=${selectedLocale};path=/`;
-    router.push(router.pathname, router.asPath, { locale: selectedLocale });
+    window.location.assign('/' + selectedLocale + router.asPath);
   };
   const intl = useIntl();
   let fullName = '';
