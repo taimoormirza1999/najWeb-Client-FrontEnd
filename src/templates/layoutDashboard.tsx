@@ -80,6 +80,7 @@ const Layout = (props: IMainProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const changeLanguage = (selectedLocale) => {
+    document.cookie = `NEXT_LOCALE=${selectedLocale};path=/`;
     window.location.assign('/' + selectedLocale + router.asPath);
   };
   const intl = useIntl();
