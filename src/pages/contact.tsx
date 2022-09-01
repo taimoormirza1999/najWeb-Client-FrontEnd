@@ -140,8 +140,8 @@ const Contact = () => {
 
           <form onSubmit={handleSubmit} autoComplete="false" method="post">
             <div className="flex w-full flex-col justify-center lg:flex-row lg:gap-8">
-              <div className="basis-2/6">
-                <div>
+              <div className="basis-1/2">
+                <div className="mx-4">
                   <label
                     htmlFor="name"
                     className="text-dark-blue block text-xl font-semibold"
@@ -157,11 +157,11 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.name' })}
                       value={inputValue.name}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-1 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
-                <div>
+                <div className="mx-4">
                   <label
                     htmlFor="email"
                     className="text-dark-blue mb-4 block text-xl font-semibold"
@@ -177,11 +177,11 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.email' })}
                       value={inputValue.email}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-1 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
-                <div>
+                <div className="mx-4">
                   <label
                     htmlFor="phone"
                     className="text-dark-blue block text-xl font-semibold"
@@ -197,13 +197,13 @@ const Contact = () => {
                       placeholder={intl.formatMessage({ id: 'Your.phone' })}
                       value={inputValue.phone}
                       onChange={handleChange}
-                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-2 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
+                      className="border-dark-blue placeholder:text-medium-grey mb-4 block w-full appearance-none rounded border-1 px-3 py-2 text-lg shadow-sm  focus:border-blue-800 focus:ring-0"
                     />
                   </div>
                 </div>
               </div>
-              <div className="basis-2/6">
-                <div>
+              <div className="basis-1/2">
+                <div className="mx-4">
                   <label
                     htmlFor="name"
                     className="text-dark-blue block text-xl font-semibold"
@@ -213,7 +213,7 @@ const Contact = () => {
                 </div>
                 <div className="mt-1">
                   <textarea
-                    className="placeholder:text-medium-grey border-dark-blue h-[245px] w-full resize-none rounded border-2 text-lg  focus:border-blue-800 focus:ring-0"
+                    className="placeholder:text-medium-grey border-dark-blue h-[245px] w-full resize-none rounded border-1 text-lg  focus:border-blue-800 focus:ring-0"
                     name="message"
                     placeholder={intl.formatMessage({ id: 'messages.message' })}
                     value={inputValue.message}
@@ -264,7 +264,7 @@ const Contact = () => {
                     navigator.clipboard.writeText(copyText);
                   }}
                 >
-                  <i className="material-icons text-azure-blue text-4xl lg:text-5xl">
+                  <i className="material-icons text-azure-blue text-4xl lg:text-5xl hover:text-gray-700">
                     &#xe14d;
                   </i>
                 </button>
@@ -276,20 +276,20 @@ const Contact = () => {
                 >
                   <FontAwesomeIcon
                     icon={faExternalLink}
-                    className="bg-azure-blue rounded-md py-2 px-3 text-xl text-white lg:text-3xl"
+                    className="bg-azure-blue rounded-md py-2 px-3 text-xl text-white hover:text-gray-700 lg:text-3xl"
                   />
                 </a>
               </div>
             </div>
 
-            <p className="text-dark-blue pt-12 text-2xl lg:pt-20 lg:text-4xl">
+            <p className="text-dark-blue pt-12 text-2xl lg:pt-20">
               <FormattedMessage id="Copy.upper.location.using.the.copy.button.press.the.new.link.button.get.directions.in.Google.Maps." />
             </p>
           </div>
           <div className="border-azure-blue basis-[55%] overflow-hidden rounded-xl border-2">
             <iframe
               className="w-full"
-              height="600"
+              height="450"
               src="https://maps.google.com/maps?q=Nejoum%20Al%20Jazeera%20Used%20Cars%20&t=&z=13&ie=UTF8&iwloc=&output=embed"
               frameBorder="0"
               scrolling="no"

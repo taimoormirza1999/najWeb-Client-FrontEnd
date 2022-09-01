@@ -395,7 +395,7 @@ export default function App({ carsMakerData, YearData }) {
                               <img
                                 src={obj.photos}
                                 alt="Car"
-                                className="h-[300px] w-full object-cover shadow-lg"
+                                className="h-[200px] w-full object-cover shadow-sm"
                               />
                               <div className="flex py-2 px-4 shadow">
                                 <div className="text-dark-blue text-sm">
