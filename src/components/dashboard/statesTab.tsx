@@ -97,7 +97,7 @@ const StatesTab = ({ carsRecords }) => {
                         </td>
                         <td
                           className={classNames(
-                            tr.ng !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            tr.ng !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
@@ -105,7 +105,7 @@ const StatesTab = ({ carsRecords }) => {
                         </td>
                         <td
                           className={classNames(
-                            tr.tx !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            tr.tx !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
@@ -113,7 +113,7 @@ const StatesTab = ({ carsRecords }) => {
                         </td>
                         <td
                           className={classNames(
-                            tr.ga !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            tr.ga !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
@@ -121,7 +121,7 @@ const StatesTab = ({ carsRecords }) => {
                         </td>
                         <td
                           className={classNames(
-                            tr.wa !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            tr.wa !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
@@ -129,7 +129,7 @@ const StatesTab = ({ carsRecords }) => {
                         </td>
                         <td
                           className={classNames(
-                            tr.ca !== '0' ? 'text-[#0193FF]' : 'text-[#1C1C1C]',
+                            tr.ca !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >

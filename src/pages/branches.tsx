@@ -6,16 +6,14 @@ import { Layout } from '@/templates/layoutHome';
 
 const Branches = () => (
   <Layout meta={<Meta title="Nejoum Branches" description="Nejoum Branches" />}>
-    <div className="container mx-auto max-w-[85%]">
-      <Breadcrumbs
-        breadcrumbs={[
-          {
-            name: <FormattedMessage id="nejoum.branches" />,
-            href: '/branches',
-          },
-        ]}
-      />
-    </div>
+    <Breadcrumbs
+      breadcrumbs={[
+        {
+          name: <FormattedMessage id="nejoum.branches" />,
+          href: '/branches',
+        },
+      ]}
+    />
 
     <div className="container mx-auto max-w-[85%]">
       <div className="text-dark-blue py-10 text-center">

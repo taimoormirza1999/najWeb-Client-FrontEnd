@@ -69,7 +69,7 @@ const CarProfile = ({ carProfileData }) => {
                               key={index}
                               src={object}
                               alt="Car profile"
-                              className="h-[150px] cursor-pointer object-cover"
+                              className="h-[100px] cursor-pointer object-cover"
                             />
                           );
                         })
@@ -81,84 +81,84 @@ const CarProfile = ({ carProfileData }) => {
           </div>
 
           <div className="basis-1/2">
-            <div className="text-dark-blue mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
+            <div className="text-dark-blue mb-3 bg-white px-6 py-2 shadow-md lg:px-12">
               <h3 className="py-2 text-2xl font-bold lg:text-3xl">
                 {carData.carMakerName} {carData.carModelName}
               </h3>
-              <p className="text-2xl font-semibold">{carData.car_year}</p>
+              <p className="text-xl font-semibold">{carData.car_year}</p>
             </div>
-            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
+            <div className="mb-3 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex items-center">
                 <HashIcon
                   className={
                     'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
                   }
                 />
-                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
+                <h3 className="text-dark-blue text-2xl font-bold lg:text-3xl">
                   VIN
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10">
                 {carData.vin}
               </p>
             </div>
-            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
+            <div className="mb-3 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex items-center">
                 <HashIcon
                   className={
                     'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
                   }
                 />
-                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
+                <h3 className="text-dark-blue text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="statement.lot.no" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10">
                 {carData.lotnumber}
               </p>
             </div>
-            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
+            <div className="mb-3 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex items-center">
                 <CarIcon
                   className={
                     'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
                   }
                 />
-                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
+                <h3 className="text-dark-blue text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="color" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10">
                 {carData.color_name}
               </p>
             </div>
-            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
+            <div className="mb-3 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex items-center">
                 <OfferIcon
                   className={
                     'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
                   }
                 />
-                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
+                <h3 className="text-dark-blue text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="statement.description" />
                 </h3>
               </div>
-              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10 lg:text-2xl">
+              <p className="text-azure-blue pl-8 text-xl font-normal lg:pl-10">
                 {carData.notes}
               </p>
             </div>
-            <div className="mb-4 bg-white px-6 py-2 shadow-md lg:px-12">
+            <div className="mb-3 bg-white px-6 py-2 shadow-md lg:px-12">
               <div className="flex items-center">
                 <PaymentIcon
                   className={
                     'text-yellow-orange h-6 w-6 ltr:mr-2 rtl:ml-2 lg:h-8 lg:w-8'
                   }
                 />
-                <h3 className="text-dark-blue py-2 text-2xl font-bold lg:text-3xl">
+                <h3 className="text-dark-blue text-2xl font-bold lg:text-3xl">
                   <FormattedMessage id="page.customer.dashboard.table.price" />
                 </h3>
               </div>
-              <p className="pl-8 text-2xl font-semibold text-green-600 lg:pl-10">
+              <p className="pl-8 text-xl font-semibold text-green-600 lg:pl-10">
                 AED {carData.price}
               </p>
             </div>

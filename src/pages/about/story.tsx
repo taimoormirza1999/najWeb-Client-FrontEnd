@@ -32,7 +32,7 @@ const Story = () => (
         <h3 className="text-center text-3xl font-semibold md:text-4xl lg:text-6xl ">
           <FormattedMessage id="page.story.title" />
         </h3>
-        <p className="py-4 text-lg md:text-2xl lg:text-3xl">
+        <p className="py-4 text-lg md:text-2xl">
           <span className="font-sen">
             <span className="font-bold">
               <FormattedMessage id="page.company.name.nejoum" />
@@ -44,35 +44,35 @@ const Story = () => (
       </div>
 
       <div className="text-dark-blue pb-10">
-        <h3 className="pl-8 text-2xl font-semibold md:pl-16 md:text-4xl lg:text-6xl ">
+        <h3 className="pl-8 text-2xl font-semibold md:pl-16 md:text-4xl lg:text-5xl ">
           <FormattedMessage id="page.story.timline" />
         </h3>
 
-        <ol className="relative mt-8 border-[#707070] ltr:border-l-[3px] rtl:border-r-[3px]">
+        <ol className="relative mt-5 border-[#707070] ltr:border-l-[3px] rtl:border-r-[3px]">
           <li className="relative -top-10 pt-8 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2002
             </time>
-            <h4 className="text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="text-lg font-normal md:text-2xl">
               <FormattedMessage id="page.story.Story-2002" />
             </h4>
           </li>
           <li className="relative pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2003
             </time>
-            <h4 className="pb-4 text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="pb-4 text-lg font-normal md:text-2xl">
               <FormattedMessage id="page.story.Story-2003" />
             </h4>
           </li>
           <li className="relative pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2009
             </time>
-            <h4 className="pb-4 text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="pb-4 text-lg font-normal md:text-2xl">
               <FormattedMessage id="page.story.Story-2009" />
               <br />
               <br />
@@ -82,47 +82,47 @@ const Story = () => (
             </h4>
           </li>
           <li className="relative pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2016
             </time>
-            <h4 className="pb-4 text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="pb-4 text-lg font-normal md:text-2xl">
               <FormattedMessage id="page.story.Story-2016" />
             </h4>
           </li>
           <li className="relative pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2017
             </time>
-            <h4 className="pb-4 text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="pb-4 text-lg font-normal md:text-2xl">
               <FormattedMessage id="page.story.Story-2017" />
             </h4>
           </li>
           <li className="relative pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2018
             </time>
-            <h4 className="pb-4 text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="pb-4 text-lg font-normal md:text-2xl">
               <FormattedMessage id="page.story.Story-2018" />
             </h4>
           </li>
           <li className="relative pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2019
             </time>
-            <h4 className="pt-4 text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="pb-4 text-lg font-normal md:text-2xl">
               <FormattedMessage id="page.story.Story-2019" />
             </h4>
           </li>
-          <li className="relative top-32 !-mt-32 mb-28 pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:top-40 lg:pt-0 2xl:top-32">
-            <div className="bg-yellow-orange absolute top-10 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
-            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-6xl ">
+          <li className="relative top-20 !-mt-20 mb-8 pt-4 ltr:ml-4 ltr:pl-6 rtl:mr-4 rtl:pr-6 md:pt-7 md:ltr:pl-14 md:rtl:pr-14 lg:pt-0">
+            <div className="bg-yellow-orange absolute top-6 h-5 w-5 rounded-full ltr:-left-7 rtl:-right-7 md:h-7 md:w-7 md:ltr:-left-8 md:rtl:-right-8"></div>
+            <time className="m-0 text-2xl font-semibold md:text-4xl lg:text-5xl ">
               2022
             </time>
-            <h4 className="pt-4 text-lg font-normal md:text-2xl lg:text-3xl">
+            <h4 className="pb-4 text-lg font-normal md:text-2xl">
               <span className="font-sen">
                 <span className="font-bold">
                   <FormattedMessage id="page.company.name.nejoum" />
@@ -136,7 +136,7 @@ const Story = () => (
       </div>
     </div>
 
-    <p className="text-dark-blue mt-12 mb-24 px-4 text-center text-xl ltr:italic md:text-2xl lg:text-3xl">
+    <p className="text-dark-blue mt-12 mb-24 px-4 text-center text-xl font-semibold ltr:italic md:text-2xl">
       <FormattedMessage id="page.story.end" />
     </p>
   </Layout>

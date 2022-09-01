@@ -34,11 +34,11 @@ const Shipping = () => {
 
       <div className="container mx-auto">
         <div className="border-dark-blue flex flex-col rounded-lg border p-4 lg:p-8 xl:flex-row">
-          <div className="text-dark-blue basis-3/5 p-2 xl:p-8">
+          <div className="text-dark-blue basis-1/2 p-2 xl:p-8">
             <h2 className="text-3xl font-bold lg:text-[40px]">
               <FormattedMessage id="page.services.shipping" />
             </h2>
-            <p className="py-4 text-lg leading-normal md:text-xl lg:py-8 lg:text-2xl lg:leading-[2.8rem] xl:pr-10">
+            <p className="py-4 text-lg leading-normal md:text-xl lg:py-8 lg:leading-[2.8rem] xl:pr-2">
               <span className="font-sen">
                 <span className="font-bold">
                   <FormattedMessage id="page.company.name.nejoum" />
@@ -56,7 +56,7 @@ const Shipping = () => {
               <FormattedMessage id="page.services.shipping.receive_serviceetc" />
             </button>
           </div>
-          <div className="relative basis-2/5">
+          <div className="relative basis-1/2">
             <img
               src="/assets/images/usa-warehouse-2.png"
               alt="Shipping car"
