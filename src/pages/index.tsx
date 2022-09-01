@@ -63,16 +63,16 @@ const Index = ({ announcements }) => {
         <div className="flex flex-col gap-10 py-12 lg:flex-row lg:gap-20 lg:py-24">
           <div className="basis-1/2">
             <img
-              className="h-auto rounded-xl lg:h-[470px]"
+              className="h-auto rounded-xl 2xl:h-[470px]"
               src="/assets/images/ship-cars.png"
               alt="Shipping Cars"
             />
           </div>
           <div className="basis-1/2 self-center">
-            <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-3xl lg:text-[2.5rem]">
+            <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-3xl 2xl:text-[2.5rem]">
               <FormattedMessage id="ships.cars.from.usa.canada" />
             </h3>
-            <p className="text-dark-blue max-w-full py-3 text-xl md:text-2xl lg:max-w-[75%] lg:text-3xl">
+            <p className="text-dark-blue max-w-full py-3 text-xl md:text-2xl lg:max-w-[75%] lg:text-2xl 2xl:text-3xl">
               <span className="font-sen">
                 <span className="font-bold">
                   <FormattedMessage id="page.company.name.nejoum" />
@@ -119,15 +119,15 @@ const Index = ({ announcements }) => {
       </div>
 
       <div className="container mx-auto">
-        <div className="flex flex-col gap-8 py-12 lg:flex-row lg:gap-20 lg:py-24">
+        <div className="flex flex-col gap-8 py-12 lg:flex-row lg:gap-20 xl:py-24">
           <div className="basis-1/2">
             <img
-              className="max-h-[500px] rounded-xl md:h-[600px]"
+              className="max-h-[500px] rounded-xl"
               src="/assets/images/car-tracking-2.png"
               alt="Tracking Cars"
             />
           </div>
-          <div className="basis-1/2 py-4 lg:py-24 lg:pl-8">
+          <div className="basis-1/2 py-4 lg:pl-8 xl:py-16 2xl:py-24">
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-3xl lg:text-[2.5rem]">
               <FormattedMessage id="cars.tracking.services" />
             </h3>
