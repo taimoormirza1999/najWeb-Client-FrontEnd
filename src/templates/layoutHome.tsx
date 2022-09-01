@@ -549,18 +549,18 @@ const Layout = (props: IMainProps) => {
         <footer className="bg-outer-space py-12">
           <div className="container mx-auto">
             <div className="flex flex-col flex-wrap justify-center xl:flex-row">
-              <div className="basis-[10%]">
+              <div className="basis-[14%]">
                 <Link href="/">
                   <a>
                     <img
                       src={`/assets/images/logo-white-3-${locale}.png`}
-                      className="w-52"
+                      className="w-60"
                       alt={AppConfig.title}
                     />
                   </a>
                 </Link>
               </div>
-              <div className="my-8 basis-[42%] xl:pl-4">
+              <div className="my-8 basis-[38%] xl:pl-4">
                 <div className="footer-menu mb-10 flex flex-col justify-between gap-4 pt-12 text-white sm:flex-row">
                   <div>
                     <h4 className="text-lg font-semibold md:text-xl">

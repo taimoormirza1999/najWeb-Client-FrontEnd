@@ -82,7 +82,7 @@ const Index = ({ announcements }) => {
               <FormattedMessage id="ships.cars.from.usa.canada.desc" />
             </p>
             <Link href="/services/shipping">
-              <a className="text-azure-blue block py-3 text-xl hover:border-0 lg:text-2xl">
+              <a className="text-azure-blue block py-3 text-xl hover:border-0 hover:text-gray-700 lg:text-2xl">
                 <FormattedMessage id="learn.more" />
               </a>
             </Link>
@@ -97,12 +97,12 @@ const Index = ({ announcements }) => {
               <h3 className="py-3 text-2xl font-semibold text-white md:text-3xl lg:text-[2.5rem]">
                 <FormattedMessage id="integrate.services" />
               </h3>
-              <p className="py-3 pr-4 text-xl !text-white md:text-2xl lg:text-3xl">
+              <p className="py-3 pr-4 text-xl !text-white md:text-2xl">
                 <FormattedMessage id="integrate.services.desc" />
               </p>
               <a
                 href="#"
-                className="block py-3 text-xl text-blue-200 hover:border-0 lg:text-2xl"
+                className="block py-3 text-xl text-blue-200 hover:border-0 hover:text-gray-300 lg:text-2xl"
               >
                 <FormattedMessage id="learn.more" />
               </a>
@@ -131,11 +131,11 @@ const Index = ({ announcements }) => {
             <h3 className="text-dark-blue py-3 text-2xl font-semibold md:text-3xl lg:text-[2.5rem]">
               <FormattedMessage id="cars.tracking.services" />
             </h3>
-            <p className="text-dark-blue max-w-full py-3 text-xl md:text-2xl lg:max-w-[75%] lg:text-3xl">
+            <p className="text-dark-blue max-w-full py-3 text-xl md:text-2xl lg:max-w-[75%]">
               <FormattedMessage id="cars.tracking.services.desc" />
             </p>
             <Link href="/services/cargo">
-              <a className="text-azure-blue block py-3 text-xl hover:border-0 lg:text-2xl">
+              <a className="text-azure-blue block py-3 text-xl hover:border-0 hover:text-gray-700 lg:text-2xl">
                 <FormattedMessage id="learn.more" />
               </a>
             </Link>
