@@ -21,7 +21,7 @@ const Index = ({ announcements }) => {
           className="md:[h-68vh] w-full lg:h-[83vh]"
           alt="banner"
         />
-        <div className="absolute top-[10px] left-[10px] max-w-[500px] text-white lg:left-[7%] lg:top-1/3">
+        <div className="absolute left-[7%] top-1/3 max-w-[500px] text-white">
           <h4 className="text-base font-semibold md:text-xl lg:text-3xl">
             Shipping your Cars from <br/>
             all American Auctions
@@ -33,9 +33,9 @@ const Index = ({ announcements }) => {
             all times
           </p>
         </div>
-        <div className="absolute bottom-[-8px] left-1/2 flex w-[16rem] -translate-x-1/2 -translate-y-1/2 flex-col justify-center rounded-[25px] bg-transparent md:top-1/2 md:h-[20vh] md:w-[20rem] md:bg-[rgb(0,95,183)]/[0.6] md:p-4 lg:left-auto lg:right-[1%] lg:top-[22%] lg:w-[30rem] xl:h-[45vh] xl:w-[35rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]">
+        <div className="absolute top-[20%] hidden w-[16rem] -translate-x-1/3 flex-col justify-center rounded-[25px] bg-transparent md:right-[5%] md:left-3/4 md:flex md:h-[20vh] md:w-[20rem] md:bg-[rgb(0,95,183)]/[0.6] md:p-4 lg:right-[1%] lg:left-auto lg:w-[30rem] xl:h-[45vh] xl:w-[35rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]">
           <div className="basis-1/3">
-            <h2 className="hidden py-6 text-center text-2xl font-semibold text-white md:block md:text-3xl lg:text-5xl rtl:lg:text-5xl xl:text-[70px]">
+            <h2 className="py-6 text-center text-2xl font-semibold text-white md:text-3xl lg:text-5xl rtl:lg:text-5xl xl:text-[70px]">
               <FormattedMessage id="you.want.to" />
             </h2>
 
@@ -53,6 +53,28 @@ const Index = ({ announcements }) => {
             </div>
           </div>
           {/* <a className="flex basis-1/3  items-center justify-center text-center text-lg font-light ltr:italic text-blue-100 underline hover:border-0 md:text-[22px]"></a> */}
+        </div>
+      </div>
+      <div className="justify-center">
+        <div className="flex justify-center bg-[rgb(0,95,183)]/[0.6] md:hidden">
+          <div className="">
+            <h2 className="py-3 text-center text-xl font-semibold text-white">
+              <FormattedMessage id="you.want.to" />
+            </h2>
+
+            <div className="mb-4 flex justify-center gap-4">
+              <Link href="/services/shipping">
+                <a className="rounded-sm bg-[#0093FF] p-1 text-base font-medium text-white hover:border-0 hover:bg-blue-400">
+                  <FormattedMessage id="Ship cars" />
+                </a>
+              </Link>
+              <Link href="/cars/showroom">
+                <a className="ml-0 rounded-sm bg-white p-1 text-base font-medium hover:border-none hover:text-blue-500">
+                  <FormattedMessage id="Buy cars" />
+                </a>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
