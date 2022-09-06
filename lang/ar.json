@@ -228,7 +228,7 @@
   "statement.filter": "المحددات",
   "statement.shipped_cars": "السيارات المشحونة",
   "statement.shipped_cars.date": "التاريخ",
-  "statement.shipped_cars.shipping_amount": "الاضافة أو الخصم للشحن",
+  "statement.shipped_cars.shipping_amount": "مبلغ الشحن",
   "statement.shipped_cars.debit": "مدين",
   "statement.shipped_cars.credit": "دائن",
   "statement.shipped_cars.remainig": "المتبقي",
