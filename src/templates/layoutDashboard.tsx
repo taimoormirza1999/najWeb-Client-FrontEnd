@@ -37,6 +37,12 @@ const Layout = (props: IMainProps) => {
       current: true,
     },
     {
+      name: 'page.customer.dashboard.navigation_containers',
+      href: `/customer/containers/?tab=inShipping`,
+      gicon: '&#xf8ee;',
+      current: false,
+    },
+    {
       name: 'page.customer.dashboard.navigation_statement',
       href: '/customer/statement',
       gicon: '&#xe873;',
@@ -81,10 +87,11 @@ const Layout = (props: IMainProps) => {
   const { data: session } = useSession();
   const changeLanguage = (selectedLocale) => {
     document.cookie = `NEXT_LOCALE=${selectedLocale};path=/`;
-    window.location.assign('/' + selectedLocale + router.asPath);
+    window.location.assign(`/${selectedLocale}${router.asPath}`);
   };
   const intl = useIntl();
   let fullName = '';
+  const isBulkShippingCustomer = session?.profile[0]?.bulk_shipLoad;
   if (locale === 'ar') {
     fullName = session?.profile[0]?.full_name_ar;
   } else {
@@ -157,24 +164,32 @@ const Layout = (props: IMainProps) => {
                     </Link>
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
-                    {navigation.map((item, index) => (
-                      <Link key={index} href={item.href}>
-                        <a
-                          className={classNames(
-                            router.pathname === item.href
-                              ? 'bg-[#CEDAE5] text-[#0D3C8E]'
-                              : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                            'group flex items-center px-2 py-2 text-base rounded-md font-semibold'
-                          )}
-                        >
-                          <i
-                            className="material-icons text-lg ltr:mr-2 rtl:ml-2"
-                            dangerouslySetInnerHTML={{ __html: item.gicon }}
-                          ></i>
-                          <FormattedMessage id={item.name} />
-                        </a>
-                      </Link>
-                    ))}
+                    {navigation
+                      .filter((item) => {
+                        return (
+                          item.name !==
+                            'page.customer.dashboard.navigation_containers' ||
+                          isBulkShippingCustomer === '1'
+                        );
+                      })
+                      .map((item, index) => (
+                        <Link key={index} href={item.href}>
+                          <a
+                            className={classNames(
+                              router.pathname === item.href
+                                ? 'bg-[#CEDAE5] text-[#0D3C8E]'
+                                : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                              'group flex items-center px-2 py-2 text-base rounded-md font-semibold'
+                            )}
+                          >
+                            <i
+                              className="material-icons text-lg ltr:mr-2 rtl:ml-2"
+                              dangerouslySetInnerHTML={{ __html: item.gicon }}
+                            ></i>
+                            <FormattedMessage id={item.name} />
+                          </a>
+                        </Link>
+                      ))}
                     {locale === 'en' ? (
                       <a
                         href="#"
@@ -258,24 +273,32 @@ const Layout = (props: IMainProps) => {
                 </Link>
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-1">
-                {navigation.map((item, index) => (
-                  <Link key={index} href={item.href}>
-                    <a
-                      className={classNames(
-                        router.pathname === item.href
-                          ? 'bg-[#CEDAE5] text-[#0D3C8E]'
-                          : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                        'group flex items-center pl-1 pr-0 py-2 font-semibold rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
-                      )}
-                    >
-                      <i
-                        className="material-icons text-3xl ltr:mr-2 rtl:ml-2"
-                        dangerouslySetInnerHTML={{ __html: item.gicon }}
-                      ></i>
-                      <FormattedMessage id={item.name} />
-                    </a>
-                  </Link>
-                ))}
+                {navigation
+                  .filter((item) => {
+                    return (
+                      item.name !==
+                        'page.customer.dashboard.navigation_containers' ||
+                      isBulkShippingCustomer === '1'
+                    );
+                  })
+                  .map((item, index) => (
+                    <Link key={index} href={item.href}>
+                      <a
+                        className={classNames(
+                          router.pathname === item.href
+                            ? 'bg-[#CEDAE5] text-[#0D3C8E]'
+                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                          'group flex items-center pl-1 pr-0 py-2 font-semibold rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
+                        )}
+                      >
+                        <i
+                          className="material-icons text-3xl ltr:mr-2 rtl:ml-2"
+                          dangerouslySetInnerHTML={{ __html: item.gicon }}
+                        ></i>
+                        <FormattedMessage id={item.name} />
+                      </a>
+                    </Link>
+                  ))}
               </nav>
             </div>
             <div className="flex shrink-0 border-t border-gray-200 p-4">
