@@ -58,11 +58,10 @@ const Index = ({ announcements }) => {
       <div className="justify-center">
         <div className="flex justify-center bg-[rgb(0,95,183)]/[0.6] lg:hidden">
           <div className="">
-            <h2 className="py-3 text-center text-xl font-semibold text-white">
-              <FormattedMessage id="you.want.to" />
-            </h2>
-
-            <div className="mb-4 flex justify-center gap-4">
+            <div className="my-4 flex justify-center gap-4">
+              <h2 className="text-xl font-semibold text-white">
+                <FormattedMessage id="you.want.to" />
+              </h2>
               <Link href="/services/shipping">
                 <a className="rounded-sm bg-[#0093FF] p-1 text-base font-medium text-white hover:border-0 hover:bg-blue-400">
                   <FormattedMessage id="Ship cars" />
