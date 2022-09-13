@@ -23,7 +23,7 @@ async function refreshAccessToken(token) {
     return {
       ...token,
       access_token: refreshedTokens.access_token,
-      expires_in: Date.now() + refreshedTokens.expires_in,
+      expires_in: Date.now() + refreshedTokens.expires_in * 1000 - 300000,
       refresh_token: refreshedTokens.refresh_token
         ? refreshedTokens.refresh_token
         : "",
@@ -95,7 +95,7 @@ const options = {
     async jwt({ token, user }) {
       if (user) {
         token.access_token = user.access_token;
-        token.expires_in = Date.now() + user.expires_in;
+        token.expires_in = Date.now() + user.expires_in * 1000 - 300000;
         token.refresh_token = user.refresh_token;
         token.profile = user.profile;
         return token;
