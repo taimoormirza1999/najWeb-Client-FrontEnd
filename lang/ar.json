@@ -285,12 +285,15 @@
   "page.customer.container.eta": "ETA",
   "page.customer.container.shipping_date": "تاريخ الشحن",
   "page.container.detail": "تفاصيل الحاوية",
-  "general.close": "Close",
+  "general.close": "إنهاء",
+  "general.region": "منطقة",
+  "general.all.region": "منطقة",
+  "page.table.info.length" : "طول العرض",
   "page.customer.container.booking": "رقم الحجز",
   "page.customer.container.destination": "المكان المقصود",
   "page.customer.container.status": "حالة",
   "page.customer.container.loaded_date": "تاريخ التحميل",
   "page.customer.container.arrived_port_date": "تاريخ الوصول المنفذ",
   "page.customer.container.arrived_store_date": "تاريخ وصول المتجر",
-  "page.customer.container.cars_shipping_amount": "Cars Shipping Amount"
+  "page.customer.container.cars_shipping_amount": "مبلغ شحن السيارات"
 }

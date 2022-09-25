@@ -1,7 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
@@ -100,15 +101,55 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 };
 
+// TODO fix region fitler on page change
 const SelectPageRecords = ({ url, search = '' }) => {
   const intl = useIntl();
+  const router = useRouter();
   const [selectedLimit, setSelectLimit] = useState('10');
   const [tableSearch, setTableSearch] = useState(search);
-  const router = useRouter();
+  const [regions, setRegions] = useState<any>([]);
+  const [filters, setFilters] = useState<any>({
+    region: router.query?.region ? router.query.region : '',
+  });
+
+  const applyFilters = () => {
+    router.push(
+      `${url}&limit=${selectedLimit}&search=${tableSearch}&region=${filters.region}`
+    );
+  };
+
   const changePage = (value) => {
     setSelectLimit(value);
-    router.push(`${url}&limit=${value}&search=${tableSearch}`);
   };
+
+  function handleFilterChange(event) {
+    const { name, value } = event.target;
+    setFilters((prevState) => ({ ...prevState, [name]: value }));
+  }
+
+  const getRegions = async () => {
+    await axios
+      .get(`/api/general/auctionRegions`)
+      .then((res) => {
+        setRegions(res.data.data);
+      })
+      .catch(() => {
+        setRegions([]);
+      });
+  };
+
+  useEffect(() => {
+    getRegions();
+  }, []);
+
+  useEffect(() => {
+    setFilters((prevState) => ({ ...prevState, region: '' }));
+  }, [url]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [filters, selectedLimit]);
+
   return (
     <div className="mt-3">
       <input
@@ -126,6 +167,25 @@ const SelectPageRecords = ({ url, search = '' }) => {
         }}
       />
       <select
+        name="region"
+        title={intl.formatMessage({ id: 'general.region' })}
+        className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+        value={filters.region}
+        onChange={handleFilterChange}
+      >
+        <option value="">
+          {intl.formatMessage({ id: 'general.all.region' })}
+        </option>
+        {regions
+          ? regions.map((region, index) => (
+              <option key={index} value={region.region_id}>
+                {region.region_name}
+              </option>
+            ))
+          : null}
+      </select>
+      <select
+        title={intl.formatMessage({ id: 'page.table.info.length' })}
         className="mb-3 rounded-md  border border-[#005fb7] py-1 text-lg text-gray-700 ltr:float-right rtl:float-left"
         value={selectedLimit}
         onChange={(event) => changePage(event.target.value)}
