@@ -179,7 +179,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
         {regions
           ? regions.map((region, index) => (
               <option key={index} value={region.region_id}>
-                {region.region_name}
+                {region.country_shortname} - {region.region_name}
               </option>
             ))
           : null}
