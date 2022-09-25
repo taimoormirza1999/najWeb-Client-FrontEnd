@@ -1,10 +1,14 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
+import {
+  Pagination,
+  SelectPageRecords,
+} from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
 import { Port } from './arrived/port';
@@ -64,11 +68,13 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.Total',
     ];
   }
+  const router = useRouter();
+  const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&type=${type}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&region=${region}&type=${type}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
   const [downloading, setDownloading] = useState(false);
   const GetImages = async (car_id) => {

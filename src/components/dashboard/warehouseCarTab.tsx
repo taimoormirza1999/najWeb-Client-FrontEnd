@@ -7,8 +7,12 @@ import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
-import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
+import {
+  Pagination,
+  SelectPageRecords,
+} from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
+import { useRouter } from "next/router";
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -53,13 +57,15 @@ const WarehouseCarTab = ({
   limit,
   search = '',
 }) => {
+  const router = useRouter();
+  const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&region=${region}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
   const [downloading, setDownloading] = useState(false);
   const GetImages = async (car_id) => {
@@ -328,7 +334,8 @@ const WarehouseCarTab = ({
                           className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           <span className="text-[#810808]">{car.region}</span>{' '}
-                          {car.auctionLocationName} <br /> {car.auctionTitle}
+                          {car.auctionLocationName} <br /> {car.auctionTitle} <br />
+                          {car.region}
                         </td>
                         <td
                           scope="col"
