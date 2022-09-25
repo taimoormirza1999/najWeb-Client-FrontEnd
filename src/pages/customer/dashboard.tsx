@@ -106,7 +106,6 @@ export async function getServerSideProps(context) {
       .get(`${apiUrl}`)
       .then((response) => {
         // handle success
-        console.log(apiUrl);
         carsData = response.data;
       })
       .catch(function (error) {
