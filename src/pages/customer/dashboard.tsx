@@ -28,6 +28,7 @@ export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
+  const region = context.query.region ? context.query.region : '';
   const session: any = await getSession(context);
   let networkError = false;
   let carsData = {};
@@ -93,6 +94,9 @@ export async function getServerSideProps(context) {
   } else if (apiTab !== 'statesCount') {
     apiUrl = `${apiUrl}&page=${page}&limit=${limit}`;
   }
+
+  apiUrl = region ? `${apiUrl}&region=${region}` : apiUrl;
+
   if (search) {
     apiUrl = `${apiUrl}&search=${search}`;
   }
@@ -102,6 +106,7 @@ export async function getServerSideProps(context) {
       .get(`${apiUrl}`)
       .then((response) => {
         // handle success
+        console.log(apiUrl);
         carsData = response.data;
       })
       .catch(function (error) {

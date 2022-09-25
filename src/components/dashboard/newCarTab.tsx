@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -6,9 +7,19 @@ import { Paid } from '@/components/dashboard/newCar/paid';
 import { PaidByCustomer } from '@/components/dashboard/newCar/paid_by_customer';
 import { Towing } from '@/components/dashboard/newCar/towing';
 import { UnPaid } from '@/components/dashboard/newCar/unpaid';
-import { Pagination, SelectPageRecords } from '@/components/dashboard/pagination';
+import {
+  Pagination,
+  SelectPageRecords,
+} from '@/components/dashboard/pagination';
 
-const NewCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search = '' }) => {
+const NewCarTab = ({
+  carsRecords,
+  totalRecords,
+  page = 0,
+  type,
+  limit,
+  search = '',
+}) => {
   let carTableData;
   if (!type) {
     type = 'unpaid';
@@ -162,7 +173,9 @@ const NewCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search = 
       },
     ];
   }
-  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&limit=${limit}&page=`;
+  const router = useRouter();
+  const region = router.query.region ? router.query.region : '';
+  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&region=${region}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">

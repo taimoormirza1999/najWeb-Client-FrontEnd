@@ -2,6 +2,7 @@ import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import React, { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -75,11 +76,13 @@ const ShippingCarTab = ({
   limit,
   search = '',
 }) => {
+  const router = useRouter();
+  const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
-  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&region=${region}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -352,7 +355,9 @@ const ShippingCarTab = ({
                           scope="col"
                           className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          {car.auction_location_name} <br /> {car.auctionTitle}
+                          {car.auction_location_name} <br /> {car.auctionTitle}{' '}
+                          <br />
+                          {car.region_name}
                         </td>
                         <td
                           scope="col"

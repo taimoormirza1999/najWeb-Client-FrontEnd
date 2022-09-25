@@ -1,11 +1,22 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
 
-import { Pagination, SelectPageRecords  } from '@/components/dashboard/pagination';
+import {
+  Pagination,
+  SelectPageRecords,
+} from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
-const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, search = '' }) => {
+const DeliveredCarTab = ({
+  carsRecords,
+  totalRecords,
+  page = 0,
+  type,
+  limit,
+  search = '',
+}) => {
   if (!type) {
     type = 'Paid';
   }
@@ -62,7 +73,9 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, sea
       'page.customer.dashboard.table.images',
     ];
   }
-  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&limit=${limit}&page=`;
+  const router = useRouter();
+  const region = router.query.region ? router.query.region : '';
+  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&region=${region}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
@@ -134,7 +147,8 @@ const DeliveredCarTab = ({ carsRecords, totalRecords, page = 0, type, limit, sea
                           scope="col"
                           className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          {car.auction_location_name} <br /> {car.aTitle}
+                          {car.auction_location_name} <br /> {car.auctionTitle}
+                          <br /> {car.region}
                         </td>
                         <td
                           scope="col"
