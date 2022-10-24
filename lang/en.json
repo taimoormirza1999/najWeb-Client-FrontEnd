@@ -87,6 +87,8 @@
   "page.services.shipping.receive_service": "Receive service",
   "general.apply_for_account": "Apply for Account",
   "general.vision": "Vision",
+  "general.mission": "Mission",
+  "general.mission.desc": "Upgrading the trading field of exported used cars through keeping up with the newest technology and applying it on all of our services. In addition, the expansion to other countries through initiating other branches and enhancing our level of service while still achieving competitiveness and gratifying our customers.",
   "general.text_nejoum": "Contact us",
   "page.services.shipping.shippingDesc": "has adopted the principle of competitiveness and leadership in the field of the car logistic of all kinds for most of the Gulf Cooperation Countries in addition to the import and customs clearance services for cars coming from abroad to the United Arab Emirates by ensuring the highest levels of quality and competitive prices providing all logistical support and complete solutions to our valued customers and the pursuit always achieve the highest standards of efficiency and effectiveness.",
   "page.company.name.nejoum": "NEJOUM ",
@@ -133,6 +135,9 @@
   "sign.up": "Sign Up",
   "sign.in": "Sign In",
   "you.want.to": "You want to...",
+  "ship.your.cars.from": "Shipping your Cars from",
+  "all.american.auctions": "all American Auctions",
+  "working.day.night": "Working day and night to facilitate your car transportation starting from providing buyer accounts, towing, shipping, and tracking it at all times",
   "ships.cars.from.usa.canada": "Ships Cars From USA & Canada",
   "ships.cars.from.usa.canada.desc": "has a team with years of experience and dedication to the used car sales market..",
   "learn.more": "Learn more...",
@@ -295,7 +300,7 @@
   "general.close": "Close",
   "general.region": "Region",
   "general.all.region": "All Regions",
-  "page.table.info.length" : "Display Length",
+  "page.table.info.length": "Display Length",
   "page.customer.container.booking": "Booking",
   "page.customer.container.destination": "Destination",
   "page.customer.container.status": "Status",
@@ -303,5 +308,4 @@
   "page.customer.container.arrived_port_date": "Arrived Port Date",
   "page.customer.container.arrived_store_date": "Arrived Store Date",
   "page.customer.container.cars_shipping_amount": "Cars Shipping Amount"
-
 }

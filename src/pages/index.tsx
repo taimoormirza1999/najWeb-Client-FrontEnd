@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
 
 import { Meta } from '@/layout/Meta';
@@ -10,6 +11,7 @@ import DownloadApps from '../components/lownloadApps';
 const apiUrl = process.env.API_URL;
 
 const Index = ({ announcements }) => {
+  const { locale } = useRouter();
   return (
     <Layout
       meta={<Meta title="" description="Nejoum Al Jazeera" />}
@@ -23,14 +25,12 @@ const Index = ({ announcements }) => {
         />
         <div className="absolute left-[7%] top-1/3 max-w-[500px] text-white">
           <h4 className="text-base font-semibold md:text-xl lg:text-3xl">
-            Shipping your Cars from <br/>
-            all American Auctions
+            <FormattedMessage id="ship.your.cars.from" /> <br />
+            <FormattedMessage id="all.american.auctions" />
           </h4>
 
           <p className="text-sm md:mt-[10px] md:text-base lg:text-xl">
-            Working day and night to facilitate your car transportation starting
-            from providing buyer accounts, towing, shipping, and tracking it at
-            all times
+            <FormattedMessage id="working.day.night" />
           </p>
         </div>
         <div className="absolute top-[20%] hidden w-[16rem] -translate-x-1/3 flex-col justify-center rounded-[25px] bg-transparent md:right-[5%] md:left-3/4 md:h-[33vh] md:w-[18rem] md:bg-[rgb(0,95,183)]/[0.6] md:p-4 lg:right-[1%] lg:left-auto lg:flex xl:h-[45vh] xl:w-[30rem] xl:translate-x-0 xl:translate-y-0 2xl:right-[8%] 2xl:h-[65%] 2xl:w-[30%]">
@@ -91,12 +91,14 @@ const Index = ({ announcements }) => {
               <FormattedMessage id="ships.cars.from.usa.canada" />
             </h3>
             <p className="text-dark-blue max-w-full py-3 text-xl md:text-2xl lg:max-w-[75%] lg:text-2xl 2xl:text-3xl">
-              <span className="font-sen">
-                <span className="font-bold">
-                  <FormattedMessage id="page.company.name.nejoum" />
+              {locale !== 'ar' && (
+                <span className="font-sen">
+                  <span className="font-bold">
+                    <FormattedMessage id="page.company.name.nejoum" />
+                  </span>
+                  <FormattedMessage id="page.company.name.aljazeera" />
                 </span>
-                <FormattedMessage id="page.company.name.aljazeera" />
-              </span>
+              )}
               <FormattedMessage id="ships.cars.from.usa.canada.desc" />
             </p>
             <Link href="/services/shipping">
@@ -115,7 +117,7 @@ const Index = ({ announcements }) => {
               <h3 className="py-3 text-2xl font-semibold text-white md:text-3xl lg:text-[2.5rem]">
                 <FormattedMessage id="integrate.services" />
               </h3>
-              <p className="py-3 pr-4 text-xl !text-white md:text-2xl">
+              <p className="py-3 text-xl !text-white ltr:pr-4 rtl:pl-4 md:text-2xl">
                 <FormattedMessage id="integrate.services.desc" />
               </p>
               <a
