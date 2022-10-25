@@ -1,4 +1,4 @@
-import { faFacebookSquare, faInstagramSquare, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faInstagramSquare, faLinkedin, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Menu, Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -668,10 +668,7 @@ const Layout = (props: IMainProps) => {
                   <span className="py-1 text-white">
                     <FormattedMessage id="follow.us" />
                   </span>
-                  <Link
-                    href="https://www.facebook.com/Nejoum.aljazeera/"
-                    passHref
-                  >
+                  <Link href="https://www.facebook.com/nejoum.ae" passHref>
                     <a className="hover:border-0" target="_blank">
                       <FontAwesomeIcon
                         icon={faFacebookSquare}
@@ -690,14 +687,14 @@ const Layout = (props: IMainProps) => {
                       />
                     </a>
                   </Link>
-                  {/* <Link href="#" passHref>
+                  <Link href="https://twitter.com/Nejoumae" passHref>
                     <a className="hover:border-0" target="_blank">
                       <FontAwesomeIcon
                         icon={faTwitterSquare}
                         className="text-4xl text-white"
                       />
                     </a>
-                  </Link> */}
+                  </Link>
                   <Link
                     href="https://ae.linkedin.com/in/nejoum-aljazeera-345362167"
                     passHref
