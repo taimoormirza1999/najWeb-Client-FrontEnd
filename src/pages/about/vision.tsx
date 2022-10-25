@@ -56,32 +56,36 @@ const Vision = () => {
         </div>
 
         <div className="text-dark-blue py-10 text-center">
-          <h3 className="text-6xl font-semibold ">Our Values</h3>
+          <h3 className="text-6xl font-semibold ">
+            <FormattedMessage id="our.values" />
+          </h3>
           <p className="py-4 text-3xl">
-            Our values are derived from the passion of providing you the best
-            car logistics service
+            <FormattedMessage id="our.values1" />
           </p>
 
           <div className="flex">
             <div className="basis-1/6"></div>
-            <ul className="our-values text-left text-3xl leading-[5.5rem] list-disc">
-              <li className="leading-[3rem] ml-[38px]">
-                Speed: Providing our services at he highest possible pace.
+            <ul className="our-values list-disc text-3xl leading-[5.5rem] ltr:text-left rtl:text-right">
+              <li className="leading-[3rem] ltr:ml-[38px] rtl:mr-[38px]">
+                <FormattedMessage id="our.values2" />
               </li>
-              <li className="leading-[3rem] ml-[38px]">
-                Price: Offering most competitive prices in vehicle and logistics
-                market.
+              <li className="leading-[3rem] ltr:ml-[38px] rtl:mr-[38px]">
+                <FormattedMessage id="our.values3" />
               </li>
-              <li className="leading-[3rem] ml-[38px]">
-                Excellence: Providing excellent and professional services
-                minding every minor detail
+              <li className="leading-[3rem] ltr:ml-[38px] rtl:mr-[38px]">
+                <FormattedMessage id="our.values4" />
               </li>
+              {locale === 'ar' && (
+                <li className="leading-[3rem] ltr:ml-[38px] rtl:mr-[38px]">
+                  <FormattedMessage id="our.values5" />
+                </li>
+              )}
             </ul>
           </div>
         </div>
 
         <p className="text-dark-blue py-12 text-center text-2xl ltr:italic">
-          We look forward giving you the best logistics’ service experience
+          <FormattedMessage id="our.values6" />
         </p>
       </div>
     </Layout>
