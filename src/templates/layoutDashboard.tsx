@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { findToken, onMessageListener } from "@/utils/firebase";
+
 import { classNames } from '@/utils/Functions';
 
 import PushNotificationLayout from '../components/PushNotificationLayout';
@@ -25,9 +25,6 @@ function getDirection(locale) {
   return 'ltr';
 }
 const Layout = (props: IMainProps) => {
-  const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState({ title: "", body: "" });
-  const [isTokenFound, setTokenFound] = useState(false);
   const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
   const GetCustomerBalance = async () => {
@@ -36,7 +33,7 @@ const Layout = (props: IMainProps) => {
   };
   const getGeneralNotification = async () => {
     const res = await axios.get(`/api/customer/getnotifications`);
-    setNotify(res.data.data);
+    setNotify(res.data.data ? res.data.data : []);
   };
   const setSeenNotification = async (id, index) => {
     await axios.post(`/api/customer/seennotification`, {
@@ -121,24 +118,7 @@ const Layout = (props: IMainProps) => {
     <>
       {props.meta}
       <div>
-      <Toast
-      onClose={() => setShow(false)}
-      show={show}
-      delay={3000}
-      autohide
-      animation
-      style={{
-        position: "absolute",
-        top: 20,
-        right: 20,
-        minWidth: 200,
-      }}
-    >
-      <Toast.Header>
-        <strong className="mr-auto">{notification.title}</strong>
-      </Toast.Header>
-      <Toast.Body>{notification.body}</Toast.Body>
-    </Toast>
+        <PushNotificationLayout></PushNotificationLayout>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
