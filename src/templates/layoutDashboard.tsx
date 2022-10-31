@@ -1,13 +1,18 @@
-import { Dialog, Transition } from '@headlessui/react';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Dialog, Popover, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-
+import { findToken, onMessageListener } from "@/utils/firebase";
 import { classNames } from '@/utils/Functions';
+
+import PushNotificationLayout from '../components/PushNotificationLayout';
 
 type IMainProps = {
   meta: ReactNode;
@@ -20,10 +25,25 @@ function getDirection(locale) {
   return 'ltr';
 }
 const Layout = (props: IMainProps) => {
+  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState({ title: "", body: "" });
+  const [isTokenFound, setTokenFound] = useState(false);
+  const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
   const GetCustomerBalance = async () => {
     const res = await axios.get(`/api/customer/customer_balance`);
     setCustomerBalance(parseFloat(res.data?.data));
+  };
+  const getGeneralNotification = async () => {
+    const res = await axios.get(`/api/customer/getnotifications`);
+    setNotify(res.data.data);
+  };
+  const setSeenNotification = async (id, index) => {
+    await axios.post(`/api/customer/seennotification`, {
+      id,
+    });
+    notify.splice(index, 1);
+    setNotify(notify);
   };
   useEffect(() => {
     GetCustomerBalance();
@@ -101,6 +121,24 @@ const Layout = (props: IMainProps) => {
     <>
       {props.meta}
       <div>
+      <Toast
+      onClose={() => setShow(false)}
+      show={show}
+      delay={3000}
+      autohide
+      animation
+      style={{
+        position: "absolute",
+        top: 20,
+        right: 20,
+        minWidth: 200,
+      }}
+    >
+      <Toast.Header>
+        <strong className="mr-auto">{notification.title}</strong>
+      </Toast.Header>
+      <Toast.Body>{notification.body}</Toast.Body>
+    </Toast>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -371,22 +409,76 @@ const Layout = (props: IMainProps) => {
                     <span className="font-sen font-bold">{fullName}</span>
                   </h2>
                 </div>
-                <select
-                  onChange={(e) => {
-                    changeLanguage(e.target.value);
-                  }}
-                  defaultValue={locale}
-                  className="hidden border-0 bg-transparent p-2 pr-8 text-white focus:outline-none md:ml-2 md:block"
-                  title="Select language"
-                  name="language"
-                >
-                  <option value="en" className="text-black">
-                    EN
-                  </option>
-                  <option value="ar" className="text-black">
-                    AR
-                  </option>
-                </select>
+                <div>
+                  <Popover className="relative md:inline-block">
+                    {({ open }) => (
+                      <>
+                        <Popover.Button>
+                          <FontAwesomeIcon
+                            icon={faBell}
+                            onClick={() => getGeneralNotification()}
+                            className="text-white"
+                          />
+                        </Popover.Button>
+
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <Popover.Panel className="absolute right-0 z-10 mt-1 w-screen max-w-xs transform px-2 sm:px-0">
+                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                                {notify.map((item, key) => (
+                                  <div
+                                    key={item.id}
+                                    className="-m-3 block rounded-md p-3 transition duration-150 ease-in-out hover:bg-gray-50"
+                                  >
+                                    <div className="absolute right-[10px] shrink-0">
+                                      <XCircleIcon
+                                        className="h-5 w-5 text-red-400"
+                                        aria-hidden="true"
+                                        onClick={() =>
+                                          setSeenNotification(item.id, key)
+                                        }
+                                      />
+                                    </div>
+                                    <p className="text-base font-medium text-gray-900">
+                                      {item.subject}
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                      {item.notification_text}
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </Popover.Panel>
+                        </Transition>
+                      </>
+                    )}
+                  </Popover>
+                  <select
+                    onChange={(e) => {
+                      changeLanguage(e.target.value);
+                    }}
+                    defaultValue={locale}
+                    className="hidden border-0 bg-transparent p-2 pr-8 text-white focus:outline-none md:ml-2 md:inline-block"
+                    title="Select language"
+                    name="language"
+                  >
+                    <option value="en" className="text-black">
+                      EN
+                    </option>
+                    <option value="ar" className="text-black">
+                      AR
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
             {props.children}
