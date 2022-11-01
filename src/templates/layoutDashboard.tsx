@@ -118,7 +118,6 @@ const Layout = (props: IMainProps) => {
     <>
       {props.meta}
       <div>
-        <PushNotificationLayout></PushNotificationLayout>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -462,6 +461,7 @@ const Layout = (props: IMainProps) => {
               </div>
             </div>
             {props.children}
+            <PushNotificationLayout></PushNotificationLayout>
           </main>
         </div>
       </div>

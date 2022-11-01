@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
 import "firebase/messaging";
-import { ToastContainer, toast } from "react-toastify";
+
+import React, { useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+
 import { findToken, onMessageListener } from "@/utils/firebase";
 
-function PushNotificationLayout({ children }) {
+function PushNotificationLayout() {
   useEffect(() => {
     findToken();
 
@@ -20,14 +22,9 @@ function PushNotificationLayout({ children }) {
           }
         );
       })
-      .catch((err) => console.log("failed: ", err));
+      .catch((err) => console.log('failed: ', err));
   }, []);
-  return (
-    <>
-      <ToastContainer />
-      {children}
-    </>
-  );
+  return <ToastContainer />;
 }
 
 export default PushNotificationLayout;
