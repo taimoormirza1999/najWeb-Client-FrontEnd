@@ -27,6 +27,7 @@ function getDirection(locale) {
 const Layout = (props: IMainProps) => {
   const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
+  const [generalNotification, setGeneralNotification] = useState(0);
   const GetCustomerBalance = async () => {
     const res = await axios.get(`/api/customer/customer_balance`);
     setCustomerBalance(parseFloat(res.data?.data));
@@ -34,15 +35,18 @@ const Layout = (props: IMainProps) => {
   const getGeneralNotification = async () => {
     const res = await axios.get(`/api/customer/getnotifications`);
     setNotify(res.data.data ? res.data.data : []);
+    setGeneralNotification(1);
   };
   const setSeenNotification = async (id, index) => {
     await axios.post(`/api/customer/seennotification`, {
       id,
     });
     if (notify[index]) {
-      delete notify[index];
+      console.log(index);
+      notify.splice(index, 1);
+      setNotify(notify);
+      console.log(notify);
     }
-    setNotify(notify);
   };
   const setSeenNotificationAll = async () => {
     await axios.post(`/api/customer/seennotification`);
@@ -50,6 +54,9 @@ const Layout = (props: IMainProps) => {
   };
   useEffect(() => {
     GetCustomerBalance();
+    if (generalNotification === 0) {
+      getGeneralNotification();
+    }
   });
   const router = useRouter();
   const navigation = [
@@ -399,6 +406,13 @@ const Layout = (props: IMainProps) => {
                     {({ open }) => (
                       <>
                         <Popover.Button>
+                          {notify.length ? (
+                            <span className="absolute right-[-10px] top-[-20px] rounded-lg bg-red-700 py-0 px-1 text-white">
+                              {notify.length}
+                            </span>
+                          ) : (
+                            ''
+                          )}
                           <FontAwesomeIcon
                             icon={faBell}
                             onClick={() => getGeneralNotification()}
