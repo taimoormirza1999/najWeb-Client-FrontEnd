@@ -8,12 +8,14 @@ importScripts(
 
 // Initialize the Firebase app in the service worker by passing the generated config
 const firebaseConfig = {
-  apiKey: "AIzaSyCmUxX05Zxzf1g5d9VO-8hEvea-o5enZ5Y",
-  authDomain: "test-4ea5f.firebaseapp.com",
-  projectId: "test-4ea5f",
-  storageBucket: "test-4ea5f.appspot.com",
-  messagingSenderId: "680426325566",
-  appId: "1:680426325566:web:7df755533ec529cc1db36f",
+  apiKey: "AIzaSyAX18nUsueZ8Enmnnr4BIRh9_cq6A_RHVI",
+  authDomain: "nejoum-aljazeera-2e42e.firebaseapp.com",
+  databaseURL: "https://nejoum-aljazeera-2e42e.firebaseio.com",
+  projectId: "nejoum-aljazeera-2e42e",
+  storageBucket: "nejoum-aljazeera-2e42e.appspot.com",
+  messagingSenderId: "838558519710",
+  appId: "1:838558519710:web:0baa5b8bfe159b7271c68f",
+  measurementId: "G-PZRT1EY2M1",
 };
 
 firebase.initializeApp(firebaseConfig);
