@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   let data: any;
   await axios
     .post(`${process.env.API_URL}seenGeneralNotification`, {
-      notification_id: body.id,
+      notification_id: body.id ? body.id : '',
     })
     .then((response) => {
       if (response.data.success === true) {

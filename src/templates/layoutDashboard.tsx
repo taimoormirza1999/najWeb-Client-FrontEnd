@@ -1,4 +1,4 @@
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Popover, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -39,8 +39,14 @@ const Layout = (props: IMainProps) => {
     await axios.post(`/api/customer/seennotification`, {
       id,
     });
-    notify.splice(index, 1);
+    if (notify[index]) {
+      delete notify[index];
+    }
     setNotify(notify);
+  };
+  const setSeenNotificationAll = async () => {
+    await axios.post(`/api/customer/seennotification`);
+    setNotify([]);
   };
   useEffect(() => {
     GetCustomerBalance();
@@ -409,17 +415,17 @@ const Layout = (props: IMainProps) => {
                           leaveFrom="opacity-100 translate-y-0"
                           leaveTo="opacity-0 translate-y-1"
                         >
-                          <Popover.Panel className="absolute right-0 z-10 mt-1 w-screen max-w-xs transform px-2 sm:px-0">
-                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                          <Popover.Panel className="absolute right-0 z-50 mt-1 w-screen max-w-xs px-2 sm:px-0">
+                            <div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative grid max-h-[65vh] min-h-[2vh] gap-6 overflow-y-auto bg-white px-5 py-6 sm:gap-8 sm:p-8">
                                 {notify.map((item, key) => (
                                   <div
                                     key={item.id}
-                                    className="-m-3 block rounded-md p-3 transition duration-150 ease-in-out hover:bg-gray-50"
+                                    className="-m-3 block rounded-md bg-gray-200 p-3 transition duration-150 ease-in-out"
                                   >
-                                    <div className="absolute right-[10px] shrink-0">
+                                    <div className="absolute right-[7px] shrink-0">
                                       <XCircleIcon
-                                        className="h-5 w-5 text-red-400"
+                                        className="mr-[10px] h-5 w-5 text-red-400"
                                         aria-hidden="true"
                                         onClick={() =>
                                           setSeenNotification(item.id, key)
@@ -429,12 +435,34 @@ const Layout = (props: IMainProps) => {
                                     <p className="text-base font-medium text-gray-900">
                                       {item.subject}
                                     </p>
-                                    <p className="mt-1 text-sm text-gray-500">
+                                    <p className="mt-1 text-sm text-gray-800">
                                       {item.notification_text}
                                     </p>
                                   </div>
                                 ))}
                               </div>
+                              {notify.length? (
+                                <div className="border-t-2">
+                                  <button className="p-4">
+                                    Mark all as read
+                                    <FontAwesomeIcon
+                                      icon={faEye}
+                                      onClick={() => setSeenNotificationAll()}
+                                      className="text-gray-500"
+                                    />
+                                  </button>
+                                  <button className="p-4">
+                                    Delete
+                                    <FontAwesomeIcon
+                                      icon={faTrash}
+                                      onClick={() => setSeenNotificationAll()}
+                                      className="text-red-600"
+                                    />
+                                  </button>
+                                </div>
+                              ) : (
+                                ''
+                              )}
                             </div>
                           </Popover.Panel>
                         </Transition>
