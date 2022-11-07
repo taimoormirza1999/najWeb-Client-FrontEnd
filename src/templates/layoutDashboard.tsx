@@ -38,15 +38,12 @@ const Layout = (props: IMainProps) => {
     setGeneralNotification(1);
   };
   const setSeenNotification = async (id, index) => {
+    if (notify[index]) {
+      setNotify(notify.filter((_, i) => i !== index));
+    }
     await axios.post(`/api/customer/seennotification`, {
       id,
     });
-    if (notify[index]) {
-      console.log(index);
-      notify.splice(index, 1);
-      setNotify(notify);
-      console.log(notify);
-    }
   };
   const setSeenNotificationAll = async () => {
     await axios.post(`/api/customer/seennotification`);
@@ -431,7 +428,7 @@ const Layout = (props: IMainProps) => {
                         >
                           <Popover.Panel className="absolute right-0 z-50 mt-1 w-screen max-w-xs px-2 sm:px-0">
                             <div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5">
-                              <div className="relative grid max-h-[65vh] min-h-[2vh] gap-6 overflow-y-auto bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                              <div className="relative grid max-h-[65vh] min-h-[2vh] gap-6 overflow-y-auto bg-white px-5 py-6 sm:gap-8 sm:p-6">
                                 {notify.map((item, key) => (
                                   <div
                                     key={item.id}
@@ -439,7 +436,7 @@ const Layout = (props: IMainProps) => {
                                   >
                                     <div className="absolute right-[7px] shrink-0">
                                       <XCircleIcon
-                                        className="mr-[10px] h-5 w-5 text-red-400"
+                                        className="mt-[-5px] mr-[10px] h-5 w-5 text-red-400 cursor-pointer"
                                         aria-hidden="true"
                                         onClick={() =>
                                           setSeenNotification(item.id, key)
@@ -447,7 +444,7 @@ const Layout = (props: IMainProps) => {
                                       />
                                     </div>
                                     <p className="text-base font-medium text-gray-900">
-                                      {item.subject}
+                                    {item.subject}
                                     </p>
                                     <p className="mt-1 text-sm text-gray-800">
                                       {item.notification_text}
@@ -462,7 +459,7 @@ const Layout = (props: IMainProps) => {
                                     <FontAwesomeIcon
                                       icon={faEye}
                                       onClick={() => setSeenNotificationAll()}
-                                      className="text-gray-500"
+                                      className="ml-1 text-gray-500"
                                     />
                                   </button>
                                   <button className="p-4">
@@ -470,7 +467,7 @@ const Layout = (props: IMainProps) => {
                                     <FontAwesomeIcon
                                       icon={faTrash}
                                       onClick={() => setSeenNotificationAll()}
-                                      className="text-red-600"
+                                      className="ml-1 text-red-600"
                                     />
                                   </button>
                                 </div>
