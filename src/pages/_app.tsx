@@ -7,6 +7,7 @@ import { Router, useRouter } from 'next/router';
 import { SessionProvider } from 'next-auth/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import "react-toastify/dist/ReactToastify.css";
 import SimpleReactLightbox from 'simple-react-lightbox';
 import NProgress from 'nprogress';
 
