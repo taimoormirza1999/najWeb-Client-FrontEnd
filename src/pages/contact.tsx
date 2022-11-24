@@ -356,7 +356,7 @@ const Contact = () => {
                   <FormattedMessage id="Saturday-Thursday" />
                 </td>
                 <td className="border border-t-0 border-r-0 border-b-gray-500 py-4 text-base lg:text-xl">
-                  <FormattedMessage id="08:30am-01:00pm/04:00pm-08:30pm" />
+                  08:30am-01:00pm/04:00pm-08:30pm
                 </td>
               </tr>
               <tr>
