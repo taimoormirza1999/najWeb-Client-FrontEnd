@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
@@ -14,6 +15,12 @@ const StatesTab = ({ carsRecords }) => {
   const carTableData = [
     {
       name: 'page.customer.dashboard.new_cars',
+      query: {
+        tab: 'tabs-newcar',
+        page: '',
+        limit: '10',
+        search: '',
+      },
       ng: carsRecords?.newCarsNG,
       tx: carsRecords?.newCarsTX,
       ga: carsRecords?.newCarsGA,
@@ -22,6 +29,13 @@ const StatesTab = ({ carsRecords }) => {
     },
     {
       name: 'status.left',
+      query: {
+        tab: 'tabs-newcar',
+        type: 'towing',
+        page: '',
+        limit: '10',
+        search: '',
+      },
       ng: carsRecords?.newLeftCarsNG,
       tx: carsRecords?.newLeftCarsTX,
       ga: carsRecords?.newLeftCarsGA,
@@ -30,6 +44,12 @@ const StatesTab = ({ carsRecords }) => {
     },
     {
       name: 'page.customer.dashboard.at_warehouse',
+      query: {
+        tab: 'tabs-warehouse',
+        page: '',
+        limit: '10',
+        search: '',
+      },
       ng: carsRecords?.newWearhouseCarsNG,
       tx: carsRecords?.newWearhouseCarsTX,
       ga: carsRecords?.newWearhouseCarsGA,
@@ -38,6 +58,12 @@ const StatesTab = ({ carsRecords }) => {
     },
     {
       name: 'page.customer.dashboard.in_shipping',
+      query: {
+        tab: 'tabs-shipping',
+        page: '',
+        limit: '10',
+        search: '',
+      },
       ng: carsRecords?.newLoadingCarsNG,
       tx: carsRecords?.newLoadingCarsTX,
       ga: carsRecords?.newLoadingCarsGA,
@@ -46,12 +72,34 @@ const StatesTab = ({ carsRecords }) => {
     },
 
     {
-      name: 'page.customer.dashboard.arrived',
-      ng: carsRecords?.newArriveCarsNG,
-      tx: carsRecords?.newArriveCarsTX,
-      ga: carsRecords?.newArriveCarsGA,
-      wa: carsRecords?.newArriveCarsWA,
-      ca: carsRecords?.newArriveCarsCA,
+      name: 'page.customer.dashboard.arrived_port',
+      query: {
+        tab: 'tabs-arrived',
+        type: 'port',
+        page: '',
+        limit: '10',
+        search: '',
+      },
+      ng: carsRecords?.newArrivePortCarsNG,
+      tx: carsRecords?.newArrivePortCarsTX,
+      ga: carsRecords?.newArrivePortCarsGA,
+      wa: carsRecords?.newArrivePortCarsWA,
+      ca: carsRecords?.newArrivePortCarsCA,
+    },
+    {
+      name: 'page.customer.dashboard.arrived_store',
+      query: {
+        tab: 'tabs-arrived',
+        type: 'store',
+        page: '',
+        limit: '10',
+        search: '',
+      },
+      ng: carsRecords?.newArriveStoreCarsNG,
+      tx: carsRecords?.newArriveStoreCarsTX,
+      ga: carsRecords?.newArriveStoreCarsGA,
+      wa: carsRecords?.newArriveStoreCarsWA,
+      ca: carsRecords?.newArriveStoreCarsCA,
     },
   ];
   return (
@@ -101,7 +149,18 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.ng !== '0' ? tr.ng : '-'}
+                          {tr.ng !== '0' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/dashboard/',
+                                query: { ...tr.query, region: 4 },
+                              }}
+                            >
+                              <a target={'blank'}>{tr.ng}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
                         </td>
                         <td
                           className={classNames(
@@ -109,7 +168,18 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.tx !== '0' ? tr.tx : '-'}
+                          {tr.tx !== '0' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/dashboard/',
+                                query: { ...tr.query, region: 2 },
+                              }}
+                            >
+                              <a target={'blank'}>{tr.tx}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
                         </td>
                         <td
                           className={classNames(
@@ -117,7 +187,18 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.ga !== '0' ? tr.ga : '-'}
+                          {tr.ga !== '0' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/dashboard/',
+                                query: { ...tr.query, region: 1 },
+                              }}
+                            >
+                              <a target={'blank'}>{tr.ga}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
                         </td>
                         <td
                           className={classNames(
@@ -125,7 +206,18 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.wa !== '0' ? tr.wa : '-'}
+                          {tr.wa !== '0' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/dashboard/',
+                                query: { ...tr.query, region: 5 },
+                              }}
+                            >
+                              <a target={'blank'}>{tr.wa}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
                         </td>
                         <td
                           className={classNames(
@@ -133,7 +225,18 @@ const StatesTab = ({ carsRecords }) => {
                             'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
                           )}
                         >
-                          {tr.ca !== '0' ? tr.ca : '-'}
+                          {tr.ca !== '0' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/dashboard/',
+                                query: { ...tr.query, region: 3 },
+                              }}
+                            >
+                              <a target={'blank'}>{tr.ca}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
                         </td>
                       </tr>
                     ))}

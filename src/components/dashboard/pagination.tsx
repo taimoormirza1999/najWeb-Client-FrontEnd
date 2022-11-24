@@ -143,10 +143,6 @@ const SelectPageRecords = ({ url, search = '' }) => {
   }, []);
 
   useEffect(() => {
-    setFilters((prevState) => ({ ...prevState, region: '' }));
-  }, [url]);
-
-  useEffect(() => {
     applyFilters();
   }, [filters, selectedLimit]);
 
