@@ -1,7 +1,7 @@
-import { Dialog, Tab, Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import axios from 'axios';
+import { useRouter } from 'next/router';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -41,8 +41,11 @@ const ShowAllCars = ({
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   // const [images, setImages] = useState([]);
   // const [carId, setCarId] = useState('');
+  const router = useRouter();
+  const region = router.query.region ? router.query.region : '';
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&region=${region}&limit=${limit}&page=`;
+
   const limitUrl = `/customer/dashboard?tab=showAllCars&page=`;
   // const GetImages = async (car_id) => {
   //   setLoading(true);
