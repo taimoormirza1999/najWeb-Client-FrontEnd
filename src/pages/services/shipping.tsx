@@ -148,7 +148,7 @@ const Shipping = () => {
           </h3>
           <img
             className="relative -z-10 mx-auto w-[100%] rounded-t-[40px] object-cover md:h-[70vh] lg:h-[86vh]"
-            src="/assets/images/receive-service.jpg"
+            src="/assets/images/receive-service.png"
             alt="Contact Us"
           />
           <div className="bg-light-grey mx-auto -mt-4 rounded-b-[30px] p-2 text-center md:-mt-16 md:p-12">
