@@ -633,9 +633,11 @@ const Layout = (props: IMainProps) => {
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold">
-                      <FormattedMessage id="general.contact" />
-                    </h4>
+                    <Link href="/contact">
+                      <a className="text-xl font-semibold text-white">
+                        <FormattedMessage id="general.contact" />
+                      </a>
+                    </Link>
                     <ul className="text-base font-light md:text-lg">
                       {/* <li>
                         <Link href="/customer/complaint">
