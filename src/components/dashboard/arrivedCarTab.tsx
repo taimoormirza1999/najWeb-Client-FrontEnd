@@ -1,6 +1,7 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -24,6 +25,8 @@ const ArrivedCarTab = ({
   limit,
   search = '',
 }) => {
+  const { data: session } = useSession();
+
   if (!type) {
     type = 'port';
   }
@@ -46,8 +49,12 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.container',
       'page.customer.dashboard.table.shipping_date',
       'page.customer.dashboard.table.date_arrived_port',
-      'page.customer.dashboard.table.delivered_to_customer',
     ];
+    if (session?.profile[0]?.naj_branch === '1') {
+      carTableHeader.push(
+        'page.customer.dashboard.table.delivered_to_customer'
+      );
+    }
   }
   if (type === 'store') {
     carTableHeader = [
@@ -69,8 +76,12 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.date_arrived_port',
       'page.customer.dashboard.table.date_arrived_store',
       'page.customer.dashboard.table.Total',
-      'page.customer.dashboard.table.delivered_to_customer',
     ];
+    if (session?.profile[0]?.naj_branch === '1') {
+      carTableHeader.push(
+        'page.customer.dashboard.table.delivered_to_customer'
+      );
+    }
   }
   const router = useRouter();
   const intl = useIntl();

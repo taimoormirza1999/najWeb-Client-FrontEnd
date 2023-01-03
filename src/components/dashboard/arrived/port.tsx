@@ -1,10 +1,14 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
+import { useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
 const Port = ({ carsRecords, setDeliveredModalOpen }) => {
+  const { data: session } = useSession();
+  console.log(session?.profile);
+
   return carsRecords.map((car, index) => (
     <tr
       key={index}
@@ -126,23 +130,25 @@ const Port = ({ carsRecords, setDeliveredModalOpen }) => {
       >
         {car.arrival_date}
       </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
-        {car.isUAEPort === '0' ? (
-          <button
-            type="button"
-            className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
-            onClick={() => {
-              setDeliveredModalOpen(car.carId);
-            }}
-          >
-            <CheckCircleIcon className="h-4 w-4 text-green-400" />
-            <FormattedMessage id="page.customer.dashboard.table.deliver" />
-          </button>
-        ) : null}
-      </td>
+      {session?.profile[0]?.naj_branch === '1' ? (
+        <td
+          scope="col"
+          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        >
+          {car.isUAEPort === '0' ? (
+            <button
+              type="button"
+              className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
+              onClick={() => {
+                setDeliveredModalOpen(car.carId);
+              }}
+            >
+              <CheckCircleIcon className="h-4 w-4 text-green-400" />
+              <FormattedMessage id="page.customer.dashboard.table.deliver" />
+            </button>
+          ) : null}
+        </td>
+      ) : null}
     </tr>
   ));
 };
