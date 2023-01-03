@@ -16,8 +16,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
     setGeneralEntries(
       tableData.filter((row) => {
         return (
-          row.description.indexOf(generalEntriesTableSearch.trim()) !== -1 ||
-          row.reference_no.indexOf(generalEntriesTableSearch.trim()) !== -1
+          row.description.indexOf(generalEntriesTableSearch.trim()) !== -1
         );
       })
     );
