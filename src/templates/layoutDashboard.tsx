@@ -29,7 +29,7 @@ const Layout = (props: IMainProps) => {
   const [customerBalance, setCustomerBalance] = useState(0);
   const [generalNotification, setGeneralNotification] = useState(0);
   const GetCustomerBalance = async () => {
-    const res = await axios.get(`/api/customer/customer_balance`);
+    const res = await axios.get(`/api/customer/customer_balance/`);
     setCustomerBalance(parseFloat(res.data?.data));
   };
   const getGeneralNotification = async () => {
@@ -54,7 +54,7 @@ const Layout = (props: IMainProps) => {
     if (generalNotification === 0) {
       getGeneralNotification();
     }
-  });
+  }, []);
   const router = useRouter();
   const navigation = [
     {
