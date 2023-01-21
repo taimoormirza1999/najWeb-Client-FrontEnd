@@ -54,7 +54,7 @@ const Layout = (props: IMainProps) => {
     if (generalNotification === 0) {
       getGeneralNotification();
     }
-  });
+  }, []);
   const router = useRouter();
   const navigation = [
     {

@@ -5,9 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
-const Port = ({ carsRecords, setDeliveredModalOpen }) => {
+const Port = ({ carsRecords, setArrivedStoreModalOpen }) => {
   const { data: session } = useSession();
-  console.log(session?.profile);
 
   return carsRecords.map((car, index) => (
     <tr
@@ -140,11 +139,11 @@ const Port = ({ carsRecords, setDeliveredModalOpen }) => {
               type="button"
               className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
               onClick={() => {
-                setDeliveredModalOpen(car.carId);
+                setArrivedStoreModalOpen(car.carId);
               }}
             >
               <CheckCircleIcon className="h-4 w-4 text-green-400" />
-              <FormattedMessage id="page.customer.dashboard.table.deliver" />
+              <FormattedMessage id="page.customer.dashboard.table.arrive" />
             </button>
           ) : null}
         </td>
