@@ -63,7 +63,7 @@ const Branches = () => {
           </div>
           <div className="basis-1/2">
             <img
-              src="/assets/images/branch-image-4.jpg"
+              src="/assets/images/branch-image-4.png"
               alt="Our Branches"
               className="h-[604px] w-full object-cover"
             />
