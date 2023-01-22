@@ -163,7 +163,7 @@ export async function getServerSideProps(context) {
     remaining_status: formData.remaining_status || '0',
     transfer_status: formData.transfer_status || '0',
     currency: formData.currency || 'aed',
-    date_from: formData.date_from || `${year}-01-01`,
+    date_from: formData.date_from || `2021-01-01`,
     date_to: '',
   };
   try {
