@@ -152,7 +152,7 @@ const Shipping = () => {
             alt="Contact Us"
           />
           <div className="bg-light-grey mx-auto -mt-4 rounded-b-[30px] p-2 text-center md:-mt-16 md:p-12">
-            <Link href="https://wa.me/+9716440202?text=Hi" passHref>
+            <Link href="https://wa.me/+97165440202?text=Hi" passHref>
               <a
                 target="_blank"
                 className="bg-azure-blue my-2 inline-block rounded-lg px-5 py-2.5 text-lg font-medium text-white hover:border-0 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:text-2xl"
