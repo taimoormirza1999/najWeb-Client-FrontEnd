@@ -167,7 +167,7 @@ const CarProfile = ({ carProfileData }) => {
 
         <div className="my-16 text-center">
           <Link
-            href="https://wa.me/971543662194?text=welcome to Nejoum aljazeera"
+            href="https://wa.me/+97165440202?text=welcome to Nejoum aljazeera"
             passHref
           >
             <a
