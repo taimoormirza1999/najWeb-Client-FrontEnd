@@ -1,16 +1,19 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
+import { postData } from '@/utils/network';
 
+import CustomModal from '../customModal';
 import { Port } from './arrived/port';
 import { Store } from './arrived/store';
 
@@ -22,6 +25,8 @@ const ArrivedCarTab = ({
   limit,
   search = '',
 }) => {
+  const { data: session } = useSession();
+
   if (!type) {
     type = 'port';
   }
@@ -45,6 +50,9 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.shipping_date',
       'page.customer.dashboard.table.date_arrived_port',
     ];
+    if (session?.profile[0]?.naj_branch === '1') {
+      carTableHeader.push('page.customer.dashboard.table.arrived_to_store');
+    }
   }
   if (type === 'store') {
     carTableHeader = [
@@ -67,16 +75,39 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.date_arrived_store',
       'page.customer.dashboard.table.Total',
     ];
+    if (session?.profile[0]?.naj_branch === '1') {
+      carTableHeader.push(
+        'page.customer.dashboard.table.delivered_to_customer'
+      );
+    }
   }
   const router = useRouter();
+  const intl = useIntl();
+  const [carsArray, setCarsArray] = useState(carsRecords);
   const region = router.query.region ? router.query.region : '';
+  const selectedCar = useRef(0);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
+
+  const [deliveredModalOpen, setDeliveredModalOpen] = useState(false);
+  const [deliveredModalSuccess, setDeliveredModalSuccess] = useState(false);
+  const [deliveredModalError, setDeliveredModalError] = useState(false);
+  const deliveredCancelButtonRef = useRef(null);
+
+  const [arrivedStoreModalOpen, setArrivedStoreModalOpen] = useState(false);
+  const [arrivedStoreModalSuccess, setArrivedStoreModalSuccess] =
+    useState(false);
+  const [arrivedStoreModalError, setArrivedStoreModalError] = useState(false);
+  const arrivedStoreCancelButtonRef = useRef(null);
+
   const paginationUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&region=${region}&type=${type}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
   const [downloading, setDownloading] = useState(false);
+  const [inputValue, setInputValue] = useState({
+    message: '',
+  });
   const GetImages = async (car_id) => {
     NProgress.start();
     setDownloading(false);
@@ -88,6 +119,56 @@ const ArrivedCarTab = ({
     NProgress.done();
     setRedirectModalOpen(true);
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = {
+      car_id: selectedCar.current,
+      message: event.target.message.value,
+    };
+
+    const apiURL = arrivedStoreModalOpen
+      ? '/api/cars/arrivedToStore'
+      : '/api/cars/deliveredToCustomer';
+
+    const response = await postData(apiURL, formData);
+
+    if (response.success === true) {
+      if (deliveredModalOpen) {
+        setDeliveredModalSuccess(true);
+        setDeliveredModalError(false);
+      } else if (arrivedStoreModalOpen) {
+        setArrivedStoreModalSuccess(true);
+        setArrivedStoreModalError(false);
+      }
+
+      setCarsArray(
+        carsArray.filter((row) => {
+          if (type === 'store') {
+            return row.car_id !== selectedCar.current;
+          }
+          return row.carId !== selectedCar.current;
+        })
+      );
+
+      setInputValue(() => ({
+        message: '',
+      }));
+      selectedCar.current = 0;
+    } else if (deliveredModalOpen) {
+      setDeliveredModalError(true);
+      setDeliveredModalSuccess(false);
+    } else if (arrivedStoreModalOpen) {
+      setArrivedStoreModalError(true);
+      setArrivedStoreModalSuccess(false);
+    }
+  };
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setInputValue((prevState) => ({ ...prevState, [name]: value }));
+  }
+
   return (
     <div className="" id="tabs-arrived" role="tabpanel">
       <Transition.Root show={redirectModalOpen} as={Fragment}>
@@ -248,6 +329,177 @@ const ArrivedCarTab = ({
           </div>
         </Dialog>
       </Transition.Root>
+      <CustomModal
+        showOn={deliveredModalOpen}
+        initialFocus={deliveredCancelButtonRef}
+        onClose={() => {
+          setDeliveredModalOpen(false);
+        }}
+      >
+        <div className="text-dark-blue">
+          <Dialog.Title
+            as="h6"
+            className="mb-8 text-xl font-bold leading-6 md:text-xl lg:text-2xl"
+          >
+            <FormattedMessage id="page.customer.dashboard.table.delivered_to_customer" />
+          </Dialog.Title>
+          <div className="mt-4">
+            <form method="post" onSubmit={handleSubmit} className="mt-8 mb-4">
+              {deliveredModalSuccess === true ? (
+                <div className="text-center">
+                  <i className="material-icons text-yellow-orange mb-4 text-6xl">
+                    &#xe2e6;
+                  </i>
+                  <div className="mt-2">
+                    <p className="mb-4 py-6 text-xl">
+                      <FormattedMessage id="messages.updated_successfully" />
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              {deliveredModalError === true ? (
+                <div className="text-center">
+                  <i className="material-icons mb-4 text-6xl text-red-800">
+                    &#xe160;
+                  </i>
+                  <div className="mt-2">
+                    <p className="mb-4 py-6 text-xl">
+                      <FormattedMessage id="general.technicalErr" />
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              {deliveredModalSuccess === false &&
+              deliveredModalError === false ? (
+                <div>
+                  <div className="relative mt-1 ltr:pl-6 rtl:pr-6">
+                    <textarea
+                      rows={3}
+                      required={true}
+                      className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
+                      name="message"
+                      placeholder={intl.formatMessage({
+                        id: 'messages.message',
+                      })}
+                      value={inputValue.message}
+                      onChange={handleChange}
+                    ></textarea>
+                    <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
+                      *
+                    </span>
+                  </div>
+                  <button
+                    type="submit"
+                    className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-2 px-8 text-xl font-semibold text-white shadow-sm"
+                  >
+                    {<FormattedMessage id="general.submit" />}
+                  </button>
+                </div>
+              ) : null}
+            </form>
+          </div>
+        </div>
+        <div className="mt-8 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm md:px-4 md:py-2 lg:text-lg"
+            onClick={() => {
+              setDeliveredModalOpen(false);
+            }}
+            ref={deliveredCancelButtonRef}
+          >
+            <FormattedMessage id="general.close" />
+          </button>
+        </div>
+      </CustomModal>
+
+      <CustomModal
+        showOn={arrivedStoreModalOpen}
+        initialFocus={arrivedStoreCancelButtonRef}
+        onClose={() => {
+          setArrivedStoreModalOpen(false);
+        }}
+      >
+        <div className="text-dark-blue">
+          <Dialog.Title
+            as="h6"
+            className="mb-8 text-xl font-bold leading-6 md:text-xl lg:text-2xl"
+          >
+            <FormattedMessage id="page.customer.dashboard.table.arrived_to_store" />
+          </Dialog.Title>
+          <div className="mt-4">
+            <form method="post" onSubmit={handleSubmit} className="mt-8 mb-4">
+              {arrivedStoreModalSuccess === true ? (
+                <div className="text-center">
+                  <i className="material-icons text-yellow-orange mb-4 text-6xl">
+                    &#xe2e6;
+                  </i>
+                  <div className="mt-2">
+                    <p className="mb-4 py-6 text-xl">
+                      <FormattedMessage id="messages.updated_successfully" />
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              {arrivedStoreModalError === true ? (
+                <div className="text-center">
+                  <i className="material-icons mb-4 text-6xl text-red-800">
+                    &#xe160;
+                  </i>
+                  <div className="mt-2">
+                    <p className="mb-4 py-6 text-xl">
+                      <FormattedMessage id="general.technicalErr" />
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              {arrivedStoreModalSuccess === false &&
+              arrivedStoreModalError === false ? (
+                <div>
+                  <div className="relative mt-1 ltr:pl-6 rtl:pr-6">
+                    <textarea
+                      rows={3}
+                      required={true}
+                      className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
+                      name="message"
+                      placeholder={intl.formatMessage({
+                        id: 'messages.message',
+                      })}
+                      value={inputValue.message}
+                      onChange={handleChange}
+                    ></textarea>
+                    <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
+                      *
+                    </span>
+                  </div>
+                  <button
+                    type="submit"
+                    className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-2 px-8 text-xl font-semibold text-white shadow-sm"
+                  >
+                    {<FormattedMessage id="general.submit" />}
+                  </button>
+                </div>
+              ) : null}
+            </form>
+          </div>
+        </div>
+        <div className="mt-8 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm md:px-4 md:py-2 lg:text-lg"
+            onClick={() => {
+              setArrivedStoreModalOpen(false);
+            }}
+            ref={arrivedStoreCancelButtonRef}
+          >
+            <FormattedMessage id="general.close" />
+          </button>
+        </div>
+      </CustomModal>
       <div className="pt-14">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -276,11 +528,27 @@ const ArrivedCarTab = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {type === 'port' && <Port carsRecords={carsRecords}></Port>}
+                    {type === 'port' && (
+                      <Port
+                        carsRecords={carsArray}
+                        setArrivedStoreModalOpen={(car_id) => {
+                          setArrivedStoreModalSuccess(false);
+                          setArrivedStoreModalError(false);
+                          setArrivedStoreModalOpen(true);
+                          selectedCar.current = car_id;
+                        }}
+                      ></Port>
+                    )}
                     {type === 'store' && (
                       <Store
-                        carsRecords={carsRecords}
+                        carsRecords={carsArray}
                         GetImages={GetImages}
+                        setDeliveredModalOpen={(car_id) => {
+                          setDeliveredModalSuccess(false);
+                          setDeliveredModalError(false);
+                          setDeliveredModalOpen(true);
+                          selectedCar.current = car_id;
+                        }}
                       ></Store>
                     )}
                   </tbody>
