@@ -76,6 +76,12 @@ const Layout = (props: IMainProps) => {
       current: false,
     },
     {
+      name: 'page.customer.dashboard.announcements',
+      href: '/customer/announcements',
+      gicon: '&#xef49;',
+      current: false,
+    },
+    {
       name: 'page.customer.dashboard.navigation_price_lists',
       href: `/customer/lists`,
       gicon: '&#xf1b6;',

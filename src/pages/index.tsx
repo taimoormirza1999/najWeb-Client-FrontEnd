@@ -10,13 +10,10 @@ import DownloadApps from '../components/lownloadApps';
 
 const apiUrl = process.env.API_URL;
 
-const Index = ({ announcements }) => {
+const Index = () => {
   const { locale } = useRouter();
   return (
-    <Layout
-      meta={<Meta title="" description="Nejoum Al Jazeera" />}
-      announcements={announcements}
-    >
+    <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
       <div className="relative">
         <img
           src="/assets/images/slider-bg.png"
@@ -293,16 +290,5 @@ const Index = ({ announcements }) => {
     </Layout>
   );
 };
-
-export async function getServerSideProps() {
-  const res = await axios.get(`${apiUrl}adsAnnouncement`);
-  const announcements = res.data;
-
-  return {
-    props: {
-      announcements,
-    },
-  };
-}
 
 export default Index;
