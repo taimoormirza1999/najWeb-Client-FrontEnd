@@ -97,11 +97,14 @@ const Announcements = ({ announcements }) => {
         </div>
       </div>
       <div className="mx-auto px-8">
-        <div className="mt-10 flex gap-24">
-          <div>
+        <div>
+          <div className="mx-auto mt-12 grid max-w-lg gap-7 text-center lg:max-w-none lg:grid-cols-1">
             {announcements.length > 0 ? (
               announcements.map((row, index) => (
-                <div key={index} className="w-full md:w-1/2 lg:w-1/2  xl:w-1/2">
+                <div
+                  key={index}
+                  className="flex flex-col border-2 border-[#e5e7eb] py-4"
+                >
                   <h3 className="text-dark-blue text-2xl font-semibold">
                     {locale === 'ar' ? row.title_arabic : row.title_english}
                   </h3>
@@ -137,14 +140,23 @@ const Announcements = ({ announcements }) => {
                       </Link>
                     )}
                     {row.announcement_type === '2' && (
-                      <img
-                        src={
+                      <a
+                        target="_blank"
+                        href={
                           process.env.NEXT_PUBLIC_SERVER_URL +
                           row.file_path.substring(1)
                         }
-                        alt=""
-                        height={400}
-                      />
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_SERVER_URL +
+                            row.file_path.substring(1)
+                          }
+                          alt=""
+                          className="mx-auto max-h-[300px]"
+                        />
+                      </a>
                     )}
                   </p>
                 </div>
