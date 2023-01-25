@@ -162,7 +162,9 @@ const Announcements = ({ announcements }) => {
                 </div>
               ))
             ) : (
-              <p className="text-azure-blue text-lg font-bold"></p>
+              <p className="text-azure-blue text-lg font-bold">
+                <FormattedMessage id="No_announcement_is_available" />
+              </p>
             )}
           </div>
         </div>
