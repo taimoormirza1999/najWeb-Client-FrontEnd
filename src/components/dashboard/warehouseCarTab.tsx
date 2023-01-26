@@ -74,7 +74,7 @@ const WarehouseCarTab = ({
     const res = await axios.get(
       `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
-    setImages(res.data.data);
+    setImages(res.data.data ? res.data.data : []);
     setCarId(car_id);
     NProgress.done();
     setRedirectModalOpen(true);
@@ -232,14 +232,16 @@ const WarehouseCarTab = ({
                         }}
                         className={`mt-4 ${
                           downloading ? 'bg-indigo-200' : 'bg-indigo-600'
-                        }  inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                        } ${
+                          images.length ? '' : 'hidden'
+                        } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                       >
                         {downloading
                           ? 'File will be downloaded shortly'
                           : 'Zip and Download'}
                       </button>
                       <br />
-                      <small>
+                      <small className={`${images.length ? '' : 'hidden'}`}>
                         please note that it may take a while to zip all images
                       </small>
                     </div>
