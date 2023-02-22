@@ -5,9 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
-const Port = ({ carsRecords, setArrivedStoreModalOpen }) => {
+const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
   const { data: session } = useSession();
-
   return carsRecords.map((car, index) => (
     <tr
       key={index}
@@ -20,7 +19,7 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen }) => {
         scope="col"
         className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
-        {index + 1}
+        {addIndex + index + 1}
       </td>
       <td
         scope="col"

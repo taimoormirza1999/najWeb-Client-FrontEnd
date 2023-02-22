@@ -101,6 +101,7 @@ const ShippingCarTab = ({
     NProgress.done();
     setRedirectModalOpen(true);
   };
+  const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
   return (
     <div className="" id="tabs-shipping" role="tabpanel">
       <CustomModal
@@ -327,7 +328,7 @@ const ShippingCarTab = ({
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          {index + 1}
+                          {addIndex + index + 1}
                         </td>
                         <td
                           scope="col"
