@@ -77,6 +77,7 @@ const DeliveredCarTab = ({
   const region = router.query.region ? router.query.region : '';
   const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&region=${region}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
+  const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
       <div className="pt-14">
@@ -119,7 +120,7 @@ const DeliveredCarTab = ({
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          {index + 1}
+                          {addIndex + index + 1}
                         </td>
                         <td
                           scope="col"
