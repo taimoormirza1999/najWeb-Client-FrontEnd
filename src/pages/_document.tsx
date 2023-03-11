@@ -11,6 +11,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
           />
+          <meta name="facebook-domain-verification" content="l1n5vlhl6z4emzr6x96wbcoofj4aat" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
