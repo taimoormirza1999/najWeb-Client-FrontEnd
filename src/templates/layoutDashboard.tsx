@@ -124,11 +124,17 @@ const Layout = (props: IMainProps) => {
   };
   const intl = useIntl();
   let fullName = '';
-  const isBulkShippingCustomer = session?.profile[0]?.bulk_shipLoad;
+  const isBulkShippingCustomer = Array.isArray(session?.profile)
+    ? session?.profile[0].bulk_shipLoad
+    : 0;
   if (locale === 'ar') {
-    fullName = session?.profile[0]?.full_name_ar;
+    fullName = Array.isArray(session?.profile)
+      ? session?.profile[0]?.full_name_ar
+      : '';
   } else {
-    fullName = session?.profile[0]?.full_name;
+    fullName = Array.isArray(session?.profile)
+      ? session?.profile[0]?.full_name
+      : '';
   }
   return (
     <>
