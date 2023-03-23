@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import NProgress from 'nprogress';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
@@ -108,6 +108,10 @@ const ArrivedCarTab = ({
   const [inputValue, setInputValue] = useState({
     message: '',
   });
+  useEffect(() => {
+    setCarsArray(carsRecords);
+  }, carsRecords);
+
   const GetImages = async (car_id) => {
     NProgress.start();
     setDownloading(false);
@@ -168,7 +172,7 @@ const ArrivedCarTab = ({
     const { name, value } = event.target;
     setInputValue((prevState) => ({ ...prevState, [name]: value }));
   }
-
+  const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
   return (
     <div className="" id="tabs-arrived" role="tabpanel">
       <Transition.Root show={redirectModalOpen} as={Fragment}>
@@ -537,6 +541,7 @@ const ArrivedCarTab = ({
                           setArrivedStoreModalOpen(true);
                           selectedCar.current = car_id;
                         }}
+                        addIndex={addIndex}
                       ></Port>
                     )}
                     {type === 'store' && (
@@ -549,6 +554,7 @@ const ArrivedCarTab = ({
                           setDeliveredModalOpen(true);
                           selectedCar.current = car_id;
                         }}
+                        addIndex={addIndex}
                       ></Store>
                     )}
                   </tbody>
