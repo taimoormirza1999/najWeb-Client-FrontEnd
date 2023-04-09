@@ -215,6 +215,7 @@ const Contact = () => {
                   <textarea
                     className="placeholder:text-medium-grey border-dark-blue h-[245px] w-full resize-none rounded border-1 text-lg  focus:border-blue-800 focus:ring-0"
                     name="message"
+                    required
                     placeholder={intl.formatMessage({ id: 'messages.message' })}
                     value={inputValue.message}
                     onChange={handleChange}
