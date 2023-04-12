@@ -16,7 +16,7 @@ const Index = () => {
     <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
       <div className="relative">
         <img
-          src="/assets/images/slider-bg.png"
+          src="/assets/images/slider-bg.jpg"
           className="md:[h-68vh] w-full lg:h-[83vh]"
           alt="banner"
         />

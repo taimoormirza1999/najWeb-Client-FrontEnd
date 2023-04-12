@@ -2,9 +2,8 @@ import axios from 'axios';
 
 export default async function handler(req, res) {
   await axios
-    .get(`${process.env.API_URL}getModel`, {
+    .get(`${process.env.API_URL}getMaker`, {
       params: {
-        maker_id: req.query.maker_id,
         year: req.query.year,
       },
     })
