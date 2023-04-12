@@ -4,7 +4,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import Link from 'next/link';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import useSWRInfinite from 'swr/infinite';
 
@@ -23,7 +23,6 @@ export async function getServerSideProps() {
   let YearData = {};
   const apiUrl = process.env.API_URL;
   const res = await axios.get(`${apiUrl}getMaker`);
-  console.log(res.data);
   carsMakerData = res.data ? res.data.data : res.data;
   const resY = await axios.get(`${`${apiUrl}getYear`}`);
   YearData = resY.data ? resY.data.data : resY.data;
@@ -36,6 +35,7 @@ export default function App({ carsMakerData, YearData }) {
   const [selectedMaker, setSelectedMaker] = useState('');
   const [selectedYear, setselectedYear] = useState('');
   const [selectedModel, setselectedModel] = useState('');
+  const [totalMaker, setTotalMaker] = useState(carsMakerData);
 
   const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
@@ -64,13 +64,38 @@ export default function App({ carsMakerData, YearData }) {
     const res = await axios.get(`/api/cars/carsModel`, {
       params: {
         maker_id: selected.id_car_make,
+        year: selectedYear,
       },
     });
     carsMakerModel = res.data ? res.data.data : res.data;
     setcarsModelData(carsMakerModel);
   };
 
-  const totalMaker = carsMakerData;
+  const callMaker = async (selected) => {
+    let carsMaker = [];
+    const tempSelectedMaker = selectedMaker;
+    setSelectedMaker('');
+    setselectedModel('');
+    const res = await axios.get(`/api/cars/carsMaker`, {
+      params: {
+        year: selected,
+      },
+    });
+    carsMaker = res.data ? res.data.data : res.data;
+    setTotalMaker(carsMaker);
+    if (tempSelectedMaker) {
+      carsMaker.forEach(function (value) {
+        if (value.id_car_make == tempSelectedMaker.id_car_make) {
+          setSelectedMaker(value);
+          callModel(value);
+        }
+      });
+    }
+  };
+  useEffect(() => {
+    callMaker(selectedYear);
+  }, [selectedYear]);
+
   const YData = YearData;
 
   return (
@@ -361,9 +386,7 @@ export default function App({ carsMakerData, YearData }) {
               <button
                 className="bg-azure-blue my-1 block rounded-md py-3 px-6 text-xl font-medium text-white hover:border-0 hover:bg-blue-600"
                 onClick={() => {
-                  setselectedYear('');
-                  setSelectedMaker('');
-                  setselectedModel('');
+                  callMaker('');
                 }}
               >
                 Show all
