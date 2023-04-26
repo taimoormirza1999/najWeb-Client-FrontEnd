@@ -101,7 +101,6 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 };
 
-// TODO fix region fitler on page change
 const SelectPageRecords = ({ url, search = '' }) => {
   const intl = useIntl();
   const router = useRouter();
@@ -141,7 +140,9 @@ const SelectPageRecords = ({ url, search = '' }) => {
   };
 
   useEffect(() => {
-    getRegions();
+    if (!['/customer/warehouse/cars'].includes(router.pathname)) {
+      getRegions();
+    }
   }, []);
 
   useEffect(() => {
@@ -149,7 +150,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
   }, [filters, selectedLimit]);
 
   return (
-    <div className="mt-3">
+    <div className="mt-3" data-path={router.pathname}>
       <input
         type="text"
         placeholder={intl.formatMessage({ id: 'Search' })}
@@ -164,24 +165,26 @@ const SelectPageRecords = ({ url, search = '' }) => {
           setTableSearch(e.target.value);
         }}
       />
-      <select
-        name="region"
-        title={intl.formatMessage({ id: 'general.region' })}
-        className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
-        value={filters.region}
-        onChange={handleFilterChange}
-      >
-        <option value="">
-          {intl.formatMessage({ id: 'general.all.region' })}
-        </option>
-        {regions
-          ? regions.map((region, index) => (
-              <option key={index} value={region.region_id}>
-                {region.country_shortname} - {region.region_name}
-              </option>
-            ))
-          : null}
-      </select>
+      {!['/customer/warehouse/cars'].includes(router.pathname) ? (
+        <select
+          name="region"
+          title={intl.formatMessage({ id: 'general.region' })}
+          className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+          value={filters.region}
+          onChange={handleFilterChange}
+        >
+          <option value="">
+            {intl.formatMessage({ id: 'general.all.region' })}
+          </option>
+          {regions
+            ? regions.map((region, index) => (
+                <option key={index} value={region.region_id}>
+                  {region.country_shortname} - {region.region_name}
+                </option>
+              ))
+            : null}
+        </select>
+      ) : null}
       <select
         title={intl.formatMessage({ id: 'page.table.info.length' })}
         className="mb-3 rounded-md  border border-[#005fb7] py-1 text-lg text-gray-700 ltr:float-right rtl:float-left"

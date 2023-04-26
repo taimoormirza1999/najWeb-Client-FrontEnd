@@ -70,6 +70,12 @@ const Layout = (props: IMainProps) => {
       current: false,
     },
     {
+      name: 'page.customer.dashboard.navigation_warehouse_cars',
+      href: '/customer/warehouse/cars',
+      gicon: '&#xe531;',
+      current: false,
+    },
+    {
       name: 'page.customer.dashboard.navigation_statement',
       href: '/customer/statement',
       gicon: '&#xe873;',
