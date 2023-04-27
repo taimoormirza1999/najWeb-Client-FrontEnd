@@ -125,6 +125,7 @@ export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
+  const region = context.query.region ? context.query.region : '';
   const session: any = await getSession(context);
   let networkError = false;
   let containersData = {};
@@ -134,6 +135,10 @@ export async function getServerSideProps(context) {
 
   if (search) {
     apiTabUrl = `${apiTabUrl}&search=${search}`;
+  }
+
+  if (region) {
+    apiTabUrl = `${apiTabUrl}&region=${region}`;
   }
 
   if (session && session.token && session.token.access_token) {
