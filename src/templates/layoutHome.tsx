@@ -747,7 +747,7 @@ const Layout = (props: IMainProps) => {
                 <p className="text-base md:text-lg">
                   <FormattedMessage id="Sat-Thu:08:30am-01:00pm/" />
                 </p>
-                <p className="text-base md:text-lg">04:00pm-08:30pm</p>
+                <p className="text-base md:text-lg"></p>
               </div>
             </div>
 
