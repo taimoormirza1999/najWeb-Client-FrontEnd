@@ -36,6 +36,15 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.driver_tin',
   },
   {
+    name: 'form.account_number',
+  },
+  {
+    name: 'form.routing_number',
+  },
+  {
+    name: 'form.reference_number',
+  },
+  {
     name: 'page.customer.dashboard.table.approve_payment',
   },
   {
@@ -55,8 +64,11 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
 
   const [warehouseCars, setWarehouseCars] = useState<any[]>([]);
   const [idToDelete, setIdToDelete] = useState(null);
-  const [newCarModalOpen, setNewCarModalOpen] = useState(false);
   const [deleteCarModalOpen, setDeleteCarModalOpen] = useState(false);
+  const [idToApprove, setIdApprove] = useState(null);
+  const [approveCarModalOpen, setApproveCarModalOpen] = useState(false);
+  const [carAlreadyExist, setCarAlreadyExist] = useState(false);
+  const [newCarModalOpen, setNewCarModalOpen] = useState(false);
   const [formSubmitModal, setFormSubmitModal] = useState({
     status: false,
     type: '',
@@ -70,8 +82,25 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
     driver_name: '',
     driver_number: '',
     driver_tin: '',
+    account_number: '',
+    routing_number: '',
+    reference_number: '',
   });
   const [file, setFile] = useState(null);
+
+  const emptyCarData = () => {
+    setCarData({
+      id: '',
+      lotnumber: '',
+      vin: '',
+      driver_name: '',
+      driver_number: '',
+      driver_tin: '',
+      account_number: '',
+      routing_number: '',
+      reference_number: '',
+    });
+  };
 
   const getWarehouseCars = async () => {
     const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
@@ -88,6 +117,31 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
   useEffect(() => {
     getWarehouseCars();
   }, [limit, page, search]);
+
+  useEffect(() => {
+    if (carData.lotnumber === '' && carData.vin === '') {
+      return;
+    }
+
+    axios
+      .get(`/api/customer/cars/warehouse_cars_exist/`, {
+        params: {
+          id: carData.id,
+          lotnumber: carData.lotnumber,
+          vin: carData.vin,
+        },
+      })
+      .then((response) => {
+        if (response.data?.carExist) {
+          setCarAlreadyExist(true);
+          setFormSubmitModal({
+            status: true,
+            type: 'error',
+            message: 'Car information already exist!',
+          });
+        }
+      });
+  }, [carData.lotnumber, carData.vin]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -106,25 +160,19 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
       formData.append(key, value);
     });
     // formData.append('file', file || '');
+    if (file) {
+      formData.append('file', file);
+    }
 
-    axios
-      .post('/api/customer/cars/warehouse_cars/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+    fetch('/api/customer/cars/warehouse_cars/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((res) => res.json())
       .then(() => {
         getWarehouseCars();
 
-        setCarData({
-          ...carData,
-          id: '',
-          lotnumber: '',
-          vin: '',
-          driver_name: '',
-          driver_number: '',
-          driver_tin: '',
-        });
+        emptyCarData();
         setNewCarModalOpen(false);
         setFormSubmitModal({
           status: true,
@@ -264,7 +312,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
         <div
           className={classNames(
             formSubmitModal.type === 'error'
-              ? 'text-yellow-orange'
+              ? 'text-red-700'
               : 'text-dark-blue',
             'mt-6 text-center sm:mt-16'
           )}
@@ -307,8 +355,8 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
             <FormattedMessage id="page.customer.delete_car" />
           </Dialog.Title>
           <div className="mt-2">
-            <p className="mb-4 py-4 text-lg text-red-600 md:text-xl lg:py-6 lg:text-2xl">
-              <FormattedMessage id="page.customer.delete_confirm" />
+            <p className="mb-4 py-4 text-lg text-red-700 md:text-xl lg:py-6 lg:text-2xl">
+              <FormattedMessage id="page.customer.confirm_proceed" />
             </p>
           </div>
         </div>
@@ -336,10 +384,55 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
       </CustomModal>
 
       <CustomModal
+        showOn={approveCarModalOpen}
+        initialFocus={null}
+        onClose={() => {
+          setApproveCarModalOpen(false);
+        }}
+      >
+        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+          <Dialog.Title
+            as="h3"
+            className="text-xl font-bold leading-6 md:text-2xl lg:text-3xl"
+          >
+            <FormattedMessage id="page.customer.approve_payment" />
+          </Dialog.Title>
+          <div className="mt-2">
+            <p className="mb-4 py-4 text-lg text-red-600 md:text-xl lg:py-6 lg:text-2xl">
+              <FormattedMessage id="page.customer.confirm_proceed" />
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-4 py-1 text-lg font-medium text-white hover:border-0 hover:bg-blue-500 md:px-10 md:py-2 lg:text-xl"
+            onClick={() => {
+              approveToMakePayment(idToApprove);
+              setApproveCarModalOpen(false);
+            }}
+          >
+            <FormattedMessage id="general.continue" />
+          </button>
+          <button
+            type="button"
+            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
+            onClick={() => {
+              setApproveCarModalOpen(false);
+            }}
+          >
+            <FormattedMessage id="general.cancel" />
+          </button>
+        </div>
+      </CustomModal>
+
+      <CustomModal
         showOn={newCarModalOpen}
         initialFocus={null}
         onClose={() => {
           setNewCarModalOpen(false);
+          setCarAlreadyExist(false);
+          emptyCarData();
         }}
       >
         <form
@@ -352,75 +445,126 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
               {intl.formatMessage({ id: 'page.modal.title.new_car' })}{' '}
             </Dialog.Title>
             <div className="my-5 mt-10">
-              <div className="my-4">
-                <label className="text-teal-blue block text-lg">
-                  <FormattedMessage id="form.lotnumber" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="lotnumber"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.lotnumber}
-                />
+              <div className="my-4 gap-2 sm:flex">
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.lotnumber" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="lotnumber"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.lotnumber}
+                  />
+                </div>
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.vin" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="vin"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.vin}
+                  />
+                </div>
               </div>
-              <div className="my-4">
-                <label className="text-teal-blue block text-lg">
-                  <FormattedMessage id="form.vin" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="vin"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.vin}
-                />
+
+              <div className="my-4 gap-2 sm:flex">
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.driver_name" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="driver_name"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.driver_name}
+                  />
+                </div>
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.driver_number" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="driver_number"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.driver_number}
+                  />
+                </div>
               </div>
-              <div className="my-4">
-                <label className="text-teal-blue block text-lg">
-                  <FormattedMessage id="form.driver_name" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="driver_name"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.driver_name}
-                />
+              <div className="my-4 gap-2 sm:flex">
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.driver_tin" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="driver_tin"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.driver_tin}
+                  />
+                </div>
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.account_number" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="account_number"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.account_number}
+                  />
+                </div>
               </div>
-              <div className="my-4">
-                <label className="text-teal-blue block text-lg">
-                  <FormattedMessage id="form.driver_number" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="driver_number"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.driver_number}
-                />
-              </div>
-              <div className="my-4">
-                <label className="text-teal-blue block text-lg">
-                  <FormattedMessage id="form.driver_tin" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="driver_tin"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.driver_tin}
-                />
+              <div className="my-4 gap-2 sm:flex">
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.routing_number" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="routing_number"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.routing_number}
+                  />
+                </div>
+                <div className="w-full">
+                  <label className="text-teal-blue block text-lg">
+                    <FormattedMessage id="form.reference_number" />
+                    <span className="mx-1 text-lg text-red-500">*</span>
+                  </label>
+                  <input
+                    className="w-full rounded-md border px-1 text-lg text-gray-700"
+                    type="text"
+                    name="reference_number"
+                    required
+                    onChange={handleChange}
+                    defaultValue={carData.reference_number}
+                  />
+                </div>
               </div>
               <div className="my-4">
                 <label className="text-teal-blue block text-lg">
@@ -443,14 +587,17 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
               className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
               onClick={() => {
                 setNewCarModalOpen(false);
+                setCarAlreadyExist(false);
               }}
             >
               <FormattedMessage id="general.cancel" />
             </button>
 
-            <button className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
-              {intl.formatMessage({ id: 'messages.submit' })}
-            </button>
+            {!carAlreadyExist ? (
+              <button className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
+                {intl.formatMessage({ id: 'messages.submit' })}
+              </button>
+            ) : null}
           </div>
         </form>
       </CustomModal>
@@ -547,6 +694,24 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                               scope="col"
                               className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                             >
+                              {car.account_number}
+                            </td>
+                            <td
+                              scope="col"
+                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                            >
+                              {car.routing_number}
+                            </td>
+                            <td
+                              scope="col"
+                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                            >
+                              {car.reference_number}
+                            </td>
+                            <td
+                              scope="col"
+                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                            >
                               {car.visible_create_date}
                             </td>
                             <td
@@ -563,7 +728,8 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                                 <button
                                   className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
                                   onClick={() => {
-                                    approveToMakePayment(car.id);
+                                    setIdApprove(car.id);
+                                    setApproveCarModalOpen(true);
                                   }}
                                 >
                                   <CheckIcon className="text-azure-blue h-3 w-3" />
@@ -575,7 +741,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                               scope="col"
                               className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                             >
-                              {car.customer_approved === 0 || true ? (
+                              {car.customer_approved === '0' ? (
                                 <button
                                   type="button"
                                   className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
@@ -588,10 +754,10 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                                 </button>
                               ) : null}
 
-                              {car.customer_approved === 0 || true ? (
+                              {car.customer_approved === '0' ? (
                                 <button
                                   type="button"
-                                  className="text-azure-blue mx-2 inline-block max-w-max rounded-md border-2 border-red-500 px-2 py-1  text-sm"
+                                  className="mx-2 inline-block max-w-max rounded-md border-2 border-red-500 px-2 py-1 text-sm  text-red-700"
                                   onClick={() => {
                                     setDeleteCarModalOpen(true);
                                     setIdToDelete(car.id);
@@ -607,7 +773,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                       ) : (
                         <tr key={0} className="bg-white text-sm">
                           <td
-                            colSpan={8}
+                            colSpan={13}
                             scope="col"
                             className="w-[2px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
                           >

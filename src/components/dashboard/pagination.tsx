@@ -153,6 +153,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
     <div className="mt-3" data-path={router.pathname}>
       <input
         type="text"
+        title="Write text and press enter!"
         placeholder={intl.formatMessage({ id: 'Search' })}
         className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
         value={tableSearch}

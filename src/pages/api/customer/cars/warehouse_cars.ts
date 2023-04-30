@@ -13,13 +13,9 @@ export default async function handler(req, res) {
       const response = await axios.post(
         `${apiUrl}warehouseCarRequest/customer/approve`,
         {
-          params: {
-            id,
-          },
+          id,
         }
       );
-
-      console.log(response);
 
       return response?.data
         ? res.status(200).json(response.data)
@@ -54,28 +50,28 @@ export default async function handler(req, res) {
       : res.status(500).json([]);
   }
   if (method === 'POST') {
-    const form = new formidable.IncomingForm();
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        console.error('Error parsing form data:', err);
-        res.status(500).json({ error: 'Error parsing form data' });
-        return;
-      }
+    try {
+      const form = new formidable.IncomingForm();
+      form.parse(req, async (err, fields, files) => {
+        if (err) {
+          console.error('Error parsing form data:', err);
+          res.status(500).json({ error: 'Error parsing form data' });
+          return;
+        }
 
-      try {
         const response = await axios.post(`${apiUrl}warehouseCarRequest`, {
           fields,
           files,
         });
         console.log('Form data sent successfully:', response.data.data);
         res.status(200).json(response.data);
-      } catch (error) {
-        console.error('Error', error);
-        res
-          .status(500)
-          .json({ error: `Error sending form data to API, ${error}` });
-      }
-    });
+      });
+    } catch (error) {
+      console.error('Error', error);
+      res
+        .status(500)
+        .json({ error: `Error sending form data to API, ${error}` });
+    }
 
     return false;
   }
