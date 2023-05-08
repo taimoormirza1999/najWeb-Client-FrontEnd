@@ -101,7 +101,6 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 };
 
-// TODO fix region fitler on page change
 const SelectPageRecords = ({ url, search = '' }) => {
   const intl = useIntl();
   const router = useRouter();
@@ -140,8 +139,14 @@ const SelectPageRecords = ({ url, search = '' }) => {
       });
   };
 
+  const makeSearch = (e) => {
+    router.push(`${url}&limit=${selectedLimit}&search=${tableSearch}`);
+  };
+
   useEffect(() => {
-    getRegions();
+    if (!['/customer/warehouse/cars'].includes(router.pathname)) {
+      getRegions();
+    }
   }, []);
 
   useEffect(() => {
@@ -149,39 +154,48 @@ const SelectPageRecords = ({ url, search = '' }) => {
   }, [filters, selectedLimit]);
 
   return (
-    <div className="mt-3">
+    <div className="mt-3" data-path={router.pathname}>
       <input
         type="text"
+        title="Write text and press enter!"
         placeholder={intl.formatMessage({ id: 'Search' })}
         className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
         value={tableSearch}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
-            router.push(`${url}&limit=${selectedLimit}&search=${tableSearch}`);
+            makeSearch(e);
           }
         }}
         onChange={(e) => {
           setTableSearch(e.target.value);
         }}
       />
-      <select
-        name="region"
-        title={intl.formatMessage({ id: 'general.region' })}
-        className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
-        value={filters.region}
-        onChange={handleFilterChange}
+      <i
+        className="material-icons -ml-8 cursor-pointer align-middle text-[1.6rem] text-sm text-gray-800 lg:ltr:mr-1 lg:rtl:ml-1"
+        onClick={makeSearch}
       >
-        <option value="">
-          {intl.formatMessage({ id: 'general.all.region' })}
-        </option>
-        {regions
-          ? regions.map((region, index) => (
-              <option key={index} value={region.region_id}>
-                {region.country_shortname} - {region.region_name}
-              </option>
-            ))
-          : null}
-      </select>
+        &#xe8b6;
+      </i>
+      {!['/customer/warehouse/cars'].includes(router.pathname) ? (
+        <select
+          name="region"
+          title={intl.formatMessage({ id: 'general.region' })}
+          className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+          value={filters.region}
+          onChange={handleFilterChange}
+        >
+          <option value="">
+            {intl.formatMessage({ id: 'general.all.region' })}
+          </option>
+          {regions
+            ? regions.map((region, index) => (
+                <option key={index} value={region.region_id}>
+                  {region.country_shortname} - {region.region_name}
+                </option>
+              ))
+            : null}
+        </select>
+      ) : null}
       <select
         title={intl.formatMessage({ id: 'page.table.info.length' })}
         className="mb-3 rounded-md  border border-[#005fb7] py-1 text-lg text-gray-700 ltr:float-right rtl:float-left"
