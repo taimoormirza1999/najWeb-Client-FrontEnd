@@ -60,15 +60,19 @@ export default async function handler(req, res) {
           return;
         }
 
-        const fileContent = fs.readFileSync(files?.file?.filepath);
         const formData = {
           fields,
-          file: {
+          file: {},
+        };
+
+        if (Object.keys(files).length) {
+          const fileContent = fs.readFileSync(files?.file?.filepath);
+          formData.file = {
             extension: files?.file?.originalFilename.split('.').pop(),
             type: files?.file?.mimetype,
             fileContent: Buffer.from(fileContent).toString('base64'),
-          },
-        };
+          };
+        }
 
         const response = await axios.post(
           `${apiUrl}warehouseCarRequest`,
