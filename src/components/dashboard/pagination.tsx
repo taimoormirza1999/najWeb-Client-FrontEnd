@@ -139,6 +139,10 @@ const SelectPageRecords = ({ url, search = '' }) => {
       });
   };
 
+  const makeSearch = (e) => {
+    router.push(`${url}&limit=${selectedLimit}&search=${tableSearch}`);
+  };
+
   useEffect(() => {
     if (!['/customer/warehouse/cars'].includes(router.pathname)) {
       getRegions();
@@ -159,13 +163,19 @@ const SelectPageRecords = ({ url, search = '' }) => {
         value={tableSearch}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
-            router.push(`${url}&limit=${selectedLimit}&search=${tableSearch}`);
+            makeSearch(e);
           }
         }}
         onChange={(e) => {
           setTableSearch(e.target.value);
         }}
       />
+      <i
+        className="material-icons -ml-8 cursor-pointer align-middle text-[1.6rem] text-sm text-gray-800 lg:ltr:mr-1 lg:rtl:ml-1"
+        onClick={makeSearch}
+      >
+        &#xe8b6;
+      </i>
       {!['/customer/warehouse/cars'].includes(router.pathname) ? (
         <select
           name="region"

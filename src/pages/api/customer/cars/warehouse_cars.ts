@@ -1,5 +1,6 @@
 import axios from 'axios';
 import formidable from 'formidable';
+import fs from 'fs';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -59,10 +60,21 @@ export default async function handler(req, res) {
           return;
         }
 
-        const response = await axios.post(`${apiUrl}warehouseCarRequest`, {
+        const fileContent = fs.readFileSync(files?.file?.filepath);
+        const formData = {
           fields,
-          files,
-        });
+          file: {
+            extension: files?.file?.originalFilename.split('.').pop(),
+            type: files?.file?.mimetype,
+            fileContent: Buffer.from(fileContent).toString('base64'),
+          },
+        };
+
+        const response = await axios.post(
+          `${apiUrl}warehouseCarRequest`,
+          formData
+        );
+
         console.log('Form data sent successfully:', response.data.data);
         res.status(200).json(response.data);
       });
@@ -75,37 +87,9 @@ export default async function handler(req, res) {
 
     return false;
   }
-  if (method === 'POSTTT') {
-    const form = new formidable.IncomingForm();
-    // const session: any = await getSession({ req });
-
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        res.status(500).json({ error: 'Error parsing form data' });
-        return;
-      }
-
-      try {
-        const response = await axios.post(`${apiUrl}/warehouseCarRequest`, {
-          fields,
-          files,
-        });
-        res.status(200).json(response);
-      } catch (error) {
-        res.status(500).json({ error: 'Error sending form data to API' });
-      }
-    });
-
-    /* const response = await axios.posnt(`${apiUrl}warehouseCarRequest`, body);
-    if (response.status === 200) {
-      return res.status(200).json(response.data);
-    }
-    return res.status(500).json(response.data); */
-  }
   if (method === 'PUT') {
     try {
       const { id } = req.body;
-      console.log('id, ', id);
       const response = await axios.post(
         `${apiUrl}warehouseCarRequest/customer/approve`,
         { id }
