@@ -70,6 +70,12 @@ const Layout = (props: IMainProps) => {
       current: false,
     },
     {
+      name: 'page.customer.dashboard.navigation_warehouse_cars',
+      href: '/customer/warehouse/cars',
+      gicon: '&#xe531;',
+      current: false,
+    },
+    {
       name: 'page.customer.dashboard.navigation_statement',
       href: '/customer/statement',
       gicon: '&#xe873;',
@@ -127,6 +133,20 @@ const Layout = (props: IMainProps) => {
   const isBulkShippingCustomer = Array.isArray(session?.profile)
     ? session?.profile[0].bulk_shipLoad
     : 0;
+
+  const allowWarehouseCarsRequests = session?.profile[0]?.allowWarehouseCarsRequests === '1';
+
+  const filterNavigation = () => {
+    return navigation.filter((item) => {
+      return (
+        (allowWarehouseCarsRequests === true ||
+          item.name !== 'page.customer.dashboard.navigation_warehouse_cars') &&
+        (isBulkShippingCustomer === '1' ||
+          item.name !== 'page.customer.dashboard.navigation_containers')
+      );
+    });
+  };
+
   if (locale === 'ar') {
     fullName = Array.isArray(session?.profile)
       ? session?.profile[0]?.full_name_ar
@@ -203,32 +223,24 @@ const Layout = (props: IMainProps) => {
                     </Link>
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
-                    {navigation
-                      .filter((item) => {
-                        return (
-                          item.name !==
-                            'page.customer.dashboard.navigation_containers' ||
-                          isBulkShippingCustomer === '1'
-                        );
-                      })
-                      .map((item, index) => (
-                        <Link key={index} href={item.href}>
-                          <a
-                            className={classNames(
-                              router.pathname === item.href
-                                ? 'bg-[#CEDAE5] text-[#0D3C8E]'
-                                : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                              'group flex items-center px-2 py-2 text-base rounded-md font-semibold'
-                            )}
-                          >
-                            <i
-                              className="material-icons text-lg ltr:mr-2 rtl:ml-2"
-                              dangerouslySetInnerHTML={{ __html: item.gicon }}
-                            ></i>
-                            <FormattedMessage id={item.name} />
-                          </a>
-                        </Link>
-                      ))}
+                    {filterNavigation().map((item, index) => (
+                      <Link key={index} href={item.href}>
+                        <a
+                          className={classNames(
+                            router.pathname === item.href
+                              ? 'bg-[#CEDAE5] text-[#0D3C8E]'
+                              : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                            'group flex items-center px-2 py-2 text-base rounded-md font-semibold'
+                          )}
+                        >
+                          <i
+                            className="material-icons text-lg ltr:mr-2 rtl:ml-2"
+                            dangerouslySetInnerHTML={{ __html: item.gicon }}
+                          ></i>
+                          <FormattedMessage id={item.name} />
+                        </a>
+                      </Link>
+                    ))}
                     {locale === 'en' ? (
                       <a
                         href="#"
@@ -312,32 +324,24 @@ const Layout = (props: IMainProps) => {
                 </Link>
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-1">
-                {navigation
-                  .filter((item) => {
-                    return (
-                      item.name !==
-                        'page.customer.dashboard.navigation_containers' ||
-                      isBulkShippingCustomer === '1'
-                    );
-                  })
-                  .map((item, index) => (
-                    <Link key={index} href={item.href}>
-                      <a
-                        className={classNames(
-                          router.pathname === item.href
-                            ? 'bg-[#CEDAE5] text-[#0D3C8E]'
-                            : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                          'group flex items-center pl-1 pr-0 py-2 font-semibold rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
-                        )}
-                      >
-                        <i
-                          className="material-icons text-3xl ltr:mr-2 rtl:ml-2"
-                          dangerouslySetInnerHTML={{ __html: item.gicon }}
-                        ></i>
-                        <FormattedMessage id={item.name} />
-                      </a>
-                    </Link>
-                  ))}
+                {filterNavigation().map((item, index) => (
+                  <Link key={index} href={item.href}>
+                    <a
+                      className={classNames(
+                        router.pathname === item.href
+                          ? 'bg-[#CEDAE5] text-[#0D3C8E]'
+                          : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                        'group flex items-center pl-1 pr-0 py-2 font-semibold rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
+                      )}
+                    >
+                      <i
+                        className="material-icons text-3xl ltr:mr-2 rtl:ml-2"
+                        dangerouslySetInnerHTML={{ __html: item.gicon }}
+                      ></i>
+                      <FormattedMessage id={item.name} />
+                    </a>
+                  </Link>
+                ))}
               </nav>
             </div>
             <div className="flex shrink-0 border-t border-gray-200 p-4">
@@ -448,7 +452,7 @@ const Layout = (props: IMainProps) => {
                                   >
                                     <div className="absolute right-[7px] shrink-0">
                                       <XCircleIcon
-                                        className="mt-[-5px] mr-[10px] h-5 w-5 text-red-400 cursor-pointer"
+                                        className="mt-[-5px] mr-[10px] h-5 w-5 cursor-pointer text-red-400"
                                         aria-hidden="true"
                                         onClick={() =>
                                           setSeenNotification(item.id, key)
@@ -456,7 +460,7 @@ const Layout = (props: IMainProps) => {
                                       />
                                     </div>
                                     <p className="text-base font-medium text-gray-900">
-                                    {item.subject}
+                                      {item.subject}
                                     </p>
                                     <p className="mt-1 text-sm text-gray-800">
                                       {item.notification_text}
@@ -464,7 +468,7 @@ const Layout = (props: IMainProps) => {
                                   </div>
                                 ))}
                               </div>
-                              {notify.length? (
+                              {notify.length ? (
                                 <div className="border-t-2">
                                   <button className="p-4">
                                     Mark all as read
