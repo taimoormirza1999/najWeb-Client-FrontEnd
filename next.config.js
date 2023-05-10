@@ -25,5 +25,8 @@ module.exports = withBundleAnalyzer({
     defaultLocale: "en",
     locales: ["ar", "en"],
     localePath: path.resolve('./public/locales'),
-  }
+  },
+  images: {
+    domains: ["cdn.nejoumaljazeera.co", "nejoumaljazeera.co"],
+  },
 });

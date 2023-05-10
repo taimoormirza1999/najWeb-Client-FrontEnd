@@ -175,6 +175,9 @@ a:hover {
 .dirltr{
   direction:ltr;
 }
+[dir="rtl"] select {
+  background-position: left 0.5rem center;
+}
 @media screen and (max-width:768px){
   .container{
     max-width: 90%;

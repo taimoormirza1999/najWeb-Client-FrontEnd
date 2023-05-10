@@ -6,6 +6,7 @@ Customer Website
 ### Requirements
 
 - Node.js 14+ and npm
+
 ## Installation
 
 Use [Git](https://pip.pypa.io/en/stable/) to clone the repository.

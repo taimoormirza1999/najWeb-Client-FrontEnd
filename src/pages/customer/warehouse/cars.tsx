@@ -1,9 +1,10 @@
 import { Dialog } from '@headlessui/react';
 import { CheckIcon, PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useEffect, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import WarehouseCarsRequestForm from '@/components/cars/WarehouseCarsRequestForm';
 import CustomModal from '@/components/customModal';
@@ -20,54 +21,59 @@ import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
   {
-    name: 'page.customer.dashboard.table.lot',
+    name: 'form.car_photo',
   },
   {
-    name: 'page.customer.dashboard.table.vin',
+    name: 'page.customer.dashboard.table.detail',
   },
   {
-    name: 'page.customer.dashboard.table.invoice',
+    name: 'page.customer.dashboard.table.lot_vin',
+  },
+  {
+    name: 'page.customer.dashboard.table.price',
+  },
+  {
+    name: 'page.customer.dashboard.table.eta',
   },
   {
     name: 'page.customer.dashboard.table.driver_name',
   },
   {
-    name: 'page.customer.dashboard.table.driver_number',
-  },
-  {
-    name: 'page.customer.dashboard.table.driver_tin',
+    name: 'form.driver_address',
   },
   {
     name: 'form.account_number',
   },
   {
-    name: 'form.routing_number',
-  },
-  {
-    name: 'form.reference_number',
+    name: 'form.destination',
   },
   {
     name: 'page.customer.dashboard.table.approve_payment',
-  },
-  {
-    name: 'page.customer.dashboard.table.created_date',
   },
   {
     name: 'page.customer.dashboard.table.action',
   },
 ];
 
-export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
-  const intl = useIntl();
-
+export default function WarehouseTowingCars({
+  page = 0,
+  limit,
+  search = '',
+  vehiclesType,
+  carsMaker,
+  carsColor,
+  ports,
+}) {
   const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}&page=`;
   const limitUrl = `/customer/warehouse/cars?page=`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
 
+  const [tableRecords, setTableRecords] = useState(0);
   const [warehouseCars, setWarehouseCars] = useState<any[]>([]);
   const [idToDelete, setIdToDelete] = useState(null);
   const [deleteCarModalOpen, setDeleteCarModalOpen] = useState(false);
   const [idToApprove, setIdApprove] = useState(null);
+  const closeModalRef = useRef(null);
   const [approveCarModalOpen, setApproveCarModalOpen] = useState(false);
   const [newCarModalOpen, setNewCarModalOpen] = useState(false);
   const [formSubmitModal, setFormSubmitModal] = useState({
@@ -76,28 +82,22 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
     message: '',
   });
 
-  const [carData, setCarData] = useState({
-    id: '',
-    lotnumber: '',
-    vin: '',
-    driver_name: '',
-    driver_number: '',
-    driver_tin: '',
-    account_number: '',
-    routing_number: '',
-    reference_number: '',
-  });
+  const [carData, setCarData] = useState({});
 
   const getWarehouseCars = async () => {
-    const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
-      params: {
-        limit,
-        page,
-        search,
-      },
-    });
-
-    setWarehouseCars(res.data ? res.data : []);
+    try {
+      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
+        params: {
+          limit,
+          page,
+          search,
+        },
+      });
+      setTableRecords(res.data?.totalRecords || 0);
+      setWarehouseCars(res.data ? res.data.data : []);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
         setCarData(response.data);
         setNewCarModalOpen(true);
       })
-      .catch((error) => {
+      .catch(() => {
         setFormSubmitModal({
           status: true,
           type: 'error',
@@ -126,7 +126,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
 
   const deleteCar = (id) => {
     axios
-      .delete(`/api/customer/warehouse_cars`, {
+      .delete(`/api/customer/cars/warehouse_cars/`, {
         params: {
           id,
         },
@@ -184,7 +184,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
     >
       <CustomModal
         showOn={formSubmitModal.status}
-        initialFocus={null}
+        initialFocus={closeModalRef}
         onClose={() => {
           setFormSubmitModal({
             status: false,
@@ -211,6 +211,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
           <button
             type="button"
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
+            ref={closeModalRef}
             onClick={() => {
               setFormSubmitModal({
                 status: false,
@@ -226,7 +227,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
 
       <CustomModal
         showOn={deleteCarModalOpen}
-        initialFocus={null}
+        initialFocus={closeModalRef}
         onClose={() => {
           setDeleteCarModalOpen(false);
         }}
@@ -258,6 +259,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
           <button
             type="button"
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
+            ref={closeModalRef}
             onClick={() => {
               setDeleteCarModalOpen(false);
             }}
@@ -269,7 +271,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
 
       <CustomModal
         showOn={approveCarModalOpen}
-        initialFocus={null}
+        initialFocus={closeModalRef}
         onClose={() => {
           setApproveCarModalOpen(false);
         }}
@@ -301,6 +303,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
           <button
             type="button"
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
+            ref={closeModalRef}
             onClick={() => {
               setApproveCarModalOpen(false);
             }}
@@ -312,6 +315,10 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
 
       <WarehouseCarsRequestForm
         carData={carData}
+        vehiclesType={vehiclesType}
+        carsMaker={carsMaker}
+        carsColor={carsColor}
+        ports={ports}
         setCarData={setCarData}
         newCarModalOpen={newCarModalOpen}
         setNewCarModalOpen={setNewCarModalOpen}
@@ -344,7 +351,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                   <table className="min-w-full divide-y divide-gray-300">
                     <TableHeader tableHeader={carTableHeader} />
                     <tbody>
-                      {warehouseCars?.length ? (
+                      {tableRecords ? (
                         warehouseCars.map((car, index) => (
                           <tr
                             key={index}
@@ -363,64 +370,104 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                               scope="col"
                               className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                             >
-                              {car.lotnumber}
+                              {car.car_photo_file !== '' ? (
+                                <Link passHref href={car.car_photo_file}>
+                                  <a
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="hover:border-b-0"
+                                  >
+                                    <Image
+                                      src={car.car_photo_file}
+                                      width={60}
+                                      height={60}
+                                      alt={car.lotnumber}
+                                    />
+                                  </a>
+                                </Link>
+                              ) : null}
                             </td>
                             <td
                               scope="col"
-                              className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                              className="min-w-[150px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                             >
-                              {car.vin}
+                              {car.carMakerName} {car.carModelName} {car.year}
                             </td>
                             <td
                               scope="col"
-                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                              className="min-w-[65px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                             >
+                              <FormattedMessage id="page.customer.dashboard.table.lot" />
+                              : {car.lotnumber} <br />
+                              <FormattedMessage id="page.customer.dashboard.table.vin" />
+                              : {car.vin} <br />
+                              <FormattedMessage id="page.customer.dashboard.table.title" />
+                              : {car.car_title === '1' ? 'Yes' : 'No'} <br />
+                              <FormattedMessage id="page.customer.dashboard.table.key" />
+                              : {car.car_key === '1' ? 'Yes' : 'No'} <br />
                               {car.invoice_file !== '' ? (
                                 <>
                                   <i className="material-icons -mt-1 align-middle text-sm lg:ltr:mr-1 lg:rtl:ml-1">
                                     &#xe89e;
                                   </i>
                                   <Link href={car.invoice_file} passHref>
-                                    <a target="_blank">File</a>
+                                    <a target="_blank" className="font-bold">
+                                      Invoice
+                                    </a>
                                   </Link>
                                 </>
                               ) : null}
                             </td>
                             <td
                               scope="col"
+                              className="min-w-[65px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                            >
+                              <FormattedMessage id="form.sale_price" />: $
+                              {car.sale_price} <br />
+                              <FormattedMessage id="form.towing_price" />: $
+                              {car.towing_price} <br />
+                            </td>
+                            <td
+                              scope="col"
+                              className="min-w-[80px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                            >
+                              {car.delivered_date}
+                            </td>
+                            <td
+                              scope="col"
                               className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                             >
-                              {car.driver_name}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[50px] px-3 py-3.5  text-left font-semibold text-[#1C1C1C]"
-                            >
+                              <FormattedMessage id="form.driver_name" />:{' '}
+                              {car.driver_name} <br />
+                              <FormattedMessage id="form.driver_number" />:{' '}
                               {car.driver_number} <br />
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                              <FormattedMessage id="form.driver_tin" />:{' '}
                               {car.driver_tin}
                             </td>
                             <td
                               scope="col"
-                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                              className="min-w-[65px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                             >
-                              {car.account_number}
+                              <FormattedMessage id="form.zip_code" />:{' '}
+                              {car.driver_zip_code} <br />
+                              {car.driver_address}
                             </td>
                             <td
                               scope="col"
                               className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                             >
-                              {car.routing_number}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                              <FormattedMessage id="form.account_number" />:{' '}
+                              {car.account_number} <br />
+                              <FormattedMessage id="form.routing_number" />:{' '}
+                              {car.routing_number} <br />
+                              <FormattedMessage id="form.reference_number" />:{' '}
                               {car.reference_number}
+                            </td>
+                            <td
+                              scope="col"
+                              className="w-[20px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                            >
+                              {car.destination_name}
                             </td>
                             <td
                               scope="col"
@@ -432,7 +479,10 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                                   Approved on <br />{' '}
                                   {car.customer_approved_date}
                                 </div>
-                              ) : (
+                              ) : null}
+
+                              {car.customer_approved === '0' &&
+                              car.car_id > '0' ? (
                                 <button
                                   className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
                                   onClick={() => {
@@ -443,46 +493,52 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
                                   <CheckIcon className="text-azure-blue h-3 w-3" />
                                   <FormattedMessage id="page.customer.dashboard.action.approve" />
                                 </button>
-                              )}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
-                              {car.visible_create_date}
+                              ) : null}
+
+                              {car.customer_approved === '0' &&
+                              car.car_id === '0' ? (
+                                <div className="text-dark-blue font-bold">
+                                  Pending <br />
+                                  From NAJ
+                                </div>
+                              ) : null}
                             </td>
                             <td
                               scope="col"
                               className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                             >
-                              {car.customer_approved === '0' &&
-                              car.car_id === '0' ? (
-                                <button
-                                  type="button"
-                                  className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
-                                  onClick={() => {
-                                    editCar(car.id);
-                                  }}
-                                >
-                                  <PencilIcon className="text-azure-blue h-3 w-3" />
-                                  <FormattedMessage id="page.customer.dashboard.action.edit" />
-                                </button>
-                              ) : null}
+                              <div className="flex flex-col gap-2">
+                                {car.customer_approved === '0' &&
+                                car.car_id === '0' ? (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="border-azure-blue text-azure-blue inline-block min-w-[55px] max-w-max rounded-md border-2 px-2 py-1  text-sm"
+                                      onClick={() => {
+                                        editCar(car.id);
+                                      }}
+                                    >
+                                      <PencilIcon className="text-azure-blue h-3 w-3" />
+                                      <FormattedMessage id="page.customer.dashboard.action.edit" />
+                                    </button>{' '}
+                                  </>
+                                ) : null}
 
-                              {car.customer_approved === '0' &&
-                              car.car_id === '0' ? (
-                                <button
-                                  type="button"
-                                  className="mx-2 inline-block max-w-max rounded-md border-2 border-red-500 px-2 py-1 text-sm  text-red-700"
-                                  onClick={() => {
-                                    setDeleteCarModalOpen(true);
-                                    setIdToDelete(car.id);
-                                  }}
-                                >
-                                  <TrashIcon className="h-3 w-3 text-red-500" />
-                                  <FormattedMessage id="page.customer.dashboard.action.delete" />
-                                </button>
-                              ) : null}
+                                {car.customer_approved === '0' &&
+                                car.car_id === '0' ? (
+                                  <button
+                                    type="button"
+                                    className="inline-block max-w-max rounded-md border-2 border-red-500 px-2 py-1 text-sm  text-red-700"
+                                    onClick={() => {
+                                      setDeleteCarModalOpen(true);
+                                      setIdToDelete(car.id);
+                                    }}
+                                  >
+                                    <TrashIcon className="h-3 w-3 text-red-500" />
+                                    <FormattedMessage id="page.customer.dashboard.action.delete" />
+                                  </button>
+                                ) : null}
+                              </div>
                             </td>
                           </tr>
                         ))
@@ -504,7 +560,7 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
             </div>
           </div>
           <Pagination
-            totalRecords={warehouseCars?.length || 0}
+            totalRecords={tableRecords || 0}
             page={page}
             url={paginationUrl}
             limit={limit}
@@ -517,15 +573,34 @@ export default function WarehouseTowingCars({ page = 0, limit, search = '' }) {
 
 export async function getServerSideProps(context) {
   if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+  const apiUrl = process.env.API_URL;
   const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
 
+  const resType = await axios.get(`${apiUrl}getVehicleTypes`);
+  const vehiclesType = resType.data ? resType.data.data : [];
+
+  const resMaker = await axios.get(`${apiUrl}getMakerAll`);
+  const carsMaker = resMaker.data ? resMaker.data.data : [];
+
+  const resColor = await axios.get(`${apiUrl}getColors`);
+  const carsColor = resColor.data ? resColor.data.data : [];
+
+  const resPort = await axios.get(
+    `${apiUrl}general/getCountryPorts/?limit=100`
+  );
+  const ports = resPort.data ? resPort.data.data : [];
+
   return {
     props: {
-      search,
-      limit,
       page,
+      limit,
+      search,
+      vehiclesType,
+      carsMaker,
+      carsColor,
+      ports,
     },
   };
 }
