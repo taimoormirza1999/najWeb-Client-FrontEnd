@@ -1,6 +1,9 @@
+import AWS from 'aws-sdk';
 import axios from 'axios';
 import formidable from 'formidable';
 import fs from 'fs';
+
+const s3BucketName = process.env.BUCKET_NAME;
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -47,7 +50,7 @@ export default async function handler(req, res) {
     });
 
     return response?.data
-      ? res.status(200).json(response.data.data)
+      ? res.status(200).json(response.data)
       : res.status(500).json([]);
   }
   if (method === 'POST') {
@@ -62,24 +65,38 @@ export default async function handler(req, res) {
 
         const formData = {
           fields,
-          file: {},
         };
 
-        if (Object.keys(files).length) {
-          const fileContent = fs.readFileSync(files?.file?.filepath);
-          formData.file = {
-            extension: files?.file?.originalFilename.split('.').pop(),
-            type: files?.file?.mimetype,
-            fileContent: Buffer.from(fileContent).toString('base64'),
+        const s3 = new AWS.S3();
+        const filesObjecKeys = Object.keys(files);
+
+        const uploadPromises = Object.values(files).map(async (file, i) => {
+          const s3SubKey =
+            filesObjecKeys[i] === 'invoiceFile' ? 'invoices' : 'photos';
+          const dbFieldName =
+            filesObjecKeys[i] === 'invoiceFile' ? 'invoice' : 'car_photo';
+
+          const fileStream = fs.createReadStream(file.filepath);
+          const fileExt = file?.originalFilename.split('.').pop();
+          const params = {
+            Bucket: s3BucketName,
+            Key: `uploads/warehouse_cars/${s3SubKey}/${fields.lotnumber}-${file.newFilename}.${fileExt}`,
+            Body: fileStream,
+            ContentType: file.mimetype,
           };
-        }
+
+          const result = await s3.upload(params).promise();
+          formData.fields[dbFieldName] = params.Key;
+          return result.Location;
+        });
+
+        await Promise.all(uploadPromises);
 
         const response = await axios.post(
           `${apiUrl}warehouseCarRequest`,
           formData
         );
 
-        console.log('Form data sent successfully:', response.data.data);
         res.status(200).json(response.data);
       });
     } catch (error) {
