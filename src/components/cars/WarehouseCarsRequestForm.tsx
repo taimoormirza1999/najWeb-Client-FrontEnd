@@ -1,4 +1,5 @@
 import { Dialog } from '@headlessui/react';
+import { XCircleIcon } from '@heroicons/react/outline';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -181,9 +182,20 @@ export default function WarehouseCarsRequestForm({
         className="max-h-screen overflow-y-scroll px-2"
       >
         <div className="text-dark-blue mt-2 sm:mt-4">
-          <Dialog.Title as="h3" className="text-3xl leading-6">
-            {intl.formatMessage({ id: 'page.modal.title.new_car' })}{' '}
-          </Dialog.Title>
+          <div className="flex justify-between">
+            <Dialog.Title as="h3" className="text-3xl leading-6">
+              {intl.formatMessage({ id: 'page.modal.title.new_car' })}{' '}
+            </Dialog.Title>
+            <XCircleIcon
+              className="h-8 w-8 cursor-pointer text-red-500"
+              ref={closeModalRef}
+              onClick={() => {
+                emptyCarData();
+                setNewCarModalOpen(false);
+                setCarAlreadyExist(false);
+              }}
+            />
+          </div>
           <div className="my-5 mt-10">
             <div className="my-4 gap-2 sm:flex">
               <div className="w-full">
@@ -198,12 +210,17 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_vehicle_type', newOption.value);
                   }}
-                  defaultValue={{
-                    value: carData.id_vehicle_type,
-                    label: vehiclesType.find(
-                      (item) => item.id_vehicle_type === carData.id_vehicle_type
-                    )?.name,
-                  }}
+                  defaultValue={
+                    carData?.id_vehicle_type
+                      ? {
+                          value: carData.id_vehicle_type,
+                          label: vehiclesType.find(
+                            (item) =>
+                              item.id_vehicle_type === carData.id_vehicle_type
+                          )?.name,
+                        }
+                      : null
+                  }
                   styles={{
                     control: ReactSelectStyle,
                   }}
@@ -225,10 +242,14 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('year', newOption.value);
                   }}
-                  defaultValue={{
-                    value: carData.year,
-                    label: carData.year,
-                  }}
+                  defaultValue={
+                    carData?.year
+                      ? {
+                          value: carData.year,
+                          label: carData.year,
+                        }
+                      : null
+                  }
                   styles={{
                     control: ReactSelectStyle,
                   }}
@@ -253,12 +274,16 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_car_make', newOption.value);
                   }}
-                  defaultValue={{
-                    value: carData.id_car_make,
-                    label: carsMaker.find(
-                      (item) => item.id_car_make === carData.id_car_make
-                    )?.name,
-                  }}
+                  defaultValue={
+                    carData?.id_car_make
+                      ? {
+                          value: carData.id_car_make,
+                          label: carsMaker.find(
+                            (item) => item.id_car_make === carData.id_car_make
+                          )?.name,
+                        }
+                      : null
+                  }
                   styles={{
                     control: ReactSelectStyle,
                   }}
@@ -280,12 +305,16 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_car_model', newOption.value);
                   }}
-                  defaultValue={{
-                    value: carData.id_car_model,
-                    label: carsModel.find(
-                      (item) => item.id_car_model === carData.id_car_model
-                    )?.name,
-                  }}
+                  defaultValue={
+                    carData?.id_car_model
+                      ? {
+                          value: carData.id_car_model,
+                          label: carsModel.find(
+                            (item) => item.id_car_model === carData.id_car_model
+                          )?.name,
+                        }
+                      : null
+                  }
                   styles={{
                     control: ReactSelectStyle,
                   }}
@@ -310,12 +339,16 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('color', newOption.value);
                   }}
-                  defaultValue={{
-                    value: carData.color,
-                    label: carsColor.find(
-                      (item) => item.color_id === carData.color
-                    )?.color_name,
-                  }}
+                  defaultValue={
+                    carData?.color
+                      ? {
+                          value: carData.color,
+                          label: carsColor.find(
+                            (item) => item.color_id === carData.color
+                          )?.color_name,
+                        }
+                      : null
+                  }
                   styles={{
                     control: ReactSelectStyle,
                   }}
@@ -337,12 +370,16 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('destination', newOption.value);
                   }}
-                  defaultValue={{
-                    value: carData.destination,
-                    label: ports.find(
-                      (item) => item.port_id === carData.destination
-                    )?.port_name,
-                  }}
+                  defaultValue={
+                    carData?.destination
+                      ? {
+                          value: carData.destination,
+                          label: ports.find(
+                            (item) => item.port_id === carData.destination
+                          )?.port_name,
+                        }
+                      : null
+                  }
                   styles={{
                     control: ReactSelectStyle,
                   }}
