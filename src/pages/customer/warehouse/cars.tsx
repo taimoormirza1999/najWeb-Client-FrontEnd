@@ -12,6 +12,7 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import TableColumn from '@/components/TableColumn';
 import TableHeader from '@/components/TableHeader';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
@@ -360,16 +361,10 @@ export default function WarehouseTowingCars({
                               'text-sm'
                             )}
                           >
-                            <td
-                              scope="col"
-                              className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                            <TableColumn className="w-[2px]">
                               {addIndex + index + 1}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[64px]">
                               {car.car_photo_file !== '' ? (
                                 <Link passHref href={car.car_photo_file}>
                                   <a
@@ -386,17 +381,11 @@ export default function WarehouseTowingCars({
                                   </a>
                                 </Link>
                               ) : null}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[150px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[150px]">
                               {car.carMakerName} {car.carModelName} {car.year}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[65px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[65px]">
                               <FormattedMessage id="page.customer.dashboard.table.lot" />
                               : {car.lotnumber} <br />
                               <FormattedMessage id="page.customer.dashboard.table.vin" />
@@ -417,62 +406,41 @@ export default function WarehouseTowingCars({
                                   </Link>
                                 </>
                               ) : null}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[65px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[65px]">
                               <FormattedMessage id="form.sale_price" />: $
                               {car.sale_price} <br />
                               <FormattedMessage id="form.towing_price" />: $
                               {car.towing_price} <br />
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[80px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[80px]">
                               {car.delivered_date}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[47px]">
                               <FormattedMessage id="form.driver_name" />:{' '}
                               {car.driver_name} <br />
                               <FormattedMessage id="form.driver_number" />:{' '}
                               {car.driver_number} <br />
                               <FormattedMessage id="form.driver_tin" />:{' '}
                               {car.driver_tin}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[65px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[65px]">
                               <FormattedMessage id="form.zip_code" />:{' '}
                               {car.driver_zip_code} <br />
                               {car.driver_address}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[50px]">
                               <FormattedMessage id="form.account_number" />:{' '}
                               {car.account_number} <br />
                               <FormattedMessage id="form.routing_number" />:{' '}
                               {car.routing_number} <br />
                               <FormattedMessage id="form.reference_number" />:{' '}
                               {car.reference_number}
-                            </td>
-                            <td
-                              scope="col"
-                              className="w-[20px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="w-[20px]">
                               {car.destination_name}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[50px]">
                               {car.customer_approved === '1' ? (
                                 <div>
                                   {' '}
@@ -502,11 +470,8 @@ export default function WarehouseTowingCars({
                                   From NAJ
                                 </div>
                               ) : null}
-                            </td>
-                            <td
-                              scope="col"
-                              className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                            >
+                            </TableColumn>
+                            <TableColumn className="min-w-[47px]">
                               <div className="flex flex-col gap-2">
                                 {car.customer_approved === '0' &&
                                 car.car_id === '0' ? (
@@ -539,18 +504,17 @@ export default function WarehouseTowingCars({
                                   </button>
                                 ) : null}
                               </div>
-                            </td>
+                            </TableColumn>
                           </tr>
                         ))
                       ) : (
                         <tr key={0} className="bg-white text-sm">
-                          <td
+                          <TableColumn
                             colSpan={13}
-                            scope="col"
-                            className="w-[2px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
+                            className="w-[2px] text-center"
                           >
                             No records
-                          </td>
+                          </TableColumn>
                         </tr>
                       )}
                     </tbody>
