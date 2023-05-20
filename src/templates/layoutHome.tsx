@@ -73,8 +73,9 @@ const Layout = (props: IMainProps) => {
     router.push(router.pathname, router.asPath, { locale: selectedLocale });
   };
 
-  const handleSignOut = () => {
-    signOut({
+  const handleSignOut = async () => {
+    localStorage.setItem('customer', '');
+    await signOut({
       callbackUrl: `${window.location.origin}`,
     });
   };
