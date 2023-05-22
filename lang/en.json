@@ -403,5 +403,9 @@
   "Sangkat,": "Sangkat,",
   "Phnom Penh tmey,": "Phnom Penh tmey,",
   "Khan Sen Sok": "Khan Sen Sok",
-  "You’re always welcome to pay a visit!": "You’re always welcome to pay a visit!"
+  "You’re always welcome to pay a visit!": "You’re always welcome to pay a visit!",
+  "point_of_loading": "Point of loading",
+  "docker_receipt": "Docker receipt",
+  "auction_price": "Auction Price",
+  "sold": "Sold"
 }
