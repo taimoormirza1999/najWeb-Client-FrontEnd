@@ -126,19 +126,30 @@ export async function getServerSideProps(context) {
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
   const region = context.query.region ? context.query.region : '';
+  const dateFrom = context.query.date_from ? context.query.date_from : '';
+  const dateTo = context.query.date_to ? context.query.date_to : '';
+  const dateType = context.query.date_type ? context.query.date_type : '';
   const session: any = await getSession(context);
   let networkError = false;
   let containersData = {};
   let containersCount = {};
   const apiUrl = process.env.API_URL;
   let apiTabUrl = `${apiUrl}customer/containers?status=${apiTab}&page=${page}&limit=${limit}`;
-
   if (search) {
     apiTabUrl = `${apiTabUrl}&search=${search}`;
   }
 
   if (region) {
     apiTabUrl = `${apiTabUrl}&region=${region}`;
+  }
+  if (dateFrom) {
+    apiTabUrl = `${apiTabUrl}&date_from=${dateFrom}`;
+  }
+  if (dateTo) {
+    apiTabUrl = `${apiTabUrl}&date_to=${dateTo}`;
+  }
+  if (dateType) {
+    apiTabUrl = `${apiTabUrl}&date_type=${dateType}`;
   }
 
   if (session && session.token && session.token.access_token) {
