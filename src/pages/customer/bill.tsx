@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -15,6 +16,8 @@ const Bill = ({
   amountRemaining,
   car_id,
 }) => {
+  const router = useRouter();
+  const currency = router.query?.currency || 'aed';
   const [printButtonLabel, setPrintButtonLabel] = useState('Print');
 
   const printShippingBill = async (e) => {
@@ -22,7 +25,7 @@ const Bill = ({
     setPrintButtonLabel('Printing...');
 
     const res = await axios.get(`/api/customer/shipping/billDetails`, {
-      params: { car_id },
+      params: { car_id, currency },
     });
     const html = res.data ? res.data.html : '';
 
@@ -162,11 +165,14 @@ export async function getServerSideProps(context) {
   const apiUrl = process.env.API_URL;
   let carsData = {};
   const car = context.query.car ? context.query.car : '';
+  const { currency } = context.query;
   try {
     if (car && session && session.token && session.token.access_token) {
       axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
       await axios
-        .get(`${apiUrl}car/shippingBillDetail/${car}`)
+        .get(`${apiUrl}car/shippingBillDetail/${car}`, {
+          params: { currency },
+        })
         .then((response) => {
           // handle success
           carsData = response.data;
