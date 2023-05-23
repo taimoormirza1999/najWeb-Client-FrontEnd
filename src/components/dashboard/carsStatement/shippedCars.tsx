@@ -1,7 +1,10 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
+
+import { UserContext } from '@/components/userContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -19,8 +22,13 @@ const carProfileDetail = (row) => {
 
 const ShippedCars = ({ tableData, lastTotalRow }) => {
   const intl = useIntl();
+  const router = useRouter();
+  const currency = router.query?.currency || 'aed';
+
   const [shippedCarsState, setShippedCars] = useState(tableData);
   const [shippedTableSearch, setShippedTableSearch] = useState('');
+  const { profile } = useContext(UserContext);
+  const showContainerNumber = profile?.isBulkShippingCustomer === true;
 
   useEffect(() => {
     setShippedCars(
@@ -42,7 +50,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'Search' })}
-          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg ltr:italic text-gray-700 md:self-end"
+          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
           value={shippedTableSearch}
           onChange={(e) => {
             setShippedTableSearch(e.target.value);
@@ -70,6 +78,11 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
               <td className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.table.detail" />
               </td>
+              {showContainerNumber ? (
+                <td className="text-dark-blue p-4 text-xl font-semibold">
+                  <FormattedMessage id="page.customer.container.container_number" />
+                </td>
+              ) : null}
               <td className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.table.storage" />
               </td>
@@ -113,6 +126,11 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
                     ? row.description
                     : carProfileDetail(row)}
                 </td>
+                {showContainerNumber ? (
+                  <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                    {row?.car?.container_number || ''}
+                  </td>
+                ) : null}
                 <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
                   {row.storage_fine}
                 </td>
@@ -124,10 +142,12 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
                     <Link
                       href={{
                         pathname: '/customer/bill/',
-                        query: { car: row.car_id },
+                        query: { car: row.car_id, currency },
                       }}
                     >
-                      <a className="text-[#1C1C1C]">{row.shipping_amount}</a>
+                      <a target="_blank" className="text-[#1C1C1C]">
+                        {row.shipping_amount}
+                      </a>
                     </Link>
                   ) : (
                     row.shipping_amount
@@ -160,6 +180,9 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
                 <td className="w-[32%] p-3 text-2xl  text-[#1C1C1C]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
                 </td>
+                {showContainerNumber ? (
+                  <td className="w-[8%] p-3 text-lg text-[#1C1C1C]"></td>
+                ) : null}
                 <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
                   {lastTotalRow.storage_fine}
                 </td>

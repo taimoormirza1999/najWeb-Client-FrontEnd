@@ -77,7 +77,6 @@ export default function WarehouseTowingCars({
   const closeModalRef = useRef(null);
   const [approveCarModalOpen, setApproveCarModalOpen] = useState(false);
   const [newCarModalOpen, setNewCarModalOpen] = useState(false);
-  const mountedRef = useRef(true);
   const [formSubmitModal, setFormSubmitModal] = useState({
     status: false,
     type: '',
@@ -103,13 +102,7 @@ export default function WarehouseTowingCars({
   };
 
   useEffect(() => {
-    if (mountedRef.current) {
-      getWarehouseCars();
-    }
-
-    return () => {
-      mountedRef.current = false;
-    };
+    getWarehouseCars();
   }, [limit, page, search]);
 
   const editCar = (id) => {
