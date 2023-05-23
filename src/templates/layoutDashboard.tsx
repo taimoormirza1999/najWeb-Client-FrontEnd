@@ -147,6 +147,7 @@ const Layout = (props: IMainProps) => {
 
   const onStorageUpdate = () => {
     const membershipId = session?.profile[0]?.membership_id;
+    if (typeof membershipId === 'undefined') return;
     const lastMembershipId = localStorage.getItem(localStorageCustomerKey);
     if (lastMembershipId !== membershipId || lastMembershipId === '') {
       window.location.href = '/';
