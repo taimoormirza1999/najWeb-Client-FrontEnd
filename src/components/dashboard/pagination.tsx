@@ -112,6 +112,11 @@ const SelectPageRecords = ({ url, search = '' }) => {
   const [filters, setFilters] = useState<any>({
     region: router.query?.region ? router.query.region : '',
   });
+  const [containerfilters, setContainerFilters] = useState<any>({
+    from_date: router.query?.from_date ? router.query.from_date : '',
+    to_date: router.query?.to_date ? router.query.to_date : '',
+    date_type: router.query?.date_type ? router.query.date_type : '',
+  });
 
   const applyFilters = () => {
     router.push(
@@ -127,6 +132,10 @@ const SelectPageRecords = ({ url, search = '' }) => {
     const { name, value } = event.target;
     setFilters((prevState) => ({ ...prevState, [name]: value }));
   }
+  function handleContainerFilters(event) {
+    const { name, value } = event.target;
+    setContainerFilters((prevState) => ({ ...prevState, [name]: value }));
+  }
 
   const getRegions = async () => {
     await axios
@@ -137,6 +146,12 @@ const SelectPageRecords = ({ url, search = '' }) => {
       .catch(() => {
         setRegions([]);
       });
+  };
+
+  const containerFilterSearch = () => {
+    router.push(
+      `${url}&limit=${selectedLimit}&search=${tableSearch}&region=${filters.region}&date_from=${containerfilters.date_from}&date_to=${containerfilters.date_to}&date_type=${containerfilters.date_type}`
+    );
   };
 
   const makeSearch = (e) => {
@@ -161,7 +176,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
         placeholder={intl.formatMessage({ id: 'Search' })}
         className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
         value={tableSearch}
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
           if (e.key === 'Enter') {
             makeSearch(e);
           }
@@ -195,6 +210,67 @@ const SelectPageRecords = ({ url, search = '' }) => {
               ))
             : null}
         </select>
+      ) : null}
+      {['/customer/containers'].includes(router.pathname) ? (
+        <>
+          <input
+            className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+            type="text"
+            name="date_from"
+            placeholder="From Date"
+            onFocus={(e) => {
+              e.currentTarget.type = 'date';
+            }}
+            onBlur={(e) => {
+              if (!e.target.value) {
+                e.currentTarget.type = 'text';
+              }
+            }}
+            onChange={handleContainerFilters}
+          />
+          <input
+            className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+            type="text"
+            name="date_to"
+            placeholder="To Date"
+            onFocus={(e) => {
+              e.currentTarget.type = 'date';
+            }}
+            onBlur={(e) => {
+              if (!e.target.value) {
+                e.currentTarget.type = 'text';
+              }
+            }}
+            onChange={handleContainerFilters}
+          />
+          <select
+            name="date_type"
+            onChange={handleContainerFilters}
+            title={intl.formatMessage({ id: 'date_type' })}
+            className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+          >
+            <option value="">
+              {intl.formatMessage({
+                id: 'date_type',
+              })}
+            </option>
+            <option value="loaded_date">
+              {intl.formatMessage({
+                id: 'page.customer.dashboard.table.loaded_date',
+              })}
+            </option>
+            <option value="arrived_port">
+              {intl.formatMessage({
+                id: 'page.customer.dashboard.arrived_port',
+              })}
+            </option>
+          </select>
+          <button 
+          onClick={containerFilterSearch}
+          className="bg-azure-blue  mb-3 ml-3 inline-block max-w-max rounded-md px-8 py-1 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
+            {intl.formatMessage({ id: 'messages.submit' })}
+          </button>
+        </>
       ) : null}
       <select
         title={intl.formatMessage({ id: 'page.table.info.length' })}
