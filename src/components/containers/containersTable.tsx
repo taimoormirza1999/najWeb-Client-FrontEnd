@@ -2,6 +2,7 @@ import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
@@ -32,6 +33,10 @@ const carTableHeader = [
   {
     name: 'page.customer.container.booking',
     order: 'booking_number',
+  },
+  {
+    name: 'page.customer.container.departure',
+    order: 'departure',
   },
   {
     name: 'page.customer.container.destination',
@@ -84,7 +89,6 @@ const ContainersTable = ({
 }) => {
   const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&order=${order}&limit=${limit}&page=`;
   const limitUrl = `/customer/containers?tab=${tab}&order=${order}&page=`;
-  const orderUrl = `/customer/containers?tab=${tab}&limit=${limit}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const cancelDetailButtonRef = useRef(null);
   const [containerDetail, setContainerDetail] = useState<ContainerDetail>({
@@ -281,8 +285,19 @@ const ContainersTable = ({
           <SelectPageRecords url={limitUrl} search={search} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <ReactHTMLTableToExcel
+                id="containers-xls-button"
+                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                table="customrContainers"
+                filename="customrContainers"
+                sheet="tablexls"
+                buttonText="Excel"
+              />
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
+                <table
+                  id="customrContainers"
+                  className="min-w-full divide-y divide-gray-300"
+                >
                   <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
@@ -291,13 +306,14 @@ const ContainersTable = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          <FormattedMessage id={th.name} />
-                          <Sort
-                            order={order}
-                            elemOrder={th.order}
-                            index={index}
-                            orderUrl={orderUrl}
-                          />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.name} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>
@@ -334,6 +350,12 @@ const ContainersTable = ({
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {row.booking_number}
+                        </td>
+                        <td
+                          scope="col"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                        >
+                          {row.pol_name}
                         </td>
                         <td
                           scope="col"
