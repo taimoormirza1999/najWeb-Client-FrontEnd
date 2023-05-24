@@ -9,6 +9,7 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import { Sort } from '@/components/dashboard/sort';
 import { classNames } from '@/utils/Functions';
 
 import { ArrivedPortCars } from './arrivedPortCars';
@@ -26,39 +27,50 @@ const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
   {
     name: 'page.customer.container.container_number',
+    order: 'container_number',
   },
   {
     name: 'page.customer.container.booking',
+    order: 'booking_number',
   },
   {
     name: 'page.customer.container.destination',
+    order: 'destination',
   },
   {
     name: 'page.customer.container.status',
   },
   {
     name: 'page.customer.container.total_cars',
+    order: 'total_cars',
   },
   {
     name: 'page.customer.container.loaded_date',
+    order: 'loaded_date',
   },
   {
     name: 'page.customer.container.etd',
+    order: 'etd',
   },
   {
     name: 'page.customer.container.shipping_date',
+    order: 'shipping_date',
   },
   {
     name: 'page.customer.container.eta',
+    order: 'eta',
   },
   {
     name: 'page.customer.container.arrived_port_date',
+    order: 'arrived_port_date',
   },
   {
     name: 'page.customer.container.arrived_store_date',
+    order: 'arrived_store_date',
   },
   {
     name: 'page.customer.container.cars_shipping_amount',
+    order: 'total_shipping',
   },
 ];
 const ContainersTable = ({
@@ -68,10 +80,11 @@ const ContainersTable = ({
   page = 0,
   limit,
   search = '',
+  order = '',
 }) => {
-  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&limit=${limit}&page=`;
-  const limitUrl = `/customer/containers?tab=${tab}&page=`;
-
+  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&order=${order}&limit=${limit}&page=`;
+  const limitUrl = `/customer/containers?tab=${tab}&order=${order}&page=`;
+  const orderUrl = `/customer/containers?tab=${tab}&limit=${limit}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const cancelDetailButtonRef = useRef(null);
   const [containerDetail, setContainerDetail] = useState<ContainerDetail>({
@@ -279,6 +292,12 @@ const ContainersTable = ({
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
                           <FormattedMessage id={th.name} />
+                          <Sort
+                            order={order}
+                            elemOrder={th.order}
+                            index={index}
+                            orderUrl={orderUrl}
+                          />
                         </th>
                       ))}
                     </tr>

@@ -28,6 +28,7 @@ export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
+  const order = context.query.order ? context.query.order : '';
   const region = context.query.region ? context.query.region : '';
   const session: any = await getSession(context);
   let networkError = false;
@@ -90,9 +91,9 @@ export async function getServerSideProps(context) {
     type === 'towing' ||
     type === 'cancelled'
   ) {
-    apiUrl = `${apiUrl}?page=${page}&limit=${limit}`;
+    apiUrl = `${apiUrl}?page=${page}&limit=${limit}&order=${order}`;
   } else if (apiTab !== 'statesCount') {
-    apiUrl = `${apiUrl}&page=${page}&limit=${limit}`;
+    apiUrl = `${apiUrl}&page=${page}&limit=${limit}&order=${order}`;
   }
 
   apiUrl = region ? `${apiUrl}&region=${region}` : apiUrl;
@@ -136,7 +137,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     query: { tab, type, page, search },
   } = router;
   let {
-    query: { limit },
+    query: { limit, order },
   } = router;
   const [subMenu, setSubMenu] = useState(tab);
   let currentPage = page;
@@ -145,6 +146,9 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
   }
   if (!limit) {
     limit = 10;
+  }
+  if (!order) {
+    order = '';
   }
   const newCarCount =
     parseInt(dashboardCount?.newCarsUnpaidCount, 10) +
@@ -282,6 +286,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     type={type}
                     limit={limit}
                     search={search}
+                    order={order}
                   ></NewCarTab>
                 </React.Fragment>
               )}
@@ -344,6 +349,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     limit={limit}
                     search={search}
+                    order={order}
                   ></ShowAllCars>
                 </React.Fragment>
               )}

@@ -9,7 +9,8 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
-import { classNames } from '@/utils/Functions';
+import { Sort } from '@/components/dashboard/sort';
+import { classNames } from '@/utils/Functions'; 
 
 const ShowAllCars = ({
   carsRecords,
@@ -17,26 +18,79 @@ const ShowAllCars = ({
   page = 0,
   limit,
   search = '',
+  order = '',
 }) => {
   const carTableHeader = [
-    'page.customer.dashboard.table.no',
-    'page.customer.dashboard.table.auction_photo',
-    'page.customer.dashboard.table.detail',
-    'page.customer.dashboard.table.lot_vin',
-    'page.customer.dashboard.table.auction',
-    'page.customer.dashboard.table.destination',
-    'page.customer.dashboard.table.purchase_date',
-    'page.customer.dashboard.table.payment_date',
-    'page.customer.dashboard.table.date_pick',
-    'page.customer.dashboard.table.arrived',
-    'page.customer.dashboard.table.title',
-    'page.customer.dashboard.table.key',
-    'page.customer.dashboard.table.loaded_date',
-    'page.customer.dashboard.table.booking',
-    'page.customer.dashboard.table.container',
-    'page.customer.dashboard.table.etd',
-    'page.customer.dashboard.table.shipping_date',
-    'page.customer.dashboard.table.eta',
+    {
+      header: 'page.customer.dashboard.table.no',
+    },
+    {
+      header: 'page.customer.dashboard.table.auction_photo',
+    },
+    {
+      header: 'page.customer.dashboard.table.detail',
+      order: 'carMakerName',
+    },
+    {
+      header: 'page.customer.dashboard.table.lot_vin',
+      order: 'lotnumber',
+    },
+    {
+      header: 'page.customer.dashboard.table.auction',
+      order: 'auction_location_name',
+    },
+    {
+      header: 'page.customer.dashboard.table.destination',
+      order: 'port_name',
+    },
+    {
+      header: 'page.customer.dashboard.table.purchase_date',
+      order: 'purchasedate',
+    },
+    {
+      header: 'page.customer.dashboard.table.payment_date',
+      order: 'paymentDate',
+    },
+    {
+      header: 'page.customer.dashboard.table.date_pick',
+      order: 'picked_date',
+    },
+    {
+      header: 'page.customer.dashboard.table.arrived',
+      order: 'delivered_date',
+    },
+    {
+      header: 'page.customer.dashboard.table.title',
+      order: 'delivered_title',
+    },
+    {
+      header: 'page.customer.dashboard.table.key',
+      order: 'delivered_car_key',
+    },
+    {
+      header: 'page.customer.dashboard.table.loaded_date',
+      order: 'loaded_date',
+    },
+    {
+      header: 'page.customer.dashboard.table.booking',
+      order: 'booking_number',
+    },
+    {
+      header: 'page.customer.dashboard.table.container',
+      order: 'container_number',
+    },
+    {
+      header: 'page.customer.dashboard.table.etd',
+      order: 'etd',
+    },
+    {
+      header: 'page.customer.dashboard.table.shipping_date',
+      order: 'shipping_date',
+    },
+    {
+      header: 'page.customer.dashboard.table.eta',
+      order: 'eta',
+    },
   ];
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   // const [images, setImages] = useState([]);
@@ -44,9 +98,9 @@ const ShowAllCars = ({
   const router = useRouter();
   const region = router.query.region ? router.query.region : '';
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&region=${region}&limit=${limit}&page=`;
-
-  const limitUrl = `/customer/dashboard?tab=showAllCars&page=`;
+  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&region=${region}&limit=${limit}&order=${order}&page=`;
+  const orderUrl = `/customer/dashboard?tab=showAllCars&limit=${limit}&page=`;
+  const limitUrl = `/customer/dashboard?tab=showAllCars&order=${order}&page=`;
   // const GetImages = async (car_id) => {
   //   setLoading(true);
   //   const res = await axios.get(
@@ -135,7 +189,13 @@ const ShowAllCars = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          <FormattedMessage id={th} />
+                          <FormattedMessage id={th.header} />
+                          <Sort
+                            order={order}
+                            elemOrder={th.order}
+                            index={index}
+                            orderUrl={orderUrl}
+                          />
                         </th>
                       ))}
                     </tr>
