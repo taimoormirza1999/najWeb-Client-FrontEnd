@@ -426,6 +426,17 @@ const ContainersTable = ({
                         </td>
                       </tr>
                     ))}
+                    {records?.length < 1 ? (
+                      <tr>
+                        <td
+                          scope="col"
+                          colSpan={carTableHeader.length}
+                          className="w-[2px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
+                        >
+                          No records
+                        </td>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </table>
               </div>

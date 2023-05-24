@@ -510,7 +510,7 @@ export default function WarehouseTowingCars({
                       ) : (
                         <tr key={0} className="bg-white text-sm">
                           <TableColumn
-                            colSpan={12}
+                            colSpan={carTableHeader.length}
                             className="w-[2px] text-center"
                           >
                             No records
