@@ -201,7 +201,6 @@ const NewCarTab = ({
   const region = router.query.region ? router.query.region : '';
   const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&region=${region}&limit=${limit}&order=${order}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&order=${order}&page=`;
-  const orderUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&limit=${limit}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
       <div className="pt-14">
@@ -226,13 +225,14 @@ const NewCarTab = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          <FormattedMessage id={th.header} />
-                          <Sort
-                            order={order}
-                            elemOrder={th.order}
-                            index={index}
-                            orderUrl={orderUrl}
-                          />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.header} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>
