@@ -10,7 +10,7 @@ import {
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
 import { Sort } from '@/components/dashboard/sort';
-import { classNames } from '@/utils/Functions';
+import { classNames } from '@/utils/Functions'; 
 
 const ShowAllCars = ({
   carsRecords,
