@@ -352,7 +352,7 @@ export default function WarehouseTowingCars({
                   <table className="min-w-full divide-y divide-gray-300">
                     <TableHeader tableHeader={carTableHeader} />
                     <tbody>
-                      {tableRecords ? (
+                      {tableRecords > 0 ? (
                         warehouseCars.map((car, index) => (
                           <tr
                             key={index}
@@ -510,7 +510,7 @@ export default function WarehouseTowingCars({
                       ) : (
                         <tr key={0} className="bg-white text-sm">
                           <TableColumn
-                            colSpan={13}
+                            colSpan={12}
                             className="w-[2px] text-center"
                           >
                             No records

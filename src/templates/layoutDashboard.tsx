@@ -7,7 +7,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
-import { Fragment, ReactNode, useEffect, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
@@ -25,6 +25,8 @@ function getDirection(locale) {
   return 'ltr';
 }
 const Layout = (props: IMainProps) => {
+  const localStorageCustomerKey = 'customer';
+  const mountedRef = useRef(true);
   const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
   const [generalNotification, setGeneralNotification] = useState(0);
@@ -49,11 +51,17 @@ const Layout = (props: IMainProps) => {
     await axios.post(`/api/customer/seennotification`);
     setNotify([]);
   };
+
   useEffect(() => {
-    GetCustomerBalance();
-    if (generalNotification === 0) {
-      getGeneralNotification();
+    if (mountedRef.current) {
+      GetCustomerBalance();
+      if (generalNotification === 0) {
+        getGeneralNotification();
+      }
     }
+    return () => {
+      mountedRef.current = false;
+    };
   }, []);
   const router = useRouter();
   const navigation = [
@@ -134,7 +142,38 @@ const Layout = (props: IMainProps) => {
     ? session?.profile[0].bulk_shipLoad
     : 0;
 
-  const allowWarehouseCarsRequests = session?.profile[0]?.allowWarehouseCarsRequests === '1';
+  const allowWarehouseCarsRequests =
+    session?.profile[0]?.allowWarehouseCarsRequests === '1';
+
+  const onStorageUpdate = () => {
+    const membershipId = session?.profile[0]?.membership_id;
+    if (typeof membershipId === 'undefined') return;
+    const lastMembershipId = localStorage.getItem(localStorageCustomerKey);
+    if (lastMembershipId !== membershipId || lastMembershipId === '') {
+      window.location.href = '/';
+    }
+  };
+
+  useEffect(() => {
+    const membershipId = session?.profile[0]?.membership_id;
+    if (membershipId) {
+      localStorage.setItem(localStorageCustomerKey, membershipId);
+    }
+  }, [session?.profile[0]]);
+
+  useEffect(() => {
+    window.addEventListener('storage', onStorageUpdate);
+    return () => {
+      window.removeEventListener('storage', onStorageUpdate);
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    localStorage.setItem(localStorageCustomerKey, '');
+    await signOut({
+      callbackUrl: `${window.location.origin}`,
+    });
+  };
 
   const filterNavigation = () => {
     return navigation.filter((item) => {
@@ -284,11 +323,7 @@ const Layout = (props: IMainProps) => {
                         </p>
                         <p
                           className="text-medium-gray px-1 text-xs font-medium group-hover:text-gray-700"
-                          onClick={() =>
-                            signOut({
-                              callbackUrl: `${window.location.origin}`,
-                            })
-                          }
+                          onClick={handleSignOut}
                         >
                           <i className="material-icons text-xs lg:mr-2">
                             &#xe9ba;
@@ -365,11 +400,7 @@ const Layout = (props: IMainProps) => {
                   >
                     <p
                       className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
-                      onClick={() =>
-                        signOut({
-                          callbackUrl: `${window.location.origin}`,
-                        })
-                      }
+                      onClick={handleSignOut}
                     >
                       <i className="material-icons align-middle text-sm lg:ltr:mr-2 lg:rtl:ml-2">
                         &#xe9ba;
