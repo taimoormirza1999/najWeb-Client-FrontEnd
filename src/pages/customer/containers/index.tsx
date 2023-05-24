@@ -161,6 +161,9 @@ export async function getServerSideProps(context) {
   const type = context.query.type ? context.query.type : '';
   const order = context.query.order ? context.query.order : '';
   const region = context.query.region ? context.query.region : '';
+  const dateFrom = context.query.date_from ? context.query.date_from : '';
+  const dateTo = context.query.date_to ? context.query.date_to : '';
+  const dateType = context.query.date_type ? context.query.date_type : '';
   const session: any = await getSession(context);
   let networkError = false;
   let containersData = {};
@@ -174,6 +177,15 @@ export async function getServerSideProps(context) {
 
   if (region) {
     apiTabUrl = `${apiTabUrl}&region=${region}`;
+  }
+  if (dateFrom) {
+    apiTabUrl = `${apiTabUrl}&date_from=${dateFrom}`;
+  }
+  if (dateTo) {
+    apiTabUrl = `${apiTabUrl}&date_to=${dateTo}`;
+  }
+  if (dateType) {
+    apiTabUrl = `${apiTabUrl}&date_type=${dateType}`;
   }
 
   if (session && session.token && session.token.access_token) {
