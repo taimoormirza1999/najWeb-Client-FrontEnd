@@ -14,7 +14,7 @@ const Sort = ({ order, elemOrder, index, orderUrl }) => {
               : `${orderUrl}&order=${elemOrder}`
           }
         >
-          <a>
+          <a className="pl-1">
             {order === elemOrder && <FontAwesomeIcon icon={faSortUp} />}
             {order === `-${elemOrder}` && <FontAwesomeIcon icon={faSortDown} />}
             {order !== elemOrder && order !== `-${elemOrder}` && (
