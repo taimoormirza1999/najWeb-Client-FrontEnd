@@ -139,6 +139,7 @@ const Containers = ({ router, containersData, containersCount }) => {
                     limit={limit}
                     search={search}
                     order={order}
+                    type={type}
                   ></ContainersTable>
                 </React.Fragment>
               }

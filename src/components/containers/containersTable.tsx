@@ -86,9 +86,10 @@ const ContainersTable = ({
   limit,
   search = '',
   order = '',
+  type = '',
 }) => {
-  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&order=${order}&limit=${limit}&page=`;
-  const limitUrl = `/customer/containers?tab=${tab}&order=${order}&page=`;
+  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}&page=`;
+  const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const cancelDetailButtonRef = useRef(null);
   const [containerDetail, setContainerDetail] = useState<ContainerDetail>({
