@@ -310,6 +310,7 @@ const ContainersTable = ({
                             {row.container_number}
                           </span>
                         </td>
+                       
                         <td
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"

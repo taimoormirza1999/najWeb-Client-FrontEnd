@@ -183,3 +183,24 @@ a:hover {
     max-width: 90%;
   }
 }
+
+.three-icons{
+    width: '80%';
+    padding: 2.5px;
+    position: relative;
+}
+.hover-icon{
+  position: absolute;
+  color: rgb(19, 19, 19);
+  z-index: 10;
+  right: 47px;
+  top: 17px;
+}
+
+.hover-icon-show-all{
+  position: absolute;
+  color: rgb(19, 19, 19);
+  z-index: 10;
+  left: 48px;
+  top: 17px;
+}
