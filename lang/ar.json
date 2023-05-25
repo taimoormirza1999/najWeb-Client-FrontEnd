@@ -352,6 +352,7 @@
   "messages.updated_successfully": "تم التحديث بنجاح",
   "page.table.info.length": "طول العرض",
   "page.customer.container.booking": "رقم الحجز",
+  "page.customer.container.departure": "ميناء التحميل",
   "page.customer.container.destination": "المكان المقصود",
   "page.customer.container.status": "حالة",
   "page.customer.container.loaded_date": "تاريخ التحميل",
@@ -388,5 +389,6 @@
   "Sangkat,": "سانغكات، ",
   "Phnom Penh tmey,": "بنوم بنه تي مي ،",
   "Khan Sen Sok": "خان سين سوك",
-  "You’re always welcome to pay a visit!": "نرحب بكم في جميع فرونا حول العالم"
+  "You’re always welcome to pay a visit!": "نرحب بكم في جميع فرونا حول العالم",
+  "date_type": "نوع التاريخ"
 }
