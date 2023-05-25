@@ -4,7 +4,6 @@ import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
 import { ContainersTable } from '@/components/containers/containersTable';
 import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
