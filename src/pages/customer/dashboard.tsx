@@ -158,12 +158,6 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     parseInt(dashboardCount?.newCarsPickedCount, 10);
   const tabs = [
     {
-      name: 'page.customer.dashboard.show_all',
-      href: 'showAllCars',
-      count: '',
-      subMenu: false,
-    },
-    {
       name: 'page.customer.dashboard.new_cars',
       href: 'tabs-newcar',
       count: newCarCount,
