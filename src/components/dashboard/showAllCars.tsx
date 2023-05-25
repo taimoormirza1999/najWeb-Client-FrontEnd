@@ -315,7 +315,7 @@ const ShowAllCars = ({
                           scope="col"
                           className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
-                          {car.totalcarcost}AED{' '}
+                          {car.carcost > 0 && `${car.carcost}$`}{' '}
                           {car.invoice_file_auction && (
                             <a
                               className="text-medium-grey hover:border-0"
