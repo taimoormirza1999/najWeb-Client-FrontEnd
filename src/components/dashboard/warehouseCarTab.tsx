@@ -155,7 +155,7 @@ const WarehouseCarTab = ({
               
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
                 
-              <Carousel images={images} style={{ height: '30vw', width: '100%' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+              <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
