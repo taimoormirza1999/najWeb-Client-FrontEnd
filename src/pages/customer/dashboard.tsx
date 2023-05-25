@@ -158,6 +158,12 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     parseInt(dashboardCount?.newCarsPickedCount, 10);
   const tabs = [
     {
+      name: 'page.customer.dashboard.show_all',
+      href: 'showAllCars',
+      count: '',
+      subMenu: false,
+    },
+    {
       name: 'page.customer.dashboard.new_cars',
       href: 'tabs-newcar',
       count: newCarCount,
@@ -260,16 +266,6 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                   </Link>
                 )
               )}
-              <Link
-                href={{
-                  pathname: '/customer/dashboard/',
-                  query: { tab: 'showAllCars' },
-                }}
-              >
-                <a className="float-right text-sm font-medium text-gray-900 underline sm:text-xl">
-                  Show All
-                </a>
-              </Link>
             </nav>
             <SubMenu
               type={subMenu}

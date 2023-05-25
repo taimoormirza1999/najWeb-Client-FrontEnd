@@ -65,7 +65,7 @@ export default function WarehouseTowingCars({
   carsColor,
   ports,
 }) {
-  const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}`;
   const limitUrl = `/customer/warehouse/cars?page=`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
 
@@ -345,7 +345,7 @@ export default function WarehouseTowingCars({
             </button>
           </div>
           <div className="flex flex-col">
-            <SelectPageRecords url={limitUrl} search={search} />
+            <SelectPageRecords url={limitUrl} />
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
