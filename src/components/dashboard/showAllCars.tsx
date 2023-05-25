@@ -120,7 +120,6 @@ const ShowAllCars = ({
   const region = router.query.region ? router.query.region : '';
   const cancelButtonRef = useRef(null);
   const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&region=${region}&limit=${limit}&order=${order}&page=`;
-  const orderUrl = `/customer/dashboard?tab=showAllCars&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=showAllCars&order=${order}&page=`;
   // const GetImages = async (car_id) => {
   //   setLoading(true);
@@ -240,13 +239,14 @@ const ShowAllCars = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          <FormattedMessage id={th.header} />
-                          <Sort
-                            order={order}
-                            elemOrder={th.order}
-                            index={index}
-                            orderUrl={orderUrl}
-                          />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.header} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>

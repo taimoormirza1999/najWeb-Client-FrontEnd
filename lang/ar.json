@@ -352,6 +352,7 @@
   "messages.updated_successfully": "تم التحديث بنجاح",
   "page.table.info.length": "طول العرض",
   "page.customer.container.booking": "رقم الحجز",
+  "page.customer.container.departure": "ميناء التحميل",
   "page.customer.container.destination": "المكان المقصود",
   "page.customer.container.status": "حالة",
   "page.customer.container.loaded_date": "تاريخ التحميل",
@@ -392,5 +393,7 @@
   "point_of_loading": "Point of loading",
   "docker_receipt": "Docker receipt",
   "auction_price": "Auction Price",
-  "sold": "Sold"
+  "sold": "Sold",
+  "date_type": "نوع التاريخ"
+
 }
