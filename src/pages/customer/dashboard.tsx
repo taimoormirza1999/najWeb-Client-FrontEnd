@@ -155,7 +155,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     parseInt(dashboardCount?.newCarsPaidByCustomerCount, 10) +
     parseInt(dashboardCount?.newCarsCancelledCount, 10) +
     parseInt(dashboardCount?.newCarsPickedCount, 10);
-    const allCarsCount = parseInt(dashboardCount?.allCarsCount, 10) || 0;
+  const allCarsCount = parseInt(dashboardCount?.allCarsCount, 10) || 0;
 
   const tabs = [
     {
