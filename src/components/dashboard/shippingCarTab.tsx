@@ -2,7 +2,6 @@ import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import React, { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -79,13 +78,11 @@ const ShippingCarTab = ({
   limit,
   search = '',
 }) => {
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState('');
   const [images, setImages] = useState([]);
-  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&region=${region}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&limit=${limit}`;
   const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
   const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -309,7 +306,7 @@ const ShippingCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">

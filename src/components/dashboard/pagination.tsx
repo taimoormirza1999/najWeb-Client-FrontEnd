@@ -8,6 +8,30 @@ import { useIntl } from 'react-intl';
 import { classNames } from '@/utils/Functions';
 
 const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
+  const router = useRouter();
+  const filters = {
+    region: router.query?.region ? router.query.region : '',
+  };
+  const containerfilters = {
+    date_from: router.query?.date_from ? router.query.date_from : '',
+    date_to: router.query?.date_to ? router.query.date_to : '',
+    date_type: router.query?.date_type ? router.query.date_type : '',
+  };
+  let applyUrl = '';
+  if (filters.region) {
+    applyUrl += `&region=${filters.region}`;
+  }
+  if (containerfilters.date_from) {
+    applyUrl += `&date_from=${containerfilters.date_from}`;
+  }
+  if (containerfilters.date_to) {
+    applyUrl += `&date_to=${containerfilters.date_to}`;
+  }
+  if (containerfilters.date_type) {
+    applyUrl += `&date_type=${containerfilters.date_type}`;
+  }
+  applyUrl += `&page=`;
+  url += applyUrl;
   const maxPages = 10;
   const pageSize = limit === 'all' ? totalRecords : limit;
   const currentPage: number = page;
@@ -101,27 +125,41 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 };
 
-const SelectPageRecords = ({ url, search = '' }) => {
+const SelectPageRecords = ({ url }) => {
   const intl = useIntl();
   const router = useRouter();
   const [selectedLimit, setSelectLimit] = useState(
     router.query?.limit ? router.query.limit : '10'
   );
-  const [tableSearch, setTableSearch] = useState(search);
+  const [tableSearch, setTableSearch] = useState(router.query?.search);
   const [regions, setRegions] = useState<any>([]);
   const [filters, setFilters] = useState<any>({
     region: router.query?.region ? router.query.region : '',
   });
   const [containerfilters, setContainerFilters] = useState<any>({
-    from_date: router.query?.from_date ? router.query.from_date : '',
-    to_date: router.query?.to_date ? router.query.to_date : '',
+    date_from: router.query?.date_from ? router.query.date_from : '',
+    date_to: router.query?.date_to ? router.query.date_to : '',
     date_type: router.query?.date_type ? router.query.date_type : '',
   });
 
   const applyFilters = () => {
-    router.push(
-      `${url}&limit=${selectedLimit}&search=${tableSearch}&region=${filters.region}`
-    );
+    let applyUrl = '';
+    if (tableSearch) {
+      applyUrl += `&search=${tableSearch}`;
+    }
+    if (filters.region) {
+      applyUrl += `&region=${filters.region}`;
+    }
+    if (containerfilters.date_from) {
+      applyUrl += `&date_from=${containerfilters.date_from}`;
+    }
+    if (containerfilters.date_to) {
+      applyUrl += `&date_to=${containerfilters.date_to}`;
+    }
+    if (containerfilters.date_type) {
+      applyUrl += `&date_type=${containerfilters.date_type}`;
+    }
+    router.push(`${url}&limit=${selectedLimit}${applyUrl}`);
   };
 
   const changePage = (value) => {
@@ -148,16 +186,6 @@ const SelectPageRecords = ({ url, search = '' }) => {
       });
   };
 
-  const containerFilterSearch = () => {
-    router.push(
-      `${url}&limit=${selectedLimit}&search=${tableSearch}&region=${filters.region}&date_from=${containerfilters.date_from}&date_to=${containerfilters.date_to}&date_type=${containerfilters.date_type}`
-    );
-  };
-
-  const makeSearch = (e) => {
-    router.push(`${url}&limit=${selectedLimit}&search=${tableSearch}`);
-  };
-
   useEffect(() => {
     if (!['/customer/warehouse/cars'].includes(router.pathname)) {
       getRegions();
@@ -178,7 +206,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
         value={tableSearch}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            makeSearch(e);
+            applyFilters();
           }
         }}
         onChange={(e) => {
@@ -187,7 +215,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
       />
       <i
         className="material-icons -ml-8 cursor-pointer align-middle text-[1.6rem] text-sm text-gray-800 lg:ltr:mr-1 lg:rtl:ml-1"
-        onClick={makeSearch}
+        onClick={applyFilters}
       >
         &#xe8b6;
       </i>
@@ -266,7 +294,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
             </option>
           </select>
           <button 
-          onClick={containerFilterSearch}
+          onClick={applyFilters}
           className="bg-azure-blue  mb-3 ml-3 inline-block max-w-max rounded-md px-8 py-1 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
             {intl.formatMessage({ id: 'messages.submit' })}
           </button>
