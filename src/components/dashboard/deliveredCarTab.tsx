@@ -94,11 +94,6 @@ const DeliveredCarTab = ({
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const cancelButtonRef = useRef(null);
 
-  const [isShownWarehouse, setIsShownWarehouse] = useState(false);
-  const [isShownLoading, setIsShownLoading] = useState(false);
-  const [isShownStoring, setIsShownStoring] = useState(false);
-
-  
 
   const GetWarehouseImages = async (car_id) => {
 
@@ -459,50 +454,32 @@ const DeliveredCarTab = ({
                             <div className="three-icons">
                             <img
                                 src="/assets/images/warehouseimg.png"
-                                alt="banner"
+                                alt=""
                                 onClick={() => {
                                   GetWarehouseImages(car.car_id);
                                 }}
-                                onMouseEnter={() => setIsShownWarehouse(true)}
-                                onMouseLeave={() => setIsShownWarehouse(false)}
                               />
-                              {isShownWarehouse && (
-                                <div className="hover-icon">
-                                  Warehouse
-                                </div>
-                              )}
                             </div>
                             <div className="three-icons">
                             <img
                                 src="/assets/images/loading.png"
-                                alt="banner"
+                                alt=""
                                 onClick={() => {
                                   GetLoadingImages(car.car_id);
                                 }}
-                                onMouseEnter={() => setIsShownLoading(true)}
-                                onMouseLeave={() => setIsShownLoading(false)}
+                                
                               />
-                              {isShownLoading && (
-                                <div className="hover-icon">
-                                  Loading
-                                </div>
-                              )}
+                          
                             </div>
                             <div className="three-icons">
                             <img
                                 src="/assets/images/Arrival_pics.png"
-                                alt="banner"
+                                alt=""
                                 onClick={() => {
                                   GetStoringImages(car.car_id);
                                 }}
-                                onMouseEnter={() => setIsShownStoring(true)}
-                                onMouseLeave={() => setIsShownStoring(false)}
                               />
-                              {isShownStoring && (
-                                <div className="hover-icon">
-                                  Storing
-                                </div>
-                              )}
+                           
                             </div>
                           </div>
                           

@@ -340,6 +340,7 @@
   "branches.desc": "نتحرى أدق تفاصيل شحن السيارات من الولايات المتحدة إلى دول العالم العربي. نسعى دائمًا لتقديم الخدمات الأكفأ والأسرع والأنسب سعرًا.",
   "page.customer.dashboard.all": "الجميع",
   "page.customer.container.container_number": "رقم الوعاء",
+  "page.customer.container.invoice": "فاتورة",
   "page.customer.container.total_cars": "مجموع السيارات",
   "page.customer.container.etd": "ETD",
   "page.customer.container.eta": "ETA",
