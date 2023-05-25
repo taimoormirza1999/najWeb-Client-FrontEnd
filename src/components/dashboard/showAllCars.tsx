@@ -378,14 +378,8 @@ const ShowAllCars = ({
                                 onClick={() => {
                                   GetWarehouseImages(car.car_id);
                                 }}
-                                onMouseEnter={() => setIsShownWarehouse(true)}
-                                onMouseLeave={() => setIsShownWarehouse(false)}
                               />
-                              {isShownWarehouse && (
-                                <div className="hover-icon-show-all">
-                                  Warehouse
-                                </div>
-                              )}
+                            
                             </div>
                             <div className="three-icons">
                             <img
@@ -394,15 +388,8 @@ const ShowAllCars = ({
                                 onClick={() => {
                                   GetLoadingImages(car.car_id);
                                 }}
-                                onMouseEnter={() => setIsShownLoading(true)}
-                                onMouseLeave={() => setIsShownLoading(false)}
-                              />
-                              {isShownLoading && (
-                                <div className="hover-icon-show-all">
-                                  Loading
-                                </div>
-                              )}
-                            </div>
+                               />
+                                                         </div>
                             <div className="three-icons">
                             <img
                                 src="/assets/images/Arrival_pics.png"
@@ -410,15 +397,8 @@ const ShowAllCars = ({
                                 onClick={() => {
                                   GetStoringImages(car.car_id);
                                 }}
-                                onMouseEnter={() => setIsShownStoring(true)}
-                                onMouseLeave={() => setIsShownStoring(false)}
-                              />
-                              {isShownStoring && (
-                                <div className="hover-icon-show-all">
-                                  Storing
-                                </div>
-                              )}
-                            </div>
+                               />
+                                                         </div>
                           </div>
                           
                            
