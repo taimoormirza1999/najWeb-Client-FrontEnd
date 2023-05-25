@@ -83,7 +83,7 @@ const ShippingCarTab = ({
   const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
-  const [note, setNote] = useState(false);
+  const [note, setNote] = useState('');
   const [images, setImages] = useState([]);
   const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&region=${region}&limit=${limit}&page=`;
   const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;

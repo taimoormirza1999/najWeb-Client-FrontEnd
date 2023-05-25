@@ -11,6 +11,7 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import { Sort } from '@/components/dashboard/sort';
 
 const NewCarTab = ({
   carsRecords,
@@ -19,6 +20,7 @@ const NewCarTab = ({
   type,
   limit,
   search = '',
+  order = '',
 }) => {
   let carTableData;
   if (!type) {
@@ -34,22 +36,28 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       { header: 'page.customer.dashboard.table.price' },
       {
         header: 'page.customer.dashboard.table.payment_date',
+        order: 'paymentDate',
       },
       {
         header: 'page.customer.dashboard.table.amount_paid',
@@ -70,21 +78,27 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       {
         header: 'page.customer.dashboard.table.payment_date',
+        order: 'paymentDate',
       },
       {
         header: 'page.customer.dashboard.table.date_pick',
@@ -102,18 +116,23 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       {
         header: 'page.customer.dashboard.table.date_of_cancellation',
@@ -131,18 +150,23 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       {
         header: 'page.customer.dashboard.table.last_day_to_pay',
@@ -175,8 +199,8 @@ const NewCarTab = ({
   }
   const router = useRouter();
   const region = router.query.region ? router.query.region : '';
-  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&region=${region}&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&region=${region}&limit=${limit}&order=${order}&page=`;
+  const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&order=${order}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
       <div className="pt-14">
@@ -201,7 +225,14 @@ const NewCarTab = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          <FormattedMessage id={th.header} />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.header} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>
