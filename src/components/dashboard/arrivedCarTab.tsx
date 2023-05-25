@@ -295,7 +295,7 @@ const ArrivedCarTab = ({
                           ))}
                         </Tab.Panels>
                       </Tab.Group> */}
-                      <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+                      <Carousel images={images} style={{ height: '30vw', width: '100%' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
 
                       <button
                         disabled={downloading}
