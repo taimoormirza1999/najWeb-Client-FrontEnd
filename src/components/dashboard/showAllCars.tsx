@@ -256,6 +256,7 @@ const ShowAllCars = ({
                 
 
               <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>

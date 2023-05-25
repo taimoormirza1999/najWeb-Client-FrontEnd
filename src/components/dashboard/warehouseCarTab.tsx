@@ -1,9 +1,12 @@
-import { Dialog, Tab, Transition } from '@headlessui/react';
+import 'react-gallery-carousel/dist/index.css';
+
+import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import NProgress from 'nprogress';
-import { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
+import Carousel from 'react-gallery-carousel';
 import { FormattedMessage } from 'react-intl';
 import CustomModal from '@/components/customModal';
 import {
@@ -11,7 +14,6 @@ import {
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -56,7 +58,6 @@ const WarehouseCarTab = ({
   limit,
   search = '',
 }) => {
-
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
@@ -73,16 +74,17 @@ const WarehouseCarTab = ({
       `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
     const imdatas = res.data.data;
-    const imdata = res.data.data ? imdatas.map((im) => ({
-      src: im
-    })) : [];
-    setImages(imdata)
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
     setCarId(car_id);
     NProgress.done();
     setRedirectModalOpen(true);
   };
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
-
 
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
@@ -147,11 +149,10 @@ const WarehouseCarTab = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
-                
 
               <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
@@ -271,7 +272,8 @@ const WarehouseCarTab = ({
                           className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           <span className="text-[#810808]">{car.region}</span>{' '}
-                          {car.auctionLocationName} <br /> {car.auctionTitle} <br />
+                          {car.auctionLocationName} <br /> {car.auctionTitle}{' '}
+                          <br />
                           {car.region}
                         </td>
                         <td

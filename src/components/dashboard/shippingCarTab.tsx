@@ -182,7 +182,9 @@ const ShippingCarTab = ({
                     ></Dialog.Title>
                     <div className="mt-2">
 
+
                     <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
 
                       {/* <SRLWrapper>
                         {images && (
