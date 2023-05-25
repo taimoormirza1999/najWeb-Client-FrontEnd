@@ -13,6 +13,9 @@ import {
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
+import Carousel from 'react-gallery-carousel';
+import 'react-gallery-carousel/dist/index.css';
+
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
   {
@@ -77,7 +80,7 @@ const ShippingCarTab = ({
 }) => {
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
-  const [note, setNote] = useState(false);
+  const [note, setNote] = useState('');
   const [images, setImages] = useState([]);
   const paginationUrl = `/customer/dashboard?tab=tabs-shipping&search=${search}&limit=${limit}`;
   const limitUrl = `/customer/dashboard?tab=tabs-shipping&page=`;
@@ -93,7 +96,14 @@ const ShippingCarTab = ({
     const res = await axios.get(
       `/api/customer/images?type=${type}&car_id=${car_id}`
     );
-    setImages(res.data.data ? res.data.data : []);
+
+    const imdatas = res.data.data;
+    const imdata = res.data.data ? imdatas.map((im) => ({
+      src: im
+    })) : [];
+    setImages(imdata)
+    
+    // setImages(res.data.data ? res.data.data : []);
     setCarId(car_id);
     NProgress.done();
     setRedirectModalOpen(true);
@@ -171,6 +181,8 @@ const ShippingCarTab = ({
                       className="text-5xl font-bold leading-6"
                     ></Dialog.Title>
                     <div className="mt-2">
+                    <Carousel images={images} style={{ height: '30vw', width: '100%' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
                       {/* <SRLWrapper>
                         {images && (
                           <div className="flex basis-1/2 flex-col gap-4">
@@ -196,7 +208,7 @@ const ShippingCarTab = ({
                       </SRLWrapper> */}
                       <Tab.Group as="div" className="flex flex-col-reverse">
                         {/* Image selector */}
-                        <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
+                        {/* <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
                           <Tab.List className="grid grid-cols-4 gap-6">
                             {images.map((image, index) => (
                               <Tab
@@ -227,9 +239,9 @@ const ShippingCarTab = ({
                               </Tab>
                             ))}
                           </Tab.List>
-                        </div>
+                        </div> */}
 
-                        <Tab.Panels className="aspect-w-1 aspect-h-1 w-full">
+                        {/* <Tab.Panels className="aspect-w-1 aspect-h-1 w-full">
                           {images.map((image, index) => (
                             <Tab.Panel key={index}>
                               <img
@@ -239,7 +251,7 @@ const ShippingCarTab = ({
                               />
                             </Tab.Panel>
                           ))}
-                        </Tab.Panels>
+                        </Tab.Panels> */}
                       </Tab.Group>
                       <button
                         disabled={downloading}

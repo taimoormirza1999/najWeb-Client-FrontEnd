@@ -2,7 +2,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
@@ -14,7 +14,6 @@ import { ShowAllCars } from '@/components/dashboard/showAllCars';
 import { StatesTab } from '@/components/dashboard/statesTab';
 import { SubMenu } from '@/components/dashboard/subMenu';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
-import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
@@ -156,6 +155,8 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     parseInt(dashboardCount?.newCarsPaidByCustomerCount, 10) +
     parseInt(dashboardCount?.newCarsCancelledCount, 10) +
     parseInt(dashboardCount?.newCarsPickedCount, 10);
+    const allCarsCount = parseInt(dashboardCount?.allCarsCount, 10) || 0;
+
   const tabs = [
     {
       name: 'page.customer.dashboard.new_cars',
@@ -220,6 +221,22 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
           </div>
           <div>
             <nav className="flex flex-wrap gap-2 lg:inline" aria-label="Tabs">
+              <Link
+                href={{
+                  pathname: '/customer/dashboard/',
+                  query: { tab: 'showAllCars' },
+                }}
+              >
+                <a
+                  className={classNames(
+                    'text-green-600 hover:text-gray-700 mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-green-600 text-sm sm:text-xl'
+                  )}
+                >
+                  <FormattedMessage id={'page.customer.dashboard.allcars'} />{' '}
+                    {allCarsCount ? `(${allCarsCount})` : ''}
+                </a>
+              </Link>
+
               {tabs.map((tabData, index) =>
                 tabData.subMenu ? (
                   <a

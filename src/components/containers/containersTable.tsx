@@ -31,6 +31,9 @@ const carTableHeader = [
     order: 'container_number',
   },
   {
+    name: 'page.customer.container.invoice',
+  },
+  {
     name: 'page.customer.container.booking',
     order: 'booking_number',
   },
@@ -88,6 +91,7 @@ const ContainersTable = ({
   order = '',
   type = '',
 }) => {
+
   const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
   const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
@@ -108,6 +112,9 @@ const ContainersTable = ({
     status: '',
     total_cars: 0,
   });
+
+  
+console.log(containerDetail)
 
   const getContainerCars = async (containerRow) => {
     const { status } = containerRow;
@@ -147,6 +154,20 @@ const ContainersTable = ({
       .then((res) => {
         setContainerDetail(res.data.data);
         setDetailModalOpen(true);
+      })
+      .catch(() => {});
+  };
+  const getInvoiceDetail = async (container_id) => {
+    await axios
+      .get(`/api/customer/container/invoice`, {
+        params: {
+          container_id,
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        setContainerDetail(res.data.data);
+        // setDetailModalOpen(true);
       })
       .catch(() => {});
   };
@@ -232,6 +253,15 @@ const ContainersTable = ({
                   <div className="flex">
                     <div className="font-bold">
                       <FormattedMessage id="page.customer.container.container_number" />
+                      :
+                    </div>
+                    <div className="pl-1">
+                      {containerData.current.container_number}
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <div className="font-bold">
+                      <FormattedMessage id="page.customer.container.invoice" />
                       :
                     </div>
                     <div className="pl-1">
@@ -346,6 +376,19 @@ const ContainersTable = ({
                             {row.container_number}
                           </span>
                         </td>
+                        <td
+                          scope="col"
+                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                        >
+                          <span
+                            onClick={async () => {
+                              getInvoiceDetail(row.container_id);
+                            }}
+                          >
+                            {row.container_id}
+                          </span>
+                        </td>
+                       
                         <td
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
