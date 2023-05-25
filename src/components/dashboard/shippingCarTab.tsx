@@ -101,9 +101,9 @@ const ShippingCarTab = ({
     );
 
     const imdatas = res.data.data;
-    const imdata = imdatas.map((im) => ({
+    const imdata = res.data.data ? imdatas.map((im) => ({
       src: im
-    }));
+    })) : [];
     setImages(imdata)
     
     // setImages(res.data.data ? res.data.data : []);
