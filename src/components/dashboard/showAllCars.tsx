@@ -119,9 +119,6 @@ const ShowAllCars = ({
       header: 'sold',
     },
   ];
-  const [redirectModalOpen, setRedirectModalOpen] = useState(false);
-  // const [images, setImages] = useState([]);
-  // const [carId, setCarId] = useState('');
 
   const cancelButtonRef = useRef(null);
   const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&order=${order}`;
