@@ -13,6 +13,8 @@ import {
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 import { useRouter } from "next/router";
+import Carousel from 'react-gallery-carousel';
+import 'react-gallery-carousel/dist/index.css';
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -74,12 +76,20 @@ const WarehouseCarTab = ({
     const res = await axios.get(
       `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
-    setImages(res.data.data ? res.data.data : []);
+
+    const imdatas = res.data.data;
+    const imdata = imdatas.map((im) => ({
+      src: im
+    }));
+    setImages(imdata)
     setCarId(car_id);
     NProgress.done();
     setRedirectModalOpen(true);
   };
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
+
+
+
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
       <CustomModal
@@ -89,7 +99,7 @@ const WarehouseCarTab = ({
           setOpenNote(false);
         }}
       >
-        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+        <div className="text-dark-blue text-center ">
           <div className="mt-2">
             <p className="mb-4 py-4 text-sm lg:py-6">{note}</p>
           </div>
@@ -143,84 +153,13 @@ const WarehouseCarTab = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
+              
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
+                
+              <Carousel images={images} style={{ height: '30vw', width: '100%' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-5xl font-bold leading-6"
-                    ></Dialog.Title>
-                    <div className="mt-2">
-                      {/* <SRLWrapper>
-                        {images && (
-                          <div className="flex basis-1/2 flex-col gap-4">
-                            <img
-                              src={images[0]}
-                              alt=""
-                              className="basis-2/3 cursor-pointer object-cover"
-                            />
-                            <div className="flex basis-1/3 flex-wrap justify-between">
-                              {images.map((image, index) => {
-                                return (
-                                  <img
-                                    key={index}
-                                    src={image}
-                                    className="h-[150px] cursor-pointer"
-                                    alt=""
-                                  />
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </SRLWrapper> */}
-                      <Tab.Group as="div" className="flex flex-col-reverse">
-                        {/* Image selector */}
-                        <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-                          <Tab.List className="grid grid-cols-4 gap-6">
-                            {images.map((image, index) => (
-                              <Tab
-                                key={index}
-                                className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
-                              >
-                                {({ selected }) => (
-                                  <>
-                                    <span className="sr-only"></span>
-                                    <span className="absolute inset-0 overflow-hidden rounded-md">
-                                      <img
-                                        src={image}
-                                        alt=""
-                                        className="h-full w-full object-cover object-center"
-                                      />
-                                    </span>
-                                    <span
-                                      className={classNames(
-                                        selected
-                                          ? 'ring-indigo-500'
-                                          : 'ring-transparent',
-                                        'absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none'
-                                      )}
-                                      aria-hidden="true"
-                                    />
-                                  </>
-                                )}
-                              </Tab>
-                            ))}
-                          </Tab.List>
-                        </div>
-
-                        <Tab.Panels className="aspect-w-1 aspect-h-1 w-full">
-                          {images.map((image, index) => (
-                            <Tab.Panel key={index}>
-                              <img
-                                src={image}
-                                alt=""
-                                className="h-full w-full object-cover object-center sm:rounded-lg"
-                              />
-                            </Tab.Panel>
-                          ))}
-                        </Tab.Panels>
-                      </Tab.Group>
+                    <div>
                       <button
                         disabled={downloading}
                         // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}

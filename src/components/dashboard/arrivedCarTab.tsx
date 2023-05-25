@@ -10,12 +10,15 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
-import { classNames } from '@/utils/Functions';
+// import { classNames } from '@/utils/Functions';
 import { postData } from '@/utils/network';
 
 import CustomModal from '../customModal';
 import { Port } from './arrived/port';
 import { Store } from './arrived/store';
+
+import Carousel from 'react-gallery-carousel';
+import 'react-gallery-carousel/dist/index.css';
 
 const ArrivedCarTab = ({
   carsRecords,
@@ -118,7 +121,13 @@ const ArrivedCarTab = ({
     const res = await axios.get(
       `/api/customer/images?type=store&car_id=${car_id}`
     );
-    setImages(res.data.data ? res.data.data : []);
+    const imdatas = res.data.data;
+    const imdata = imdatas.map((im) => ({
+      src: im
+    }));
+    setImages(imdata)
+
+    // setImages(res.data.data ? res.data.data : []);
     setCarId(car_id);
     NProgress.done();
     setRedirectModalOpen(true);
@@ -242,8 +251,8 @@ const ArrivedCarTab = ({
                           </div>
                         )}
                       </SRLWrapper> */}
-                      <Tab.Group as="div" className="flex flex-col-reverse">
-                        {/* Image selector */}
+                      {/* <Tab.Group as="div" className="flex flex-col-reverse">
+                
                         <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
                           <Tab.List className="grid grid-cols-4 gap-6">
                             {images.map((image, index) => (
@@ -288,7 +297,9 @@ const ArrivedCarTab = ({
                             </Tab.Panel>
                           ))}
                         </Tab.Panels>
-                      </Tab.Group>
+                      </Tab.Group> */}
+                      <Carousel images={images} style={{ height: '30vw', width: '100%' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
                       <button
                         disabled={downloading}
                         // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
