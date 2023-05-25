@@ -5,7 +5,6 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-
 import CustomModal from '@/components/customModal';
 import {
   Pagination,
@@ -59,6 +58,8 @@ const WarehouseCarTab = ({
   limit,
   search = '',
 }) => {
+
+  console.log(carsRecords)
   const router = useRouter();
   const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
@@ -76,18 +77,16 @@ const WarehouseCarTab = ({
     const res = await axios.get(
       `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
-
     const imdatas = res.data.data;
-    const imdata = imdatas.map((im) => ({
+    const imdata = res.data.data ? imdatas.map((im) => ({
       src: im
-    }));
+    })) : [];
     setImages(imdata)
     setCarId(car_id);
     NProgress.done();
     setRedirectModalOpen(true);
   };
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
-
 
 
   return (
