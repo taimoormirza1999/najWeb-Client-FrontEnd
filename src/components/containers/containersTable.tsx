@@ -2,6 +2,7 @@ import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
@@ -9,6 +10,7 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import { Sort } from '@/components/dashboard/sort';
 import { classNames } from '@/utils/Functions';
 
 import { ArrivedPortCars } from './arrivedPortCars';
@@ -26,42 +28,57 @@ const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
   {
     name: 'page.customer.container.container_number',
+    order: 'container_number',
   },
   {
     name: 'page.customer.container.invoice',
   },
   {
     name: 'page.customer.container.booking',
+    order: 'booking_number',
+  },
+  {
+    name: 'page.customer.container.departure',
+    order: 'departure',
   },
   {
     name: 'page.customer.container.destination',
+    order: 'destination',
   },
   {
     name: 'page.customer.container.status',
   },
   {
     name: 'page.customer.container.total_cars',
+    order: 'total_cars',
   },
   {
     name: 'page.customer.container.loaded_date',
+    order: 'loaded_date',
   },
   {
     name: 'page.customer.container.etd',
+    order: 'etd',
   },
   {
     name: 'page.customer.container.shipping_date',
+    order: 'shipping_date',
   },
   {
     name: 'page.customer.container.eta',
+    order: 'eta',
   },
   {
     name: 'page.customer.container.arrived_port_date',
+    order: 'arrived_port_date',
   },
   {
     name: 'page.customer.container.arrived_store_date',
+    order: 'arrived_store_date',
   },
   {
     name: 'page.customer.container.cars_shipping_amount',
+    order: 'total_shipping',
   },
 ];
 const ContainersTable = ({
@@ -71,12 +88,11 @@ const ContainersTable = ({
   page = 0,
   limit,
   search = '',
+  order = '',
 }) => {
 
-  // console.log(records)
-  
-  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&limit=${limit}&page=`;
-  const limitUrl = `/customer/containers?tab=${tab}&page=`;
+  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&order=${order}&limit=${limit}&page=`;
+  const limitUrl = `/customer/containers?tab=${tab}&order=${order}&page=`;
 
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const cancelDetailButtonRef = useRef(null);
@@ -300,8 +316,19 @@ console.log(containerDetail)
           <SelectPageRecords url={limitUrl} search={search} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <ReactHTMLTableToExcel
+                id="containers-xls-button"
+                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                table="customrContainers"
+                filename="customrContainers"
+                sheet="tablexls"
+                buttonText="Excel"
+              />
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
+                <table
+                  id="customrContainers"
+                  className="min-w-full divide-y divide-gray-300"
+                >
                   <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
@@ -310,7 +337,14 @@ console.log(containerDetail)
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          <FormattedMessage id={th.name} />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.name} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>
@@ -360,6 +394,12 @@ console.log(containerDetail)
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {row.booking_number}
+                        </td>
+                        <td
+                          scope="col"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                        >
+                          {row.pol_name}
                         </td>
                         <td
                           scope="col"

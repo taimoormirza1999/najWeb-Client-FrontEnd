@@ -16,7 +16,7 @@ const Containers = ({ router, containersData, containersCount }) => {
     query: { tab, page, search },
   } = router;
   let {
-    query: { limit },
+    query: { limit, order },
   } = router;
   let currentPage = page;
   if (!currentPage) {
@@ -24,6 +24,9 @@ const Containers = ({ router, containersData, containersCount }) => {
   }
   if (!limit) {
     limit = 10;
+  }
+  if (!order) {
+    order = 'loaded_date';
   }
 
   const tabs = [
@@ -105,6 +108,7 @@ const Containers = ({ router, containersData, containersCount }) => {
                     page={currentPage}
                     limit={limit}
                     search={search}
+                    order={order}
                   ></ContainersTable>
                 </React.Fragment>
               }
@@ -124,13 +128,18 @@ export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
+  const order = context.query.order ? context.query.order : '';
   const region = context.query.region ? context.query.region : '';
+  const dateFrom = context.query.date_from ? context.query.date_from : '';
+  const dateTo = context.query.date_to ? context.query.date_to : '';
+  const dateType = context.query.date_type ? context.query.date_type : '';
   const session: any = await getSession(context);
   let networkError = false;
   let containersData = {};
   let containersCount = {};
   const apiUrl = process.env.API_URL;
-  let apiTabUrl = `${apiUrl}customer/containers?status=${apiTab}&page=${page}&limit=${limit}`;
+
+  let apiTabUrl = `${apiUrl}customer/containers?status=${apiTab}&page=${page}&limit=${limit}&order=${order}`;
 
   if (search) {
     apiTabUrl = `${apiTabUrl}&search=${search}`;
@@ -138,6 +147,15 @@ export async function getServerSideProps(context) {
 
   if (region) {
     apiTabUrl = `${apiTabUrl}&region=${region}`;
+  }
+  if (dateFrom) {
+    apiTabUrl = `${apiTabUrl}&date_from=${dateFrom}`;
+  }
+  if (dateTo) {
+    apiTabUrl = `${apiTabUrl}&date_to=${dateTo}`;
+  }
+  if (dateType) {
+    apiTabUrl = `${apiTabUrl}&date_type=${dateType}`;
   }
 
   if (session && session.token && session.token.access_token) {
