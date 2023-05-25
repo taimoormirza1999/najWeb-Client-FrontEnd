@@ -1,6 +1,5 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import NProgress from 'nprogress';
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -84,10 +83,8 @@ const ArrivedCarTab = ({
       );
     }
   }
-  const router = useRouter();
   const intl = useIntl();
   const [carsArray, setCarsArray] = useState(carsRecords);
-  const region = router.query.region ? router.query.region : '';
   const selectedCar = useRef(0);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [images, setImages] = useState([]);
@@ -105,7 +102,7 @@ const ArrivedCarTab = ({
   const [arrivedStoreModalError, setArrivedStoreModalError] = useState(false);
   const arrivedStoreCancelButtonRef = useRef(null);
 
-  const paginationUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&region=${region}&type=${type}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-arrived&search=${search}&type=${type}&limit=${limit}`;
   const limitUrl = `/customer/dashboard?tab=tabs-arrived&type=${type}&page=`;
   const [downloading, setDownloading] = useState(false);
   const [inputValue, setInputValue] = useState({
@@ -524,7 +521,7 @@ const ArrivedCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">

@@ -11,9 +11,7 @@ import {
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
-import { useRouter } from "next/router";
-import Carousel from 'react-gallery-carousel';
-import 'react-gallery-carousel/dist/index.css';
+
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -59,16 +57,13 @@ const WarehouseCarTab = ({
   search = '',
 }) => {
 
-  console.log(carsRecords)
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&region=${region}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&limit=${limit}`;
   const limitUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
   const [downloading, setDownloading] = useState(false);
   const GetImages = async (car_id) => {
@@ -212,7 +207,7 @@ const WarehouseCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
