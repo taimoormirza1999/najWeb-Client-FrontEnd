@@ -2,9 +2,10 @@ import axios from 'axios';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ContainersTable } from '@/components/containers/containersTable';
+import { SubMenu } from '@/components/containers/SubMenu';
 import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
@@ -13,7 +14,7 @@ import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 const Containers = ({ router, containersData, containersCount }) => {
   const {
-    query: { tab, page, search },
+    query: { tab, type, page, search },
   } = router;
   let {
     query: { limit, order },
@@ -50,6 +51,12 @@ const Containers = ({ router, containersData, containersCount }) => {
       href: 'arrivedStore',
       count: parseInt(containersCount?.arrivedStore, 10),
     },
+    {
+      name: 'page.customer.dashboard.delivered',
+      href: 'delivered',
+      count: parseInt(containersCount?.deliveredAll, 10),
+      subMenu: true,
+    },
   ];
   let containersRecords;
   let totalRecords = 0;
@@ -59,6 +66,7 @@ const Containers = ({ router, containersData, containersCount }) => {
   } else {
     containersRecords = [];
   }
+  const [subMenu, setSubMenu] = useState(tab);
 
   return (
     <Layout meta={<Meta title="Containers" description="" />}>
@@ -75,29 +83,50 @@ const Containers = ({ router, containersData, containersCount }) => {
           </div>
           <div>
             <nav className="flex flex-wrap gap-2 lg:inline" aria-label="Tabs">
-              {tabs.map((tabData, index) => (
-                <Link
-                  key={index}
-                  href={{
-                    pathname: '/customer/containers/',
-                    query: { tab: tabData.href },
-                  }}
-                >
+              {tabs.map((tabData, index) =>
+                tabData.subMenu ? (
                   <a
+                    key={index}
                     className={classNames(
-                      (!tab && tabData.href === 'tabs-states') ||
-                        tab === tabData.href
+                      tab === tabData.href
                         ? 'bg-[#005FB7] text-white'
                         : 'text-blue-600 hover:text-gray-700',
-                      'mr-3 px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      'mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
                     )}
+                    onClick={() => setSubMenu(tabData.href)}
                   >
                     <FormattedMessage id={tabData.name} />{' '}
                     {tabData.count ? `(${tabData.count})` : ''}
                   </a>
-                </Link>
-              ))}
+                ) : (
+                  <Link
+                    key={index}
+                    href={{
+                      pathname: '/customer/containers/',
+                      query: { tab: tabData.href },
+                    }}
+                  >
+                    <a
+                      className={classNames(
+                        (!tab && tabData.href === 'tabs-states') ||
+                          tab === tabData.href
+                          ? 'bg-[#005FB7] text-white'
+                          : 'text-blue-600 hover:text-gray-700',
+                        'mr-3 px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      )}
+                    >
+                      <FormattedMessage id={tabData.name} />{' '}
+                      {tabData.count ? `(${tabData.count})` : ''}
+                    </a>
+                  </Link>
+                )
+              )}
             </nav>
+            <SubMenu
+              type={subMenu}
+              subType={type}
+              tabsCount={containersCount}
+            ></SubMenu>
             <div>
               {
                 <React.Fragment>
@@ -109,6 +138,7 @@ const Containers = ({ router, containersData, containersCount }) => {
                     limit={limit}
                     search={search}
                     order={order}
+                    type={type}
                   ></ContainersTable>
                 </React.Fragment>
               }
@@ -128,6 +158,7 @@ export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
+  const type = context.query.type ? context.query.type : '';
   const order = context.query.order ? context.query.order : '';
   const region = context.query.region ? context.query.region : '';
   const dateFrom = context.query.date_from ? context.query.date_from : '';
@@ -138,8 +169,7 @@ export async function getServerSideProps(context) {
   let containersData = {};
   let containersCount = {};
   const apiUrl = process.env.API_URL;
-
-  let apiTabUrl = `${apiUrl}customer/containers?status=${apiTab}&page=${page}&limit=${limit}&order=${order}`;
+  let apiTabUrl = `${apiUrl}customer/containers?status=${apiTab}&page=${page}&limit=${limit}&type=${type}&order=${order}`;
 
   if (search) {
     apiTabUrl = `${apiTabUrl}&search=${search}`;

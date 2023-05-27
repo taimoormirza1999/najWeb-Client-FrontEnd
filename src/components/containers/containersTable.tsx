@@ -89,10 +89,11 @@ const ContainersTable = ({
   limit,
   search = '',
   order = '',
+  type = '',
 }) => {
-  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&order=${order}&limit=${limit}&page=`;
-  const limitUrl = `/customer/containers?tab=${tab}&order=${order}&page=`;
 
+  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
+  const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
 
   const cancelDetailButtonRef = useRef(null);
@@ -295,7 +296,7 @@ const ContainersTable = ({
       </CustomModal>
       <div className="pt-14">
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <ReactHTMLTableToExcel
@@ -457,6 +458,17 @@ const ContainersTable = ({
                         </td>
                       </tr>
                     ))}
+                    {records?.length < 1 ? (
+                      <tr>
+                        <td
+                          scope="col"
+                          colSpan={carTableHeader.length}
+                          className="w-[2px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
+                        >
+                          No records
+                        </td>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </table>
               </div>

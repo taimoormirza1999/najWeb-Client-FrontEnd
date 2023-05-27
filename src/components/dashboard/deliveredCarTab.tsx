@@ -1,6 +1,5 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
 import Link from 'next/link';
 import NProgress from 'nprogress';
@@ -82,9 +81,8 @@ const DeliveredCarTab = ({
     ];
   }
 
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
-  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&region=${region}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&limit=${limit}`;
+
   const limitUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
 
@@ -189,7 +187,8 @@ const DeliveredCarTab = ({
               
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
                 
-              <Carousel images={images} style={{ height: '30vw', width: '100%' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+              <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
@@ -246,7 +245,7 @@ const DeliveredCarTab = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">

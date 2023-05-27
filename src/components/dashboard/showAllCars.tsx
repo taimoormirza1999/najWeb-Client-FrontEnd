@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NProgress from 'nprogress';
@@ -120,10 +119,9 @@ const ShowAllCars = ({
       header: 'sold',
     },
   ];
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
+
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&region=${region}&limit=${limit}&order=${order}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&order=${order}`;
   const limitUrl = `/customer/dashboard?tab=showAllCars&order=${order}&page=`;
 
   const [openNote, setOpenNote] = useState(false);
@@ -256,7 +254,9 @@ const ShowAllCars = ({
               
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
                 
-              <Carousel images={images} style={{ height: '30vw', width: '100%' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
+              <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
@@ -313,7 +313,7 @@ const ShowAllCars = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
