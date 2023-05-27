@@ -5,7 +5,6 @@ import { useRef, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage } from 'react-intl';
 
-import { ContainerInvoice } from '@/components/containers/invoice';
 import CustomModal from '@/components/customModal';
 import {
   Pagination,
@@ -361,16 +360,20 @@ const ContainersTable = ({
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
-                          <Link
-                            href={{
-                              pathname: '/customer/containers/invoice/',
-                              query: { id: row.container_id },
-                            }}
-                          >
-                            <span>{row.container_id}</span>
-                          </Link>
+                          {row.all_cars_completed === '1' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/containers/invoice/',
+                                query: { id: row.container_id },
+                              }}
+                            >
+                              <a target="_blank">{row.container_id}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
                         </td>
 
                         <td

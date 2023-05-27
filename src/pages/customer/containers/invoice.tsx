@@ -1,329 +1,274 @@
-// import ContentCutIcon from '@mui/icons-material/ContentCut';
 import axios from 'axios';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+import { getSession } from 'next-auth/react';
+import React, { useEffect } from 'react';
 
-const ContainerInvoice = () => {
-  const router = useRouter();
-  const container_id = router.query?.id ? router.query.id : 0;
-  const [Tables, setTables] = useState([]);
-  const [Name, setName] = useState('');
-  const [Location, setLocation] = useState('');
-  const [Country, setCountry] = useState('');
-  const [Phone, setPhone] = useState('');
-  const [Shipper, setShipper] = useState('');
-  const [Origin, setOrigin] = useState('');
-  const [Carier, setCarier] = useState('');
-  const [SailingDate, setSailingDate] = useState('');
-  const [Consignee, setConsignee] = useState('');
-  const [Destination, setDestination] = useState('');
-  const [BookingNo, setBookingNo] = useState('');
-  const [Contatiner, setContatiner] = useState('');
-  const [Total, setTotal] = useState('');
-  const [Payment, setPayment] = useState('');
-  const [TotalDue, setTotalDue] = useState('');
+import styles from '@/components/containers/invoicePrint.module.css';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
-  const getInvoiceDetail = async () => {
-    await axios
-      .get(`/api/customer/container/invoice`, {
-        params: {
-          container_id,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        //setContainerDetail(res.data.data);
-      })
-      .catch(() => {});
-  };
+const { API_URL } = process.env;
+const ContainerInvoice = ({ invoice }) => {
+  const { accountName, iban, accountNumber } = invoice.bankDetail;
+  const {
+    container_number: containerNumber,
+    booking_number: bookingNumber,
+    etd,
+    shipper_name: shipperName,
+    pod_name: podName,
+    pol_name: polName,
+    totalAmount,
+    paidAmount,
+    balance,
+  } = invoice.container;
+
+  const { cars } = invoice;
+
   useEffect(() => {
-    getInvoiceDetail();
+    console.log(invoice);
   }, []);
 
   return (
-    <section className="container">
-      <div>
-        <div>
-          <img
-            src={`/assets/images/InvoiceLogo.png`}
-            alt="Logo"
-            style={{ width: '100%' }}
-          />
-        </div>
+    <section
+      className={`container mx-auto bg-white print:shadow-none shadow-md ${styles.container}`}
+    >
+      {/* <div className="header print:fixed print:left-10 print:top-2 print:h-[90px]"> */}
+      <div className="header">
+        <img
+          src={`/assets/images/InvoiceLogo.png`}
+          alt="Nejoum Al Jazeera"
+          className="w-full"
+        />
       </div>
-      <div className="row invoice-head mt-5">
-        <div className="col-md-4">
+      <Head>
+        <title>Container Invoice</title>
+      </Head>
+      <div className="p-5">
+        <div className="text-light-grey bg-dark-blue mt-5 flex justify-between rounded-xl border-2 p-2 font-bold">
           <h4>EMIRATES NBD BANK</h4>
+          <h4>بنك الإمارات دبي الوطني </h4>
         </div>
-        <div className="col-md-4"></div>
-        <div className="col-md-4">
-          <h4 className="invoice-arabic-text">بنك الإمارات دبي الوطني </h4>
-        </div>
-      </div>
 
-      <div className="row mb-5">
-        <div className="col-md-6">
-          <b>
-            <span style={{ marginRight: '29px' }}>Account Name </span>:
-            &nbsp;NEJOUM AL JAZEERA USED CARS LLC
-          </b>{' '}
-          <br />
-          <b>
-            <span style={{ marginRight: '100px' }}>IBAN </span>: &nbsp;AE20 0260
-            0010 1577 2387 001
-          </b>{' '}
-          <br />
-          <b>
-            <span style={{ marginRight: '12px' }}>Account Number </span>:
-            1015772387001
-          </b>{' '}
-          <br />
-        </div>
-        <div className="col-md-6">
-          {/* <center><span>{Name}</span></center> */}
-        </div>
-      </div>
+        <table className="w-full">
+          <tbody>
+            <tr>
+              <td className="w-1/4 font-bold">Account Name:</td>
+              <td>{accountName}</td>
+            </tr>
+            <tr>
+              <td className="w-1/4 font-bold">IBAN:</td>
+              <td>{iban}</td>
+            </tr>
+            <tr>
+              <td className="w-1/5 font-bold">Account Number:</td>
+              <td className="w-full">{accountNumber}</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <div>
-        <hr className="line-for-cut" />
-        {/* <ContentCutIcon className="invoice-cut-icon" /> */}
-      </div>
+        <div className="border-light-grey my-4 border-2 border-dashed"></div>
 
-      <div className="row invoice-head mt-5">
-        <div className="col-md-4">
+        <div className="text-light-grey bg-dark-blue mt-5 mt-5 flex flex justify-between justify-between rounded-xl border-2 p-2 font-bold">
           <h4>Bill Information</h4>
+          <h4>تفاصىل الفاتورة</h4>
         </div>
-        <div className="col-md-4"></div>
-        <div className="col-md-4">
-          <h4 className="invoice-arabic-text">تفاصىل الفاتورة</h4>
+        <div className="my-2 flex justify-between font-bold">
+          <div>
+            <p>Full Name</p>
+            <p>Location</p>
+            <p>Country</p>
+            <p>Phone Number</p>
+          </div>
+          <div className="text-center">
+            <p>Nejoum Al Jazeera</p>
+            <p>Industiral Area 4, Head Office</p>
+            <p>UAE</p>
+            <p>+971 65 440 202</p>
+          </div>
+          <div className="text-right">
+            <p>الاسم بالكامل</p>
+            <p>الموقع</p>
+            <p>البلد</p>
+            <p>رقم الهاتف</p>
+          </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-md-4">
-          <b>Full Name</b>
-        </div>
-        <div className="col-md-4">
-          <center>
-            <span>{Name}</span>
-          </center>
-        </div>
-        <div className="col-md-4">
-          <b className="invoice-arabic-text">الاسم بالكامل</b>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-4">
-          <b>Location</b>
-        </div>
-        <div className="col-md-4">
-          <center>
-            <span>{Location}</span>
-          </center>
-        </div>
-        <div className="col-md-4">
-          <b className="invoice-arabic-text">الموقع</b>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-4">
-          <b>Country</b>
-        </div>
-        <div className="col-md-4">
-          <center>
-            <span>{Country}</span>
-          </center>
-        </div>
-        <div className="col-md-4">
-          <b className="invoice-arabic-text">البلد</b>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-4">
-          <b>Phone Number</b>
-        </div>
-        <div className="col-md-4">
-          <center>
-            <span>{Phone}</span>
-          </center>
-        </div>
-        <div className="col-md-4">
-          <b className="invoice-arabic-text">رقم الهاتف</b>
-        </div>
-      </div>
 
-      <div className="row invoice-head mt-5">
-        <div className="col-md-5">
+        <div className="text-light-grey bg-dark-blue mt-5 mt-5 flex flex justify-between justify-between rounded-xl border-2 p-2 font-bold">
           <h4>Cargo Information</h4>
+          <h4>{containerNumber}</h4>
+          <h4>معلومات الحاوية </h4>
         </div>
-        <div className="col-md-3">
-          <h4>Cargo Information</h4>
-        </div>
-        <div className="col-md-4">
-          <h4 className="invoice-arabic-text">تفاصىل الفاتورة</h4>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-2">
-          <span>Shipper/الشاحن</span>
-        </div>
-        <div className="col-md-4">
-          <span>{Shipper}</span>
-        </div>
-        <div className="col-md-3">
-          <span>Consignee/المرسل إلية</span>
-        </div>
-        <div className="col-md-3">
-          <span>{Consignee}</span>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-2">
-          <span>Origin/اصل</span>
-        </div>
-        <div className="col-md-4">
-          <span>{Origin}</span>
-        </div>
-        <div className="col-md-3">
-          <span>Destination/الوجهة</span>
-        </div>
-        <div className="col-md-3">
-          <span>{Destination}</span>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-2">
-          <span>Carier Name/اسم الناقل</span>
-        </div>
-        <div className="col-md-4">
-          <span>{Carier}</span>
-        </div>
-        <div className="col-md-3">
-          <span>Booking Num/رقم الحجز</span>
-        </div>
-        <div className="col-md-3">
-          <span>{BookingNo}</span>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-2">
-          <span>Sailing Date/تاريخ الإبحار</span>
-        </div>
-        <div className="col-md-4">
-          <span>{SailingDate}</span>
-        </div>
-        <div className="col-md-3">
-          <span>Contatiner/حاوية</span>
-        </div>
-        <div className="col-md-3">
-          <span>{Contatiner}</span>
+
+        <table className="my-2 w-full">
+          <tbody>
+            <tr>
+              <td>
+                <h5>Shipper/الشاحن</h5>
+              </td>
+              <td>
+                <h5>{shipperName}</h5>
+              </td>
+              <td>
+                <h5>Booking Num/رقم الحجز</h5>
+              </td>
+              <td>
+                <h5>{bookingNumber}</h5>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h5>Origin/اصل</h5>
+              </td>
+              <td>
+                <h5>{polName}</h5>
+              </td>
+              <td>
+                <h5>Destination/الوجهة</h5>
+              </td>
+              <td>
+                <h5>{podName}</h5>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h5>Sailing Date/تاريخ الإبحار</h5>
+              </td>
+              <td>
+                <h5>{etd}</h5>
+              </td>
+              <td>
+                <h5>Contatiner/حاوية</h5>
+              </td>
+              <td>
+                <h5>{containerNumber}</h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        {cars && cars.length > 1 ? (
+          <table className="my-10 w-full">
+            <thead className="text-light-grey bg-dark-blue mt-5">
+              <tr>
+                <th className="rounded-tl-xl">وصف</th>
+                <th>مزاد علني</th>
+                <th>سعر</th>
+                <th>سحب سيارة</th>
+                <th>شحن</th>
+                <th>تخليص</th>
+                <th>ثان</th>
+                <th className="rounded-tr-xl">المجموع</th>
+              </tr>
+              <tr>
+                <th className="rounded-bl-xl">Description</th>
+                <th>Auction</th>
+                <th>Price</th>
+                <th>Towing</th>
+                <th>Shipping</th>
+                <th>Clearance</th>
+                <th>Other</th>
+                <th className="rounded-br-xl">Total</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {cars.map((car, i) => (
+                <tr key={i}>
+                  <td className="border-dark-blue border-r-2">
+                    <div className="my-2">
+                      {`${car.carMakerName} ${car.carModelName} ${car.year}`}{' '}
+                      <br />
+                      Lot: {car.lotnumber} <br />
+                      VIN: {car.vin} <br />
+                    </div>
+                  </td>
+                  <td className="border-dark-blue border-r-2 pl-8">
+                    {car.auction_title}
+                  </td>
+                  <td className="border-dark-blue border-r-2 pl-8">
+                    ${car.car_cost}
+                  </td>
+                  <td className="border-dark-blue border-r-2 pl-8">
+                    AED {car?.shippingAmount || 0}
+                  </td>
+                  <td className="border-dark-blue border-r-2 pl-8">
+                    AED {car?.clearanceAmount || 0}
+                  </td>
+                  <td className="border-dark-blue border-r-2 pl-8">
+                    AED {car?.towingAmount || 0}
+                  </td>
+                  <td className="border-dark-blue border-r-2 pl-8">
+                    AED {car?.otherAmount || 0}
+                  </td>
+                  <td className="pl-8">AED {car?.totalAmount || 0}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : null}
+
+        <div className="flex justify-between">
+          <div className="w-1/3 pt-16">
+            <h3 className="text-lg font-bold">Terms & Condition</h3>
+            <p className="text-xs">
+              PLEASE BE ADVISED THAT THIS INVOICE HAS BEEN AMENDED ON{' '}
+              {new Date().toLocaleDateString()}
+            </p>
+            <p className="text-xs">
+              CASH, MONEY ORDERS, OR THIRD-PARTY PAYMENTS WILL NOT BE ACCEPTED.
+            </p>
+          </div>
+          <div className="w-1/3 print:w-1/2">
+            <div className="flex justify-between">
+              <h4 className="text-xl font-bold">Total/إجمالي</h4>
+              <h4 className="text-xl font-bold">
+                AED {totalAmount.toFixed(2)}
+              </h4>
+            </div>
+            <div className="mt-2 flex justify-between">
+              <h4 className="text-xl font-bold">Payment/دفع</h4>
+              <h4 className="text-xl font-bold">AED {paidAmount}</h4>
+            </div>
+
+            <div className="border-dark-blue my-4 border-2"></div>
+
+            <div className="flex justify-between">
+              <h4 className="text-xl font-bold">Balance Due/الرصيد المستحق</h4>
+              <h4 className="text-xl font-bold">AED {balance}</h4>
+            </div>
+          </div>
         </div>
       </div>
 
-      <table className="table mt-5">
-        <thead className="invoice-table-head mt-5">
-          <tr className="arabic-head">
-            <th scope="col">وصف</th>
-            <th scope="col">مزاد علني</th>
-            <th scope="col">سعر</th>
-            <th scope="col">سعر</th>
-            <th scope="col">توصيل</th>
-            <th scope="col">شحن</th>
-            <th scope="col">رسوم التاجر</th>
-            <th scope="col">تخزين</th>
-            <th scope="col">رسوم مؤجلة</th>
-            <th scope="col">رسوم EV</th>
-            <th scope="col">أضف خدمة</th>
-            <th scope="col">المجموع</th>
-          </tr>
-          <tr className="english-head">
-            <th scope="col">Description</th>
-            <th scope="col">Auction</th>
-            <th scope="col">Price</th>
-            <th scope="col">Other</th>
-            <th scope="col">Delivery</th>
-            <th scope="col">Shipping</th>
-            <th scope="col">Dealer Fee</th>
-            <th scope="col">Storage</th>
-            <th scope="col">Late Fee</th>
-            <th scope="col">EV Fee</th>
-            <th scope="col">Add Service</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-
-        {Tables.map((country, key) => (
-          <tr key={key}>
-            <td className="inv-right-border">{country.name}</td>
-            <td className="inv-right-border">{country.capital}</td>
-            <td className="inv-right-border">{country.abbreviation}</td>
-            <td className="inv-right-border">{country.currency}</td>
-            <td className="inv-right-border">{country.id}</td>
-            <td className="inv-right-border">{country.name}</td>
-            <td className="inv-right-border">{country.phone}</td>
-            <td className="inv-right-border">{country.phone}</td>
-            <td className="inv-right-border">{country.phone}</td>
-            <td className="inv-right-border">{country.phone}</td>
-            <td className="inv-right-border">{country.phone}</td>
-            <td>{country.phone}</td>
-          </tr>
-        ))}
-        <tr className="inv-last-table">
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-          <td className="inv-right-border"></td>
-        </tr>
-      </table>
-
-      <div className="row total-text">
-        <div className="col-md-7"></div>
-        <div className="col-md-3">
-          <h3>Total /</h3>
-          <h3>Payment /</h3>
-        </div>
-        <div className="col-md-2 total-answer">
-          <h3>{Total}</h3>
-          <h3>{Payment}</h3>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-7"></div>
-        <div className="col-md-5">
-          <hr className="line-for-total" />
-        </div>
-      </div>
-
-      <div className="row total-text">
-        <div className="col-md-7"></div>
-        <div className="col-md-3">
-          <h3>Balance Due/</h3>
-        </div>
-        <div className="col-md-2 total-answer">
-          <h3>{TotalDue}</h3>
-        </div>
-      </div>
-
-      <div className="row term-tex">
-        <div className="col-md-6">
-          <h3>Terms & Condition</h3>
-          <p>
-            PLEASE BE ADVISED THAT THIS INVOICE HAS BEEN AMENDED ON 2023-05-20.{' '}
-          </p>
-          <p>
-            CASH, MONEY ORDERS, OR THIRD-PARTY PAYMENTS WILL NOT BE ACCEPTED.
-          </p>
-        </div>
-        <div className="col-md-3"></div>
-        <div className="col-md-2"></div>
+      <div className="mt-10 print:fixed print:bottom-0 print:left-0 print:h-[3.7rem]">
+        <img
+          src={`/assets/images/footer-new.jpg`}
+          alt="Nejoum Al Jazeera"
+          className="w-full"
+        />
       </div>
     </section>
   );
 };
 export default ContainerInvoice;
+
+export async function getServerSideProps(context) {
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+
+  const session: any = await getSession(context);
+  const containerId = context.query?.id || 0;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
+  const response = await axios.get(`${API_URL}customer/container/invoice`, {
+    params: {
+      container_id: containerId,
+    },
+  });
+
+  const invoice = response?.data;
+
+  return {
+    props: {
+      invoice,
+    },
+  };
+}
