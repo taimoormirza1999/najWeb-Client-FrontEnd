@@ -95,6 +95,7 @@ const ContainersTable = ({
   const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
   const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
+
   const cancelDetailButtonRef = useRef(null);
   const [containerDetail, setContainerDetail] = useState<ContainerDetail>({
     lock_number: '',
@@ -112,9 +113,6 @@ const ContainersTable = ({
     status: '',
     total_cars: 0,
   });
-
-  
-console.log(containerDetail)
 
   const getContainerCars = async (containerRow) => {
     const { status } = containerRow;
@@ -154,20 +152,6 @@ console.log(containerDetail)
       .then((res) => {
         setContainerDetail(res.data.data);
         setDetailModalOpen(true);
-      })
-      .catch(() => {});
-  };
-  const getInvoiceDetail = async (container_id) => {
-    await axios
-      .get(`/api/customer/container/invoice`, {
-        params: {
-          container_id,
-        },
-      })
-      .then((res) => {
-        console.log(res)
-        setContainerDetail(res.data.data);
-        // setDetailModalOpen(true);
       })
       .catch(() => {});
   };
@@ -261,8 +245,7 @@ console.log(containerDetail)
                   </div>
                   <div className="flex">
                     <div className="font-bold">
-                      <FormattedMessage id="page.customer.container.invoice" />
-                      :
+                      <FormattedMessage id="page.customer.container.invoice" />:
                     </div>
                     <div className="pl-1">
                       {containerData.current.container_number}
@@ -378,17 +361,22 @@ console.log(containerDetail)
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
-                          <span
-                            onClick={async () => {
-                              getInvoiceDetail(row.container_id);
-                            }}
-                          >
-                            {row.container_id}
-                          </span>
+                          {row.all_cars_completed === '1' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/containers/invoice/',
+                                query: { id: row.container_id },
+                              }}
+                            >
+                              <a target="_blank">{row.container_id}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
                         </td>
-                       
+
                         <td
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
