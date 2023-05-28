@@ -340,6 +340,7 @@
   "branches.desc": "نتحرى أدق تفاصيل شحن السيارات من الولايات المتحدة إلى دول العالم العربي. نسعى دائمًا لتقديم الخدمات الأكفأ والأسرع والأنسب سعرًا.",
   "page.customer.dashboard.all": "الجميع",
   "page.customer.container.container_number": "رقم الوعاء",
+  "page.customer.container.invoice": "فاتورة",
   "page.customer.container.total_cars": "مجموع السيارات",
   "page.customer.container.invoice": "فاتورة",
   "page.customer.container.etd": "ETD",
@@ -353,6 +354,7 @@
   "messages.updated_successfully": "تم التحديث بنجاح",
   "page.table.info.length": "طول العرض",
   "page.customer.container.booking": "رقم الحجز",
+  "page.customer.container.departure": "ميناء التحميل",
   "page.customer.container.destination": "المكان المقصود",
   "page.customer.container.status": "حالة",
   "page.customer.container.loaded_date": "تاريخ التحميل",
@@ -389,5 +391,12 @@
   "Sangkat,": "سانغكات، ",
   "Phnom Penh tmey,": "بنوم بنه تي مي ،",
   "Khan Sen Sok": "خان سين سوك",
-  "You’re always welcome to pay a visit!": "نرحب بكم في جميع فرونا حول العالم"
+  "You’re always welcome to pay a visit!": "نرحب بكم في جميع فرونا حول العالم",
+  "date_type": "نوع التاريخ",
+  "page.customer.dashboard.show_all": "إظهار الجميع",
+  "point_of_loading": "Point of loading",
+  "docker_receipt": "Docker receipt",
+  "auction_price": "Auction Price",
+  "sold": "Sold",
+  "date_type": "نوع التاريخ"
 }

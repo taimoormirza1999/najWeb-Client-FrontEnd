@@ -1,18 +1,23 @@
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
 import { Fragment, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NProgress from 'nprogress';
 import axios from 'axios';
 import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
+
+import CustomModal from '@/components/customModal';
+
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
-import { classNames } from '@/utils/Functions';
+import { Sort } from '@/components/dashboard/sort';
+import { classNames } from '@/utils/Functions'; 
 
 const ShowAllCars = ({
   carsRecords,
@@ -20,43 +25,120 @@ const ShowAllCars = ({
   page = 0,
   limit,
   search = '',
+  order = '',
 }) => {
   const carTableHeader = [
-    'page.customer.dashboard.table.no',
-    'page.customer.dashboard.table.auction_photo',
-    'page.customer.dashboard.table.images',
-    'page.customer.dashboard.table.detail',
-    'page.customer.dashboard.table.lot_vin',
-    'page.customer.dashboard.table.auction',
-    'page.customer.dashboard.table.destination',
-    'page.customer.dashboard.table.purchase_date',
-    'page.customer.dashboard.table.payment_date',
-    'page.customer.dashboard.table.date_pick',
-    'page.customer.dashboard.table.arrived',
-    'page.customer.dashboard.table.title',
-    'page.customer.dashboard.table.key',
-    'page.customer.dashboard.table.loaded_date',
-    'page.customer.dashboard.table.booking',
-    'page.customer.dashboard.table.container',
-    'page.customer.dashboard.table.etd',
-    'page.customer.dashboard.table.shipping_date',
-    'page.customer.dashboard.table.eta',
+    {
+      header: 'page.customer.dashboard.table.no',
+    },
+    {
+      header: 'page.customer.dashboard.table.auction_photo',
+    },
+    {
+      header: 'page.customer.dashboard.table.images',
+    },
+    {
+      header: 'page.customer.dashboard.table.detail',
+      order: 'carMakerName',
+    },
+    {
+      header: 'page.customer.dashboard.table.lot_vin',
+      order: 'lotnumber',
+    },
+    {
+      header: 'page.customer.dashboard.table.auction',
+      order: 'auction_location_name',
+    },
+    {
+      header: 'page.customer.dashboard.table.destination',
+      order: 'port_name',
+    },
+    {
+      header: 'page.customer.dashboard.table.purchase_date',
+      order: 'purchasedate',
+    },
+    {
+      header: 'auction_price',
+    }, 
+    {
+      header: 'page.customer.dashboard.table.payment_date',
+      order: 'paymentDate',
+    },
+    {
+      header: 'page.customer.dashboard.table.date_pick',
+      order: 'picked_date',
+    },
+    {
+      header: 'page.customer.dashboard.table.arrived',
+      order: 'delivered_date',
+    },
+    {
+      header: 'page.customer.dashboard.table.title',
+      order: 'delivered_title',
+    },
+    {
+      header: 'page.customer.dashboard.table.key',
+      order: 'delivered_car_key',
+    },
+    {
+      header: 'point_of_loading',
+    },
+    {
+      header: 'page.customer.dashboard.table.loaded_date',
+      order: 'loaded_date',
+    },
+    {
+      header: 'docker_receipt',
+    },
+    {
+      header: 'page.customer.dashboard.table.booking',
+      order: 'booking_number',
+    },
+    {
+      header: 'page.customer.dashboard.table.container',
+      order: 'container_number',
+    },
+    {
+      header: 'page.customer.dashboard.table.etd',
+      order: 'etd',
+    },
+    {
+      header: 'page.customer.dashboard.table.shipping_date',
+      order: 'shipping_date',
+    },
+    {
+      header: 'page.customer.dashboard.table.eta',
+      order: 'eta',
+    },
+    {
+      header: 'page.customer.dashboard.table.date_arrived_store',
+    },
+    {
+      header: 'page.customer.dashboard.paid',
+    },
+    {
+      header: 'sold',
+    },
   ];
-  console.log(carsRecords)
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
-  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&region=${region}&limit=${limit}&page=`;
 
-  const limitUrl = `/customer/dashboard?tab=showAllCars&page=`;
+  const cancelButtonRef = useRef(null);
+  const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&order=${order}`;
+  const limitUrl = `/customer/dashboard?tab=showAllCars&order=${order}&page=`;
+
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState('');
+  const contentRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const [downloadtype, setDownloadType] = useState('');
 
   const [downloading, setDownloading] = useState(false);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
+
   const cancelButtonRef = useRef(null);
 
   const GetWarehouseImages = async (car_id, type) => {
+
 
     NProgress.start();
     setDownloading(false);
@@ -110,7 +192,35 @@ const ShowAllCars = ({
   };
   return (
     <div className="" id="tabs-allcars" role="tabpanel">
-      <Transition.Root show={redirectModalOpen} as={Fragment}>
+
+      <CustomModal
+        showOn={openNote}
+        initialFocus={cancelButtonRef}
+        onClose={() => {
+          setOpenNote(false);
+        }}
+      >
+        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+          <div className="mt-2">
+            <p className="mb-4 py-4 text-sm lg:py-6">{note}</p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+          <button
+            type="button"
+            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
+            onClick={() => {
+              setOpenNote(false);
+              contentRef?.current?.classList.remove('blur-sm');
+            }}
+            ref={cancelButtonRef}
+          >
+            <FormattedMessage id="general.cancel" />
+          </button>
+        </div>
+      </CustomModal>
+       <Transition.Root show={redirectModalOpen} as={Fragment}>
+
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -148,6 +258,7 @@ const ShowAllCars = ({
             >
 
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
+
 
                 <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true" />
                 <div>
@@ -235,6 +346,7 @@ const ShowAllCars = ({
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
 
                 <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true" />
+
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
@@ -289,7 +401,7 @@ const ShowAllCars = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
@@ -302,7 +414,14 @@ const ShowAllCars = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
                         >
-                          <FormattedMessage id={th} />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.header} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>
@@ -357,9 +476,10 @@ const ShowAllCars = ({
                                 onClick={() => {
                                   GetLoadingImages(car.car_id, 'loading');
                                 }}
-                              />
 
-                            </div>
+                               />
+                                                         </div>
+
                             <div className="three-icons">
                               <img
                                 src="/assets/images/Arrival_pics.png"
@@ -367,9 +487,10 @@ const ShowAllCars = ({
                                 onClick={() => {
                                   GetStoringImages(car.car_id, 'store');
                                 }}
-                              />
 
-                            </div>
+                               />
+                                                         </div>
+
                           </div>
 
 
@@ -410,6 +531,23 @@ const ShowAllCars = ({
                         </td>
                         <td
                           scope="col"
+                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          {car.carcost > 0 && `${car.carcost}$`}{' '}
+                          {car.invoice_file_auction && (
+                            <a
+                              className="text-medium-grey hover:border-0"
+                              href={car.invoice_file_auction}
+                            >
+                              <FontAwesomeIcon
+                                icon={faFilePdf}
+                                className="text-teal-blue text-2xl"
+                              />
+                            </a>
+                          )}
+                        </td>
+                        <td
+                          scope="col"
                           className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.paymentDate}
@@ -430,6 +568,20 @@ const ShowAllCars = ({
                           scope="col"
                           className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setNote(car.follow_car_title_note);
+                              setOpenNote(true);
+                              contentRef?.current?.classList.add('blur-sm');
+                            }}
+                            className={classNames(
+                              !car.follow_car_title_note ? 'hidden' : '',
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            )}
+                          >
+                            Notes
+                          </button>
                           {car.delivered_title === '1' ? (
                             <CheckCircleIcon
                               className="h-6 w-6 text-green-400"
@@ -464,7 +616,29 @@ const ShowAllCars = ({
                           scope="col"
                           className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
+                          {car.departurePort}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                        >
                           {car.loaded_date}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                        >
+                          {car.file_name && (
+                            <a
+                              className="text-medium-grey hover:border-0"
+                              href={car.file_name}
+                            >
+                              <FontAwesomeIcon
+                                icon={faFilePdf}
+                                className="text-teal-blue text-2xl"
+                              />
+                            </a>
+                          )}
                         </td>
                         <td
                           scope="col"
@@ -495,6 +669,24 @@ const ShowAllCars = ({
                           className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {car.eta}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                        >
+                          {car.receive_date}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                        >
+                          {car.final_payment_status}
+                        </td>
+                        <td
+                          scope="col"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                        >
+                          {car.sold}
                         </td>
                       </tr>
                     ))}

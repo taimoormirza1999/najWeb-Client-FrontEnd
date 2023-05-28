@@ -320,6 +320,7 @@
   "page.customer.dashboard.all": "All",
   "page.container.cars": "Container Cars",
   "page.customer.container.container_number": "Container Number",
+  "page.customer.container.invoice": "Invoice",
   "page.customer.container.total_cars": "Total Cars",
   "page.customer.container.invoice": "Invoice",
   "page.customer.container.etd": "ETD",
@@ -331,7 +332,8 @@
   "general.all.region": "All Regions",
   "page.table.info.length": "Display Length",
   "page.customer.container.booking": "Booking",
-  "page.customer.container.destination": "Destination",
+  "page.customer.container.departure": "Departure Port",
+  "page.customer.container.destination": "Destination Port",
   "page.customer.container.status": "Status",
   "page.customer.container.loaded_date": "Loaded Date",
   "page.customer.container.arrived_port_date": "Arrived Port Date",
@@ -404,5 +406,12 @@
   "Sangkat,": "Sangkat,",
   "Phnom Penh tmey,": "Phnom Penh tmey,",
   "Khan Sen Sok": "Khan Sen Sok",
-  "You’re always welcome to pay a visit!": "You’re always welcome to pay a visit!"
+  "You’re always welcome to pay a visit!": "You’re always welcome to pay a visit!",
+  "date_type": "Date Type",
+  "page.customer.dashboard.show_all": "Show All",
+  "point_of_loading": "Point of loading",
+  "docker_receipt": "Docker receipt",
+  "auction_price": "Auction Price",
+  "sold": "Sold",
+  "date_type": "Date Type"
 }

@@ -1,0 +1,20 @@
+
+@media print{
+  .container{
+    max-width:99% !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 2mm 0 0 0;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+
+  .avoid-break {
+      page-break-inside: avoid;
+  }
+
+}

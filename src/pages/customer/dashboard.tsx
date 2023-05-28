@@ -2,7 +2,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
@@ -14,7 +14,6 @@ import { ShowAllCars } from '@/components/dashboard/showAllCars';
 import { StatesTab } from '@/components/dashboard/statesTab';
 import { SubMenu } from '@/components/dashboard/subMenu';
 import { WarehouseCarTab } from '@/components/dashboard/warehouseCarTab';
-import UserContext from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
@@ -28,6 +27,7 @@ export async function getServerSideProps(context) {
   const search = context.query.search ? context.query.search : '';
   const page = context.query.page ? context.query.page : 0;
   const limit = context.query.limit ? context.query.limit : '10';
+  const order = context.query.order ? context.query.order : '';
   const region = context.query.region ? context.query.region : '';
   const session: any = await getSession(context);
   let networkError = false;
@@ -90,9 +90,9 @@ export async function getServerSideProps(context) {
     type === 'towing' ||
     type === 'cancelled'
   ) {
-    apiUrl = `${apiUrl}?page=${page}&limit=${limit}`;
+    apiUrl = `${apiUrl}?page=${page}&limit=${limit}&order=${order}`;
   } else if (apiTab !== 'statesCount') {
-    apiUrl = `${apiUrl}&page=${page}&limit=${limit}`;
+    apiUrl = `${apiUrl}&page=${page}&limit=${limit}&order=${order}`;
   }
 
   apiUrl = region ? `${apiUrl}&region=${region}` : apiUrl;
@@ -136,7 +136,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     query: { tab, type, page, search },
   } = router;
   let {
-    query: { limit },
+    query: { limit, order },
   } = router;
   const [subMenu, setSubMenu] = useState(tab);
   let currentPage = page;
@@ -146,12 +146,17 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
   if (!limit) {
     limit = 10;
   }
+  if (!order) {
+    order = '';
+  }
   const newCarCount =
     parseInt(dashboardCount?.newCarsUnpaidCount, 10) +
     parseInt(dashboardCount?.newCarsPaidCount, 10) +
     parseInt(dashboardCount?.newCarsPaidByCustomerCount, 10) +
     parseInt(dashboardCount?.newCarsCancelledCount, 10) +
     parseInt(dashboardCount?.newCarsPickedCount, 10);
+  const allCarsCount = parseInt(dashboardCount?.allCarsCount, 10) || 0;
+
   const tabs = [
     {
       name: 'page.customer.dashboard.new_cars',
@@ -216,6 +221,22 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
           </div>
           <div>
             <nav className="flex flex-wrap gap-2 lg:inline" aria-label="Tabs">
+              <Link
+                href={{
+                  pathname: '/customer/dashboard/',
+                  query: { tab: 'showAllCars' },
+                }}
+              >
+                <a
+                  className={classNames(
+                    'text-green-600 hover:text-gray-700 mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-green-600 text-sm sm:text-xl'
+                  )}
+                >
+                  <FormattedMessage id={'page.customer.dashboard.allcars'} />{' '}
+                    {allCarsCount ? `(${allCarsCount})` : ''}
+                </a>
+              </Link>
+
               {tabs.map((tabData, index) =>
                 tabData.subMenu ? (
                   <a
@@ -256,16 +277,6 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                   </Link>
                 )
               )}
-              <Link
-                href={{
-                  pathname: '/customer/dashboard/',
-                  query: { tab: 'showAllCars' },
-                }}
-              >
-                <a className="float-right text-sm font-medium text-gray-900 underline sm:text-xl">
-                  Show All
-                </a>
-              </Link>
             </nav>
             <SubMenu
               type={subMenu}
@@ -282,6 +293,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     type={type}
                     limit={limit}
                     search={search}
+                    order={order}
                   ></NewCarTab>
                 </React.Fragment>
               )}
@@ -344,6 +356,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                     page={currentPage}
                     limit={limit}
                     search={search}
+                    order={order}
                   ></ShowAllCars>
                 </React.Fragment>
               )}
