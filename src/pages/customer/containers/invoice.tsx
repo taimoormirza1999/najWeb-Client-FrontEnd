@@ -29,7 +29,7 @@ const ContainerInvoice = ({ invoice }) => {
 
   return (
     <section
-      className={`container mx-auto bg-white print:shadow-none shadow-md ${styles.container}`}
+      className={`text-[10px] container mx-auto bg-white print:shadow-none shadow-md ${styles.container}`}
     >
       {/* <div className="header print:fixed print:left-10 print:top-2 print:h-[90px]"> */}
       <div className="header">
@@ -43,7 +43,7 @@ const ContainerInvoice = ({ invoice }) => {
         <title>Container Invoice</title>
       </Head>
       <div className="p-5">
-        <div className="text-light-grey bg-dark-blue mt-5 flex justify-between rounded-xl border-2 p-2 font-bold">
+        <div className=" text-light-grey bg-dark-blue flex justify-between rounded-xl border-2 p-2 font-bold" style={{marginTop:'-16px'}}>
           <h4>EMIRATES NBD BANK</h4>
           <h4>بنك الإمارات دبي الوطني </h4>
         </div>
@@ -51,27 +51,27 @@ const ContainerInvoice = ({ invoice }) => {
         <table className="w-full">
           <tbody>
             <tr>
-              <td className="w-1/4 font-bold">Account Name:</td>
+              <td className="pl-2 w-1/4 font-bold ">Account Name:</td>
               <td>{accountName}</td>
             </tr>
             <tr>
-              <td className="w-1/4 font-bold">IBAN:</td>
+              <td className="pl-2 w-1/4 font-bold">IBAN:</td>
               <td>{iban}</td>
             </tr>
             <tr>
-              <td className="w-1/5 font-bold">Account Number:</td>
+              <td className="pl-2 w-1/5 font-bold">Account Number:</td>
               <td className="w-full">{accountNumber}</td>
             </tr>
           </tbody>
         </table>
 
-        <div className="border-light-grey my-4 border-2 border-dashed"></div>
+        <div className="border-light-grey my-2 border-2 border-dashed"></div>
 
-        <div className="text-light-grey bg-dark-blue mt-5 mt-5 flex flex justify-between justify-between rounded-xl border-2 p-2 font-bold">
+        <div className="text-light-grey bg-dark-blue  mt-1 flex flex justify-between justify-between rounded-xl border-2 p-2 font-bold">
           <h4>Bill Information</h4>
-          <h4>تفاصىل الفاتورة</h4>
+          <h4>  تفاصيل الفاتورة</h4>
         </div>
-        <div className="my-2 flex justify-between font-bold">
+        <div className="pl-2 pr-2 my-2 flex justify-between font-bold">
           <div>
             <p>Full Name</p>
             <p>Location</p>
@@ -92,13 +92,13 @@ const ContainerInvoice = ({ invoice }) => {
           </div>
         </div>
 
-        <div className="text-light-grey bg-dark-blue mt-5 mt-5 flex flex justify-between justify-between rounded-xl border-2 p-2 font-bold">
+        <div className="text-light-grey bg-dark-blue mt-1 flex flex justify-between justify-between rounded-xl border-2 p-2 font-bold">
           <h4>Cargo Information</h4>
           <h4>{containerNumber}</h4>
           <h4>معلومات الحاوية </h4>
         </div>
 
-        <table className="my-2 w-full">
+        <table className="ml-2  w-full">
           <tbody>
             <tr>
               <td>
@@ -146,16 +146,16 @@ const ContainerInvoice = ({ invoice }) => {
         </table>
 
         {cars && cars.length > 1 ? (
-          <table className="my-10 w-full">
+          <table className="my-3 w-full">
             <thead className="text-light-grey bg-dark-blue mt-5">
               <tr>
                 <th className="rounded-tl-xl">وصف</th>
-                <th>مزاد علني</th>
+                <th> المزاد</th>
                 <th>سعر</th>
-                <th>سحب سيارة</th>
+                <th> النقل الداخلي</th>
                 <th>شحن</th>
                 <th>تخليص</th>
-                <th>ثان</th>
+                <th>أخرى</th>
                 <th className="rounded-tr-xl">المجموع</th>
               </tr>
               <tr>
@@ -174,7 +174,7 @@ const ContainerInvoice = ({ invoice }) => {
               {cars.map((car, i) => (
                 <tr key={i}>
                   <td className="border-dark-blue border-r-2">
-                    <div className="my-2">
+                    <div className="mt-1.5 pl-2">
                       {`${car.carMakerName} ${car.carModelName} ${car.year}`}{' '}
                       <br />
                       Lot: {car.lotnumber} <br />
@@ -188,7 +188,7 @@ const ContainerInvoice = ({ invoice }) => {
                     ${car.car_cost}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {car?.shippingAmount || 0}
+                    AED  {car?.shippingAmount || 0}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
                     AED {car?.clearanceAmount || 0}
@@ -201,13 +201,15 @@ const ContainerInvoice = ({ invoice }) => {
                   </td>
                   <td className="pl-8">AED {car?.totalAmount || 0}</td>
                 </tr>
+                
               ))}
+             
             </tbody>
           </table>
         ) : null}
 
         <div className="flex justify-between">
-          <div className="w-1/3 pt-16">
+          <div className="w-1/3 ">
             <h3 className="text-lg font-bold">Terms & Condition</h3>
             <p className="text-xs">
               PLEASE BE ADVISED THAT THIS INVOICE HAS BEEN AMENDED ON{' '}
@@ -219,21 +221,21 @@ const ContainerInvoice = ({ invoice }) => {
           </div>
           <div className="w-1/3 print:w-1/2">
             <div className="flex justify-between">
-              <h4 className="text-xl font-bold">Total/إجمالي</h4>
-              <h4 className="text-xl font-bold">
+              <h4 className="text-[10px] font-bold">Total/إجمالي</h4>
+              <h4 className="text-[10px] font-bold">
                 AED {totalAmount.toFixed(2)}
               </h4>
             </div>
             <div className="mt-2 flex justify-between">
-              <h4 className="text-xl font-bold">Payment/دفع</h4>
-              <h4 className="text-xl font-bold">AED {paidAmount}</h4>
+              <h4 className="text-[10px] font-bold">Payment/دفع</h4>
+              <h4 className="text-[10px] font-bold">AED {paidAmount}</h4>
             </div>
 
             <div className="border-dark-blue my-4 border-2"></div>
 
             <div className="flex justify-between">
-              <h4 className="text-xl font-bold">Balance Due/الرصيد المستحق</h4>
-              <h4 className="text-xl font-bold">AED {balance}</h4>
+              <h4 className="text-[10px] font-bold">Balance Due/الرصيد المستحق</h4>
+              <h4 className="text-[10px] font-bold">AED {balance}</h4>
             </div>
           </div>
         </div>
