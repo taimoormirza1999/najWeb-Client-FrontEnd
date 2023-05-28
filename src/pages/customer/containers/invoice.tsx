@@ -69,7 +69,7 @@ const ContainerInvoice = ({ invoice }) => {
 
         <div className="text-light-grey bg-dark-blue mt-5 mt-5 flex flex justify-between justify-between rounded-xl border-2 p-2 font-bold">
           <h4>Bill Information</h4>
-          <h4>تفاصىل الفاتورة</h4>
+          <h4>  تفاصيل الفاتورة</h4>
         </div>
         <div className="my-2 flex justify-between font-bold">
           <div>
@@ -150,12 +150,12 @@ const ContainerInvoice = ({ invoice }) => {
             <thead className="text-light-grey bg-dark-blue mt-5">
               <tr>
                 <th className="rounded-tl-xl">وصف</th>
-                <th>مزاد علني</th>
+                <th> المزاد</th>
                 <th>سعر</th>
-                <th>سحب سيارة</th>
+                <th> النقل الداخلي</th>
                 <th>شحن</th>
                 <th>تخليص</th>
-                <th>ثان</th>
+                <th>أخرى</th>
                 <th className="rounded-tr-xl">المجموع</th>
               </tr>
               <tr>
@@ -188,20 +188,22 @@ const ContainerInvoice = ({ invoice }) => {
                     ${car.car_cost}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {car?.shippingAmount || 0}
+                    AED  {parseFloat(car?.shippingAmount || 0).toFixed(2)}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {car?.clearanceAmount || 0}
+                    AED {parseFloat(car?.clearanceAmount || 0).toFixed(2)}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {car?.towingAmount || 0}
+                    AED {parseFloat(car?.towingAmount || 0).toFixed(2)}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {car?.otherAmount || 0}
+                    AED {parseFloat(car?.otherAmount || 0).toFixed(2)}
                   </td>
-                  <td className="pl-8">AED {car?.totalAmount || 0}</td>
+                  <td className="pl-8">AED {parseFloat(car?.totalAmount || 0).toFixed(2)}</td>
                 </tr>
+                
               ))}
+             
             </tbody>
           </table>
         ) : null}
@@ -239,7 +241,7 @@ const ContainerInvoice = ({ invoice }) => {
         </div>
       </div>
 
-      <div className="mt-10 print:fixed print:bottom-0 print:left-0 print:h-[3.7rem]">
+      <div className="mt-10 print:bottom-0 print:left-0 print:h-[3.7rem]">
         <img
           src={`/assets/images/footer-new.jpg`}
           alt="Nejoum Al Jazeera"
