@@ -322,6 +322,7 @@
   "page.customer.container.container_number": "Container Number",
   "page.customer.container.invoice": "Invoice",
   "page.customer.container.total_cars": "Total Cars",
+  "page.customer.container.invoice": "Invoice",
   "page.customer.container.etd": "ETD",
   "page.customer.container.eta": "ETA",
   "page.customer.container.shipping_date": "Shipping Date",
