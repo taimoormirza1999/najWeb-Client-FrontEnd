@@ -135,7 +135,6 @@ const ShowAllCars = ({
   const [downloading, setDownloading] = useState(false);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
 
-  const cancelButtonRef = useRef(null);
 
   const GetWarehouseImages = async (car_id, type) => {
 
