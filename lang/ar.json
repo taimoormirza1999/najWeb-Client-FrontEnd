@@ -341,6 +341,7 @@
   "page.customer.dashboard.all": "الجميع",
   "page.customer.container.container_number": "رقم الوعاء",
   "page.customer.container.total_cars": "مجموع السيارات",
+  "page.customer.container.invoice": "فاتورة",
   "page.customer.container.etd": "ETD",
   "page.customer.container.eta": "ETA",
   "page.customer.container.shipping_date": "تاريخ الشحن",

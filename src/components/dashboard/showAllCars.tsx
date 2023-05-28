@@ -8,7 +8,6 @@ import NProgress from 'nprogress';
 import axios from 'axios';
 import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
-
 import {
   Pagination,
   SelectPageRecords,
@@ -51,20 +50,18 @@ const ShowAllCars = ({
   const limitUrl = `/customer/dashboard?tab=showAllCars&page=`;
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
+  const [downloadtype, setDownloadType] = useState('');
+
   const [downloading, setDownloading] = useState(false);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const cancelButtonRef = useRef(null);
 
-  
-  const [isShownWarehouse, setIsShownWarehouse] = useState(false);
-  const [isShownLoading, setIsShownLoading] = useState(false);
-  const [isShownStoring, setIsShownStoring] = useState(false);
-  const GetWarehouseImages = async (car_id) => {
+  const GetWarehouseImages = async (car_id, type) => {
 
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
-      `/api/customer/images?type=warehouse&car_id=${car_id}`
+      `/api/customer/images?type=${type}&car_id=${car_id}`
     );
 
     const imdatas = res.data.data;
@@ -73,14 +70,15 @@ const ShowAllCars = ({
     }));
     setImages(imdata)
     setCarId(car_id);
+    setDownloadType(type);
     NProgress.done();
     setRedirectModalOpen(true);
   };
-  const GetLoadingImages = async (car_id) => {
+  const GetLoadingImages = async (car_id, type) => {
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
-      `/api/customer/images?type=loading&car_id=${car_id}`
+      `/api/customer/images?type=${type}&car_id=${car_id}`
     );
 
     const imdatas = res.data.data;
@@ -89,31 +87,30 @@ const ShowAllCars = ({
     }));
     setImages(imdata)
     setCarId(car_id);
+    setDownloadType(type);
     NProgress.done();
     setRedirectModalOpen(true);
   };
-  const GetStoringImages = async (car_id) => {
+  const GetStoringImages = async (car_id, type) => {
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
-      `/api/customer/images?type=store&car_id=${car_id}`
+      `/api/customer/images?type=${type}&car_id=${car_id}`
     );
 
     const imdatas = res.data.data;
     const imdata = res.data.data ? imdatas.map((im) => ({
       src: im
     })) : [];
-    // const imdata = imdatas.map((im) => ({
-    //   src: im
-    // }));
     setImages(imdata)
     setCarId(car_id);
+    setDownloadType(type);
     NProgress.done();
     setRedirectModalOpen(true);
   };
   return (
     <div className="" id="tabs-allcars" role="tabpanel">
-       <Transition.Root show={redirectModalOpen} as={Fragment}>
+      <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -149,10 +146,10 @@ const ShowAllCars = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              
+
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
-                
-              <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover'  }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
+                <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true" />
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
@@ -160,17 +157,15 @@ const ShowAllCars = ({
                         disabled={downloading}
                         // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
                         onClick={() => {
-                          const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=warehouse&car_id=${carId}`;
+                          const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=${downloadtype}&car_id=${carId}`;
                           // use fetch to download the zip file
                           if (window.open(url, '_parent')) {
                             setDownloading(true);
                           }
                         }}
-                        className={`mt-4 ${
-                          downloading ? 'bg-indigo-200' : 'bg-indigo-600'
-                        } ${
-                          images.length ? '' : 'hidden'
-                        } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                        className={`mt-4 ${downloading ? 'bg-indigo-200' : 'bg-indigo-600'
+                          } ${images.length ? '' : 'hidden'
+                          } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                       >
                         {downloading
                           ? 'File will be downloaded shortly'
@@ -236,10 +231,10 @@ const ShowAllCars = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              
+
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
-                
-              <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover'  }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+
+                <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true" />
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
@@ -253,11 +248,9 @@ const ShowAllCars = ({
                             setDownloading(true);
                           }
                         }}
-                        className={`mt-4 ${
-                          downloading ? 'bg-indigo-200' : 'bg-indigo-600'
-                        } ${
-                          images.length ? '' : 'hidden'
-                        } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                        className={`mt-4 ${downloading ? 'bg-indigo-200' : 'bg-indigo-600'
+                          } ${images.length ? '' : 'hidden'
+                          } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                       >
                         {downloading
                           ? 'File will be downloaded shortly'
@@ -347,57 +340,39 @@ const ShowAllCars = ({
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           <div className='row'>
-                          <div className="three-icons">
-                            <img
+                            <div className="three-icons">
+                              <img
                                 src="/assets/images/warehouseimg.png"
                                 alt="banner"
                                 onClick={() => {
-                                  GetWarehouseImages(car.car_id);
+                                  GetWarehouseImages(car.car_id, 'warehouse');
                                 }}
-                                onMouseEnter={() => setIsShownWarehouse(true)}
-                                onMouseLeave={() => setIsShownWarehouse(false)}
                               />
-                              {isShownWarehouse && (
-                                <div className="hover-icon-show-all">
-                                  Warehouse
-                                </div>
-                              )}
+
                             </div>
                             <div className="three-icons">
-                            <img
+                              <img
                                 src="/assets/images/loading.png"
                                 alt="banner"
                                 onClick={() => {
-                                  GetLoadingImages(car.car_id);
+                                  GetLoadingImages(car.car_id, 'loading');
                                 }}
-                                onMouseEnter={() => setIsShownLoading(true)}
-                                onMouseLeave={() => setIsShownLoading(false)}
                               />
-                              {isShownLoading && (
-                                <div className="hover-icon-show-all">
-                                  Loading
-                                </div>
-                              )}
+
                             </div>
                             <div className="three-icons">
-                            <img
+                              <img
                                 src="/assets/images/Arrival_pics.png"
                                 alt="banner"
                                 onClick={() => {
-                                  GetStoringImages(car.car_id);
+                                  GetStoringImages(car.car_id, 'store');
                                 }}
-                                onMouseEnter={() => setIsShownStoring(true)}
-                                onMouseLeave={() => setIsShownStoring(false)}
                               />
-                              {isShownStoring && (
-                                <div className="hover-icon-show-all">
-                                  Storing
-                                </div>
-                              )}
+
                             </div>
                           </div>
-                          
-                           
+
+
                         </td>
 
                         <td
