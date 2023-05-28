@@ -88,34 +88,36 @@ const DeliveredCarTab = ({
 
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
+  const [downloadtype, setDownloadType] = useState('');
   const [downloading, setDownloading] = useState(false);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const cancelButtonRef = useRef(null);
 
 
-  const GetWarehouseImages = async (car_id) => {
+
+  const GetWarehouseImages = async (car_id, type) => {
 
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
-      `/api/customer/images?type=warehouse&car_id=${car_id}`
+      `/api/customer/images?type=${type}&car_id=${car_id}`
     );
 
     const imdatas = res.data.data;
     const imdata = res.data.data ? imdatas.map((im) => ({
       src: im
     })) : [];
-    // setImages(res.data.data ? imdata : []);
     setImages(imdata)
     setCarId(car_id);
+    setDownloadType(type);
     NProgress.done();
     setRedirectModalOpen(true);
   };
-  const GetLoadingImages = async (car_id) => {
+  const GetLoadingImages = async (car_id, type) => {
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
-      `/api/customer/images?type=loading&car_id=${car_id}`
+      `/api/customer/images?type=${type}&car_id=${car_id}`
     );
 
     const imdatas = res.data.data;
@@ -124,25 +126,24 @@ const DeliveredCarTab = ({
     })) : [];
     setImages(imdata)
     setCarId(car_id);
+    setDownloadType(type);
     NProgress.done();
     setRedirectModalOpen(true);
   };
-  const GetStoringImages = async (car_id) => {
+  const GetStoringImages = async (car_id, type) => {
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
-      `/api/customer/images?type=store&car_id=${car_id}`
+      `/api/customer/images?type=${type}&car_id=${car_id}`
     );
 
     const imdatas = res.data.data;
     const imdata = res.data.data ? imdatas.map((im) => ({
       src: im
     })) : [];
-    // const imdata = imdatas.map((im) => ({
-    //   src: im
-    // }));
     setImages(imdata)
     setCarId(car_id);
+    setDownloadType(type);
     NProgress.done();
     setRedirectModalOpen(true);
   };
@@ -190,13 +191,12 @@ const DeliveredCarTab = ({
               <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
 
                 <div>
-                  <div className="text-dark-blue mt-6 text-center sm:mt-16">
+                  <div className="text-dark-blue mt-1 text-center sm:mt-1">
                     <div>
                       <button
                         disabled={downloading}
-                        // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
                         onClick={() => {
-                          const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=warehouse&car_id=${carId}`;
+                          const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=${downloadtype}&car_id=${carId}`;
                           // use fetch to download the zip file
                           if (window.open(url, '_parent')) {
                             setDownloading(true);
@@ -219,18 +219,20 @@ const DeliveredCarTab = ({
                     </div>
                   </div>
                 </div>
-                {/* <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+                <div className="mt-5 flex justify-center gap-4 sm:mt-6">
                   <button
                     type="button"
-                    className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
+                    // className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                     onClick={() => {
                       setRedirectModalOpen(false);
                     }}
                     ref={cancelButtonRef}
                   >
-                    Cancel
+                    Close X
                   </button>
-                </div> */}
+            
+                </div>
               </div>
             </Transition.Child>
           </div>
@@ -455,18 +457,19 @@ const DeliveredCarTab = ({
                                 src="/assets/images/warehouseimg.png"
                                 alt=""
                                 onClick={() => {
-                                  GetWarehouseImages(car.car_id);
+                                  GetWarehouseImages(car.car_id ,'warehouse');
                                 }}
                               />
+
                             </div>
                             <div className="three-icons">
                             <img
                                 src="/assets/images/loading.png"
                                 alt=""
                                 onClick={() => {
-                                  GetLoadingImages(car.car_id);
+                                  GetLoadingImages(car.car_id, 'loading');
                                 }}
-                                
+
                               />
                           
                             </div>
@@ -475,10 +478,10 @@ const DeliveredCarTab = ({
                                 src="/assets/images/Arrival_pics.png"
                                 alt=""
                                 onClick={() => {
-                                  GetStoringImages(car.car_id);
+                                  GetStoringImages(car.car_id, 'store');
                                 }}
                               />
-                           
+
                             </div>
                           </div>
                           
