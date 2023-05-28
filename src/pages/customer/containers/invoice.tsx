@@ -43,7 +43,7 @@ const ContainerInvoice = ({ invoice }) => {
         <title>Container Invoice</title>
       </Head>
       <div className="p-5">
-        <div className=" text-light-grey bg-dark-blue flex justify-between rounded-xl border-2 p-2 font-bold" style={{marginTop:'-16PX'}}>
+        <div className=" text-light-grey bg-dark-blue flex justify-between rounded-xl border-2 p-2 font-bold" style={{marginTop:'-16px'}}>
           <h4>EMIRATES NBD BANK</h4>
           <h4>بنك الإمارات دبي الوطني </h4>
         </div>
@@ -188,18 +188,18 @@ const ContainerInvoice = ({ invoice }) => {
                     ${car.car_cost}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED  {parseFloat(car?.shippingAmount || 0).toFixed(2)}
+                    AED  {car?.shippingAmount || 0}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {parseFloat(car?.clearanceAmount || 0).toFixed(2)}
+                    AED {car?.clearanceAmount || 0}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {parseFloat(car?.towingAmount || 0).toFixed(2)}
+                    AED {car?.towingAmount || 0}
                   </td>
                   <td className="border-dark-blue border-r-2 pl-8">
-                    AED {parseFloat(car?.otherAmount || 0).toFixed(2)}
+                    AED {car?.otherAmount || 0}
                   </td>
-                  <td className="pl-8">AED {parseFloat(car?.totalAmount || 0).toFixed(2)}</td>
+                  <td className="pl-8">AED {car?.totalAmount || 0}</td>
                 </tr>
                 
               ))}
