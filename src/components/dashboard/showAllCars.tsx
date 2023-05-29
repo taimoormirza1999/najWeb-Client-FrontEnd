@@ -610,6 +610,7 @@ const ShowAllCars = ({
                               aria-hidden="true"
                             />
                           )}
+                          <br />
                         </td>
                         <td
                           scope="col"
