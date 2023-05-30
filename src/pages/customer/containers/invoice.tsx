@@ -32,9 +32,9 @@ const ContainerInvoice = ({ invoice }) => {
 
   const { cars } = invoice;
 
-  useEffect(() => {
-    console.log(invoice);
-  }, []);
+  // useEffect(() => {
+  //   console.log(invoice);
+  // }, []);
 
   return (
     <section
