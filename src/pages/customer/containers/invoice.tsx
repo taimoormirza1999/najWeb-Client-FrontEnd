@@ -42,8 +42,8 @@ const ContainerInvoice = ({ invoice }) => {
     >
 
       <div className="grid grid-cols-3 p-5">
-          <div className='mt-[12px]'>
-            <Image src={`/assets/images/Full_Logo.png`} width="550px" height="120px" alt="" />
+          <div className='mt-[15px] ml-[5px]'>
+            <Image src={`/assets/images/InvoiceLogo.png`} width="750px" height="170px" alt="" />
           </div>
           <div className='mt-[11px]'>
             {/* <Image src={`/assets/images/logo-ar.png`} width="450px" height="120px" alt="" /> */}
