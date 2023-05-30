@@ -7,6 +7,7 @@ function classNames(...classes) {
 }
 
 const InAuctionCars = ({ tableData, lastTotalRow }) => {
+  
   const intl = useIntl();
   const [inAuctionCarsState, setInAuctionCars] = useState(tableData);
   const [inAuctionTableSearch, setInAuctionTableSearch] = useState('');
@@ -18,6 +19,14 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
       })
     );
   }, [inAuctionTableSearch]);
+
+
+  useEffect(() => {
+    const excelBtn = document.getElementById('auctionCars-xls-button');
+    if(excelBtn){
+      excelBtn.innerHTML = '<i class="material-icons text-xl">&#xef42;</i> Excel';
+    }
+  }, []);
 
   return (
     <>
@@ -37,11 +46,11 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
       </div>
       <ReactHTMLTableToExcel
         id="auctionCars-xls-button"
-        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
         table="auctionCars"
         filename="auctionCars"
         sheet="tablexls"
-        buttonText="Excel"
+        buttonText="222"
       />
       <div className="border-azure-blue overflow-x-auto rounded-xl border">
         <table id="auctionCars" className="w-full table-auto">

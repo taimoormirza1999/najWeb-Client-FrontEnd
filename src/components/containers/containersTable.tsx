@@ -1,7 +1,7 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage } from 'react-intl';
 
@@ -92,6 +92,13 @@ const ContainersTable = ({
   type = '',
 }) => {
 
+  useEffect(() => {
+    const excelBtn = document.getElementById('containers-xls-button');
+    if(excelBtn){
+      excelBtn.innerHTML = '<i class="material-icons text-xl">&#xef42;</i> Excel';
+    }
+  }, []);
+
   const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
   const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
@@ -155,6 +162,8 @@ const ContainersTable = ({
       })
       .catch(() => {});
   };
+
+
 
   return (
     <div role="tabpanel">
@@ -301,7 +310,7 @@ const ContainersTable = ({
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <ReactHTMLTableToExcel
                 id="containers-xls-button"
-                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
                 table="customrContainers"
                 filename="customrContainers"
                 sheet="tablexls"
