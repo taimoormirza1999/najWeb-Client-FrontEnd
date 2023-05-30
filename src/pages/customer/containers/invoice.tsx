@@ -12,12 +12,19 @@ const { API_URL } = process.env;
 const ContainerInvoice = ({ invoice }) => {
   const { accountName, iban, accountNumber } = invoice.bankDetail;
   const {
-    container_number: containerNumber,
-    booking_number: bookingNumber,
+    invoice_no,
+    container_number,
+    invoice_create_date,
+    due_date,
+    printed_date,
+    post_due_date,
+    booking_number,
     etd,
-    shipper_name: shipperName,
-    pod_name: podName,
-    pol_name: polName,
+    shipper_name,
+    pod_name,
+    pol_name,
+    carrier_name,
+    consignee_name,
     totalAmount,
     paidAmount,
     balance,
@@ -100,15 +107,15 @@ const ContainerInvoice = ({ invoice }) => {
               <p>Number :</p>
               <p>Creation Date : </p>
               <p>Due Date : </p>
-              <p>Post Due Days : </p>
+              <p>Past Due Days : </p>
               <p>Invoice printed : </p>
             </div>
             <div className='-mt-[22px]'>
-              <p>1111111</p>
-              <p>{new Date().toLocaleDateString()}</p>
-              <p>2023-11-11</p>
-              <p>2023-11-11</p>
-              <p>2023-11-11</p>
+              <p>{invoice_no}</p>
+              <p>{invoice_create_date}</p>
+              <p>{due_date}</p>
+              <p>{post_due_date}</p>
+              <p>{printed_date}</p>
             </div>
         </div>
         <div className="grid grid-cols-4 gap-2 font-bold pl-2 pr-2">
@@ -129,7 +136,7 @@ const ContainerInvoice = ({ invoice }) => {
                     </thead>
                     <tbody className="text-dark-blue border border-dark-blue">
                       <tr>
-                        <td className='border-r border-dark-blue'>$0</td>
+                        <td className='border-r border-dark-blue'>{balance}</td>
                         <td></td>
                       </tr>
                     </tbody>
@@ -176,7 +183,7 @@ const ContainerInvoice = ({ invoice }) => {
 
         <div className="text-dark-blue border-dark-blue flex justify-between rounded-xl border-2 p-2 font-bold mt-5 text-[12px]">
           <h4>Cargo Information</h4>
-          <h4>{containerNumber}</h4>
+          <h4>{container_number}</h4>
           <h4>معلومات الحاوية </h4>
         </div>
 
@@ -187,13 +194,13 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Shipper/الشاحن</h5>
               </td>
               <td>
-                <h5>  </h5>
+                <h5>{shipper_name}</h5>
               </td>
               <td>
                 <h5>Consignee/ المرسل إليه</h5>
               </td>
               <td>
-                <h5>Nejoum Al Jazeera</h5>
+                <h5>{consignee_name}</h5>
               </td>
             </tr>
             <tr>
@@ -201,13 +208,13 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Origin/اصل</h5>
               </td>
               <td>
-                <h5>{polName}</h5>
+                <h5>{pol_name}</h5>
               </td>
               <td>
                 <h5>Destination/الوجهة</h5>
               </td>
               <td>
-                <h5>{podName}</h5>
+                <h5>{pod_name}</h5>
               </td>
             </tr>
             <tr>
@@ -216,13 +223,13 @@ const ContainerInvoice = ({ invoice }) => {
 
               </td>
               <td>
-                <h5>{shipperName}</h5>
+                <h5>{carrier_name}</h5>
               </td>
               <td>
                 <h5>Contatiner/حاوية</h5>
               </td>
               <td>
-                <h5>{containerNumber}</h5>
+                <h5>{container_number}</h5>
               </td>
             </tr>
             <tr>
@@ -237,7 +244,7 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Booking Num/رقم الحجز</h5>
               </td>
               <td>
-                <h5>{bookingNumber}</h5>
+                <h5>{booking_number}</h5>
               </td>
             </tr>
           </tbody>
@@ -289,7 +296,7 @@ const ContainerInvoice = ({ invoice }) => {
                     {car.auction_title}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                    ${car.car_cost}
+                    {car.car_cost}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
                       {car?.towingAmount || 0}
@@ -301,13 +308,13 @@ const ContainerInvoice = ({ invoice }) => {
                      {car?.clearanceAmount || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                      {car?.shippingAmount || 0}
+                      {car?.latePaymentAmount	 || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.clearanceAmount || 0}
+                     {car?.forkliftAmount || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.shippingAmount  || 0}
+                     {car?.auctionFineAmount  || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
                      {car?.otherAmount || 0}
@@ -330,7 +337,7 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-[#c0c0c0] border-l-[1px] border-b-[1px] border-r-[1px] text-left">
                     Total/إجمالي
                   </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] ">
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] text-left">
                     {totalAmount.toFixed(2)}
                   </td>
                  </tr>
@@ -347,8 +354,8 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-[#c0c0c0] border-l-[1px] border-b-[1px] border-r-[1px] text-left">
                     Payment/دفع
                   </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] ">
-                    {totalAmount.toFixed(2)}
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] text-left">
+                    {paidAmount.toFixed(2)}
                   </td>
                  </tr>
               <tr>
@@ -364,8 +371,8 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-[#c0c0c0] border-l-[1px] border-b-[1px] border-r-[1px] text-left">
                     Balance Due/الرصيد المستحق
                   </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] ">
-                    {balance}
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] text-left">
+                  {balance.toFixed(2)}
                   </td>
                  </tr>
 
