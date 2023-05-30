@@ -187,7 +187,7 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Shipper/الشاحن</h5>
               </td>
               <td>
-                <h5>Nejoum Al Jazeera</h5>
+                <h5>  </h5>
               </td>
               <td>
                 <h5>Consignee/ المرسل إليه</h5>
@@ -292,22 +292,22 @@ const ContainerInvoice = ({ invoice }) => {
                     ${car.car_cost}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
+                      {car?.towingAmount || 0}
+                  </td>
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
+                     {car?.shippingAmount || 0}
+                  </td>
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
+                     {car?.clearanceAmount || 0}
+                  </td>
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
                       {car?.shippingAmount || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
                      {car?.clearanceAmount || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.towingAmount || 0}
-                  </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                      {car?.shippingAmount || 0}
-                  </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.clearanceAmount || 0}
-                  </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.towingAmount || 0}
+                     {car?.shippingAmount  || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
                      {car?.otherAmount || 0}
