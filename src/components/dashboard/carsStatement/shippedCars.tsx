@@ -72,7 +72,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
         table="shippedCars"
         filename="shippedCars"
         sheet="tablexls"
-        buttonText=""
+        buttonText="Excel"
       />
       <div className="border-azure-blue overflow-x-auto rounded-xl border">
         <table id="shippedCars" className="w-full table-auto">

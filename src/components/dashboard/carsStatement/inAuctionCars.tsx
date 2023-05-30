@@ -50,7 +50,7 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
         table="auctionCars"
         filename="auctionCars"
         sheet="tablexls"
-        buttonText="222"
+        buttonText="Excel"
       />
       <div className="border-azure-blue overflow-x-auto rounded-xl border">
         <table id="auctionCars" className="w-full table-auto">

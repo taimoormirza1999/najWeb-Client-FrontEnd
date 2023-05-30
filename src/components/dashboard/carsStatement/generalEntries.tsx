@@ -51,7 +51,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
         table="generalEntry"
         filename="generalEntry"
         sheet="tablexls"
-        buttonText=""
+        buttonText="Excel"
       />
       <div className="border-azure-blue overflow-x-auto rounded-xl border">
         <table id="generalEntry" className="w-full table-auto">
