@@ -79,7 +79,9 @@ const ArrivedPortCars = ({ cars }) => {
                   scope="col"
                   className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                 >
-                  {car.auctionLocationName} <br /> {car.auctionTitle}
+                  {car.auctionLocationName} <br /> {car.auctionTitle} <br />
+                  <FormattedMessage id="general.buyer_number" />:{' '}
+                  {car.buyer_number} <br />
                 </td>
                 <td
                   scope="col"

@@ -513,7 +513,9 @@ const ShowAllCars = ({
                           <span className="text-[#810808]">
                             {car.region_name}
                           </span>{' '}
-                          {car.auction_location_name} <br /> {car.aTitle}
+                          {car.auction_location_name} <br /> {car.aTitle} <br />
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number}
                         </td>
                         <td
                           scope="col"
@@ -609,6 +611,7 @@ const ShowAllCars = ({
                               aria-hidden="true"
                             />
                           )}
+                          <br />
                         </td>
                         <td
                           scope="col"
