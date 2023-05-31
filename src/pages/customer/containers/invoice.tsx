@@ -10,14 +10,15 @@ import Image from 'next/image';
 
 const { API_URL } = process.env;
 const ContainerInvoice = ({ invoice }) => {
-  const { accountName, iban, accountNumber } = invoice.bankDetail;
+  const { bankName, bankAddress, accountName, iban, accountNumber, swiftCode } =
+    invoice.bankDetail;
   const {
     invoice_no,
     container_number,
     invoice_create_date,
     due_date,
     printed_date,
-    post_due_date,
+    past_due_days,
     booking_number,
     etd,
     shipper_name,
@@ -31,10 +32,6 @@ const ContainerInvoice = ({ invoice }) => {
   } = invoice.container;
 
   const { cars } = invoice;
-
-  // useEffect(() => {
-  //   console.log(invoice);
-  // }, []);
 
   return (
     <section
@@ -90,18 +87,20 @@ const ContainerInvoice = ({ invoice }) => {
                   </div>
           </div>
             <div className='-mt-[22px]'>
-              <p>Account Name : </p>
-              <p>Bank Address : </p>
-              <p>IBAN : </p>
-              <p>Account Number : </p>
-              <p>Swift code for international wires  : </p>
+              <p>Bank Name: </p>
+              <p>Bank Address: </p>
+              <p>Account Name: </p>
+              <p>IBAN: </p>
+              <p>Account Number: </p>
+              <p>Swift code for international wires: </p>
             </div>
-            <div className='-mt-[22px]'>
+          <div className="-mt-[22px]">
+              <p>{bankName}</p>
+              <p>{bankAddress}</p>
               <p>{accountName}</p>
-                <p>Sharjah, UAE</p>
-                <p>{iban}</p>
-                <p>{accountNumber}</p>
-                <p></p>
+              <p>{iban}</p>
+              <p>{accountNumber}</p>
+              <p>{swiftCode}</p>
             </div>
             <div className='-mt-[22px]'>
               <p>Number :</p>
@@ -114,7 +113,7 @@ const ContainerInvoice = ({ invoice }) => {
               <p>{invoice_no}</p>
               <p>{invoice_create_date}</p>
               <p>{due_date}</p>
-              <p>{post_due_date}</p>
+              <p>{past_due_days}</p>
               <p>{printed_date}</p>
             </div>
         </div>
@@ -161,19 +160,19 @@ const ContainerInvoice = ({ invoice }) => {
           <h4>  تفاصيل الفاتورة</h4>
         </div>
         <div className="pl-2 pr-2 my-2 flex justify-between">
-          <div className='font-bold'>
+          <div className="w-1/3 font-bold">
             <p>Full Name</p>
             <p>Location</p>
             <p>Country</p>
             <p>Phone Number</p>
           </div>
-          <div className="text-center">
+          <div className="w-1/3 text-center">
             <p>Nejoum Al Jazeera</p>
             <p>Industiral Area 4, Head Office</p>
             <p>UAE</p>
             <p>+971 65 440 202</p>
           </div>
-          <div className="text-right font-bold mr-[5px]">
+          <div className="mr-[5px] w-1/3 text-right font-bold">
             <p>الاسم بالكامل</p>
             <p>الموقع</p>
             <p>البلد</p>
@@ -181,10 +180,10 @@ const ContainerInvoice = ({ invoice }) => {
           </div>
         </div>
 
-        <div className="text-dark-blue border-dark-blue flex justify-between rounded-xl border-2 p-2 font-bold mt-5 text-[12px]">
-          <h4>Cargo Information</h4>
-          <h4>{container_number}</h4>
-          <h4>معلومات الحاوية </h4>
+        <div className="text-dark-blue border-dark-blue mt-5 flex justify-between rounded-xl border-2 p-2 text-[12px] font-bold">
+          <h4 className="w-1/3">Cargo Information</h4>
+          <h4 className="w-1/3 text-center">{container_number}</h4>
+          <h4 className="w-1/3 text-right">معلومات الحاوية </h4>
         </div>
 
         <table className="ml-2 w-full ">
