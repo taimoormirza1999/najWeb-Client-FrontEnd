@@ -7,17 +7,28 @@ import styles from '@/components/containers/invoicePrint.module.css';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 import { ScissorsIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
+import { useRouter } from "next/router";
 
 const { API_URL } = process.env;
 const ContainerInvoice = ({ invoice }) => {
-  const { accountName, iban, accountNumber } = invoice.bankDetail;
+  const router = useRouter();
+
+  const { bankName, bankAddress, accountName, iban, accountNumber, swiftCode } =
+    invoice.bankDetail;
   const {
-    container_number: containerNumber,
-    booking_number: bookingNumber,
+    invoice_no,
+    container_number,
+    invoice_create_date,
+    due_date,
+    printed_date,
+    past_due_days,
+    booking_number,
     etd,
-    shipper_name: shipperName,
-    pod_name: podName,
-    pol_name: polName,
+    shipper_name,
+    pod_name,
+    pol_name,
+    carrier_name,
+    consignee_name,
     totalAmount,
     paidAmount,
     balance,
@@ -25,9 +36,15 @@ const ContainerInvoice = ({ invoice }) => {
 
   const { cars } = invoice;
 
-  useEffect(() => {
-    console.log(invoice);
-  }, []);
+  const handleCurrencyChange = (e) => {
+    const { pathname, query } = router;
+    query.currency = e.target.value;
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
 
   return (
     <section
@@ -35,14 +52,24 @@ const ContainerInvoice = ({ invoice }) => {
     >
 
       <div className="grid grid-cols-3 p-5">
-          <div className='mt-[12px]'>
-            <Image src={`/assets/images/Full_Logo.png`} width="550px" height="120px" alt="" />
+          <div className='mt-[15px] ml-[5px]'>
+            <Image src={`/assets/images/InvoiceLogo.png`} width="750px" height="170px" alt="" />
           </div>
           <div className='mt-[11px]'>
             {/* <Image src={`/assets/images/logo-ar.png`} width="450px" height="120px" alt="" /> */}
           </div>
 
           <div className='mt-[15px] print:mt-[5px] ml-[20px] text-[12px] text-dark-blue'>
+            <select
+            name="currency"
+            onChange={handleCurrencyChange}
+            className="-mt-5 mb-2 px-3 pr-8 py-[2px] hidden border-dark-blue border print:hidden"
+          >
+            <option defaultValue={'aed'} value="aed">
+              UAE Dirham
+            </option>
+              <option value="usd">US Dollar</option>
+            </select>
             <span className='float-left'>+971 6 544 0202</span>
             <span className='float-right'>/NejoumAljazeera</span> <br/>
             <span className='float-left'>info@naj.ae</span>
@@ -65,7 +92,7 @@ const ContainerInvoice = ({ invoice }) => {
               <p className='font-bold text-[12px]'>Bank Details</p>
           </div>
           <div>
-            <p className='font-bold text-[12px] float-right'>التفاصيل المصرفية</p>
+            <p className='font-bold text-[12px] float-right'>تفاصيل البنك </p>
           </div>
           <div>
             <p className='font-bold text-[12px]'>Invoice</p>
@@ -83,32 +110,34 @@ const ContainerInvoice = ({ invoice }) => {
                   </div>
           </div>
             <div className='-mt-[22px]'>
-              <p>Bank Name : </p>
-              <p>Bank Address : </p>
-              <p>IBAN : </p>
-              <p>Account Number : </p>
-              <p>Swift code for international wires  : </p>
+              <p>Bank Name: </p>
+              <p>Bank Address: </p>
+              <p>Account Name: </p>
+              <p>IBAN: </p>
+              <p>Account Number: </p>
+              <p>Swift code for international wires: </p>
             </div>
-            <div className='-mt-[22px]'>
+          <div className="-mt-[22px]">
+              <p>{bankName}</p>
+              <p>{bankAddress}</p>
               <p>{accountName}</p>
-                <p>Sharjah, UAE</p>
-                <p>{iban}</p>
-                <p>{accountNumber}</p>
-                <p></p>
+              <p>{iban}</p>
+              <p>{accountNumber}</p>
+              <p>{swiftCode}</p>
             </div>
             <div className='-mt-[22px]'>
               <p>Number :</p>
               <p>Creation Date : </p>
               <p>Due Date : </p>
-              <p>Post Due Days : </p>
+              <p>Past Due Days : </p>
               <p>Invoice printed : </p>
             </div>
             <div className='-mt-[22px]'>
-              <p>1111111</p>
-              <p>{new Date().toLocaleDateString()}</p>
-              <p>2023-11-11</p>
-              <p>2023-11-11</p>
-              <p>2023-11-11</p>
+              <p>{invoice_no}</p>
+              <p>{invoice_create_date}</p>
+              <p>{due_date}</p>
+              <p>{past_due_days}</p>
+              <p>{printed_date}</p>
             </div>
         </div>
         <div className="grid grid-cols-4 gap-2 font-bold pl-2 pr-2">
@@ -129,7 +158,7 @@ const ContainerInvoice = ({ invoice }) => {
                     </thead>
                     <tbody className="text-dark-blue border border-dark-blue">
                       <tr>
-                        <td className='border-r border-dark-blue'>$0</td>
+                        <td className='border-r border-dark-blue'>{balance}</td>
                         <td></td>
                       </tr>
                     </tbody>
@@ -154,19 +183,19 @@ const ContainerInvoice = ({ invoice }) => {
           <h4>  تفاصيل الفاتورة</h4>
         </div>
         <div className="pl-2 pr-2 my-2 flex justify-between">
-          <div className='font-bold'>
+          <div className="w-1/3 font-bold">
             <p>Full Name</p>
             <p>Location</p>
             <p>Country</p>
             <p>Phone Number</p>
           </div>
-          <div className="text-center">
+          <div className="w-1/3 text-center">
             <p>Nejoum Al Jazeera</p>
             <p>Industiral Area 4, Head Office</p>
             <p>UAE</p>
             <p>+971 65 440 202</p>
           </div>
-          <div className="text-right font-bold mr-[5px]">
+          <div className="mr-[5px] w-1/3 text-right font-bold">
             <p>الاسم بالكامل</p>
             <p>الموقع</p>
             <p>البلد</p>
@@ -174,10 +203,10 @@ const ContainerInvoice = ({ invoice }) => {
           </div>
         </div>
 
-        <div className="text-dark-blue border-dark-blue flex justify-between rounded-xl border-2 p-2 font-bold mt-5 text-[12px]">
-          <h4>Cargo Information</h4>
-          <h4>{containerNumber}</h4>
-          <h4>معلومات الحاوية </h4>
+        <div className="text-dark-blue border-dark-blue mt-5 flex justify-between rounded-xl border-2 p-2 text-[12px] font-bold">
+          <h4 className="w-1/3">Cargo Information</h4>
+          <h4 className="w-1/3 text-center">{container_number}</h4>
+          <h4 className="w-1/3 text-right">معلومات الحاوية </h4>
         </div>
 
         <table className="ml-2 w-full ">
@@ -187,13 +216,13 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Shipper/الشاحن</h5>
               </td>
               <td>
-                <h5>Nejoum Al Jazeera</h5>
+                <h5>{shipper_name}</h5>
               </td>
               <td>
                 <h5>Consignee/ المرسل إليه</h5>
               </td>
               <td>
-                <h5>Nejoum Al Jazeera</h5>
+                <h5>{consignee_name}</h5>
               </td>
             </tr>
             <tr>
@@ -201,13 +230,13 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Origin/اصل</h5>
               </td>
               <td>
-                <h5>{polName}</h5>
+                <h5>{pol_name}</h5>
               </td>
               <td>
                 <h5>Destination/الوجهة</h5>
               </td>
               <td>
-                <h5>{podName}</h5>
+                <h5>{pod_name}</h5>
               </td>
             </tr>
             <tr>
@@ -216,13 +245,13 @@ const ContainerInvoice = ({ invoice }) => {
 
               </td>
               <td>
-                <h5>{shipperName}</h5>
+                <h5>{carrier_name}</h5>
               </td>
               <td>
                 <h5>Contatiner/حاوية</h5>
               </td>
               <td>
-                <h5>{containerNumber}</h5>
+                <h5>{container_number}</h5>
               </td>
             </tr>
             <tr>
@@ -237,7 +266,7 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Booking Num/رقم الحجز</h5>
               </td>
               <td>
-                <h5>{bookingNumber}</h5>
+                <h5>{booking_number}</h5>
               </td>
             </tr>
           </tbody>
@@ -289,25 +318,25 @@ const ContainerInvoice = ({ invoice }) => {
                     {car.auction_title}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                    ${car.car_cost}
+                    {car.car_cost}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                      {car?.shippingAmount || 0}
+                      {car?.towingAmount || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.clearanceAmount || 0}
-                  </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.towingAmount || 0}
-                  </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                      {car?.shippingAmount || 0}
+                     {car?.shippingAmount || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
                      {car?.clearanceAmount || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
-                     {car?.towingAmount || 0}
+                      {car?.latePaymentAmount	 || 0}
+                  </td>
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
+                     {car?.forkliftAmount || 0}
+                  </td>
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
+                     {car?.auctionFineAmount  || 0}
                   </td>
                   <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px]">
                      {car?.otherAmount || 0}
@@ -330,7 +359,7 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-[#c0c0c0] border-l-[1px] border-b-[1px] border-r-[1px] text-left">
                     Total/إجمالي
                   </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] ">
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] text-left">
                     {totalAmount.toFixed(2)}
                   </td>
                  </tr>
@@ -347,8 +376,8 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-[#c0c0c0] border-l-[1px] border-b-[1px] border-r-[1px] text-left">
                     Payment/دفع
                   </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] ">
-                    {totalAmount.toFixed(2)}
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] text-left">
+                    {paidAmount.toFixed(2)}
                   </td>
                  </tr>
               <tr>
@@ -364,8 +393,8 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-[#c0c0c0] border-l-[1px] border-b-[1px] border-r-[1px] text-left">
                     Balance Due/الرصيد المستحق
                   </td>
-                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] ">
-                    {balance}
+                  <td className="border-[#c0c0c0] border-b-[1px] border-r-[1px] text-left">
+                  {balance.toFixed(2)}
                   </td>
                  </tr>
 
@@ -375,17 +404,20 @@ const ContainerInvoice = ({ invoice }) => {
           </table>
         ) : null}
 
-          <div className="grid grid-cols-2 text-dark-blue print:bottom-[50px] print:fixed mr-[40px]">
-                <div>
+          <div className="grid grid-cols-5 text-dark-blue print:bottom-[50px] print:fixed mr-[40px]">
+                <div className='col-span-2'>
                     <p className='tracking-wide text-[10px]'>
                         PLEASE BE ADVISED THAT THIS INVOICE HAS BEEN AMENDED ON {' '}
                         {new Date().toLocaleDateString()}
                       </p> 
-                      <p className=" font-bold tracking-wide text-[10px]">
+                      <p className=" font-bold tracking-wide text-[9px]">
                         CASH, MONEY ORDERS, OR THIRD-PARTY PAYMENTS WILL NOT BE ACCEPTED.
                   </p>
                 </div>
-                <div className='text-right'>
+                <div className='ml-[45px]'>
+                  <Image src={`/assets/images/iso_logo.png`}  width="60px" height="60px" alt="" />
+                </div>
+                <div className='col-span-2 text-right'>
                   <p className='text-[14px]'>
                     يرجى العلم بأنه تم تعديل هذا الفاتورة في {new Date().toLocaleDateString()} {' '}
                     </p> 
@@ -407,11 +439,13 @@ export async function getServerSideProps(context) {
 
   const session: any = await getSession(context);
   const containerId = context.query?.id || 0;
+  const currency = context.query?.currency || 'aed';
 
   axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
   const response = await axios.get(`${API_URL}customer/container/invoice`, {
     params: {
       container_id: containerId,
+      currency,
     },
   });
 
