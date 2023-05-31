@@ -92,13 +92,6 @@ const ContainersTable = ({
   type = '',
 }) => {
 
-  useEffect(() => {
-    const excelBtn = document.getElementById('containers-xls-button');
-    if(excelBtn){
-      excelBtn.innerHTML = '<i class="material-icons text-xl">&#xef42;</i> Excel';
-    }
-  }, []);
-
   const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
   const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
@@ -314,7 +307,11 @@ const ContainersTable = ({
                 table="customrContainers"
                 filename="customrContainers"
                 sheet="tablexls"
-                buttonText="Excel"
+                buttonText={
+                  <>
+                    <i className="material-icons text-xl">&#xef42;</i> Excel
+                  </>
+                }
               />
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
                 <table

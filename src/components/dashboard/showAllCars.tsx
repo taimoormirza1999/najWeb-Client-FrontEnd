@@ -1,17 +1,18 @@
+import 'react-gallery-carousel/dist/index.css';
+
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { Fragment, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import NProgress from 'nprogress';
 import axios from 'axios';
+import NProgress from 'nprogress';
+import { Fragment, useRef, useState } from 'react';
 import Carousel from 'react-gallery-carousel';
-import 'react-gallery-carousel/dist/index.css';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
-
 import {
   Pagination,
   SelectPageRecords,
@@ -403,6 +404,18 @@ const ShowAllCars = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <ReactHTMLTableToExcel
+                id="containers-xls-button"
+                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
+                table="customrContainers"
+                filename="customrContainers"
+                sheet="tablexls"
+                buttonText={
+                  <>
+                    <i className="material-icons text-xl">&#xef42;</i> Excel
+                  </>
+                }
+              />
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-white">
