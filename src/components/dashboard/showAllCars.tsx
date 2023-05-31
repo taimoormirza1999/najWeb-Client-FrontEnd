@@ -439,7 +439,7 @@ const ShowAllCars = ({
                           scope="col"
                           className="min-w-[50px]"
                         >
-                          <div className='row'>
+                          <div className='row w-[110px]'>
                             <div className="three-icons">
                               <img
                                 src="/assets/images/warehouseimg.png"
