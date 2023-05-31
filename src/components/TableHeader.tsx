@@ -12,7 +12,7 @@ export default function TableHeader(props) {
           <th
             key={index}
             scope="col"
-            className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-dark-blue border-[1px]"
+            className="px-1 py-1 text-left text-base font-semibold text-blue-600 border-[#01318842] border-[1px]"
           >
             <div className="flex items-center justify-between">
                 <FormattedMessage id={th.header || th.name || th } />

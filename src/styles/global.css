@@ -187,8 +187,9 @@ a:hover {
 
 .three-icons{
   width: 35px;
-  width: '80%';
   padding: 3.5px; 
   cursor: pointer;
+  display: inline-block;
+  opacity: 0.8;
 }
 
