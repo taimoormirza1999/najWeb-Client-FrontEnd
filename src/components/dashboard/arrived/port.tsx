@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
+import TableColumn from '@/components/TableColumn';
 
 const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
   const { data: session } = useSession();
@@ -15,31 +16,31 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
         'text-sm'
       )}
     >
-      <td
+      <TableColumn
         scope="col"
         className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
         {addIndex + index + 1}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
         <img className="max-h-[50px]" src={car.image} alt="" />
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
         {car.carMakerName} {car.carModelName} {car.year}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
         Lot: {car.lotnumber} <br /> Vin: {car.vin}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
@@ -47,32 +48,32 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
         <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
         <br />
         {car.region}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
         {car.portName}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
         {car.purchasedDate}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
         {car.pickedDate}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px]"
       >
         {car.arrivedDate}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
@@ -86,8 +87,8 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
         )}
         <br />
         {car.titleDate}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
         className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
       >
@@ -99,41 +100,41 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
         ) : (
           <XCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
         )}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px]"
       >
         {car.loaded_date}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px]"
       >
         {car.booking_number}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px]"
       >
         {car.container_number}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px]"
       >
         {car.shipping_date}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px]"
       >
         {car.arrival_date}
-      </td>
+      </TableColumn>
       {session?.profile[0]?.naj_branch === '1' ? (
-        <td
+        <TableColumn
           scope="col"
-          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+          className="min-w-[47px]"
         >
           {car.isUAEPort === '0' ? (
             <button
@@ -147,7 +148,7 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
               <FormattedMessage id="page.customer.dashboard.table.arrive" />
             </button>
           ) : null}
-        </td>
+        </TableColumn>
       ) : null}
     </tr>
   ));

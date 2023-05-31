@@ -211,7 +211,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
       <div>
         <div className="m-8">
           <div className="flex">
-            <h4 className="text-dark-blue flex-1 pb-8 text-2xl font-semibold sm:text-4xl">
+            <h4 className="text-dark-blue flex-1 pb-8 text-2xl font-semibold sm:text-4xl ">
               <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>

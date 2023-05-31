@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
+import TableHeader from '@/components/TableHeader';
+import TableColumn from '@/components/TableColumn';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -18,6 +20,34 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
       })
     );
   }, [inAuctionTableSearch]);
+
+  const tableHeader = [
+    { name: 'page.customer.dashboard.table.no' },
+    {
+      name: 'statement.shipped_cars.date',
+    },
+    {
+      name: 'statement.reference.no',
+    },
+    {
+      name: 'statement.lot.no',
+    },
+    {
+      name: 'statement.description',
+    },
+    {
+      name: 'statement.shipped_cars.debit',
+    },
+    {
+      name: 'statement.shipped_cars.credit',
+    },
+    {
+      name: 'statement.shipped_cars.remainig',
+    },
+    {
+      name: 'statement.shipped_cars.balance',
+    }
+  ];
 
   return (
     <>
@@ -43,39 +73,42 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
         sheet="tablexls"
         buttonText="Excel"
       />
-      <div className="border-azure-blue overflow-x-auto rounded-xl border">
+      <div className="border-azure-blue overflow-x-auto">
         <table id="auctionCars" className="w-full table-auto">
-          <thead>
+          {/* <thead>
             <tr className="w-full">
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.table.no" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.date" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.reference.no" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.lot.no" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.description" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.debit" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.credit" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.remainig" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.balance" />
-              </td>
+              </TableColumn>
             </tr>
-          </thead>
+          </thead> */}
+
+          <TableHeader tableHeader={tableHeader}/> 
+
           <tbody>
             {inAuctionCarsState.map((row, index) => (
               <tr
@@ -85,55 +118,59 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
                   'text-xs sm:text-[17px]'
                 )}
               >
-                <td className="text-dark-blue w-[4%] p-3 text-xl font-semibold">
+                <TableColumn className="text-dark-blue w-[4%] p-3 text-xl font-semibold">
                   {index + 1}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]">
                   {row.date}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]">
                   {row.reference_no}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]"></td>
-                <td className="w-[40%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]">
+
+                </TableColumn>
+                <TableColumn className="w-[40%]">
                   {row.description}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#0B9A21]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg text-[#0B9A21]">
                   {row.debit}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#A30000]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg text-[#A30000]">
                   {row.credit}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]">
                   {row.remaining}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]">
                   {row.balance}
-                </td>
+                </TableColumn>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       {lastTotalRow ? (
-        <div className="border-azure-blue my-2 overflow-hidden rounded-xl border">
+        <div className="border-azure-blue my-2 overflow-hidden">
           <table className="w-full table-auto">
             <tfoot>
               <tr className="font-semibold">
-                <td className="w-[4%] px-6"></td>
-                <td className="w-[64%] p-3 text-2xl  text-[#1C1C1C]">
+                <td className="w-[4%] px-6 border-dark-blue border-[1px]">
+
+                </td>
+                <td className="w-[64%] p-3 text-2xl  text-[#1C1C1C] border-dark-blue border-[1px]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
                 </td>
-                <td className="w-[8%] p-3 text-lg text-[#0B9A21]">
+                <td className="w-[8%] p-3 text-lg text-[#0B9A21] border-dark-blue border-[1px]">
                   {lastTotalRow.debit}
                 </td>
-                <td className="w-[8%] p-3 text-lg text-[#A30000]">
+                <td className="w-[8%] p-3 text-lg text-[#A30000] border-dark-blue border-[1px]">
                   {lastTotalRow.credit}
                 </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                <td className="w-[8%] border-dark-blue border-[1px]">
                   {lastTotalRow.remaining}
                 </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                <td className="w-[8%] border-dark-blue border-[1px]">
                   {lastTotalRow.balance}
                 </td>
               </tr>

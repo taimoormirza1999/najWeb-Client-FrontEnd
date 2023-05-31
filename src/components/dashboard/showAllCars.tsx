@@ -11,6 +11,8 @@ import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
 
 import CustomModal from '@/components/customModal';
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
 
 import {
   Pagination,
@@ -402,28 +404,9 @@ const ShowAllCars = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
-                    <tr>
-                      {carTableHeader.map((th, index) => (
-                        <th
-                          key={index}
-                          scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
-                        >
-                          <div className="flex items-center justify-between">
-                            <FormattedMessage id={th.header} />
-                            <Sort
-                              order={order}
-                              elemOrder={th.order}
-                              index={index}
-                            />
-                          </div>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
+              <div className="overflow-hidden ">
+                <table className="min-w-full divide-y divide-gray-300 ">
+                  <TableHeader tableHeader={carTableHeader} order={order} /> 
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
@@ -433,28 +416,28 @@ const ShowAllCars = ({
                           'text-sm'
                         )}
                       >
-                        <td
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {isNaN(page * limit)
                             ? index + 1
                             : page * limit + index + 1}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[56px]"
                         >
                           <img
                             className="max-h-[50px]"
                             src={car.image}
                             alt=""
                           />
-                        </td>
+                        </TableColumn>
 
-                        <td
+                        <TableColumn
                           scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[50px]"
                         >
                           <div className='row'>
                             <div className="three-icons">
@@ -492,46 +475,46 @@ const ShowAllCars = ({
                           </div>
 
 
-                        </td>
+                        </TableColumn>
 
-                        <td
+                        <TableColumn
                           scope="col"
-                          className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[180px]"
                         >
                           {car.carMakerName} {car.carModelName} {car.year}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[130px]"
                         >
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[160px]"
                         >
                           <span className="text-[#810808]">
                             {car.region_name}
-                          </span>{' '}
+                          </span>{' '}  <br />
                           {car.auction_location_name} <br /> {car.aTitle} <br />
                           <FormattedMessage id="general.buyer_number" />:{' '}
                           {car.buyer_number}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[64px]"
                         >
                           {car.port_name}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[55px]"
                         >
                           {car.purchasedate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[64px]"
                         >
                           {car.carcost > 0 && `${car.carcost}$`}{' '}
                           {car.invoice_file_auction && (
@@ -545,28 +528,28 @@ const ShowAllCars = ({
                               />
                             </a>
                           )}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[55px]"
                         >
                           {car.paymentDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[30px]"
                         >
                           {car.picked_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.delivered_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[60px]"
                         >
                           <button
                             type="button"
@@ -577,14 +560,14 @@ const ShowAllCars = ({
                             }}
                             className={classNames(
                               !car.follow_car_title_note ? 'hidden' : '',
-                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-dark-blue border-[1px]'
                             )}
                           >
                             Notes
                           </button>
                           {car.delivered_title === '1' ? (
                             <CheckCircleIcon
-                              className="h-6 w-6 text-green-400"
+                              className="h-6 w-6 text-green-400 "
                               aria-hidden="true"
                             />
                           ) : (
@@ -595,10 +578,10 @@ const ShowAllCars = ({
                           )}
                           <br />
                           {car.titleDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[63px]"
                         >
                           {car.delivered_car_key === '1' ? (
                             <CheckCircleIcon
@@ -612,22 +595,22 @@ const ShowAllCars = ({
                             />
                           )}
                           <br />
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.departurePort}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.loaded_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.file_name && (
                             <a
@@ -640,48 +623,47 @@ const ShowAllCars = ({
                               />
                             </a>
                           )}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.booking_number}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.container_number}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.etd}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.shipping_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.eta}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
                           {car.receive_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
-                          {/* {car.final_payment_status} */}
                           {car.final_payment_status === 'Paid' ? (
                             <CheckCircleIcon
                               className="h-6 w-6 text-green-400"
@@ -693,12 +675,11 @@ const ShowAllCars = ({
                               aria-hidden="true"
                             />
                           )}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px]"
                         >
-                          {/* {car.sold} */}
                           {car.sold === 'Sold' ? (
                             <CheckCircleIcon
                               className="h-6 w-6 text-green-400"
@@ -710,7 +691,7 @@ const ShowAllCars = ({
                               aria-hidden="true"
                             />
                           )}
-                        </td>
+                        </TableColumn>
                       </tr>
                     ))}
                   </tbody>
