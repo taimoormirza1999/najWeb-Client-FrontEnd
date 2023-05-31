@@ -496,8 +496,10 @@ const ShowAllCars = ({
                         >
                           <span className="text-[#810808]">
                             {car.region_name}
-                          </span>{' '}
-                          {car.auction_location_name} <br /> {car.aTitle}
+                          </span>{' '}  <br />
+                          {car.auction_location_name} <br /> {car.aTitle} <br />
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number}
                         </TableColumn>
                         <TableColumn
                           scope="col"

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { classNames } from '@/utils/Functions';
 import TableColumn from '@/components/TableColumn';
 
@@ -40,6 +41,8 @@ const Cancelled = ({ carsRecords }) => {
         className="min-w-[160px] "
       >
         {car.auctionLocationName} <br /> {car.auctionTitle} <br />
+        <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
+        <br />
         {car.region}
       </TableColumn>
       <TableColumn

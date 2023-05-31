@@ -282,6 +282,8 @@ const WarehouseCarTab = ({
                           <span className="text-[#810808]">{car.region}</span>{' '}
                           {car.auctionLocationName} <br /> {car.auctionTitle}{' '}
                           <br />
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number} <br />
                           {car.region}
                         </TableColumn>
                         <TableColumn

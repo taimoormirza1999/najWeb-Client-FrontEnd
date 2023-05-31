@@ -374,6 +374,8 @@ const ShippingCarTab = ({
                         >
                           {car.auction_location_name} <br /> {car.auctionTitle}{' '}
                           <br />
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number} <br />
                           {car.region_name}
                         </TableColumn>
                         <TableColumn
