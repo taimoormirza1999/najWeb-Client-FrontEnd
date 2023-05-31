@@ -79,7 +79,7 @@
   "page.customer.dashboard.table.eed": "Loaded Date",
   "page.customer.dashboard.arrived_store": "Arrived Store",
   "page.customer.dashboard.arrived_port": "Arrived Port",
-  "page.customer.dashboard.table.date_arrived_store": "Date Arrived Store",
+  "page.customer.dashboard.table.date_arrived_store": "Store Arrival Date",
   "page.customer.dashboard.table.date_arrived_port": "Date Arrived Port",
   "page.customer.dashboard.table.delivered_to_customer": "Delivered To Customer",
   "page.customer.dashboard.table.arrived_to_store": "Arrived To Store",
