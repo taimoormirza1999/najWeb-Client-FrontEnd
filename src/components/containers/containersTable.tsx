@@ -370,7 +370,7 @@ const ContainersTable = ({
                                 query: { id: row.container_id },
                               }}
                             >
-                              <a target="_blank">{row.container_id}</a>
+                              <a target="_blank">{row.invoice_no}</a>
                             </Link>
                           ) : (
                             '-'

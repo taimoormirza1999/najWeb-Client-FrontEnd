@@ -7,9 +7,12 @@ import styles from '@/components/containers/invoicePrint.module.css';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 import { ScissorsIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
+import { useRouter } from "next/router";
 
 const { API_URL } = process.env;
 const ContainerInvoice = ({ invoice }) => {
+  const router = useRouter();
+
   const { bankName, bankAddress, accountName, iban, accountNumber, swiftCode } =
     invoice.bankDetail;
   const {
@@ -33,6 +36,16 @@ const ContainerInvoice = ({ invoice }) => {
 
   const { cars } = invoice;
 
+  const handleCurrencyChange = (e) => {
+    const { pathname, query } = router;
+    query.currency = e.target.value;
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
+
   return (
     <section
       className={`text-[10px] container mx-auto bg-white print:shadow-none shadow-md ${styles.container}`}
@@ -47,6 +60,16 @@ const ContainerInvoice = ({ invoice }) => {
           </div>
 
           <div className='mt-[15px] print:mt-[5px] ml-[20px] text-[12px] text-dark-blue'>
+            <select
+            name="currency"
+            onChange={handleCurrencyChange}
+            className="-mt-5 mb-2 px-3 pr-8 py-[2px] hidden border-dark-blue border print:hidden"
+          >
+            <option defaultValue={'aed'} value="aed">
+              UAE Dirham
+            </option>
+              <option value="usd">US Dollar</option>
+            </select>
             <span className='float-left'>+971 6 544 0202</span>
             <span className='float-right'>/NejoumAljazeera</span> <br/>
             <span className='float-left'>info@naj.ae</span>
@@ -416,11 +439,13 @@ export async function getServerSideProps(context) {
 
   const session: any = await getSession(context);
   const containerId = context.query?.id || 0;
+  const currency = context.query?.currency || 'aed';
 
   axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
   const response = await axios.get(`${API_URL}customer/container/invoice`, {
     params: {
       container_id: containerId,
+      currency,
     },
   });
 
