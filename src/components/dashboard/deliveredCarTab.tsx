@@ -8,7 +8,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
 import axios from 'axios';
-
+import TableHeader from '../TableHeader';
+import TableColumn from '../TableColumn';
 
 import {
   Pagination,
@@ -250,9 +251,9 @@ const DeliveredCarTab = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
+              <div className="overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
@@ -264,7 +265,8 @@ const DeliveredCarTab = ({
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+                  <TableHeader tableHeader={carTableHeader}/> 
                   <tbody>
                     {carsRecords.map((car, index) => (
                       
@@ -275,13 +277,13 @@ const DeliveredCarTab = ({
                           'text-sm'
                         )}
                       >
-                        <td
+                        <TableColumn
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {addIndex + index + 1}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -298,51 +300,51 @@ const DeliveredCarTab = ({
                             alt=""
                           />
                           </Link>
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.carMakerName} {car.carModelName} {car.year}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.auction_location_name} <br /> {car.auctionTitle}
                           <br /> {car.region}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.port_name}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.purchasedate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.picked_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {car.delivered_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -360,8 +362,8 @@ const DeliveredCarTab = ({
                           )}
                           <br />
                           {car.titleDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -376,78 +378,78 @@ const DeliveredCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.loaded_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.booking_number}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.container_number}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.shipping_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.arrival_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.receive_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.deliver_create_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.total_cost}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.paymentDate}
-                        </td>
+                        </TableColumn>
                         {type === 'Paid' && (
-                          <td
+                          <TableColumn
                             scope="col"
                             className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                           >
                             {car.amount_paid}
-                          </td>
+                          </TableColumn>
                         )}
                         {type === 'Paid' && (
-                          <td
+                          <TableColumn
                             scope="col"
                             className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                           >
                             {car.remaining_amount}
-                          </td>
+                          </TableColumn>
                         )}
-                        <td
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -486,7 +488,7 @@ const DeliveredCarTab = ({
                           </div>
                           
                            
-                        </td>
+                        </TableColumn>
                       </tr>
                     ))}
                   </tbody>

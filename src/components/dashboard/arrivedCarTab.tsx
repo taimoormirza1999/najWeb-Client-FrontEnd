@@ -18,6 +18,7 @@ import { Store } from './arrived/store';
 
 import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
+import TableHeader from '../TableHeader';
 
 const ArrivedCarTab = ({
   carsRecords,
@@ -527,21 +528,22 @@ const ArrivedCarTab = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
+              <div className="overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-dark-blue border-[1px]"
                         >
                           <FormattedMessage id={th} />
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+                  <TableHeader tableHeader={carTableHeader}/> 
                   <tbody>
                     {type === 'port' && (
                       <Port

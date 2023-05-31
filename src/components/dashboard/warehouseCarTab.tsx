@@ -15,6 +15,9 @@ import {
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
+
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
   {
@@ -214,21 +217,24 @@ const WarehouseCarTab = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
+              <div className="overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-dark-blue border-[1px]"
                         >
                           <FormattedMessage id={th.name} />
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+
+                  <TableHeader tableHeader={carTableHeader}/> 
+                  
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
@@ -238,13 +244,13 @@ const WarehouseCarTab = ({
                           'text-sm'
                         )}
                       >
-                        <td
+                        <TableColumn
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {addIndex + index + 1}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -256,20 +262,20 @@ const WarehouseCarTab = ({
                               GetImages(car.carId);
                             }}
                           />
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.carMakerName} {car.carModelName} {car.year}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -277,38 +283,38 @@ const WarehouseCarTab = ({
                           {car.auctionLocationName} <br /> {car.auctionTitle}{' '}
                           <br />
                           {car.region}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.portName}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.purchasedDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.paymentDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.pickedDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {car.arrivedDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -339,8 +345,8 @@ const WarehouseCarTab = ({
                           )}
                           <br />
                           {car.titleDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
@@ -355,7 +361,7 @@ const WarehouseCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                        </td>
+                        </TableColumn>
                       </tr>
                     ))}
                   </tbody>

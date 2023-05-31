@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
+import TableHeader from '@/components/TableHeader';
+import TableColumn from '@/components/TableColumn';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -20,6 +22,26 @@ const Deposits = ({ tableData }) => {
       );
     }
   }, [depositsTableSearch]);
+
+  const tableHeader = [
+    { name: 'page.customer.dashboard.table.no' },
+    {
+      name: 'statement.serial',
+    },
+    {
+      name: 'statement.amount',
+    },
+    {
+      name: 'page.customer.dashboard.paid',
+    },
+    {
+      name: 'statement.shipped_cars.balance',
+    },
+    {
+      name: 'statement.shipped_cars.date',
+    }
+  ];
+
   return (
     <>
       <div className="mt-20 flex flex-col justify-between md:flex-row">
@@ -44,9 +66,9 @@ const Deposits = ({ tableData }) => {
         sheet="tablexls"
         buttonText="Excel"
       />
-      <div className="border-azure-blue overflow-x-auto rounded-xl border">
+      <div className="border-azure-blue overflow-x-auto">
         <table id="depositsData" className="w-full table-auto">
-          <thead>
+          {/* <thead>
             <tr className="w-full">
               <td className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.table.no" />
@@ -67,7 +89,11 @@ const Deposits = ({ tableData }) => {
                 <FormattedMessage id="statement.shipped_cars.date" />
               </td>
             </tr>
-          </thead>
+          </thead> */}
+
+          <TableHeader tableHeader={tableHeader} /> 
+
+
           <tbody>
             {depositsState.map((row, index) => (
               <tr
@@ -77,7 +103,7 @@ const Deposits = ({ tableData }) => {
                   'text-xs sm:text-[17px]'
                 )}
               >
-                <td className="text-dark-blue w-[4%] p-3 text-xl font-semibold">
+                <TableColumn className="text-dark-blue w-[4%] p-3 text-xl font-semibold">
                   {row.balance ? (
                     <span className="bg-dark-blue rounded-full px-3 py-1 text-white">
                       {index + 1}
@@ -85,14 +111,15 @@ const Deposits = ({ tableData }) => {
                   ) : (
                     index + 1
                   )}
-                </td>
-                <td className="p-3 text-lg text-[#1C1C1C]">
+                  
+                </TableColumn>
+                <TableColumn className="">
                   {row.serial_number}
-                </td>
-                <td className="p-3 text-lg text-[#1C1C1C]">{row.amount}</td>
-                <td className="p-3 text-lg text-[#1C1C1C]">{row.paid}</td>
-                <td className="p-3 text-lg text-[#1C1C1C]">{row.balance}</td>
-                <td className="p-3 text-lg text-[#1C1C1C]">{row.date}</td>
+                </TableColumn>
+                <TableColumn className="">{row.amount}</TableColumn>
+                <TableColumn className="">{row.paid}</TableColumn>
+                <TableColumn className="">{row.balance}</TableColumn>
+                <TableColumn className="">{row.date}</TableColumn>
               </tr>
             ))}
           </tbody>

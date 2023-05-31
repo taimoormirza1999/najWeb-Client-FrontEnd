@@ -11,6 +11,7 @@ import {
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
 import { Sort } from '@/components/dashboard/sort';
+import TableHeader from '../TableHeader';
 
 const NewCarTab = ({
   carsRecords,
@@ -212,9 +213,9 @@ const NewCarTab = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden  border border-[#005fb7] md:rounded-lg">
+              <div className="overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableData.map((th, index) => (
                         <th
@@ -233,7 +234,11 @@ const NewCarTab = ({
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+
+                  <TableHeader tableHeader={carTableData} order={order} /> 
+
+                  
                   <tbody>
                     {type === 'paid' && <Paid carsRecords={carsRecords}></Paid>}
                     {type === 'unpaid' && (

@@ -16,6 +16,8 @@ import { classNames } from '@/utils/Functions';
 import { ArrivedPortCars } from './arrivedPortCars';
 import { ArrivedStoreCars } from './arrivedStoreCars';
 import { InShippingCars } from './inShippingCars';
+import TableHeader from '../TableHeader';
+import TableColumn from '../TableColumn';
 
 export interface ContainerDetail {
   lock_number: string;
@@ -307,12 +309,12 @@ const ContainersTable = ({
                 sheet="tablexls"
                 buttonText="Excel"
               />
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
+              <div className="overflow-hidden">
                 <table
                   id="customrContainers"
                   className="min-w-full divide-y divide-gray-300"
                 >
-                  <thead className="bg-white">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
@@ -331,7 +333,9 @@ const ContainersTable = ({
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+                 <TableHeader tableHeader={carTableHeader} order={order} /> 
+
                   <tbody>
                     {records.map((row, index) => (
                       <tr
@@ -342,13 +346,13 @@ const ContainersTable = ({
                         )}
 
                       >
-                        <td
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {index + 1 + page * (limit === 'all' ? 0 : limit)}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline border-dark-blue border-[1px]"
                         >
@@ -359,8 +363,8 @@ const ContainersTable = ({
                           >
                             {row.container_number}
                           </span>
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
@@ -376,35 +380,35 @@ const ContainersTable = ({
                           ) : (
                             '-'
                           )}
-                        </td>
+                        </TableColumn>
 
-                        <td
+                        <TableColumn
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.booking_number}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.pol_name}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.destination}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.status}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           <span
                             className="bg-dark-blue cursor-pointer rounded-md px-4 py-1 text-white border-dark-blue border-[1px]"
@@ -414,60 +418,60 @@ const ContainersTable = ({
                           >
                             {row.total_cars}
                           </span>
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {row.loaded_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {row.etd}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {row.shipping_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {row.eta}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {row.arrived_port_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {row.arrived_store_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="w-[2px]"
                         >
                           {row.total_shipping}
-                        </td>
+                        </TableColumn>
                       </tr>
                     ))}
                     {records?.length < 1 ? (
                       <tr>
-                        <td
+                        <TableColumn
                           scope="col"
                           colSpan={carTableHeader.length}
                           className="w-[2px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
                         >
                           No records
-                        </td>
+                        </TableColumn>
                       </tr>
                     ) : null}
                   </tbody>

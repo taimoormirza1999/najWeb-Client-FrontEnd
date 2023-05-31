@@ -1,4 +1,5 @@
 import { classNames } from '@/utils/Functions';
+import TableColumn from '@/components/TableColumn';
 
 const UnPaid = ({ carsRecords }) => {
   return carsRecords.map((car, index) => (
@@ -9,111 +10,111 @@ const UnPaid = ({ carsRecords }) => {
         'text-sm'
       )}
     >
-      <td
+      <TableColumn
         scope="col"
-        className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="w-[2px] "
       >
         {index + 1}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[56px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[56px] "
       >
         <img className="max-h-[50px]" src={car.image} alt="" />
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[180px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[180px] "
       >
         {car.carMakerName} {car.carModelName} {car.year}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[130px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[130px] "
       >
         Lot: {car.lotnumber} <br /> Vin: {car.vin}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[160px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[160px] "
       >
         {car.auctionLocationName} <br /> {car.auctionTitle} <br />
         {car.region}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[64px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[64px] "
       >
         {car.destination}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[55px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[55px] "
       >
         {car.purchasedDate}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[50px] "
       >
-        {car.lastDateToPay}
-      </td>
-      <td
+        {car.lasTableColumnateToPay}
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[30px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[30px] "
       >
         {car.daysOff}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px] "
       >
         {car.extraDate}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[60px] "
       >
         {car.remainingDays}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[63px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[63px] "
       >
         {car.startStorage}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[50px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[50px] "
       >
         {car.carCostUSD ? `${car.carCostUSD} $` : ''}
         <br />
         {car.carCostAED ? `${car.carCostAED} AED` : ''}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[60px] "
       >
         {car.late_payment_fineUSD ? `${car.late_payment_fineUSD} $` : ''}
         <br />
         {car.late_payment_fineAED ? `${car.late_payment_fineAED} AED` : ''}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[60px] "
       >
         {car.fineTotalCostUSD ? `${car.fineTotalCostUSD} $` : ''}
         <br />
         {car.fineTotalCost ? `${car.fineTotalCost} AED` : ''}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[60px] "
       >
         {car.totalUSD ? `${car.totalUSD} $` : ''}
         <br />
         {car.totalAED ? `${car.totalAED} AED` : ''}
-      </td>
+      </TableColumn>
     </tr>
   ));
 };
