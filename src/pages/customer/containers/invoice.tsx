@@ -72,7 +72,7 @@ const ContainerInvoice = ({ invoice }) => {
               <p className='font-bold text-[12px]'>Bank Details</p>
           </div>
           <div>
-            <p className='font-bold text-[12px] float-right'>التفاصيل المصرفية</p>
+            <p className='font-bold text-[12px] float-right'>تفاصيل البنك </p>
           </div>
           <div>
             <p className='font-bold text-[12px]'>Invoice</p>
@@ -90,7 +90,7 @@ const ContainerInvoice = ({ invoice }) => {
                   </div>
           </div>
             <div className='-mt-[22px]'>
-              <p>Bank Name : </p>
+              <p>Account Name : </p>
               <p>Bank Address : </p>
               <p>IBAN : </p>
               <p>Account Number : </p>
@@ -382,17 +382,20 @@ const ContainerInvoice = ({ invoice }) => {
           </table>
         ) : null}
 
-          <div className="grid grid-cols-2 text-dark-blue print:bottom-[50px] print:fixed mr-[40px]">
-                <div>
+          <div className="grid grid-cols-5 text-dark-blue print:bottom-[50px] print:fixed mr-[40px]">
+                <div className='col-span-2'>
                     <p className='tracking-wide text-[10px]'>
                         PLEASE BE ADVISED THAT THIS INVOICE HAS BEEN AMENDED ON {' '}
                         {new Date().toLocaleDateString()}
                       </p> 
-                      <p className=" font-bold tracking-wide text-[10px]">
+                      <p className=" font-bold tracking-wide text-[9px]">
                         CASH, MONEY ORDERS, OR THIRD-PARTY PAYMENTS WILL NOT BE ACCEPTED.
                   </p>
                 </div>
-                <div className='text-right'>
+                <div className='ml-[45px]'>
+                  <Image src={`/assets/images/iso_logo.png`}  width="60px" height="60px" alt="" />
+                </div>
+                <div className='col-span-2 text-right'>
                   <p className='text-[14px]'>
                     يرجى العلم بأنه تم تعديل هذا الفاتورة في {new Date().toLocaleDateString()} {' '}
                     </p> 
