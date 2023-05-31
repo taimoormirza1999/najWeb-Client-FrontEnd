@@ -1,8 +1,8 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
@@ -16,6 +16,8 @@ import { classNames } from '@/utils/Functions';
 import { ArrivedPortCars } from './arrivedPortCars';
 import { ArrivedStoreCars } from './arrivedStoreCars';
 import { InShippingCars } from './inShippingCars';
+import TableHeader from '../TableHeader';
+import TableColumn from '../TableColumn';
 
 export interface ContainerDetail {
   lock_number: string;
@@ -91,11 +93,15 @@ const ContainersTable = ({
   order = '',
   type = '',
 }) => {
-
   const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
+  const router = useRouter();
+  const exportUrl = `?tab=${tab}&search=${search}&type=${type}&order=${order}&date_from=${
+    router.query?.date_from ? router.query.date_from : ''
+  }&date_to=${router.query?.date_to ? router.query.date_to : ''}&date_type=${
+    router.query?.date_type ? router.query.date_type : ''
+  }&region=${router.query?.region ? router.query.region : ''}`;
   const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
-
   const cancelDetailButtonRef = useRef(null);
   const [containerDetail, setContainerDetail] = useState<ContainerDetail>({
     lock_number: '',
@@ -154,6 +160,10 @@ const ContainersTable = ({
         setDetailModalOpen(true);
       })
       .catch(() => {});
+  };
+
+  const exportExcel = async () => {
+    window.open(`/api/customer/container/export${exportUrl}`, '_blank');
   };
 
   return (
@@ -299,26 +309,26 @@ const ContainersTable = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <ReactHTMLTableToExcel
-                id="containers-xls-button"
-                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                table="customrContainers"
-                filename="customrContainers"
-                sheet="tablexls"
-                buttonText="Excel"
-              />
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
+              <button
+                onClick={exportExcel}
+                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
+                type="button"
+              >
+                <i className="material-icons text-xl">&#xef42;</i> Excel
+              </button>
+
+              <div className="overflow-hidden">
                 <table
                   id="customrContainers"
                   className="min-w-full divide-y divide-gray-300"
                 >
-                  <thead className="bg-white">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-[#005FB7] border-[1px] "
                         >
                           <div className="flex items-center justify-between">
                             <FormattedMessage id={th.name} />
@@ -331,7 +341,9 @@ const ContainersTable = ({
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+                 <TableHeader tableHeader={carTableHeader} order={order} /> 
+
                   <tbody>
                     {records.map((row, index) => (
                       <tr
@@ -340,16 +352,17 @@ const ContainersTable = ({
                           index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
                           'text-sm'
                         )}
+
                       >
-                        <td
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {index + 1 + page * (limit === 'all' ? 0 : limit)}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline border-dark-blue border-[1px]"
                         >
                           <span
                             onClick={async () => {
@@ -358,10 +371,10 @@ const ContainersTable = ({
                           >
                             {row.container_number}
                           </span>
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.all_cars_completed === '1' ? (
                             <Link
@@ -375,98 +388,98 @@ const ContainersTable = ({
                           ) : (
                             '-'
                           )}
-                        </td>
+                        </TableColumn>
 
-                        <td
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.booking_number}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.pol_name}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.destination}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.status}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           <span
-                            className="bg-dark-blue cursor-pointer rounded-md px-4 py-1 text-white"
+                            className="bg-dark-blue cursor-pointer rounded-md px-4 py-1 text-white border-dark-blue border-[1px]"
                             onClick={async () => {
                               getContainerCars(row);
                             }}
                           >
                             {row.total_cars}
                           </span>
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {row.loaded_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {row.etd}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {row.shipping_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {row.eta}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {row.arrived_port_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {row.arrived_store_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px]"
                         >
                           {row.total_shipping}
-                        </td>
+                        </TableColumn>
                       </tr>
                     ))}
                     {records?.length < 1 ? (
                       <tr>
-                        <td
+                        <TableColumn
                           scope="col"
                           colSpan={carTableHeader.length}
                           className="w-[2px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
                         >
                           No records
-                        </td>
+                        </TableColumn>
                       </tr>
                     ) : null}
                   </tbody>
