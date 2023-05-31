@@ -43,7 +43,13 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
     );
   }, [shippedTableSearch]);
 
-
+  useEffect(() => {
+    const excelBtn = document.getElementById('shippedCars-xls-button');
+    if(excelBtn){
+      excelBtn.innerHTML = '<i class="material-icons text-xl">&#xef42;</i> Excel';
+    }
+  }, []);
+  
   const tableHeader = [
     { name: 'page.customer.dashboard.table.no' },
     {
@@ -96,7 +102,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
       </div>
       <ReactHTMLTableToExcel
         id="shippedCars-xls-button"
-        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
         table="shippedCars"
         filename="shippedCars"
         sheet="tablexls"

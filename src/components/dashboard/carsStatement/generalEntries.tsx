@@ -24,6 +24,12 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
     );
   }, [generalEntriesTableSearch]);
 
+  useEffect(() => {
+    const excelBtn = document.getElementById('generalEntry-xls-button');
+    if(excelBtn){
+      excelBtn.innerHTML = '<i class="material-icons text-xl">&#xef42;</i> Excel';
+    }
+  }, []);
 
   const tableHeader = [
     { name: 'page.customer.dashboard.table.no' },
@@ -71,7 +77,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
       </div>
       <ReactHTMLTableToExcel
         id="generalEntry-xls-button"
-        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
         table="generalEntry"
         filename="generalEntry"
         sheet="tablexls"

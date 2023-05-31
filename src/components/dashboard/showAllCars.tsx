@@ -1,19 +1,19 @@
+import 'react-gallery-carousel/dist/index.css';
+
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { Fragment, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import NProgress from 'nprogress';
 import axios from 'axios';
+import NProgress from 'nprogress';
+import { Fragment, useRef, useState } from 'react';
 import Carousel from 'react-gallery-carousel';
-import 'react-gallery-carousel/dist/index.css';
+import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
 import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
-
 import {
   Pagination,
   SelectPageRecords,

@@ -1,8 +1,8 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
@@ -93,11 +93,15 @@ const ContainersTable = ({
   order = '',
   type = '',
 }) => {
-
   const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
+  const router = useRouter();
+  const exportUrl = `?tab=${tab}&search=${search}&type=${type}&order=${order}&date_from=${
+    router.query?.date_from ? router.query.date_from : ''
+  }&date_to=${router.query?.date_to ? router.query.date_to : ''}&date_type=${
+    router.query?.date_type ? router.query.date_type : ''
+  }&region=${router.query?.region ? router.query.region : ''}`;
   const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
-
   const cancelDetailButtonRef = useRef(null);
   const [containerDetail, setContainerDetail] = useState<ContainerDetail>({
     lock_number: '',
@@ -156,6 +160,10 @@ const ContainersTable = ({
         setDetailModalOpen(true);
       })
       .catch(() => {});
+  };
+
+  const exportExcel = async () => {
+    window.open(`/api/customer/container/export${exportUrl}`, '_blank');
   };
 
   return (
@@ -301,14 +309,14 @@ const ContainersTable = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <ReactHTMLTableToExcel
-                id="containers-xls-button"
-                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                table="customrContainers"
-                filename="customrContainers"
-                sheet="tablexls"
-                buttonText="Excel"
-              />
+              <button
+                onClick={exportExcel}
+                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
+                type="button"
+              >
+                <i className="material-icons text-xl">&#xef42;</i> Excel
+              </button>
+
               <div className="overflow-hidden">
                 <table
                   id="customrContainers"
