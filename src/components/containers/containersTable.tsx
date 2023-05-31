@@ -318,7 +318,7 @@ const ContainersTable = ({
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-[#005FB7] border-[1px] "
                         >
                           <div className="flex items-center justify-between">
                             <FormattedMessage id={th.name} />
@@ -340,16 +340,17 @@ const ContainersTable = ({
                           index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
                           'text-sm'
                         )}
+
                       >
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {index + 1 + page * (limit === 'all' ? 0 : limit)}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline border-dark-blue border-[1px]"
                         >
                           <span
                             onClick={async () => {
@@ -361,7 +362,7 @@ const ContainersTable = ({
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.all_cars_completed === '1' ? (
                             <Link
@@ -379,34 +380,34 @@ const ContainersTable = ({
 
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.booking_number}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.pol_name}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.destination}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.status}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           <span
-                            className="bg-dark-blue cursor-pointer rounded-md px-4 py-1 text-white"
+                            className="bg-dark-blue cursor-pointer rounded-md px-4 py-1 text-white border-dark-blue border-[1px]"
                             onClick={async () => {
                               getContainerCars(row);
                             }}
@@ -416,43 +417,43 @@ const ContainersTable = ({
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.loaded_date}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.etd}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.shipping_date}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.eta}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.arrived_port_date}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.arrived_store_date}
                         </td>
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {row.total_shipping}
                         </td>

@@ -404,14 +404,14 @@ const ShowAllCars = ({
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
+                <table className="min-w-full divide-y divide-gray-300 ">
                   <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-dark-blue border-[1px]"
                         >
                           <div className="flex items-center justify-between">
                             <FormattedMessage id={th.header} />
@@ -436,7 +436,7 @@ const ShowAllCars = ({
                       >
                         <td
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {isNaN(page * limit)
                             ? index + 1
@@ -444,7 +444,7 @@ const ShowAllCars = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           <img
                             className="max-h-[50px]"
@@ -455,7 +455,7 @@ const ShowAllCars = ({
 
                         <td
                           scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           <div className='row'>
                             <div className="three-icons">
@@ -497,19 +497,19 @@ const ShowAllCars = ({
 
                         <td
                           scope="col"
-                          className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.carMakerName} {car.carModelName} {car.year}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           <span className="text-[#810808]">
                             {car.region_name}
@@ -518,19 +518,19 @@ const ShowAllCars = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.port_name}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.purchasedate}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.carcost > 0 && `${car.carcost}$`}{' '}
                           {car.invoice_file_auction && (
@@ -547,25 +547,25 @@ const ShowAllCars = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.paymentDate}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.picked_date}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.delivered_date}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           <button
                             type="button"
@@ -576,14 +576,14 @@ const ShowAllCars = ({
                             }}
                             className={classNames(
                               !car.follow_car_title_note ? 'hidden' : '',
-                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-dark-blue border-[1px]'
                             )}
                           >
                             Notes
                           </button>
                           {car.delivered_title === '1' ? (
                             <CheckCircleIcon
-                              className="h-6 w-6 text-green-400"
+                              className="h-6 w-6 text-green-400 "
                               aria-hidden="true"
                             />
                           ) : (
@@ -597,7 +597,7 @@ const ShowAllCars = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.delivered_car_key === '1' ? (
                             <CheckCircleIcon
@@ -614,19 +614,19 @@ const ShowAllCars = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.departurePort}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.loaded_date}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.file_name && (
                             <a
@@ -642,49 +642,49 @@ const ShowAllCars = ({
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.booking_number}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.container_number}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.etd}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.shipping_date}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.eta}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.receive_date}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.final_payment_status}
                         </td>
                         <td
                           scope="col"
-                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+                          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
                         >
                           {car.sold}
                         </td>

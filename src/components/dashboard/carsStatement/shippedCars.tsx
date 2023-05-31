@@ -69,7 +69,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
         <table id="shippedCars" className="w-full table-auto">
           <thead>
             <tr className="w-full">
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              <td className="text-dark-blue p-4 text-xl font-semibold ">
                 <FormattedMessage id="page.customer.dashboard.table.no" />
               </td>
               <td className="text-dark-blue p-4 text-xl font-semibold">

@@ -220,7 +220,7 @@ const NewCarTab = ({
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-dark-blue border-[1px]"
                         >
                           <div className="flex items-center justify-between">
                             <FormattedMessage id={th.header} />
