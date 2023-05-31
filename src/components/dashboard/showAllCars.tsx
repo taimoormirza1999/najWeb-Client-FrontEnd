@@ -312,8 +312,7 @@ const ShowAllCars = ({
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
           initialFocus={cancelButtonRef}
-          onClose={setRedirectModalOpen}
-        >
+          onClose={setRedirectModalOpen}>
           <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -665,13 +664,33 @@ const ShowAllCars = ({
                           scope="col"
                           className="min-w-[47px]"
                         >
-                          {car.final_payment_status}
+                          {car.final_payment_status === 'Paid' ? (
+                            <CheckCircleIcon
+                              className="h-6 w-6 text-green-400"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <XCircleIcon
+                              className="h-6 w-6 text-red-400"
+                              aria-hidden="true"
+                            />
+                          )}
                         </TableColumn>
                         <TableColumn
                           scope="col"
                           className="min-w-[47px]"
                         >
-                          {car.sold}
+                          {car.sold === 'Sold' ? (
+                            <CheckCircleIcon
+                              className="h-6 w-6 text-green-400"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <XCircleIcon
+                              className="h-6 w-6 text-red-400"
+                              aria-hidden="true"
+                            />
+                          )}
                         </TableColumn>
                       </tr>
                     ))}

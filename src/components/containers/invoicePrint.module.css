@@ -1,7 +1,8 @@
 
 @media print{
   .container{
-    max-width:99% !important;
+    max-width:100% !important;
+    padding: 20px;
   }
 
   @page {
