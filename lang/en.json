@@ -413,5 +413,5 @@
   "docker_receipt": "Docker receipt",
   "auction_price": "Auction Price",
   "sold": "Sold",
-  "date_type": "Date Type"
+  "general.buyer_number": "Buyer Number"
 }
