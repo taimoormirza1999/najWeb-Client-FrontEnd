@@ -1,3 +1,5 @@
+import { FormattedMessage } from 'react-intl';
+
 import { classNames } from '@/utils/Functions';
 
 const Towing = ({ carsRecords }) => {
@@ -38,6 +40,8 @@ const Towing = ({ carsRecords }) => {
         className="min-w-[160px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
         {car.auctionLocationName} <br /> {car.auctionTitle} <br />
+        <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
+        <br />
         {car.region}
       </td>
       <td
