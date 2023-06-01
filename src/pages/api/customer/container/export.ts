@@ -21,6 +21,7 @@ const processData = (data) => {
         ETD: item.etd,
         'Shipping date': item.container_number,
         ETA: item.eta,
+        'Size': item.size,
         'Port Arrival date': item.arrived_port_date,
         'Store arrival date': item.arrived_store_date,
         'Total shipping': item.total_shipping,
@@ -41,6 +42,7 @@ const processData = (data) => {
         'Port Arrival date': '',
         'Store arrival date': '',
         'Total shipping': '',
+        '': '',
       };
 
       processedDataa.push(processedCar);
@@ -59,6 +61,7 @@ const processData = (data) => {
         'Port Arrival date': '',
         'Store arrival date': '',
         'Total shipping': '',
+        '': '',
       };
 
       processedDataa.push(processedCar);
@@ -97,6 +100,7 @@ const processData = (data) => {
         'Port Arrival date': '',
         'Store arrival date': '',
         'Total shipping': '',
+        '': '',
       };
 
       processedDataa.push(processedCar);
@@ -144,7 +148,6 @@ export default async function handler(req, res) {
   let excelBuffer = null;
   // Create a worksheet from the processed data
   if (processedData) {
-    console.log(processedData[0]);
     const columns = Object.keys(processedData[0]);
     const worksheetData = [columns];
 
@@ -166,7 +169,7 @@ export default async function handler(req, res) {
   );
   res.setHeader(
     'Content-Disposition',
-    'attachment; filename=containerData.xlsx'
+    'attachment; filename=Containers Data.xlsx'
   );
 
   // Send the Excel file as the response
