@@ -47,6 +47,7 @@
   "page.customer.dashboard.table.approve_payment": "Approve Payment",
   "page.customer.dashboard.table.created_date": "Created Date",
   "page.customer.dashboard.table.auction": "Auction",
+  "page.customer.dashboard.table.region": "Region",
   "page.customer.dashboard.table.destination": "Destination",
   "page.customer.dashboard.table.purchase_date": "Purchase Date",
   "page.customer.dashboard.table.last_day_to_pay": "Last Day To Pay",
@@ -71,6 +72,8 @@
   "page.customer.dashboard.table.eta_to_warehouse": "ETA To Warehouse",
   "page.customer.dashboard.table.arrived": "Arrived Date",
   "page.customer.dashboard.table.title": "Title",
+  "page.customer.dashboard.table.title_note": "Title Note",
+  "page.customer.dashboard.table.title_date": "Title Date",
   "page.customer.dashboard.table.key": "Key",
   "page.customer.dashboard.table.images": "Images",
   "page.customer.dashboard.table.loaded_date": "Loaded Date",
@@ -79,7 +82,7 @@
   "page.customer.dashboard.table.eed": "Loaded Date",
   "page.customer.dashboard.arrived_store": "Arrived Store",
   "page.customer.dashboard.arrived_port": "Arrived Port",
-  "page.customer.dashboard.table.date_arrived_store": "Store Arrival Date",
+  "page.customer.dashboard.table.date_arrived_store": "Store Arrival",
   "page.customer.dashboard.table.date_arrived_port": "Date Arrived Port",
   "page.customer.dashboard.table.delivered_to_customer": "Delivered To Customer",
   "page.customer.dashboard.table.arrived_to_store": "Arrived To Store",
@@ -412,6 +415,7 @@
   "point_of_loading": "Point of loading",
   "dock_receipt": "Dock Receipt",
   "auction_price": "Auction Price",
+  "auction_invoice": "Auction Invoice",
   "sold": "Sold",
   "general.buyer_number": "Buyer Number"
 }
