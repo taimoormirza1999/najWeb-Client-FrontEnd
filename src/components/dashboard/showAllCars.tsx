@@ -272,9 +272,9 @@ const ShowAllCars = ({
                 <Carousel
                   images={images}
                   style={{ height: '30vw', width: '100%', objectFit: 'cover' }}
-                  canAutoPlay="true"
-                  autoPlayInterval="4000"
-                  isAutoPlaying="true"
+                  canAutoPlay={true}
+                  autoPlayInterval={4000}
+                  isAutoPlaying={true}
                 />
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -419,7 +419,7 @@ const ShowAllCars = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden ">
+              <div className="flex max-h-[50vh] flex-col">
                 <table className="mb-[5px] min-w-full divide-y divide-gray-300">
                   <TableHeader tableHeader={carTableHeader} order={order} />
                   <tbody>
