@@ -90,7 +90,7 @@ const ShowAllCars = ({
       order: 'loaded_date',
     },
     {
-      header: 'docker_receipt',
+      header: 'dock_receipt',
     },
     {
       header: 'page.customer.dashboard.table.booking',
