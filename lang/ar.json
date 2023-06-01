@@ -194,6 +194,7 @@
   "page.customer.dashboard.table.detail": "تفاصيل",
   "page.customer.dashboard.table.lot_vin": "Lot & Vin",
   "page.customer.dashboard.table.auction": "المزاد",
+  "page.customer.dashboard.table.region": "منطقة",
   "page.customer.dashboard.table.destination": "الوجهة",
   "page.customer.dashboard.table.purchase_date": "تاريخ الشراء",
   "page.customer.dashboard.table.last_day_to_pay": "آخر يوم للدفع",
@@ -218,6 +219,8 @@
   "page.customer.dashboard.table.eta_to_warehouse": "التاريخ المتوقع للوصول إلى المستودع",
   "page.customer.dashboard.table.arrived": "تاريخ الوصول",
   "page.customer.dashboard.table.title": "الملكية",
+  "page.customer.dashboard.table.title_note": "ملاحظة العنوان",
+  "page.customer.dashboard.table.title_date": "تاريخ العنوان",
   "page.customer.dashboard.table.key": "المفتاح",
   "page.customer.dashboard.table.images": "الصور",
   "page.customer.dashboard.table.loaded_date": "تاريخ التحميل",
@@ -342,7 +345,6 @@
   "page.customer.container.container_number": "رقم الوعاء",
   "page.customer.container.invoice": "فاتورة",
   "page.customer.container.total_cars": "مجموع السيارات",
-  "page.customer.container.invoice": "فاتورة",
   "page.customer.container.etd": "ETD",
   "page.customer.container.eta": "ETA",
   "page.customer.container.shipping_date": "تاريخ الشحن",
@@ -397,6 +399,7 @@
   "point_of_loading": "Point of loading",
   "docker_receipt": "Docker receipt",
   "auction_price": "Auction Price",
+  "auction_invoice": "Auction Invoice",
   "sold": "Sold",
   "general.buyer_number": "الباير"
 }
