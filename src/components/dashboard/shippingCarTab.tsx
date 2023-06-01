@@ -1,3 +1,4 @@
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
@@ -16,6 +17,8 @@ import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
 import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -69,6 +72,9 @@ const carTableHeader = [
   },
   {
     name: 'page.customer.dashboard.table.eta',
+  },
+  {
+    name: 'dock_receipt',
   },
 ];
 
@@ -508,6 +514,24 @@ const ShippingCarTab = ({
                           className="min-w-[50px]"
                         >
                           {car.eta}
+                        </TableColumn>
+                        <TableColumn
+                          scope="col"
+                          className=""
+                        >
+                          {car.bl_file !== '' && car.bl_file !== null ? (
+                            <Link passHref href={car.bl_file}>
+                              <a target="_blank">
+                                <FontAwesomeIcon
+                                  icon={faFilePdf}
+                                  className="text-teal-blue text-2xl"
+                                />
+                                View
+                              </a>
+                            </Link>
+                          ) : (
+                            <span>NA</span>
+                          )}
                         </TableColumn>
                       </tr>
                     ))}

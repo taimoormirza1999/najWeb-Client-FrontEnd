@@ -10,14 +10,14 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
-import { Sort } from '@/components/dashboard/sort';
 import { classNames } from '@/utils/Functions';
 
+import ImagesViewer from '../cars/ImagesViewer';
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
 import { ArrivedPortCars } from './arrivedPortCars';
 import { ArrivedStoreCars } from './arrivedStoreCars';
 import { InShippingCars } from './inShippingCars';
-import TableHeader from '../TableHeader';
-import TableColumn from '../TableColumn';
 
 export interface ContainerDetail {
   lock_number: string;
@@ -28,6 +28,7 @@ export interface ContainerDetail {
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
+  { name: 'page.customer.dashboard.table.images' },
   {
     name: 'page.customer.container.container_number',
     order: 'container_number',
@@ -311,7 +312,7 @@ const ContainersTable = ({
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <button
                 onClick={exportExcel}
-                className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
+                className="mb-4 flex items-center gap-1 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
                 type="button"
               >
                 <i className="material-icons text-xl">&#xef42;</i> Excel
@@ -342,7 +343,7 @@ const ContainersTable = ({
                       ))}
                     </tr>
                   </thead> */}
-                 <TableHeader tableHeader={carTableHeader} order={order} /> 
+                  <TableHeader tableHeader={carTableHeader} order={order} />
 
                   <tbody>
                     {records.map((row, index) => (
@@ -352,17 +353,22 @@ const ContainersTable = ({
                           index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
                           'text-sm'
                         )}
-
                       >
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {index + 1 + page * (limit === 'all' ? 0 : limit)}
+                        </TableColumn>
+                        <TableColumn className="w-[5px]">
+                          <ImagesViewer
+                            loading={true}
+                            warehouse={false}
+                            store={false}
+                            car_id={row.car_id}
+                            container_no={row.container_number}
+                          />
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline border-dark-blue border-[1px]"
+                          className="border-dark-blue w-[2px] cursor-pointer border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
                         >
                           <span
                             onClick={async () => {
@@ -374,7 +380,7 @@ const ContainersTable = ({
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {row.all_cars_completed === '1' ? (
                             <Link
@@ -392,34 +398,31 @@ const ContainersTable = ({
 
                         <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {row.booking_number}
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {row.pol_name}
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {row.destination}
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {row.status}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           <span
-                            className="bg-dark-blue cursor-pointer rounded-md px-4 py-1 text-white border-dark-blue border-[1px]"
+                            className="bg-dark-blue border-dark-blue cursor-pointer rounded-md border-[1px] px-4 py-1 text-white"
                             onClick={async () => {
                               getContainerCars(row);
                             }}
@@ -427,46 +430,25 @@ const ContainersTable = ({
                             {row.total_cars}
                           </span>
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {row.loaded_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {row.etd}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {row.shipping_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {row.eta}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {row.arrived_port_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {row.arrived_store_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {row.total_shipping}
                         </TableColumn>
                       </tr>

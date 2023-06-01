@@ -12,14 +12,14 @@ import Carousel from 'react-gallery-carousel';
 import { FormattedMessage } from 'react-intl';
 
 import CustomModal from '@/components/customModal';
-import TableColumn from '../TableColumn';
-import TableHeader from '../TableHeader';
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
-import { Sort } from '@/components/dashboard/sort';
-import { classNames } from '@/utils/Functions'; 
+import { classNames } from '@/utils/Functions';
+
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
 
 const ShowAllCars = ({
   carsRecords,
@@ -52,6 +52,10 @@ const ShowAllCars = ({
       order: 'auction_location_name',
     },
     {
+      header: 'page.customer.dashboard.table.region',
+      order: 'region_name',
+    },
+    {
       header: 'page.customer.dashboard.table.destination',
       order: 'port_name',
     },
@@ -61,7 +65,10 @@ const ShowAllCars = ({
     },
     {
       header: 'auction_price',
-    }, 
+    },
+    {
+      header: 'auction_invoice',
+    },
     {
       header: 'page.customer.dashboard.table.payment_date',
       order: 'paymentDate',
@@ -79,6 +86,13 @@ const ShowAllCars = ({
       order: 'delivered_title',
     },
     {
+      header: 'page.customer.dashboard.table.title_note',
+    },
+    {
+      header: 'page.customer.dashboard.table.title_date',
+      order: 'title_date',
+    },
+    {
       header: 'page.customer.dashboard.table.key',
       order: 'delivered_car_key',
     },
@@ -90,7 +104,7 @@ const ShowAllCars = ({
       order: 'loaded_date',
     },
     {
-      header: 'docker_receipt',
+      header: 'dock_receipt',
     },
     {
       header: 'page.customer.dashboard.table.booking',
@@ -137,10 +151,7 @@ const ShowAllCars = ({
   const [downloading, setDownloading] = useState(false);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
 
-
   const GetWarehouseImages = async (car_id, type) => {
-
-
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
@@ -149,9 +160,9 @@ const ShowAllCars = ({
 
     const imdatas = res.data.data;
     const imdata = imdatas.map((im) => ({
-      src: im
+      src: im,
     }));
-    setImages(imdata)
+    setImages(imdata);
     setCarId(car_id);
     setDownloadType(type);
     NProgress.done();
@@ -166,9 +177,9 @@ const ShowAllCars = ({
 
     const imdatas = res.data.data;
     const imdata = imdatas.map((im) => ({
-      src: im
+      src: im,
     }));
-    setImages(imdata)
+    setImages(imdata);
     setCarId(car_id);
     setDownloadType(type);
     NProgress.done();
@@ -182,10 +193,12 @@ const ShowAllCars = ({
     );
 
     const imdatas = res.data.data;
-    const imdata = res.data.data ? imdatas.map((im) => ({
-      src: im
-    })) : [];
-    setImages(imdata)
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
     setCarId(car_id);
     setDownloadType(type);
     NProgress.done();
@@ -193,7 +206,6 @@ const ShowAllCars = ({
   };
   return (
     <div className="" id="tabs-allcars" role="tabpanel">
-
       <CustomModal
         showOn={openNote}
         initialFocus={cancelButtonRef}
@@ -201,7 +213,7 @@ const ShowAllCars = ({
           setOpenNote(false);
         }}
       >
-        <div className="text-dark-blue mt-6 text-center sm:mt-16">
+        <div className="text-dark-blue text-center sm:mt-16">
           <div className="mt-2">
             <p className="mb-4 py-4 text-sm lg:py-6">{note}</p>
           </div>
@@ -220,8 +232,7 @@ const ShowAllCars = ({
           </button>
         </div>
       </CustomModal>
-       <Transition.Root show={redirectModalOpen} as={Fragment}>
-
+      <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -257,11 +268,14 @@ const ShowAllCars = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
-
-
-                <Carousel images={images} style={{ height: '30vw', width: '100%', objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true" />
+                <Carousel
+                  images={images}
+                  style={{ height: '30vw', width: '100%', objectFit: 'cover' }}
+                  canAutoPlay={true}
+                  autoPlayInterval={4000}
+                  isAutoPlaying={true}
+                />
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
                     <div>
@@ -275,9 +289,11 @@ const ShowAllCars = ({
                             setDownloading(true);
                           }
                         }}
-                        className={`mt-4 ${downloading ? 'bg-indigo-200' : 'bg-indigo-600'
-                          } ${images.length ? '' : 'hidden'
-                          } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                        className={`mt-4 ${
+                          downloading ? 'bg-indigo-200' : 'bg-indigo-600'
+                        } ${
+                          images.length ? '' : 'hidden'
+                        } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
                       >
                         {downloading
                           ? 'File will be downloaded shortly'
@@ -307,7 +323,7 @@ const ShowAllCars = ({
           </div>
         </Dialog>
       </Transition.Root>
-      <Transition.Root show={redirectModalOpen} as={Fragment}>
+      {/* <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -326,7 +342,6 @@ const ShowAllCars = ({
               <Dialog.Overlay className="fixed inset-0 transition-opacity" />
             </Transition.Child>
 
-            {/* This element is to trick the browser into centering the modal contents. */}
             <span
               className="hidden sm:inline-block sm:h-screen sm:align-middle"
               aria-hidden="true"
@@ -391,11 +406,11 @@ const ShowAllCars = ({
             </Transition.Child>
           </div>
         </Dialog>
-      </Transition.Root>
-      <div className="pt-14">
+      </Transition.Root> */}
+      <div className="pt-5">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
+            <h1 className="text-dark-blue text-xl font-semibold">
               <FormattedMessage id="page.customer.dashboard.allcars" />
             </h1>
           </div>
@@ -404,9 +419,9 @@ const ShowAllCars = ({
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden ">
-                <table className="min-w-full divide-y divide-gray-300 ">
-                  <TableHeader tableHeader={carTableHeader} order={order} /> 
+              <div className="flex max-h-[50vh] flex-col">
+                <table className="mb-[5px] min-w-full divide-y divide-gray-300">
+                  <TableHeader tableHeader={carTableHeader} order={order} />
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
@@ -416,18 +431,12 @@ const ShowAllCars = ({
                           'text-sm'
                         )}
                       >
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {isNaN(page * limit)
                             ? index + 1
                             : page * limit + index + 1}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[56px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[56px]">
                           <img
                             className="max-h-[50px]"
                             src={car.image}
@@ -435,11 +444,8 @@ const ShowAllCars = ({
                           />
                         </TableColumn>
 
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px]"
-                        >
-                          <div className='row w-[110px]'>
+                        <TableColumn scope="col" className="min-w-[50px]">
+                          <div className="row w-[90px]">
                             <div className="three-icons">
                               <img
                                 src="/assets/images/warehouseimg.png"
@@ -448,7 +454,6 @@ const ShowAllCars = ({
                                   GetWarehouseImages(car.car_id, 'warehouse');
                                 }}
                               />
-
                             </div>
                             <div className="three-icons">
                               <img
@@ -457,9 +462,8 @@ const ShowAllCars = ({
                                 onClick={() => {
                                   GetLoadingImages(car.car_id, 'loading');
                                 }}
-
-                               />
-                                                         </div>
+                              />
+                            </div>
 
                             <div className="three-icons">
                               <img
@@ -468,56 +472,43 @@ const ShowAllCars = ({
                                 onClick={() => {
                                   GetStoringImages(car.car_id, 'store');
                                 }}
-
-                               />
-                                                         </div>
-
+                              />
+                            </div>
                           </div>
-
-
                         </TableColumn>
 
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[180px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[180px]">
                           {car.carMakerName} {car.carModelName} {car.year}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[130px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[135px]">
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[160px]"
-                        >
-                          <span className="text-[#810808]">
+                        <TableColumn scope="col" className="min-w-[180px]">
+                          {/* <span className="text-[#810808]">
                             {car.region_name}
-                          </span>{' '}  <br />
-                          {car.auction_location_name} <br /> {car.aTitle} <br />
+                          </span> */}
+                          {/* {' '}   */}
+                          {/* <br /> */}
+                          {/* &nbsp;|&nbsp;  */}
+                          {car.auction_location_name}
+                          {/* <br />  */}
+                          &nbsp;|&nbsp;
+                          {car.aTitle} <br />
                           <FormattedMessage id="general.buyer_number" />:{' '}
                           {car.buyer_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[64px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[64px]">
+                          {car.region_name}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[64px]">
                           {car.port_name}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[55px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[55px]">
                           {car.purchasedate}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[64px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[64px]">
                           {car.carcost > 0 && `${car.carcost}$`}{' '}
-                          {car.invoice_file_auction && (
+                          {/* {car.invoice_file_auction && (
                             <a
                               className="text-medium-grey hover:border-0"
                               href={car.invoice_file_auction}
@@ -527,31 +518,40 @@ const ShowAllCars = ({
                                 className="text-teal-blue text-2xl"
                               />
                             </a>
+                          )} */}
+                        </TableColumn>
+                        <TableColumn
+                          scope="col"
+                          className="min-w-[45px] text-center"
+                        >
+                          {car.invoice_file_auction ? (
+                            <a
+                              className="text-medium-grey hover:border-0"
+                              href={car.invoice_file_auction}
+                            >
+                              <FontAwesomeIcon
+                                icon={faFilePdf}
+                                className="text-teal-blue text-2xl"
+                              />
+                            </a>
+                          ) : (
+                            <span> N A</span>
                           )}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[55px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[55px]">
                           {car.paymentDate}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[30px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {car.picked_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[47px]">
                           {car.delivered_date}
                         </TableColumn>
                         <TableColumn
-                          scope="col"
-                          className="min-w-[60px]"
+                          // scope="col"
+                          className="min-w-[30px]"
                         >
-                          <button
+                          {/* <button
                             type="button"
                             onClick={() => {
                               setNote(car.follow_car_title_note);
@@ -560,58 +560,85 @@ const ShowAllCars = ({
                             }}
                             className={classNames(
                               !car.follow_car_title_note ? 'hidden' : '',
-                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-dark-blue border-[1px]'
+                              'ml-[15%] inline-flex px-1 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 '
                             )}
                           >
                             Notes
-                          </button>
+                          </button> */}
+
                           {car.delivered_title === '1' ? (
                             <CheckCircleIcon
-                              className="h-6 w-6 text-green-400 "
+                              className="ml-[30%] h-6 w-6 text-green-400"
                               aria-hidden="true"
                             />
                           ) : (
                             <XCircleIcon
-                              className="h-6 w-6 text-red-400"
+                              className="ml-[30%] h-6 w-6 text-red-400"
                               aria-hidden="true"
                             />
                           )}
-                          <br />
-                          {car.titleDate}
+                          {/* <br /> */}
+                          {/* <span>{car.titleDate}</span> */}
                         </TableColumn>
                         <TableColumn
-                          scope="col"
-                          className="min-w-[63px]"
+                          // scope="col"
+                          className="min-w-[45px] text-center"
                         >
+                          {car.follow_car_title_note ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNote(car.follow_car_title_note);
+                                setOpenNote(true);
+                                contentRef?.current?.classList.add('blur-sm');
+                              }}
+                              className={classNames(
+                                !car.follow_car_title_note ? 'hidden' : '',
+                                'inline-flex px-1 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 '
+                              )}
+                            >
+                              Notes
+                            </button>
+                          ) : (
+                            <span>N A</span>
+                          )}
+                        </TableColumn>
+                        <TableColumn
+                          // scope="col"
+                          className="min-w-[62px] text-center"
+                        >
+                          {car.titleDate ? (
+                            <span>{car.titleDate}</span>
+                          ) : (
+                            <span>N A</span>
+                          )}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[30px]">
+                          {car.follow_car_title_note ? (
+                            <div className="mt-[14px]"></div>
+                          ) : (
+                            <></>
+                          )}
+
                           {car.delivered_car_key === '1' ? (
                             <CheckCircleIcon
-                              className="h-6 w-6 text-green-400"
+                              className="ml-[25%] h-6 w-6 text-green-400"
                               aria-hidden="true"
                             />
                           ) : (
                             <XCircleIcon
-                              className="h-6 w-6 text-red-400"
+                              className="ml-[25%] h-6 w-6 text-red-400"
                               aria-hidden="true"
                             />
                           )}
-                          <br />
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[80px]">
                           {car.departurePort}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[47px]">
                           {car.loaded_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[47px]">
                           {car.file_name && (
                             <a
                               className="text-medium-grey hover:border-0"
@@ -624,70 +651,46 @@ const ShowAllCars = ({
                             </a>
                           )}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[47px]">
                           {car.booking_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[47px]">
                           {car.container_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px]">
                           {car.etd}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px]">
                           {car.shipping_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px]">
                           {car.eta}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px]">
                           {car.receive_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[45px]">
                           {car.final_payment_status === 'Paid' ? (
                             <CheckCircleIcon
-                              className="h-6 w-6 text-green-400"
+                              className="ml-[20%] h-6 w-6 text-green-400"
                               aria-hidden="true"
                             />
                           ) : (
                             <XCircleIcon
-                              className="h-6 w-6 text-red-400"
+                              className="ml-[20%] h-6 w-6 text-red-400"
                               aria-hidden="true"
                             />
                           )}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[47px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[45px]">
                           {car.sold === 'Sold' ? (
                             <CheckCircleIcon
-                              className="h-6 w-6 text-green-400"
+                              className="ml-[20%] h-6 w-6 text-green-400"
                               aria-hidden="true"
                             />
                           ) : (
                             <XCircleIcon
-                              className="h-6 w-6 text-red-400"
+                              className="ml-[20%] h-6 w-6 text-red-400"
                               aria-hidden="true"
                             />
                           )}

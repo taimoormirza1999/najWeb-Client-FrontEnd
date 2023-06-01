@@ -69,7 +69,7 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 
   return (
-    <div className="float-right mt-3">
+    <div className="float-right mt-1">
       <nav
         className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm"
         aria-label="Pagination"
@@ -197,12 +197,12 @@ const SelectPageRecords = ({ url }) => {
   }, [filters, selectedLimit]);
 
   return (
-    <div className="mt-3" data-path={router.pathname}>
+    <div className="mt-[1px]" data-path={router.pathname}>
       <input
         type="text"
         title="Write text and press enter!"
         placeholder={intl.formatMessage({ id: 'Search' })}
-        className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
+        className="border-medium-grey basis-1/6 rounded-md border py-1 mr-1  text-lg text-gray-700 ltr:italic md:self-end"
         value={tableSearch}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
