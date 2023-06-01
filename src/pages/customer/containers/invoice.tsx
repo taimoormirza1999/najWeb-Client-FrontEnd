@@ -19,9 +19,15 @@ const ContainerInvoice = ({ invoice }) => {
     invoice_no,
     container_number,
     invoice_create_date,
+    port_arrival_date,
     due_date,
     printed_date,
     past_due_days,
+    customer_name_en,
+    customer_country,
+    customer_state,
+    customer_city,
+    customer_phone,
     booking_number,
     etd,
     shipper_name,
@@ -128,6 +134,7 @@ const ContainerInvoice = ({ invoice }) => {
             <div className='-mt-[22px]'>
               <p>Number :</p>
               <p>Creation Date : </p>
+              <p>Arrival Date : </p>
               <p>Due Date : </p>
               <p>Past Due Days : </p>
               <p>Invoice printed : </p>
@@ -135,6 +142,7 @@ const ContainerInvoice = ({ invoice }) => {
             <div className='-mt-[22px]'>
               <p>{invoice_no}</p>
               <p>{invoice_create_date}</p>
+              <p>{port_arrival_date}</p>
               <p>{due_date}</p>
               <p>{past_due_days}</p>
               <p>{printed_date}</p>
@@ -190,10 +198,10 @@ const ContainerInvoice = ({ invoice }) => {
             <p>Phone Number</p>
           </div>
           <div className="w-1/3 text-center">
-            <p>Nejoum Al Jazeera</p>
-            <p>Industiral Area 4, Head Office</p>
-            <p>UAE</p>
-            <p>+971 65 440 202</p>
+            <p>{customer_name_en}</p>
+            <p>{customer_city}, {customer_state}</p>
+            <p>{customer_country}</p>
+            <p>{customer_phone}</p>
           </div>
           <div className="mr-[5px] w-1/3 text-right font-bold">
             <p>الاسم بالكامل</p>
@@ -227,7 +235,7 @@ const ContainerInvoice = ({ invoice }) => {
             </tr>
             <tr>
               <td>
-                <h5>Origin/اصل</h5>
+                <h5>Origin/مصدر</h5>
               </td>
               <td>
                 <h5>{pol_name}</h5>
