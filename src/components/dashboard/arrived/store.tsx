@@ -3,8 +3,8 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import { useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
-import { classNames } from '@/utils/Functions';
 import TableColumn from '@/components/TableColumn';
+import { classNames } from '@/utils/Functions';
 
 const Store = ({
   carsRecords,
@@ -24,18 +24,12 @@ const Store = ({
         'text-sm'
       )}
     >
-      <TableColumn
-        scope="col"
-        className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="w-[2px]">
         {addIndex + index + 1}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[56px]">
         <img
-          className="max-h-[50px] cursor-pointer"
+          className="table_auction_img cursor-pointer"
           src={car.image_small}
           alt=""
           onClick={() => {
@@ -43,49 +37,38 @@ const Store = ({
           }}
         />
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[180px]">
         {car.carMakerName} {car.carModelName} {car.year}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[150px]">
         Lot: {car.lotnumber} <br /> Vin: {car.vin}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+
+      {/* <TableColumn scope="col" className="min-w-[160px]">
         {car.auction_location_name} <br /> {car.aTitle} <br />
         <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
         <br />
         {car.region}
+      </TableColumn> */}
+      <TableColumn scope="col" className="min-w-[130px]">
+        {car.auction_location_name} | {car.aTitle}{' '}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[180px]">
+        <FormattedMessage id="general.buyer_number" />: {car.buyer_number}
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[80px]">
+        {car.region}
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[100px]">
         {car.port_name}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.purchasedate}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.picked_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         <button
           type="button"
           onClick={() => {
@@ -106,10 +89,7 @@ const Store = ({
       >
         {car.delivered_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[30px]">
         {car.delivered_title === '1' || car.follow_title === '1' ? (
           <CheckCircleIcon
             className="h-6 w-6 text-green-400"
@@ -118,13 +98,11 @@ const Store = ({
         ) : (
           <XCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
         )}
-        <br />
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[63px]">
         {car.titleDate}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[30px]">
         {car.delivered_car_key === '1' ? (
           <CheckCircleIcon
             className="h-6 w-6 text-green-400"
@@ -134,53 +112,29 @@ const Store = ({
           <XCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
         )}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.loaded_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.booking_number}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.container_number}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.shipping_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.arrival_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.receive_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.total_price}
       </TableColumn>
       {session?.profile[0]?.naj_branch === '1' ? (
-        <TableColumn
-          scope="col"
-          className="min-w-[47px]"
-        >
+        <TableColumn scope="col" className="min-w-[47px]">
           {car.isUAEPort === '0' ? (
             <button
               type="button"

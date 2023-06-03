@@ -21,6 +21,7 @@ import { classNames } from '@/utils/Functions';
 
 import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -35,6 +36,12 @@ const carTableHeader = [
   },
   {
     name: 'page.customer.dashboard.table.auction',
+  },
+  {
+    header: 'page.customer.dashboard.table.buyer_number',
+  },
+  {
+    header: 'page.customer.dashboard.table.region',
   },
   {
     name: 'page.customer.dashboard.table.destination',
@@ -58,10 +65,20 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.title',
   },
   {
+    header: 'page.customer.dashboard.table.title_note',
+  },
+  {
+    header: 'page.customer.dashboard.table.title_date',
+    order: 'title_date',
+  },
+  {
     name: 'page.customer.dashboard.table.key',
   },
   {
     name: 'page.customer.dashboard.table.loaded_date',
+  },
+  {
+    name: 'page.customer.dashboard.table.loaded_image',
   },
   {
     name: 'page.customer.dashboard.table.booking',
@@ -74,6 +91,9 @@ const carTableHeader = [
   },
   {
     name: 'page.customer.dashboard.table.shipping_date',
+  },
+  {
+    name: 'page.customer.dashboard.table.shipping_image',
   },
   {
     name: 'page.customer.dashboard.table.eta',
@@ -110,11 +130,13 @@ const ShippingCarTab = ({
     );
 
     const imdatas = res.data.data;
-    const imdata = res.data.data ? imdatas.map((im) => ({
-      src: im
-    })) : [];
-    setImages(imdata)
-    
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
+
     // setImages(res.data.data ? res.data.data : []);
     setCarId(car_id);
     NProgress.done();
@@ -172,12 +194,17 @@ const ShippingCarTab = ({
                       className="text-5xl font-bold leading-6"
                     ></Dialog.Title>
                     <div className="mt-2">
-
-
-
-                    <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
-
-
+                      <Carousel
+                        images={images}
+                        style={{
+                          height: '30vw',
+                          width: '100%',
+                          objectFit: 'cover',
+                        }}
+                        canAutoPlay={true}
+                        autoPlayInterval={2000}
+                        isAutoPlaying={true}
+                      />
 
                       {/* <SRLWrapper>
                         {images && (
@@ -293,20 +320,15 @@ const ShippingCarTab = ({
           </div>
         </Dialog>
       </Transition.Root>
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.in_shipping" />
-            </h1>
-          </div>
-        </div>
+      <div>
+        <TableHeadText id={'page.customer.dashboard.allcars'} />
         <div className="flex flex-col">
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-300">
+              {/* <div className="overflow-hidden"> */}
+              <div className="table_top_div flex flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
                   {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
@@ -320,7 +342,7 @@ const ShippingCarTab = ({
                       ))}
                     </tr>
                   </thead> */}
-                  <TableHeader tableHeader={carTableHeader} /> 
+                  <TableHeader tableHeader={carTableHeader} />
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
@@ -330,66 +352,42 @@ const ShippingCarTab = ({
                           'text-sm'
                         )}
                       >
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px]"
-                        >
+                        <TableColumn scope="col" className="w-[2px]">
                           {addIndex + index + 1}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[56px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[56px]">
                           <img
-                            className="max-h-[50px]"
+                            className="table_auction_img"
                             src={car.image}
                             alt=""
                           />
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[180px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[180px]">
                           {car.carMakerName} {car.carModelName} {car.year}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[130px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[140px]">
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[160px]"
-                        >
-                          {car.auction_location_name} <br /> {car.auctionTitle}{' '}
-                          <br />
+                        <TableColumn scope="col" className="min-w-[160px]">
+                          {car.auction_location_name} | {car.auctionTitle}{' '}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[200px]">
                           <FormattedMessage id="general.buyer_number" />:{' '}
-                          {car.buyer_number} <br />
+                          {car.buyer_number}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[80px]">
                           {car.region_name}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[64px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[120px]">
                           {car.destination}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[55px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[85px]">
                           {car.purchasedate}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {car.paymentDate}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[30px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {car.picked_date}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[30px]">
@@ -413,24 +411,7 @@ const ShippingCarTab = ({
                         >
                           {car.delivered_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[60px]"
-                        >
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setNote(car.follow_car_title_note);
-                              setOpenNote(true);
-                              contentRef?.current?.classList.add('blur-sm');
-                            }}
-                            className={classNames(
-                              !car.follow_car_title_note ? 'hidden' : '',
-                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                            )}
-                          >
-                            Notes
-                          </button>
+                        <TableColumn scope="col" className="min-w-[30px]">
                           {car.delivered_title === '1' ||
                           car.follow_title === '1' ? (
                             <CheckCircleIcon
@@ -443,13 +424,34 @@ const ShippingCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                          <br />
-                          {car.titleDate}
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="min-w-[63px]"
+                          className="min-w-[60px] text-center"
                         >
+                          {car.follow_car_title_note === '-' ||
+                          !car.follow_car_title_note ? (
+                            <span>N A</span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNote(car.follow_car_title_note);
+                                setOpenNote(true);
+                                contentRef?.current?.classList.add('blur-sm');
+                              }}
+                              className={classNames(
+                                'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                              )}
+                            >
+                              Notes
+                            </button>
+                          )}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[63px]">
+                          {car.titleDate}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[30px]">
                           {car.delivered_car_key === '1' ? (
                             <CheckCircleIcon
                               className="h-6 w-6 text-green-400"
@@ -462,13 +464,15 @@ const ShippingCarTab = ({
                             />
                           )}
                         </TableColumn>
+                        <TableColumn scope="col" className="min-w-[75px]">
+                          {car.loaded_date}
+                        </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="min-w-[50px]"
+                          className="min-w-[50px] text-center"
                         >
-                          {car.loaded_date} <br />
                           <i
-                            className="material-icons cursor-pointer text-3xl ltr:mr-2 rtl:ml-2"
+                            className="material-icons cursor-pointer text-3xl"
                             onClick={() => {
                               GetImages(car.carId, 'loading');
                             }}
@@ -476,29 +480,22 @@ const ShippingCarTab = ({
                             &#xe3f4;
                           </i>
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[50px]">
                           {car.booking_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[50px]">
                           {car.container_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {car.etd}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
+                          {car.shipping_date} <br />
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="min-w-[50px]"
+                          className="min-w-[50px] text-center"
                         >
-                          {car.shipping_date} <br />
                           <i
                             className="material-icons cursor-pointer text-3xl ltr:mr-2 rtl:ml-2"
                             onClick={() => {
@@ -508,10 +505,7 @@ const ShippingCarTab = ({
                             &#xe3f4;
                           </i>
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px]"
-                        >
+                        <TableColumn scope="col" className="min-w-[80px]">
                           {car.eta}
                         </TableColumn>
                         <TableColumn

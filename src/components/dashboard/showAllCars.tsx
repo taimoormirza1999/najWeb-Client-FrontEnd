@@ -20,6 +20,7 @@ import { classNames } from '@/utils/Functions';
 
 import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 
 const ShowAllCars = ({
   carsRecords,
@@ -390,20 +391,15 @@ const ShowAllCars = ({
           </div>
         </Dialog>
       </Transition.Root> */}
-      <div className="pt-5">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.allcars" />
-            </h1>
-          </div>
-        </div>
+      {/* <div className="pt-5"> */}
+      <div>
+        <TableHeadText id={'page.customer.dashboard.allcars'} />
         <div className="flex flex-col">
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="flex max-h-[50vh] flex-col">
-                <table className="mb-[5px] min-w-full divide-y divide-gray-300">
+              <div className="table_top_div flex flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
                   <TableHeader tableHeader={carTableHeader} order={order} />
                   <tbody>
                     {carsRecords.map((car, index) => (
@@ -421,14 +417,14 @@ const ShowAllCars = ({
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[56px]">
                           <img
-                            className="max-h-[50px]"
+                            className="table_auction_img"
                             src={car.image}
                             alt=""
                           />
                         </TableColumn>
 
                         <TableColumn scope="col" className="min-w-[50px]">
-                          <div className="row w-[90px]">
+                          <div className="w-[90px]">
                             <div className="three-icons">
                               <img
                                 src="/assets/images/warehouseimg.png"
@@ -552,21 +548,6 @@ const ShowAllCars = ({
                           // scope="col"
                           className="min-w-[30px]"
                         >
-                          {/* <button
-                            type="button"
-                            onClick={() => {
-                              setNote(car.follow_car_title_note);
-                              setOpenNote(true);
-                              contentRef?.current?.classList.add('blur-sm');
-                            }}
-                            className={classNames(
-                              !car.follow_car_title_note ? 'hidden' : '',
-                              'ml-[15%] inline-flex px-1 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 '
-                            )}
-                          >
-                            Notes
-                          </button> */}
-
                           {car.delivered_title === '1' ? (
                             <CheckCircleIcon
                               className="ml-[30%] h-6 w-6 text-green-400"
@@ -594,7 +575,6 @@ const ShowAllCars = ({
                                 contentRef?.current?.classList.add('blur-sm');
                               }}
                               className={classNames(
-                                !car.follow_car_title_note ? 'hidden' : '',
                                 'inline-flex px-1 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 '
                               )}
                             >
@@ -615,12 +595,6 @@ const ShowAllCars = ({
                           )}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[30px]">
-                          {car.follow_car_title_note ? (
-                            <div className="mt-[14px]"></div>
-                          ) : (
-                            <></>
-                          )}
-
                           {car.delivered_car_key === '1' ? (
                             <CheckCircleIcon
                               className="ml-[25%] h-6 w-6 text-green-400"

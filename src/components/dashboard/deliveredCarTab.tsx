@@ -1,22 +1,27 @@
+import 'react-gallery-carousel/dist/index.css';
+
+import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { FormattedMessage } from 'react-intl';
+import axios from 'axios';
 import Link from 'next/link';
 import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
 import Carousel from 'react-gallery-carousel';
-import 'react-gallery-carousel/dist/index.css';
-import axios from 'axios';
-import NoteModal from '@/components/noteModal';
-import TableHeader from '../TableHeader';
-import TableColumn from '../TableColumn';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import NoteModal from '@/components/noteModal';
 import { classNames } from '@/utils/Functions';
+
+import TableColumn from '../TableColumn';
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
+import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 
 const DeliveredCarTab = ({
   carsRecords,
@@ -37,12 +42,15 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.detail',
       'page.customer.dashboard.table.lot_vin',
       'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.buyer_number',
+      'page.customer.dashboard.table.region',
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
       'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.title_date',
       'page.customer.dashboard.table.key',
       'page.customer.dashboard.table.loaded_date',
       'page.customer.dashboard.table.booking',
@@ -65,12 +73,15 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.detail',
       'page.customer.dashboard.table.lot_vin',
       'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.buyer_number',
+      'page.customer.dashboard.table.region',
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
       'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.title_date',
       'page.customer.dashboard.table.key',
       'page.customer.dashboard.table.loaded_date',
       'page.customer.dashboard.table.booking',
@@ -99,9 +110,7 @@ const DeliveredCarTab = ({
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState('');
 
-
   const GetWarehouseImages = async (car_id, type) => {
-
     NProgress.start();
     setDownloading(false);
     const res = await axios.get(
@@ -109,10 +118,12 @@ const DeliveredCarTab = ({
     );
 
     const imdatas = res.data.data;
-    const imdata = res.data.data ? imdatas.map((im) => ({
-      src: im
-    })) : [];
-    setImages(imdata)
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
     setCarId(car_id);
     setDownloadType(type);
     NProgress.done();
@@ -126,10 +137,12 @@ const DeliveredCarTab = ({
     );
 
     const imdatas = res.data.data;
-    const imdata = res.data.data ? imdatas.map((im) => ({
-      src: im
-    })) : [];
-    setImages(imdata)
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
     setCarId(car_id);
     setDownloadType(type);
     NProgress.done();
@@ -143,10 +156,12 @@ const DeliveredCarTab = ({
     );
 
     const imdatas = res.data.data;
-    const imdata = res.data.data ? imdatas.map((im) => ({
-      src: im
-    })) : [];
-    setImages(imdata)
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
     setCarId(car_id);
     setDownloadType(type);
     NProgress.done();
@@ -195,10 +210,14 @@ const DeliveredCarTab = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
-                
-              <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
+                <Carousel
+                  images={images}
+                  style={{ height: '30vw', width: '100%', objectFit: 'cover' }}
+                  canAutoPlay={true}
+                  autoPlayInterval={2000}
+                  isAutoPlaying={true}
+                />
 
                 <div>
                   <div className="text-dark-blue mt-1 text-center sm:mt-1">
@@ -233,7 +252,7 @@ const DeliveredCarTab = ({
                   <button
                     type="button"
                     // className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
                     onClick={() => {
                       setRedirectModalOpen(false);
                     }}
@@ -241,27 +260,20 @@ const DeliveredCarTab = ({
                   >
                     Close X
                   </button>
-            
                 </div>
               </div>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition.Root>
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.delivered" />
-            </h1>
-          </div>
-        </div>
+      <div>
+        <TableHeadText id={'page.customer.dashboard.new_cars'} />
         <div className="flex flex-col">
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-300">
+              <div className="table_top_div flex max-h-[50vh] flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
                   {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
@@ -275,10 +287,9 @@ const DeliveredCarTab = ({
                       ))}
                     </tr>
                   </thead> */}
-                  <TableHeader tableHeader={carTableHeader}/> 
+                  <TableHeader tableHeader={carTableHeader} />
                   <tbody>
                     {carsRecords.map((car, index) => (
-                      
                       <tr
                         key={index}
                         className={classNames(
@@ -286,74 +297,50 @@ const DeliveredCarTab = ({
                           'text-sm'
                         )}
                       >
-                        <TableColumn
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="w-[2px] ">
                           {addIndex + index + 1}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                            <Link
-                                key={index}
-                                href={{
-                                  pathname: '/customer/dashboard/',
-                                  query: { tab: 'tabs-arrived', type: 'store'},
-                                }}
-                              >
-                          <img
-                            className="max-h-[50px]"
-                            src={car.image}
-                            alt=""
-                          />
+                        <TableColumn scope="col" className="min-w-[56px] ">
+                          <Link
+                            key={index}
+                            href={{
+                              pathname: '/customer/dashboard/',
+                              query: { tab: 'tabs-arrived', type: 'store' },
+                            }}
+                          >
+                            <img
+                              className="max-h-[50px]"
+                              src={car.image}
+                              alt=""
+                            />
                           </Link>
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[180px] ">
                           {car.carMakerName} {car.carModelName} {car.year}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[150px] ">
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.auction_location_name} <br /> {car.auctionTitle}
-                          <br />
-                          <FormattedMessage id="general.buyer_number" />:{' '}
-                          {car.buyer_number}
-                          <br /> {car.region}
+                        <TableColumn scope="col" className="min-w-[150px] ">
+                          {car.auction_location_name} | {car.auctionTitle}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[154px] ">
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number}{' '}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[64px] ">
+                          {car.region}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[90px] ">
                           {car.port_name}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.purchasedate}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.picked_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px]">
                           <button
                             type="button"
                             onClick={() => {
@@ -374,10 +361,7 @@ const DeliveredCarTab = ({
                         >
                           {car.delivered_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[30px]">
                           {car.delivered_title === '1' ||
                           car.follow_title === '1' ? (
                             <CheckCircleIcon
@@ -390,13 +374,12 @@ const DeliveredCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                          <br />
+                        </TableColumn>
+
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.titleDate}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[30px] ">
                           {car.delivered_car_key === '1' ? (
                             <CheckCircleIcon
                               className="h-6 w-6 text-green-400"
@@ -409,115 +392,73 @@ const DeliveredCarTab = ({
                             />
                           )}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.loaded_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[50px] ">
                           {car.booking_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[50px] ">
                           {car.container_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.shipping_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[85px] ">
                           {car.arrival_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.receive_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.deliver_create_date}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[50px] ">
                           {car.total_cost}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.paymentDate}
                         </TableColumn>
                         {type === 'Paid' && (
-                          <TableColumn
-                            scope="col"
-                            className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                          >
+                          <TableColumn scope="col" className="min-w-[50px] ">
                             {car.amount_paid}
                           </TableColumn>
                         )}
                         {type === 'Paid' && (
-                          <TableColumn
-                            scope="col"
-                            className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                          >
+                          <TableColumn scope="col" className="min-w-[50px] ">
                             {car.remaining_amount}
                           </TableColumn>
                         )}
-                        <TableColumn
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          <div className='row'>
+                        <TableColumn scope="col" className="min-w-[100px] ">
+                          <div className="row">
                             <div className="three-icons">
-                            <img
+                              <img
                                 src="/assets/images/warehouseimg.png"
                                 alt=""
                                 onClick={() => {
-                                  GetWarehouseImages(car.car_id ,'warehouse');
+                                  GetWarehouseImages(car.car_id, 'warehouse');
                                 }}
                               />
-
                             </div>
                             <div className="three-icons">
-                            <img
+                              <img
                                 src="/assets/images/loading.png"
                                 alt=""
                                 onClick={() => {
                                   GetLoadingImages(car.car_id, 'loading');
                                 }}
-
                               />
-                          
                             </div>
                             <div className="three-icons">
-                            <img
+                              <img
                                 src="/assets/images/Arrival_pics.png"
                                 alt=""
                                 onClick={() => {
                                   GetStoringImages(car.car_id, 'store');
                                 }}
                               />
-
                             </div>
                           </div>
-                          
-                           
                         </TableColumn>
                       </tr>
                     ))}

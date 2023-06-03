@@ -4,6 +4,7 @@ import { withRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+
 import { ContainersTable } from '@/components/containers/containersTable';
 import { SubMenu } from '@/components/containers/SubMenu';
 import { SearchLot } from '@/components/dashboard/searchLot';
@@ -71,14 +72,14 @@ const Containers = ({ router, containersData, containersCount }) => {
   return (
     <Layout meta={<Meta title="Containers" description="" />}>
       <div>
-        <div className="m-8">
+        <div className="m-4">
           <div className="flex">
-            <h4 className="text-dark-blue flex-1 pb-8 text-2xl font-semibold sm:text-4xl">
-              <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
+          <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
+              <i className="material-icons text-dark-blue align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>
               <FormattedMessage id="page.customer.dashboard.containers" />
-            </h4>
+            </h5>
             <SearchLot></SearchLot>
           </div>
           <div>
@@ -91,7 +92,7 @@ const Containers = ({ router, containersData, containersCount }) => {
                       tab === tabData.href
                         ? 'bg-[#005FB7] text-white'
                         : 'text-blue-600 hover:text-gray-700',
-                      'mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      'mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-base'
                     )}
                     onClick={() => setSubMenu(tabData.href)}
                   >
@@ -112,7 +113,7 @@ const Containers = ({ router, containersData, containersCount }) => {
                           tab === tabData.href
                           ? 'bg-[#005FB7] text-white'
                           : 'text-blue-600 hover:text-gray-700',
-                        'mr-3 px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                        'mr-3 px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-base'
                       )}
                     >
                       <FormattedMessage id={tabData.name} />{' '}

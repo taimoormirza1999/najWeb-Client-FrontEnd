@@ -4,9 +4,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { UserContext } from '@/components/userContext';
-import TableHeader from '@/components/TableHeader';
 import TableColumn from '@/components/TableColumn';
+import TableHeader from '@/components/TableHeader';
+import { UserContext } from '@/components/userContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -45,11 +45,12 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
 
   useEffect(() => {
     const excelBtn = document.getElementById('shippedCars-xls-button');
-    if(excelBtn){
-      excelBtn.innerHTML = '<i class="material-icons text-xl">&#xef42;</i> Excel';
+    if (excelBtn) {
+      excelBtn.innerHTML =
+        '<i class="material-icons text-xl">&#xef42;</i> Excel';
     }
   }, []);
-  
+
   const tableHeader = [
     { name: 'page.customer.dashboard.table.no' },
     {
@@ -81,7 +82,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
     },
     {
       name: 'statement.shipped_cars.balance',
-    }
+    },
   ];
 
   return (
@@ -93,7 +94,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'Search' })}
-          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
+          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1  text-gray-700 ltr:italic md:self-end"
           value={shippedTableSearch}
           onChange={(e) => {
             setShippedTableSearch(e.target.value);
@@ -102,7 +103,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
       </div>
       <ReactHTMLTableToExcel
         id="shippedCars-xls-button"
-        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
+        className="mb-4 flex items-center gap-1 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
         table="shippedCars"
         filename="shippedCars"
         sheet="tablexls"
@@ -149,9 +150,13 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
               </TableColumn>
             </tr>
           </thead> */}
-          <TableHeader tableHeader={tableHeader.filter((item, _) => (
-              item.name !== 'page.customer.container.container_number' || showContainerNumber
-          ))} /> 
+          <TableHeader
+            tableHeader={tableHeader.filter(
+              (item, _) =>
+                item.name !== 'page.customer.container.container_number' ||
+                showContainerNumber
+            )}
+          />
 
           <tbody>
             {shippedCarsState.map((row, index) => (
@@ -165,26 +170,20 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
                 <TableColumn className="text-dark-blue w-[4%] min-w-[60px]">
                   {row.index}
                 </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.date}
-                </TableColumn>
-                <TableColumn className="w-[24%] p-3 text-lg text-[#1C1C1C]">
+                <TableColumn className="w-[8%]">{row.date}</TableColumn>
+                <TableColumn className="w-[24%]">
                   {row.car === undefined
                     ? row.description
                     : carProfileDetail(row)}
                 </TableColumn>
                 {showContainerNumber ? (
-                  <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                  <TableColumn className="w-[8%]">
                     {row?.car?.container_number || ''}
                   </TableColumn>
                 ) : null}
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.storage_fine}
-                </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.car_price}
-                </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                <TableColumn className="w-[8%]">{row.storage_fine}</TableColumn>
+                <TableColumn className="w-[8%]">{row.car_price}</TableColumn>
+                <TableColumn className="w-[8%]">
                   {row.car_id ? (
                     <Link
                       href={{
@@ -200,18 +199,14 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
                     row.shipping_amount
                   )}
                 </TableColumn>
-                <TableColumn className="w-[10%] p-3 text-lg text-[#0B9A21]">
+                <TableColumn className="w-[10%] text-[#0B9A21]">
                   {row.debit}
                 </TableColumn>
-                <TableColumn className="w-[10%] p-3 text-lg text-[#A30000]">
+                <TableColumn className="w-[10%] text-[#A30000]">
                   {row.credit}
                 </TableColumn>
-                <TableColumn className="w-[10%] p-3 text-lg text-[#1C1C1C]">
-                  {row.remaining}
-                </TableColumn>
-                <TableColumn className="w-[10%] p-3 text-lg text-[#1C1C1C]">
-                  {row.balance}
-                </TableColumn>
+                <TableColumn className="w-[10%]">{row.remaining}</TableColumn>
+                <TableColumn className="w-[10%]">{row.balance}</TableColumn>
               </tr>
             ))}
           </tbody>
@@ -223,38 +218,34 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
           <table className="w-full table-auto">
             <tfoot>
               <tr className="font-semibold">
-                <td className="w-[4%] p-3 border-dark-blue border-[1px]">
-
-                </td>
-                <td className="w-[32%] p-3 text-2xl  text-[#1C1C1C] border-dark-blue border-[1px]">
+                <TableColumn className="w-[4%] p-3"></TableColumn>
+                <TableColumn className="w-[32%] p-3 text-2xl  text-[#1C1C1C]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
-                </td>
+                </TableColumn>
                 {showContainerNumber ? (
-                  <td className="w-[8%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
-
-                  </td>
+                  <TableColumn className="w-[8%] p-3 "></TableColumn>
                 ) : null}
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
+                <TableColumn className="w-[8%] p-3  ">
                   {lastTotalRow.storage_fine}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%]  p-3 ">
                   {lastTotalRow.car_price}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%]  p-3 ">
                   {lastTotalRow.shipping_amount}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#0B9A21] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[10%] p-3  text-[#0B9A21]">
                   {lastTotalRow.debit ? lastTotalRow.debit : ''}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#A30000] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[10%] p-3  text-[#A30000]">
                   {lastTotalRow.credit ? lastTotalRow.credit : ''}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[10%]  p-3 ">
                   {lastTotalRow.remaining}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[10%]  p-3 ">
                   {lastTotalRow.balance}
-                </td>
+                </TableColumn>
               </tr>
             </tfoot>
           </table>
