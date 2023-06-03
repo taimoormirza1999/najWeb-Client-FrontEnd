@@ -18,8 +18,6 @@ import NoteModal from '@/components/noteModal';
 import { classNames } from '@/utils/Functions';
 
 import TableColumn from '../TableColumn';
-import TableColumn from '../TableColumn';
-import TableHeader from '../TableHeader';
 import TableHeader from '../TableHeader';
 import TableHeadText from '../TableHeadText';
 
