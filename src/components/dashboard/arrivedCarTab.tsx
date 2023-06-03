@@ -1,8 +1,11 @@
-import { Dialog, Tab, Transition } from '@headlessui/react';
+import 'react-gallery-carousel/dist/index.css';
+
+import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import NProgress from 'nprogress';
 import { Fragment, useEffect, useRef, useState } from 'react';
+import Carousel from 'react-gallery-carousel';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
@@ -13,12 +16,10 @@ import {
 import { postData } from '@/utils/network';
 
 import CustomModal from '../customModal';
+import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 import { Port } from './arrived/port';
 import { Store } from './arrived/store';
-
-import Carousel from 'react-gallery-carousel';
-import 'react-gallery-carousel/dist/index.css';
-import TableHeader from '../TableHeader';
 
 const ArrivedCarTab = ({
   carsRecords,
@@ -41,6 +42,8 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.detail',
       'page.customer.dashboard.table.lot_vin',
       'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.buyer_number',
+      'page.customer.dashboard.table.region',
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
@@ -64,11 +67,14 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.detail',
       'page.customer.dashboard.table.lot_vin',
       'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.buyer_number',
+      'page.customer.dashboard.table.region',
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.title_date',
       'page.customer.dashboard.table.key',
       'page.customer.dashboard.table.loaded_date',
       'page.customer.dashboard.table.booking',
@@ -111,7 +117,7 @@ const ArrivedCarTab = ({
   });
   useEffect(() => {
     setCarsArray(carsRecords);
-  }, carsRecords);
+  }, [carsRecords]);
 
   const GetImages = async (car_id) => {
     NProgress.start();
@@ -121,9 +127,9 @@ const ArrivedCarTab = ({
     );
     const imdatas = res.data.data;
     const imdata = imdatas.map((im) => ({
-      src: im
+      src: im,
     }));
-    setImages(imdata)
+    setImages(imdata);
 
     // setImages(res.data.data ? res.data.data : []);
     setCarId(car_id);
@@ -297,9 +303,17 @@ const ArrivedCarTab = ({
                         </Tab.Panels>
                       </Tab.Group> */}
 
-
-                      <Carousel images={images} style={{ height: '30vw', width: '100%',objectFit: 'cover' }} canAutoPlay="true" autoPlayInterval="2000" isAutoPlaying="true"/>
-
+                      <Carousel
+                        images={images}
+                        style={{
+                          height: '30vw',
+                          width: '100%',
+                          objectFit: 'cover',
+                        }}
+                        canAutoPlay={true}
+                        autoPlayInterval={2000}
+                        isAutoPlaying={true}
+                      />
 
                       <button
                         disabled={downloading}
@@ -516,20 +530,14 @@ const ArrivedCarTab = ({
           </button>
         </div>
       </CustomModal>
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.arrived" />
-            </h1>
-          </div>
-        </div>
+      <div>
+        <TableHeadText id={'page.customer.dashboard.arrived'} />
         <div className="flex flex-col">
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-300">
+              <div className="table_top_div flex flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
                   {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
@@ -543,7 +551,7 @@ const ArrivedCarTab = ({
                       ))}
                     </tr>
                   </thead> */}
-                  <TableHeader tableHeader={carTableHeader}/> 
+                  <TableHeader tableHeader={carTableHeader} />
                   <tbody>
                     {type === 'port' && (
                       <Port

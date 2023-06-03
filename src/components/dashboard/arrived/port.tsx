@@ -3,8 +3,8 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import { useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
-import { classNames } from '@/utils/Functions';
 import TableColumn from '@/components/TableColumn';
+import { classNames } from '@/utils/Functions';
 
 const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
   const { data: session } = useSession();
@@ -16,67 +16,40 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
         'text-sm'
       )}
     >
-      <TableColumn
-        scope="col"
-        className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="w-[2px]">
         {addIndex + index + 1}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
-        <img className="max-h-[50px]" src={car.image} alt="" />
+      <TableColumn scope="col" className="min-w-[56px]">
+        <img className="table_auction_img" src={car.image} alt="" />
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[180px]">
         {car.carMakerName} {car.carModelName} {car.year}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[150px]">
         Lot: {car.lotnumber} <br /> Vin: {car.vin}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
-        {car.auctionLocationName} <br /> {car.auctionTitle} <br />
+      <TableColumn scope="col" className="min-w-[150px] ">
+        {car.auctionLocationName} <br /> {car.auctionTitle}
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[154px] ">
         <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
-        <br />
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[64px] ">
         {car.region}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[64px]">
         {car.portName}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[55px]">
         {car.purchasedDate}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[64px]">
         {car.pickedDate}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.arrivedDate}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[30px]">
         {car.deliveredTitle === '1' ? (
           <CheckCircleIcon
             className="h-6 w-6 text-green-400"
@@ -85,13 +58,9 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
         ) : (
           <XCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
         )}
-        <br />
         {car.titleDate}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="min-w-[30px]">
         {car.deliveredKey === '1' ? (
           <CheckCircleIcon
             className="h-6 w-6 text-green-400"
@@ -101,41 +70,23 @@ const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
           <XCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
         )}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.loaded_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.booking_number}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.container_number}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.shipping_date}
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.arrival_date}
       </TableColumn>
       {session?.profile[0]?.naj_branch === '1' ? (
-        <TableColumn
-          scope="col"
-          className="min-w-[47px]"
-        >
+        <TableColumn scope="col" className="min-w-[47px]">
           {car.isUAEPort === '0' ? (
             <button
               type="button"

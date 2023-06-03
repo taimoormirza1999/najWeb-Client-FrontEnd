@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 
 import { Cancelled } from '@/components/dashboard/newCar/cancelled';
 import { Paid } from '@/components/dashboard/newCar/paid';
@@ -10,8 +9,9 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
-import { Sort } from '@/components/dashboard/sort';
+
 import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 
 const NewCarTab = ({
   carsRecords,
@@ -45,6 +45,12 @@ const NewCarTab = ({
       {
         header: 'page.customer.dashboard.table.auction',
         order: 'auction_location_name',
+      },
+      {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
       },
       {
         header: 'page.customer.dashboard.table.destination',
@@ -89,6 +95,12 @@ const NewCarTab = ({
         order: 'auction_location_name',
       },
       {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
+      },
+      {
         header: 'page.customer.dashboard.table.destination',
         order: 'port_name',
       },
@@ -127,6 +139,12 @@ const NewCarTab = ({
         order: 'auction_location_name',
       },
       {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
+      },
+      {
         header: 'page.customer.dashboard.table.destination',
         order: 'port_name',
       },
@@ -159,6 +177,12 @@ const NewCarTab = ({
       {
         header: 'page.customer.dashboard.table.auction',
         order: 'auction_location_name',
+      },
+      {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
       },
       {
         header: 'page.customer.dashboard.table.destination',
@@ -201,20 +225,23 @@ const NewCarTab = ({
   const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&order=${order}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
+      <div>
+        {/* <div className="pt-14"> */}
+        {/* <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-dark-blue text-3xl font-semibold">
               <FormattedMessage id="page.customer.dashboard.new_cars" />
             </h1>
           </div>
-        </div>
+        </div> */}
+        <TableHeadText id={'page.customer.dashboard.new_cars'} />
         <div className="flex flex-col">
           <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-300">
+              {/* <div className="overflow-hidden"> */}
+              <div className="table_top_div flex max-h-[50vh] flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
                   {/* <thead className="bg-white">
                     <tr>
                       {carTableData.map((th, index) => (
@@ -236,9 +263,8 @@ const NewCarTab = ({
                     </tr>
                   </thead> */}
 
-                  <TableHeader tableHeader={carTableData} order={order} /> 
+                  <TableHeader tableHeader={carTableData} order={order} />
 
-                  
                   <tbody>
                     {type === 'paid' && <Paid carsRecords={carsRecords}></Paid>}
                     {type === 'unpaid' && (
