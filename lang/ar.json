@@ -403,5 +403,6 @@
   "auction_invoice": "Auction Invoice",
   "dock_receipt": "استلام قفص الاتهام",
   "auction_price": "سعر المزاد",
-  "general.buyer_number": "الباير"
+  "general.buyer_number": "الباير",
+  "picked_car_title_note": "ملاحظات السحب"
 }

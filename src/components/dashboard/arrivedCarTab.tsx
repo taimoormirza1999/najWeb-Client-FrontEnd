@@ -18,6 +18,7 @@ import { postData } from '@/utils/network';
 import CustomModal from '../customModal';
 import TableHeader from '../TableHeader';
 import TableHeadText from '../TableHeadText';
+import NoteModal from '@/components/noteModal';
 import { Port } from './arrived/port';
 import { Store } from './arrived/store';
 
@@ -30,7 +31,8 @@ const ArrivedCarTab = ({
   search = '',
 }) => {
   const { data: session } = useSession();
-
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState('');
   if (!type) {
     type = 'port';
   }
@@ -47,6 +49,7 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
+      'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
       'page.customer.dashboard.table.key',
@@ -72,6 +75,7 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
+      'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
       'page.customer.dashboard.table.title_date',
@@ -188,6 +192,11 @@ const ArrivedCarTab = ({
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
   return (
     <div className="" id="tabs-arrived" role="tabpanel">
+      <NoteModal
+        openNote={openNote}
+        note={note}
+        setOpenNote={setOpenNote}
+      ></NoteModal>
       <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -563,6 +572,8 @@ const ArrivedCarTab = ({
                           selectedCar.current = car_id;
                         }}
                         addIndex={addIndex}
+                        setOpenNote={setOpenNote}
+                        setNote={setNote}
                       ></Port>
                     )}
                     {type === 'store' && (
@@ -576,6 +587,8 @@ const ArrivedCarTab = ({
                           selectedCar.current = car_id;
                         }}
                         addIndex={addIndex}
+                        setOpenNote={setOpenNote}
+                        setNote={setNote}
                       ></Store>
                     )}
                   </tbody>

@@ -1,4 +1,6 @@
-import React from 'react';
+
+import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { Cancelled } from '@/components/dashboard/newCar/cancelled';
 import { Paid } from '@/components/dashboard/newCar/paid';
@@ -9,6 +11,8 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import { Sort } from '@/components/dashboard/sort';
+import NoteModal from '@/components/noteModal';
 
 import TableHeader from '../TableHeader';
 import TableHeadText from '../TableHeadText';
@@ -26,6 +30,8 @@ const NewCarTab = ({
   if (!type) {
     type = 'unpaid';
   }
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState('');
   if (type === 'paid' || type === 'paid_bycustomer') {
     carTableData = [
       {
@@ -114,6 +120,9 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.date_pick',
+      },
+      {
+        header: 'picked_car_title_note',
       },
       {
         header: 'page.customer.dashboard.table.eta_to_warehouse',
@@ -225,15 +234,13 @@ const NewCarTab = ({
   const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&order=${order}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
+      
+      <NoteModal
+        openNote={openNote}
+        note={note}
+        setOpenNote={setOpenNote}
+      ></NoteModal>
       <div>
-        {/* <div className="pt-14"> */}
-        {/* <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.new_cars" />
-            </h1>
-          </div>
-        </div> */}
         <TableHeadText id={'page.customer.dashboard.new_cars'} />
         <div className="flex flex-col">
           <SelectPageRecords url={limitUrl} />
@@ -279,7 +286,11 @@ const NewCarTab = ({
                       <Cancelled carsRecords={carsRecords}></Cancelled>
                     )}
                     {type === 'towing' && (
-                      <Towing carsRecords={carsRecords}></Towing>
+                      <Towing
+                        carsRecords={carsRecords}
+                        setOpenNote={setOpenNote}
+                        setNote={setNote}
+                      ></Towing>
                     )}
                   </tbody>
                 </table>

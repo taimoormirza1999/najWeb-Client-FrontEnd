@@ -419,5 +419,6 @@
   "auction_price": "Auction Price",
   "auction_invoice": "Auction Invoice",
   "sold": "Sold",
-  "general.buyer_number": "Buyer Number"
+  "general.buyer_number": "Buyer Number",
+  "picked_car_title_note": "Pick up note"
 }
