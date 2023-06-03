@@ -1,11 +1,15 @@
 import 'react-gallery-carousel/dist/index.css';
 
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
+import Link from "next/link";
 import NProgress from 'nprogress';
 import React, { Fragment, useRef, useState } from 'react';
+import Carousel from 'react-gallery-carousel';
 import Carousel from 'react-gallery-carousel';
 import { FormattedMessage } from 'react-intl';
 
@@ -91,6 +95,9 @@ const carTableHeader = [
   },
   {
     name: 'page.customer.dashboard.table.eta',
+  },
+  {
+    name: 'dock_receipt',
   },
 ];
 
@@ -501,6 +508,24 @@ const ShippingCarTab = ({
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[80px]">
                           {car.eta}
+                        </TableColumn>
+                        <TableColumn
+                          scope="col"
+                          className=""
+                        >
+                          {car.bl_file !== '' && car.bl_file !== null ? (
+                            <Link passHref href={car.bl_file}>
+                              <a target="_blank">
+                                <FontAwesomeIcon
+                                  icon={faFilePdf}
+                                  className="text-teal-blue text-2xl"
+                                />
+                                View
+                              </a>
+                            </Link>
+                          ) : (
+                            <span>NA</span>
+                          )}
                         </TableColumn>
                       </tr>
                     ))}

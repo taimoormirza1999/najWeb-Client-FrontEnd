@@ -400,9 +400,8 @@
   "date_type": "نوع التاريخ",
   "page.customer.dashboard.show_all": "إظهار الجميع",
   "point_of_loading": "Point of loading",
-  "docker_receipt": "Docker receipt",
-  "auction_price": "Auction Price",
   "auction_invoice": "Auction Invoice",
-  "sold": "Sold",
+  "dock_receipt": "استلام قفص الاتهام",
+  "auction_price": "سعر المزاد",
   "general.buyer_number": "الباير"
 }

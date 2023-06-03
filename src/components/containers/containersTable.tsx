@@ -12,6 +12,7 @@ import {
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
+import ImagesViewer from '../cars/ImagesViewer';
 import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
 import { ArrivedPortCars } from './arrivedPortCars';
@@ -27,6 +28,7 @@ export interface ContainerDetail {
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
+  { name: 'page.customer.dashboard.table.images' },
   {
     name: 'page.customer.container.container_number',
     order: 'container_number',
@@ -354,6 +356,15 @@ const ContainersTable = ({
                       >
                         <TableColumn scope="col" className="min-w-[70px]">
                           {index + 1 + page * (limit === 'all' ? 0 : limit)}
+                        </TableColumn>
+                        <TableColumn className="w-[5px]">
+                          <ImagesViewer
+                            loading={true}
+                            warehouse={false}
+                            store={false}
+                            car_id={row.car_id}
+                            container_no={row.container_number}
+                          />
                         </TableColumn>
                         <TableColumn
                           scope="col"
