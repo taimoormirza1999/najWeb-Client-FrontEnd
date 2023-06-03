@@ -211,7 +211,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
       <div>
         <div className="m-8 ">
           <div className="flex">
-            <h5 className="text-dark-blue flex-1 pb-3 text-1xl font-semibold sm:text-2xl ">
+            <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
               <i className="material-icons text-dark-blue align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>
@@ -233,7 +233,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                   )}
                 >
                   <FormattedMessage id={'page.customer.dashboard.allcars'} />{' '}
-                    {allCarsCount ? `(${allCarsCount})` : ''}
+                  {allCarsCount ? `(${allCarsCount})` : ''}
                 </a>
               </Link>
 

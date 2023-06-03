@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
-import TableHeader from '@/components/TableHeader';
+
 import TableColumn from '@/components/TableColumn';
+import TableHeader from '@/components/TableHeader';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -17,17 +18,16 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
   useEffect(() => {
     setGeneralEntries(
       tableData.filter((row) => {
-        return (
-          row.description.indexOf(generalEntriesTableSearch.trim()) !== -1
-        );
+        return row.description.indexOf(generalEntriesTableSearch.trim()) !== -1;
       })
     );
   }, [generalEntriesTableSearch]);
 
   useEffect(() => {
     const excelBtn = document.getElementById('generalEntry-xls-button');
-    if(excelBtn){
-      excelBtn.innerHTML = '<i class="material-icons text-xl">&#xef42;</i> Excel';
+    if (excelBtn) {
+      excelBtn.innerHTML =
+        '<i class="material-icons text-xl">&#xef42;</i> Excel';
     }
   }, []);
 
@@ -56,7 +56,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
     },
     {
       name: 'statement.shipped_cars.balance',
-    }
+    },
   ];
 
   return (
@@ -68,7 +68,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'Search' })}
-          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg ltr:italic text-gray-700 md:self-end"
+          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
           value={generalEntriesTableSearch}
           onChange={(e) => {
             setGeneralEntriesTableSearch(e.target.value);
@@ -77,7 +77,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
       </div>
       <ReactHTMLTableToExcel
         id="generalEntry-xls-button"
-        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 flex gap-1 items-center"
+        className="mb-4 flex items-center gap-1 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
         table="generalEntry"
         filename="generalEntry"
         sheet="tablexls"
@@ -117,7 +117,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
             </tr>
           </thead> */}
 
-          <TableHeader tableHeader={tableHeader}/> 
+          <TableHeader tableHeader={tableHeader} />
 
           <tbody>
             {generalEntriesState.map((row, index) => (
@@ -128,33 +128,19 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
                   'text-xs sm:text-[17px]'
                 )}
               >
-                <TableColumn className="text-dark-blue w-[4%] p-3 text-xl font-semibold">
-                  {row.index_no}
-                </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.date}
-                </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.reference_no}
-                </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-
-                </TableColumn>
-                <TableColumn className="w-[40%] p-3 text-lg text-[#1C1C1C]">
-                  {row.description}
-                </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#0B9A21]">
+                <TableColumn className="w-[4%]">{row.index}</TableColumn>
+                <TableColumn className="w-[8%]">{row.date}</TableColumn>
+                <TableColumn className="w-[8%]">{row.reference_no}</TableColumn>
+                <TableColumn className="w-[8%]"></TableColumn>
+                <TableColumn className="w-[40%]">{row.description}</TableColumn>
+                <TableColumn className="w-[8%] text-[#0B9A21]">
                   {row.debit}
                 </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#A30000]">
+                <TableColumn className="w-[8%] text-[#A30000]">
                   {row.credit}
                 </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.remaining}
-                </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.balance}
-                </TableColumn>
+                <TableColumn className="w-[8%]">{row.remaining}</TableColumn>
+                <TableColumn className="w-[8%]">{row.balance}</TableColumn>
               </tr>
             ))}
           </tbody>
@@ -164,25 +150,23 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
         <div className="border-azure-blue my-2 overflow-hidden">
           <table className="w-full table-auto">
             <tfoot>
-              <tr className="font-semibold border-dark-blue border-[1px]">
-                <td className="w-[4%] px-6">
-                  
-                </td>
-                <td className="w-[64%] p-3  text-2xl text-[#1C1C1C] border-dark-blue border-[1px]">
+              <tr className="font-semibold">
+                <TableColumn className="w-[4%] px-6"></TableColumn>
+                <TableColumn className="w-[64%] p-3  text-2xl text-[#1C1C1C]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#0B9A21] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg text-[#0B9A21]">
                   {lastTotalRow.debit}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#A30000] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg text-[#A30000]">
                   {lastTotalRow.credit}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg">
                   {lastTotalRow.remaining}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg text-[#1C1C1C]">
                   {lastTotalRow.balance}
-                </td>
+                </TableColumn>
               </tr>
             </tfoot>
           </table>

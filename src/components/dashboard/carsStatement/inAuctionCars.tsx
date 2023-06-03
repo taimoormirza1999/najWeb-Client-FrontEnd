@@ -142,10 +142,10 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
                 <TableColumn className="w-[40%]">
                   {row.description}
                 </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#0B9A21]">
+                <TableColumn className="w-[8%] text-[#0B9A21]">
                   {row.debit}
                 </TableColumn>
-                <TableColumn className="w-[8%] p-3 text-lg text-[#A30000]">
+                <TableColumn className="w-[8%] text-[#A30000]">
                   {row.credit}
                 </TableColumn>
                 <TableColumn className="w-[8%]">
@@ -164,24 +164,24 @@ const InAuctionCars = ({ tableData, lastTotalRow }) => {
           <table className="w-full table-auto">
             <tfoot>
               <tr className="font-semibold">
-                <td className="w-[4%] px-6 border-dark-blue border-[1px]">
+                <TableColumn className="w-[4%] px-6">
 
-                </td>
-                <td className="w-[64%] p-3 text-2xl  text-[#1C1C1C] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[64%] p-3 text-2xl  text-[#1C1C1C]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#0B9A21] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg text-[#0B9A21]">
                   {lastTotalRow.debit}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#A30000] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%] p-3 text-lg text-[#A30000]">
                   {lastTotalRow.credit}
-                </td>
-                <td className="w-[8%] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%]  p-3 text-lg">
                   {lastTotalRow.remaining}
-                </td>
-                <td className="w-[8%] border-dark-blue border-[1px]">
+                </TableColumn>
+                <TableColumn className="w-[8%]  p-3 text-lg">
                   {lastTotalRow.balance}
-                </td>
+                </TableColumn>
               </tr>
             </tfoot>
           </table>
