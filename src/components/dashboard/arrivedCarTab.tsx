@@ -115,7 +115,7 @@ const ArrivedCarTab = ({
   });
   useEffect(() => {
     setCarsArray(carsRecords);
-  }, carsRecords);
+  }, [carsRecords]);
 
   const GetImages = async (car_id) => {
     NProgress.start();
