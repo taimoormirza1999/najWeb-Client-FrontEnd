@@ -1,24 +1,26 @@
+import 'react-gallery-carousel/dist/index.css';
+
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
+import Link from 'next/link';
 import NProgress from 'nprogress';
 import React, { Fragment, useRef, useState } from 'react';
+import Carousel from 'react-gallery-carousel';
 import { FormattedMessage } from 'react-intl';
 
-import CustomModal from '@/components/customModal';
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import NoteModal from '@/components/noteModal';
 import { classNames } from '@/utils/Functions';
+
 import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
-import Carousel from 'react-gallery-carousel';
-import 'react-gallery-carousel/dist/index.css';
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -45,6 +47,9 @@ const carTableHeader = [
   },
   {
     name: 'page.customer.dashboard.table.date_pick',
+  },
+  {
+    name: 'picked_car_title_note',
   },
   {
     name: 'page.customer.dashboard.table.arrived',
@@ -118,32 +123,11 @@ const ShippingCarTab = ({
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
   return (
     <div className="" id="tabs-shipping" role="tabpanel">
-      <CustomModal
-        showOn={openNote}
-        initialFocus={cancelButtonRef}
-        onClose={() => {
-          setOpenNote(false);
-        }}
-      >
-        <div className="text-dark-blue mt-6 text-center sm:mt-16">
-          <div className="mt-2">
-            <p className="mb-4 py-4 text-sm lg:py-6">{note}</p>
-          </div>
-        </div>
-        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
-          <button
-            type="button"
-            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
-            onClick={() => {
-              setOpenNote(false);
-              contentRef?.current?.classList.remove('blur-sm');
-            }}
-            ref={cancelButtonRef}
-          >
-            <FormattedMessage id="general.cancel" />
-          </button>
-        </div>
-      </CustomModal>
+      <NoteModal
+        openNote={openNote}
+        note={note}
+        setOpenNote={setOpenNote}
+      ></NoteModal>
       <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -407,6 +391,21 @@ const ShippingCarTab = ({
                           className="min-w-[30px]"
                         >
                           {car.picked_date}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[30px]">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setNote(car.picked_car_title_note);
+                              setOpenNote(true);
+                            }}
+                            className={classNames(
+                              !car.picked_car_title_note ? 'hidden' : '',
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            )}
+                          >
+                            Notes
+                          </button>
                         </TableColumn>
                         <TableColumn
                           scope="col"
