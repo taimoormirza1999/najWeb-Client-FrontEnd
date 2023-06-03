@@ -8,6 +8,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Carousel from 'react-gallery-carousel';
 import 'react-gallery-carousel/dist/index.css';
 import axios from 'axios';
+import NoteModal from '@/components/noteModal';
 import TableHeader from '../TableHeader';
 import TableColumn from '../TableColumn';
 
@@ -39,6 +40,7 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
+      'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
       'page.customer.dashboard.table.key',
@@ -66,6 +68,7 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
+      'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
       'page.customer.dashboard.table.key',
@@ -93,7 +96,8 @@ const DeliveredCarTab = ({
   const [downloading, setDownloading] = useState(false);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState('');
 
 
   const GetWarehouseImages = async (car_id, type) => {
@@ -150,6 +154,11 @@ const DeliveredCarTab = ({
   };
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
+      <NoteModal
+        openNote={openNote}
+        note={note}
+        setOpenNote={setOpenNote}
+      ></NoteModal>
       <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -340,6 +349,24 @@ const DeliveredCarTab = ({
                           className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
                         >
                           {car.picked_date}
+                        </TableColumn>
+                        <TableColumn
+                          scope="col"
+                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                        >
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setNote(car.picked_car_title_note);
+                              setOpenNote(true);
+                            }}
+                            className={classNames(
+                              !car.picked_car_title_note ? 'hidden' : '',
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            )}
+                          >
+                            Notes
+                          </button>
                         </TableColumn>
                         <TableColumn
                           scope="col"
