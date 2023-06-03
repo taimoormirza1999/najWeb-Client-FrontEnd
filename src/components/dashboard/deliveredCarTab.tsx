@@ -9,18 +9,17 @@ import NProgress from 'nprogress';
 import { Fragment, useRef, useState } from 'react';
 import Carousel from 'react-gallery-carousel';
 import { FormattedMessage } from 'react-intl';
-import axios from 'axios';
-import NoteModal from '@/components/noteModal';
-import TableHeader from '../TableHeader';
-import TableColumn from '../TableColumn';
 
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import NoteModal from '@/components/noteModal';
 import { classNames } from '@/utils/Functions';
 
 import TableColumn from '../TableColumn';
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
 import TableHeader from '../TableHeader';
 import TableHeadText from '../TableHeadText';
 
