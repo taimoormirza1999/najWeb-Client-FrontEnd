@@ -6,10 +6,18 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/react';
-import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
+import { signOut } from 'next-auth/react';
+import {
+  Fragment,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import { UserContext } from '@/components/userContext';
 import { classNames } from '@/utils/Functions';
 
 import PushNotificationLayout from '../components/PushNotificationLayout';
@@ -27,6 +35,7 @@ function getDirection(locale) {
 const Layout = (props: IMainProps) => {
   const localStorageCustomerKey = 'customer';
   const mountedRef = useRef(true);
+  const { profile } = useContext(UserContext);
   const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
   const [generalNotification, setGeneralNotification] = useState(0);
@@ -131,37 +140,33 @@ const Layout = (props: IMainProps) => {
     document.body.setAttribute('dir', getDirection(locale));
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: session } = useSession();
   const changeLanguage = (selectedLocale) => {
     document.cookie = `NEXT_LOCALE=${selectedLocale};path=/`;
     window.location.assign(`/${selectedLocale}${router.asPath}`);
   };
   const intl = useIntl();
-  let fullName = '';
-  const isBulkShippingCustomer = Array.isArray(session?.profile)
-    ? session?.profile[0].bulk_shipLoad
-    : 0;
-
+  const isBulkShippingCustomer = profile?.isBulkShippingCustomer || false;
   const allowWarehouseCarsRequests =
-    session?.profile[0]?.allowWarehouseCarsRequests === '1';
-
-  const onStorageUpdate = () => {
-    const membershipId = session?.profile[0]?.membership_id;
-    if (typeof membershipId === 'undefined') return;
-    const lastMembershipId = localStorage.getItem(localStorageCustomerKey);
-    if (lastMembershipId !== membershipId || lastMembershipId === '') {
-      window.location.href = '/';
-    }
-  };
+    profile?.allowWarehouseCarsRequests || false;
 
   useEffect(() => {
-    const membershipId = session?.profile[0]?.membership_id;
+    const membershipId = profile?.membership_id;
     if (membershipId) {
       localStorage.setItem(localStorageCustomerKey, membershipId);
     }
-  }, [session?.profile[0]]);
+  }, [profile]);
 
   useEffect(() => {
+    const onStorageUpdate = (e) => {
+      if (e.key !== localStorageCustomerKey) return;
+      const membershipId = profile?.membership_id;
+      // if (typeof membershipId === 'undefined') return;
+      const lastMembershipId = e.oldValue;
+      if (lastMembershipId !== membershipId || lastMembershipId === '') {
+        window.location.href = '/';
+      }
+    };
+
     window.addEventListener('storage', onStorageUpdate);
     return () => {
       window.removeEventListener('storage', onStorageUpdate);
@@ -169,7 +174,7 @@ const Layout = (props: IMainProps) => {
   }, []);
 
   const handleSignOut = async () => {
-    localStorage.setItem(localStorageCustomerKey, '');
+    localStorage.setItem(localStorageCustomerKey, '-');
     await signOut({
       callbackUrl: `${window.location.origin}`,
     });
@@ -180,21 +185,12 @@ const Layout = (props: IMainProps) => {
       return (
         (allowWarehouseCarsRequests === true ||
           item.name !== 'page.customer.dashboard.navigation_warehouse_cars') &&
-        (isBulkShippingCustomer === '1' ||
+        (isBulkShippingCustomer === true ||
           item.name !== 'page.customer.dashboard.navigation_containers')
       );
     });
   };
 
-  if (locale === 'ar') {
-    fullName = Array.isArray(session?.profile)
-      ? session?.profile[0]?.full_name_ar
-      : '';
-  } else {
-    fullName = Array.isArray(session?.profile)
-      ? session?.profile[0]?.full_name
-      : '';
-  }
   return (
     <>
       {props.meta}
@@ -319,7 +315,7 @@ const Layout = (props: IMainProps) => {
                       </div>
                       <div className="">
                         <p className="text-xs font-medium text-gray-700 group-hover:text-gray-900 sm:text-xl">
-                          {fullName}
+                          {profile?.fullName}
                         </p>
                         <p
                           className="text-medium-gray px-1 text-xs font-medium group-hover:text-gray-700"
@@ -390,7 +386,7 @@ const Layout = (props: IMainProps) => {
                   <Link href="/customer/userprofile">
                     <a className="group block w-full shrink-0 break-all hover:border-0">
                       <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 md:text-base lg:text-base">
-                        {fullName}
+                        {profile?.fullName}
                       </p>
                     </a>
                   </Link>
@@ -426,7 +422,7 @@ const Layout = (props: IMainProps) => {
           </div>
           <main className="flex-1">
             <div className="bg-dark-blue pb-5 pt-8">
-              <div className="ltr:text-right rtl:text-left pb-5">
+              <div className="pb-5 ltr:text-right rtl:text-left">
                 {customerBalance > 0 && (
                   <span className="mt-1 mr-8 inline-flex items-center rounded-lg bg-red-100 px-2.5 py-0.5 text-xl font-medium text-[#A30000]">
                     {customerBalance} AED
@@ -442,7 +438,9 @@ const Layout = (props: IMainProps) => {
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
                     {intl.formatMessage({ id: 'general.welcome' })}{' '}
-                    <span className="font-sen font-bold">{fullName}</span>
+                    <span className="font-sen font-bold">
+                      {profile?.fullName}
+                    </span>
                   </h2>
                 </div>
                 <div>

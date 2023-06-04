@@ -1,13 +1,15 @@
 import { Dialog } from '@headlessui/react';
 import { XCircleIcon } from '@heroicons/react/outline';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Select from 'react-select';
 
 import { classNames } from '@/utils/Functions';
 
 import CustomModal from '../customModal';
+import { SpinnerIcon } from '../themeIcons';
+import { UserContext } from '../userContext';
 
 const ReactSelectStyle = (baseStyles, state) => ({
   ...baseStyles,
@@ -31,6 +33,8 @@ export default function WarehouseCarsRequestForm({
   const [invoiceFile, setInvoiceFile] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
   const closeModalRef = useRef(null);
+  const { profile } = useContext(UserContext);
+  const [submitStarted, setSubmitStarted] = useState(false);
   const now = new Date().getUTCFullYear() + 1;
   const [carsModel, setCarsModel] = useState([
     {
@@ -131,9 +135,10 @@ export default function WarehouseCarsRequestForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    document.body.style.overflow = 'auto';
+    setSubmitStarted(true);
 
     const formData = new FormData();
+    formData.append('customer_id', profile?.customer_id);
     Object.entries(carData).forEach(([key, value]) => {
       formData.append(key, value);
     });
@@ -166,6 +171,10 @@ export default function WarehouseCarsRequestForm({
           type: 'error',
           message: `Unable to save. Something went wrong.`,
         });
+      })
+      .finally(() => {
+        setSubmitStarted(false);
+        document.documentElement.style.overflow = 'auto';
       });
   };
 
@@ -173,7 +182,9 @@ export default function WarehouseCarsRequestForm({
     <CustomModal
       showOn={newCarModalOpen}
       initialFocus={closeModalRef}
-      onClose={() => {}}
+      onClose={() => {
+        document.documentElement.style.overflow = 'auto';
+      }}
     >
       <form
         onSubmit={handleSubmit}
@@ -720,12 +731,22 @@ export default function WarehouseCarsRequestForm({
               setCarAlreadyExist(false);
             }}
           >
-            <FormattedMessage id="general.cancel" />
+            <FormattedMessage id="general.close" />
           </button>
 
           {!carAlreadyExist ? (
-            <button className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
-              {intl.formatMessage({ id: 'messages.submit' })}
+            <button
+              className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
+              disabled={submitStarted}
+            >
+              {submitStarted === true ? (
+                <>
+                  <SpinnerIcon className="mr-3 h-5 w-5" />
+                  {intl.formatMessage({ id: 'general.submitting' })}...
+                </>
+              ) : (
+                intl.formatMessage({ id: 'general.submit' })
+              )}
             </button>
           ) : null}
         </div>
