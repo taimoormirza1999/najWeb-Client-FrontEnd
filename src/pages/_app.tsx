@@ -10,6 +10,7 @@ import { IntlProvider } from 'react-intl';
 import "react-toastify/dist/ReactToastify.css";
 import SimpleReactLightbox from 'simple-react-lightbox';
 import NProgress from 'nprogress';
+import { UserContextProvider } from "@/components/userContext";
 
 import ar from '../../lang/ar.json';
 import en from '../../lang/en.json';
@@ -39,11 +40,13 @@ function MyApp({ Component, pageProps, session }) {
     <SessionProvider session={session} refetchInterval={300 * 60}>
       <SimpleReactLightbox>
         <IntlProvider locale={locale} messages={messages[locale]}>
-          <Component
-            {...pageProps}
-            dir={getDirection(locale)}
-            locale={locale}
-          />
+          <UserContextProvider>
+            <Component
+              {...pageProps}
+              dir={getDirection(locale)}
+              locale={locale}
+            />
+          </UserContextProvider>
         </IntlProvider>
       </SimpleReactLightbox>
     </SessionProvider>

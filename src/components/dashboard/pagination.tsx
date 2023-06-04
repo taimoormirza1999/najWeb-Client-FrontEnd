@@ -8,6 +8,30 @@ import { useIntl } from 'react-intl';
 import { classNames } from '@/utils/Functions';
 
 const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
+  const router = useRouter();
+  const filters = {
+    region: router.query?.region ? router.query.region : '',
+  };
+  const containerfilters = {
+    date_from: router.query?.date_from ? router.query.date_from : '',
+    date_to: router.query?.date_to ? router.query.date_to : '',
+    date_type: router.query?.date_type ? router.query.date_type : '',
+  };
+  let applyUrl = '';
+  if (filters.region) {
+    applyUrl += `&region=${filters.region}`;
+  }
+  if (containerfilters.date_from) {
+    applyUrl += `&date_from=${containerfilters.date_from}`;
+  }
+  if (containerfilters.date_to) {
+    applyUrl += `&date_to=${containerfilters.date_to}`;
+  }
+  if (containerfilters.date_type) {
+    applyUrl += `&date_type=${containerfilters.date_type}`;
+  }
+  applyUrl += `&page=`;
+  url += applyUrl;
   const maxPages = 10;
   const pageSize = limit === 'all' ? totalRecords : limit;
   const currentPage: number = page;
@@ -45,7 +69,7 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 
   return (
-    <div className="float-right mt-3">
+    <div className="float-right mt-1">
       <nav
         className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm"
         aria-label="Pagination"
@@ -101,22 +125,41 @@ const Pagination = ({ totalRecords, url, page = 0, limit = 10 }) => {
   );
 };
 
-const SelectPageRecords = ({ url, search = '' }) => {
+const SelectPageRecords = ({ url }) => {
   const intl = useIntl();
   const router = useRouter();
   const [selectedLimit, setSelectLimit] = useState(
     router.query?.limit ? router.query.limit : '10'
   );
-  const [tableSearch, setTableSearch] = useState(search);
+  const [tableSearch, setTableSearch] = useState(router.query?.search);
   const [regions, setRegions] = useState<any>([]);
   const [filters, setFilters] = useState<any>({
     region: router.query?.region ? router.query.region : '',
   });
+  const [containerfilters, setContainerFilters] = useState<any>({
+    date_from: router.query?.date_from ? router.query.date_from : '',
+    date_to: router.query?.date_to ? router.query.date_to : '',
+    date_type: router.query?.date_type ? router.query.date_type : '',
+  });
 
   const applyFilters = () => {
-    router.push(
-      `${url}&limit=${selectedLimit}&search=${tableSearch}&region=${filters.region}`
-    );
+    let applyUrl = '';
+    if (tableSearch) {
+      applyUrl += `&search=${tableSearch}`;
+    }
+    if (filters.region) {
+      applyUrl += `&region=${filters.region}`;
+    }
+    if (containerfilters.date_from) {
+      applyUrl += `&date_from=${containerfilters.date_from}`;
+    }
+    if (containerfilters.date_to) {
+      applyUrl += `&date_to=${containerfilters.date_to}`;
+    }
+    if (containerfilters.date_type) {
+      applyUrl += `&date_type=${containerfilters.date_type}`;
+    }
+    router.push(`${url}&limit=${selectedLimit}${applyUrl}`);
   };
 
   const changePage = (value) => {
@@ -126,6 +169,10 @@ const SelectPageRecords = ({ url, search = '' }) => {
   function handleFilterChange(event) {
     const { name, value } = event.target;
     setFilters((prevState) => ({ ...prevState, [name]: value }));
+  }
+  function handleContainerFilters(event) {
+    const { name, value } = event.target;
+    setContainerFilters((prevState) => ({ ...prevState, [name]: value }));
   }
 
   const getRegions = async () => {
@@ -139,10 +186,6 @@ const SelectPageRecords = ({ url, search = '' }) => {
       });
   };
 
-  const makeSearch = (e) => {
-    router.push(`${url}&limit=${selectedLimit}&search=${tableSearch}`);
-  };
-
   useEffect(() => {
     if (!['/customer/warehouse/cars'].includes(router.pathname)) {
       getRegions();
@@ -154,16 +197,16 @@ const SelectPageRecords = ({ url, search = '' }) => {
   }, [filters, selectedLimit]);
 
   return (
-    <div className="mt-3" data-path={router.pathname}>
+    <div className="mt-[1px]" data-path={router.pathname}>
       <input
         type="text"
         title="Write text and press enter!"
         placeholder={intl.formatMessage({ id: 'Search' })}
-        className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg text-gray-700 ltr:italic md:self-end"
+        className="border-medium-grey basis-1/6 rounded-md border py-1 mr-1  text-lg text-gray-700 ltr:italic md:self-end"
         value={tableSearch}
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            makeSearch(e);
+            applyFilters();
           }
         }}
         onChange={(e) => {
@@ -172,7 +215,7 @@ const SelectPageRecords = ({ url, search = '' }) => {
       />
       <i
         className="material-icons -ml-8 cursor-pointer align-middle text-[1.6rem] text-sm text-gray-800 lg:ltr:mr-1 lg:rtl:ml-1"
-        onClick={makeSearch}
+        onClick={applyFilters}
       >
         &#xe8b6;
       </i>
@@ -195,6 +238,67 @@ const SelectPageRecords = ({ url, search = '' }) => {
               ))
             : null}
         </select>
+      ) : null}
+      {['/customer/containers'].includes(router.pathname) ? (
+        <>
+          <input
+            className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+            type="text"
+            name="date_from"
+            placeholder="From Date"
+            onFocus={(e) => {
+              e.currentTarget.type = 'date';
+            }}
+            onBlur={(e) => {
+              if (!e.target.value) {
+                e.currentTarget.type = 'text';
+              }
+            }}
+            onChange={handleContainerFilters}
+          />
+          <input
+            className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+            type="text"
+            name="date_to"
+            placeholder="To Date"
+            onFocus={(e) => {
+              e.currentTarget.type = 'date';
+            }}
+            onBlur={(e) => {
+              if (!e.target.value) {
+                e.currentTarget.type = 'text';
+              }
+            }}
+            onChange={handleContainerFilters}
+          />
+          <select
+            name="date_type"
+            onChange={handleContainerFilters}
+            title={intl.formatMessage({ id: 'date_type' })}
+            className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+          >
+            <option value="">
+              {intl.formatMessage({
+                id: 'date_type',
+              })}
+            </option>
+            <option value="loaded_date">
+              {intl.formatMessage({
+                id: 'page.customer.dashboard.table.loaded_date',
+              })}
+            </option>
+            <option value="arrived_port">
+              {intl.formatMessage({
+                id: 'page.customer.dashboard.arrived_port',
+              })}
+            </option>
+          </select>
+          <button 
+          onClick={applyFilters}
+          className="bg-azure-blue  mb-3 ml-3 inline-block max-w-max rounded-md px-8 py-1 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
+            {intl.formatMessage({ id: 'messages.submit' })}
+          </button>
+        </>
       ) : null}
       <select
         title={intl.formatMessage({ id: 'page.table.info.length' })}

@@ -1,18 +1,24 @@
-import { Dialog, Tab, Transition } from '@headlessui/react';
+import 'react-gallery-carousel/dist/index.css';
+
+import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import NProgress from 'nprogress';
-import { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
+import Carousel from 'react-gallery-carousel';
 import { FormattedMessage } from 'react-intl';
 
-import CustomModal from '@/components/customModal';
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import NoteModal from '@/components/noteModal';
 import { classNames } from '@/utils/Functions';
-import { useRouter } from "next/router";
+
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -29,6 +35,12 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.auction',
   },
   {
+    header: 'page.customer.dashboard.table.buyer_number',
+  },
+  {
+    header: 'page.customer.dashboard.table.region',
+  },
+  {
     name: 'page.customer.dashboard.table.destination',
   },
   {
@@ -41,10 +53,20 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.date_pick',
   },
   {
+    name: 'picked_car_title_note',
+  },
+  {
     name: 'page.customer.dashboard.table.arrived',
   },
   {
     name: 'page.customer.dashboard.table.title',
+  },
+  {
+    header: 'page.customer.dashboard.table.title_note',
+  },
+  {
+    header: 'page.customer.dashboard.table.title_date',
+    order: 'title_date',
   },
   {
     name: 'page.customer.dashboard.table.key',
@@ -57,15 +79,13 @@ const WarehouseCarTab = ({
   limit,
   search = '',
 }) => {
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [note, setNote] = useState(false);
   const [images, setImages] = useState([]);
   const [carId, setCarId] = useState('');
   const cancelButtonRef = useRef(null);
-  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&region=${region}&limit=${limit}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-warehouse&search=${search}&limit=${limit}`;
   const limitUrl = `/customer/dashboard?tab=tabs-warehouse&page=`;
   const [downloading, setDownloading] = useState(false);
   const GetImages = async (car_id) => {
@@ -74,39 +94,26 @@ const WarehouseCarTab = ({
     const res = await axios.get(
       `/api/customer/images?type=warehouse&car_id=${car_id}`
     );
-    setImages(res.data.data ? res.data.data : []);
+    const imdatas = res.data.data;
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
     setCarId(car_id);
     NProgress.done();
     setRedirectModalOpen(true);
   };
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
+
   return (
     <div className="" id="tabs-warehousecar" role="tabpanel">
-      <CustomModal
-        showOn={openNote}
-        initialFocus={cancelButtonRef}
-        onClose={() => {
-          setOpenNote(false);
-        }}
-      >
-        <div className="text-dark-blue mt-6 text-center sm:mt-16">
-          <div className="mt-2">
-            <p className="mb-4 py-4 text-sm lg:py-6">{note}</p>
-          </div>
-        </div>
-        <div className="mt-5 flex justify-center gap-4 sm:mt-6">
-          <button
-            type="button"
-            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
-            onClick={() => {
-              setOpenNote(false);
-            }}
-            ref={cancelButtonRef}
-          >
-            <FormattedMessage id="general.cancel" />
-          </button>
-        </div>
-      </CustomModal>
+      <NoteModal
+        openNote={openNote}
+        note={note}
+        setOpenNote={setOpenNote}
+      ></NoteModal>
       <Transition.Root show={redirectModalOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -144,83 +151,17 @@ const WarehouseCarTab = ({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
+                <Carousel
+                  images={images}
+                  style={{ height: '30vw', width: '100%', objectFit: 'cover' }}
+                  canAutoPlay={true}
+                  autoPlayInterval={2000}
+                  isAutoPlaying={true}
+                />
+
                 <div>
                   <div className="text-dark-blue mt-6 text-center sm:mt-16">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-5xl font-bold leading-6"
-                    ></Dialog.Title>
-                    <div className="mt-2">
-                      {/* <SRLWrapper>
-                        {images && (
-                          <div className="flex basis-1/2 flex-col gap-4">
-                            <img
-                              src={images[0]}
-                              alt=""
-                              className="basis-2/3 cursor-pointer object-cover"
-                            />
-                            <div className="flex basis-1/3 flex-wrap justify-between">
-                              {images.map((image, index) => {
-                                return (
-                                  <img
-                                    key={index}
-                                    src={image}
-                                    className="h-[150px] cursor-pointer"
-                                    alt=""
-                                  />
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </SRLWrapper> */}
-                      <Tab.Group as="div" className="flex flex-col-reverse">
-                        {/* Image selector */}
-                        <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-                          <Tab.List className="grid grid-cols-4 gap-6">
-                            {images.map((image, index) => (
-                              <Tab
-                                key={index}
-                                className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
-                              >
-                                {({ selected }) => (
-                                  <>
-                                    <span className="sr-only"></span>
-                                    <span className="absolute inset-0 overflow-hidden rounded-md">
-                                      <img
-                                        src={image}
-                                        alt=""
-                                        className="h-full w-full object-cover object-center"
-                                      />
-                                    </span>
-                                    <span
-                                      className={classNames(
-                                        selected
-                                          ? 'ring-indigo-500'
-                                          : 'ring-transparent',
-                                        'absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none'
-                                      )}
-                                      aria-hidden="true"
-                                    />
-                                  </>
-                                )}
-                              </Tab>
-                            ))}
-                          </Tab.List>
-                        </div>
-
-                        <Tab.Panels className="aspect-w-1 aspect-h-1 w-full">
-                          {images.map((image, index) => (
-                            <Tab.Panel key={index}>
-                              <img
-                                src={image}
-                                alt=""
-                                className="h-full w-full object-cover object-center sm:rounded-lg"
-                              />
-                            </Tab.Panel>
-                          ))}
-                        </Tab.Panels>
-                      </Tab.Group>
+                    <div>
                       <button
                         disabled={downloading}
                         // href={`/api/customer/downloadimages/?type=warehouse&car_id=${carId}`}
@@ -265,33 +206,38 @@ const WarehouseCarTab = ({
           </div>
         </Dialog>
       </Transition.Root>
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
+      <div className="">
+        {/* <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-dark-blue text-3xl font-semibold">
               <FormattedMessage id="page.customer.dashboard.at_warehouse" />
             </h1>
           </div>
-        </div>
+        </div> */}
+        <TableHeadText id={'page.customer.dashboard.allcars'} />
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+              {/* <div className="overflow-hidden"> */}
+              <div className="table_top_div flex flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-dark-blue border-[1px]"
                         >
                           <FormattedMessage id={th.name} />
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+
+                  <TableHeader tableHeader={carTableHeader} />
+
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
@@ -301,79 +247,81 @@ const WarehouseCarTab = ({
                           'text-sm'
                         )}
                       >
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="w-[2px] ">
                           {addIndex + index + 1}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[56px] ">
                           <img
-                            className="max-h-[50px] cursor-pointer"
+                            className="table_auction_img cursor-pointer"
                             src={car.image}
                             alt=""
                             onClick={() => {
                               GetImages(car.carId);
                             }}
                           />
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[180px] ">
                           {car.carMakerName} {car.carModelName} {car.year}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[130px] ">
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
-                        </td>
-                        <td
+                        </TableColumn>
+                        {/* <TableColumn
                           scope="col"
-                          className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[160px] "
                         >
                           <span className="text-[#810808]">{car.region}</span>{' '}
-                          {car.auctionLocationName} <br /> {car.auctionTitle} <br />
+                          {car.auctionLocationName} <br /> {car.auctionTitle}{' '}
+                          <br />
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number} <br />
                           {car.region}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn> */}
+
+                        <TableColumn scope="col" className="min-w-[120px] ">
+                          {car.auctionLocationName} <br /> {car.auctionTitle}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[154px] ">
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number}{' '}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[64px] ">
+                          {car.region}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[64px] ">
                           {car.portName}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[55px] ">
                           {car.purchasedDate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[50px] ">
                           {car.paymentDate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[30px] ">
                           {car.pickedDate}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[47px]">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setNote(car.picked_car_title_note);
+                              setOpenNote(true);
+                            }}
+                            className={classNames(
+                              !car.picked_car_title_note ? 'hidden' : '',
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            )}
+                          >
+                            Notes
+                          </button>
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {car.arrivedDate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        {/* <TableColumn scope="col" className="min-w-[60px] ">
                           <button
                             type="button"
                             onClick={() => {
@@ -401,11 +349,56 @@ const WarehouseCarTab = ({
                           )}
                           <br />
                           {car.titleDate}
-                        </td>
-                        <td
+                        </TableColumn> */}
+
+                        <TableColumn className="min-w-[30px]">
+                          {car.deliveredTitle === '1' ||
+                          car.followTitle === '1' ? (
+                            <CheckCircleIcon
+                              className="h-6 w-6 text-green-400"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <XCircleIcon
+                              className="h-6 w-6 text-red-400"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[60px] text-center"
                         >
+                          {car.titleNote === '-' || !car.titleNote ? (
+                            <span>N A</span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNote(car.titleNote);
+                                setOpenNote(true);
+                              }}
+                              className={classNames(
+                                !car.titleNote ? 'hidden' : '',
+                                'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                              )}
+                            >
+                              Notes
+                            </button>
+                          )}
+                          {/* {car.titleDate} */}
+                        </TableColumn>
+                        <TableColumn
+                          // scope="col"
+                          className="min-w-[62px] text-center"
+                        >
+                          {car.titleDate ? (
+                            <span>{car.titleDate}</span>
+                          ) : (
+                            <span>N A</span>
+                          )}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[30px] ">
                           {car.deliveredKey === '1' ? (
                             <CheckCircleIcon
                               className="h-6 w-6 text-green-400"
@@ -417,7 +410,7 @@ const WarehouseCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                        </td>
+                        </TableColumn>
                       </tr>
                     ))}
                   </tbody>

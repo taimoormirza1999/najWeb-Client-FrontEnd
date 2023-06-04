@@ -147,6 +147,7 @@ const Layout = (props: IMainProps) => {
 
   const onStorageUpdate = () => {
     const membershipId = session?.profile[0]?.membership_id;
+    if (typeof membershipId === 'undefined') return;
     const lastMembershipId = localStorage.getItem(localStorageCustomerKey);
     if (lastMembershipId !== membershipId || lastMembershipId === '') {
       window.location.href = '/';
@@ -425,7 +426,7 @@ const Layout = (props: IMainProps) => {
           </div>
           <main className="flex-1">
             <div className="bg-dark-blue pb-5 pt-8">
-              <div className="ltr:text-right rtl:text-left">
+              <div className="ltr:text-right rtl:text-left pb-5">
                 {customerBalance > 0 && (
                   <span className="mt-1 mr-8 inline-flex items-center rounded-lg bg-red-100 px-2.5 py-0.5 text-xl font-medium text-[#A30000]">
                     {customerBalance} AED
@@ -437,7 +438,7 @@ const Layout = (props: IMainProps) => {
                   </span>
                 )}
               </div>
-              <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 md:flex md:justify-between md:px-6 lg:pt-12">
+              <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 md:flex md:justify-between md:px-1 lg:pt-1">
                 <div className="max-w-xl">
                   <h2 className="text-3xl font-normal text-white sm:tracking-tight">
                     {intl.formatMessage({ id: 'general.welcome' })}{' '}

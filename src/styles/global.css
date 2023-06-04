@@ -183,3 +183,23 @@ a:hover {
     max-width: 90%;
   }
 }
+
+.three-icons{
+  width: 28px;
+  padding: 3.5px;
+  cursor: pointer;
+  display: inline-block;
+  opacity: 0.8;
+}
+
+.table_top_div{
+  max-height: 50vh !important;
+}
+
+.all_tables{
+  margin-bottom: 5px;
+}
+
+.table_auction_img{
+      max-height: 36px !important;
+}

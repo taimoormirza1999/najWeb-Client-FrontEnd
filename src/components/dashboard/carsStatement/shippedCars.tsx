@@ -1,7 +1,12 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
+
+import TableColumn from '@/components/TableColumn';
+import TableHeader from '@/components/TableHeader';
+import { UserContext } from '@/components/userContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -19,8 +24,13 @@ const carProfileDetail = (row) => {
 
 const ShippedCars = ({ tableData, lastTotalRow }) => {
   const intl = useIntl();
+  const router = useRouter();
+  const currency = router.query?.currency || 'aed';
+
   const [shippedCarsState, setShippedCars] = useState(tableData);
   const [shippedTableSearch, setShippedTableSearch] = useState('');
+  const { profile } = useContext(UserContext);
+  const showContainerNumber = profile?.isBulkShippingCustomer === true;
 
   useEffect(() => {
     setShippedCars(
@@ -33,6 +43,48 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
     );
   }, [shippedTableSearch]);
 
+  useEffect(() => {
+    const excelBtn = document.getElementById('shippedCars-xls-button');
+    if (excelBtn) {
+      excelBtn.innerHTML =
+        '<i class="material-icons text-xl">&#xef42;</i> Excel';
+    }
+  }, []);
+
+  const tableHeader = [
+    { name: 'page.customer.dashboard.table.no' },
+    {
+      name: 'statement.shipped_cars.date',
+    },
+    {
+      name: 'page.customer.dashboard.table.detail',
+    },
+    {
+      name: 'page.customer.container.container_number',
+    },
+    {
+      name: 'page.customer.dashboard.table.storage',
+    },
+    {
+      name: 'page.customer.dashboard.table.price',
+    },
+    {
+      name: 'statement.shipped_cars.shipping_amount',
+    },
+    {
+      name: 'statement.shipped_cars.debit',
+    },
+    {
+      name: 'statement.shipped_cars.credit',
+    },
+    {
+      name: 'statement.shipped_cars.remainig',
+    },
+    {
+      name: 'statement.shipped_cars.balance',
+    },
+  ];
+
   return (
     <>
       <div className="flex flex-col justify-between md:flex-row">
@@ -42,7 +94,7 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
         <input
           type="text"
           placeholder={intl.formatMessage({ id: 'Search' })}
-          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1 text-lg ltr:italic text-gray-700 md:self-end"
+          className="border-medium-grey my-4 basis-1/6 rounded-md border py-1  text-gray-700 ltr:italic md:self-end"
           value={shippedTableSearch}
           onChange={(e) => {
             setShippedTableSearch(e.target.value);
@@ -51,48 +103,61 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
       </div>
       <ReactHTMLTableToExcel
         id="shippedCars-xls-button"
-        className="mb-4 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        className="mb-4 flex items-center gap-1 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
         table="shippedCars"
         filename="shippedCars"
         sheet="tablexls"
         buttonText="Excel"
       />
-      <div className="border-azure-blue overflow-x-auto rounded-xl border">
+      <div className="border-azure-blue overflow-x-auto">
         <table id="shippedCars" className="w-full table-auto">
-          <thead>
-            <tr className="w-full">
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+          {/* <thead>
+            <TableColumn className="w-full">
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold ">
                 <FormattedMessage id="page.customer.dashboard.table.no" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.date" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.table.detail" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              {showContainerNumber ? (
+                <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
+                  <FormattedMessage id="page.customer.container.container_number" />
+                </TableColumn>
+              ) : null}
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.table.storage" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.table.price" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.shipping_amount" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.debit" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.credit" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.remainig" />
-              </td>
-              <td className="text-dark-blue p-4 text-xl font-semibold">
+              </TableColumn>
+              <TableColumn className="text-dark-blue p-4 text-xl font-semibold">
                 <FormattedMessage id="statement.shipped_cars.balance" />
-              </td>
+              </TableColumn>
             </tr>
-          </thead>
+          </thead> */}
+          <TableHeader
+            tableHeader={tableHeader.filter(
+              (item, _) =>
+                item.name !== 'page.customer.container.container_number' ||
+                showContainerNumber
+            )}
+          />
+
           <tbody>
             {shippedCarsState.map((row, index) => (
               <tr
@@ -102,49 +167,46 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
                   'text-xs sm:text-[17px]'
                 )}
               >
-                <td className="text-dark-blue w-[4%] min-w-[60px] p-3 text-xl font-semibold">
+                <TableColumn className="text-dark-blue w-[4%] min-w-[60px]">
                   {row.index}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.date}
-                </td>
-                <td className="w-[24%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]">{row.date}</TableColumn>
+                <TableColumn className="w-[24%]">
                   {row.car === undefined
                     ? row.description
                     : carProfileDetail(row)}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.storage_fine}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
-                  {row.car_price}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                {showContainerNumber ? (
+                  <TableColumn className="w-[8%]">
+                    {row?.car?.container_number || ''}
+                  </TableColumn>
+                ) : null}
+                <TableColumn className="w-[8%]">{row.storage_fine}</TableColumn>
+                <TableColumn className="w-[8%]">{row.car_price}</TableColumn>
+                <TableColumn className="w-[8%]">
                   {row.car_id ? (
                     <Link
                       href={{
                         pathname: '/customer/bill/',
-                        query: { car: row.car_id },
+                        query: { car: row.car_id, currency },
                       }}
                     >
-                      <a className="text-[#1C1C1C]">{row.shipping_amount}</a>
+                      <a target="_blank" className="text-[#1C1C1C]">
+                        {row.shipping_amount}
+                      </a>
                     </Link>
                   ) : (
                     row.shipping_amount
                   )}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#0B9A21]">
+                </TableColumn>
+                <TableColumn className="w-[10%] text-[#0B9A21]">
                   {row.debit}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#A30000]">
+                </TableColumn>
+                <TableColumn className="w-[10%] text-[#A30000]">
                   {row.credit}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#1C1C1C]">
-                  {row.remaining}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#1C1C1C]">
-                  {row.balance}
-                </td>
+                </TableColumn>
+                <TableColumn className="w-[10%]">{row.remaining}</TableColumn>
+                <TableColumn className="w-[10%]">{row.balance}</TableColumn>
               </tr>
             ))}
           </tbody>
@@ -152,35 +214,38 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
       </div>
 
       {lastTotalRow ? (
-        <div className="border-azure-blue my-2 overflow-hidden rounded-xl border">
+        <div className="border-azure-blue my-2 overflow-hidden">
           <table className="w-full table-auto">
             <tfoot>
               <tr className="font-semibold">
-                <td className="w-[4%] p-3"></td>
-                <td className="w-[32%] p-3 text-2xl  text-[#1C1C1C]">
+                <TableColumn className="w-[4%] p-3"></TableColumn>
+                <TableColumn className="w-[32%] p-3 text-2xl  text-[#1C1C1C]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                {showContainerNumber ? (
+                  <TableColumn className="w-[8%] p-3 "></TableColumn>
+                ) : null}
+                <TableColumn className="w-[8%] p-3  ">
                   {lastTotalRow.storage_fine}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]  p-3 ">
                   {lastTotalRow.car_price}
-                </td>
-                <td className="w-[8%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[8%]  p-3 ">
                   {lastTotalRow.shipping_amount}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#0B9A21]">
+                </TableColumn>
+                <TableColumn className="w-[10%] p-3  text-[#0B9A21]">
                   {lastTotalRow.debit ? lastTotalRow.debit : ''}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#A30000]">
+                </TableColumn>
+                <TableColumn className="w-[10%] p-3  text-[#A30000]">
                   {lastTotalRow.credit ? lastTotalRow.credit : ''}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[10%]  p-3 ">
                   {lastTotalRow.remaining}
-                </td>
-                <td className="w-[10%] p-3 text-lg text-[#1C1C1C]">
+                </TableColumn>
+                <TableColumn className="w-[10%]  p-3 ">
                   {lastTotalRow.balance}
-                </td>
+                </TableColumn>
               </tr>
             </tfoot>
           </table>

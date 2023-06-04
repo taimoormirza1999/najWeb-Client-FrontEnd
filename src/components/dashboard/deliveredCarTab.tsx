@@ -1,13 +1,25 @@
+import 'react-gallery-carousel/dist/index.css';
+
+import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
+import axios from 'axios';
+import Link from 'next/link';
+import NProgress from 'nprogress';
+import { Fragment, useRef, useState } from 'react';
+import Carousel from 'react-gallery-carousel';
 import { FormattedMessage } from 'react-intl';
 
 import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import NoteModal from '@/components/noteModal';
 import { classNames } from '@/utils/Functions';
+
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 
 const DeliveredCarTab = ({
   carsRecords,
@@ -28,11 +40,15 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.detail',
       'page.customer.dashboard.table.lot_vin',
       'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.buyer_number',
+      'page.customer.dashboard.table.region',
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
+      'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.title_date',
       'page.customer.dashboard.table.key',
       'page.customer.dashboard.table.loaded_date',
       'page.customer.dashboard.table.booking',
@@ -55,11 +71,15 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.detail',
       'page.customer.dashboard.table.lot_vin',
       'page.customer.dashboard.table.auction',
+      'page.customer.dashboard.table.buyer_number',
+      'page.customer.dashboard.table.region',
       'page.customer.dashboard.table.destination',
       'page.customer.dashboard.table.purchase_date',
       'page.customer.dashboard.table.date_pick',
+      'picked_car_title_note',
       'page.customer.dashboard.table.arrived',
       'page.customer.dashboard.table.title',
+      'page.customer.dashboard.table.title_date',
       'page.customer.dashboard.table.key',
       'page.customer.dashboard.table.loaded_date',
       'page.customer.dashboard.table.booking',
@@ -73,28 +93,186 @@ const DeliveredCarTab = ({
       'page.customer.dashboard.table.images',
     ];
   }
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
-  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&region=${region}&limit=${limit}&page=`;
+
+  const paginationUrl = `/customer/dashboard?tab=tabs-delivered&search=${search}&type=${type}&limit=${limit}`;
+
   const limitUrl = `/customer/dashboard?tab=tabs-delivered&type=${type}&page=`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
+
+  const [images, setImages] = useState([]);
+  const [carId, setCarId] = useState('');
+  const [downloadtype, setDownloadType] = useState('');
+  const [downloading, setDownloading] = useState(false);
+  const [redirectModalOpen, setRedirectModalOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState('');
+
+  const GetWarehouseImages = async (car_id, type) => {
+    NProgress.start();
+    setDownloading(false);
+    const res = await axios.get(
+      `/api/customer/images?type=${type}&car_id=${car_id}`
+    );
+
+    const imdatas = res.data.data;
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
+    setCarId(car_id);
+    setDownloadType(type);
+    NProgress.done();
+    setRedirectModalOpen(true);
+  };
+  const GetLoadingImages = async (car_id, type) => {
+    NProgress.start();
+    setDownloading(false);
+    const res = await axios.get(
+      `/api/customer/images?type=${type}&car_id=${car_id}`
+    );
+
+    const imdatas = res.data.data;
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
+    setCarId(car_id);
+    setDownloadType(type);
+    NProgress.done();
+    setRedirectModalOpen(true);
+  };
+  const GetStoringImages = async (car_id, type) => {
+    NProgress.start();
+    setDownloading(false);
+    const res = await axios.get(
+      `/api/customer/images?type=${type}&car_id=${car_id}`
+    );
+
+    const imdatas = res.data.data;
+    const imdata = res.data.data
+      ? imdatas.map((im) => ({
+          src: im,
+        }))
+      : [];
+    setImages(imdata);
+    setCarId(car_id);
+    setDownloadType(type);
+    NProgress.done();
+    setRedirectModalOpen(true);
+  };
   return (
     <div className="" id="tabs-delivered" role="tabpanel">
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.delivered" />
-            </h1>
+      <NoteModal
+        openNote={openNote}
+        note={note}
+        setOpenNote={setOpenNote}
+      ></NoteModal>
+      <Transition.Root show={redirectModalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          initialFocus={cancelButtonRef}
+          onClose={setRedirectModalOpen}
+        >
+          <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0 transition-opacity" />
+            </Transition.Child>
+
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span
+              className="hidden sm:inline-block sm:h-screen sm:align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <div className="relative inline-block w-2/5 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:p-6 sm:align-middle">
+                <Carousel
+                  images={images}
+                  style={{ height: '30vw', width: '100%', objectFit: 'cover' }}
+                  canAutoPlay={true}
+                  autoPlayInterval={2000}
+                  isAutoPlaying={true}
+                />
+
+                <div>
+                  <div className="text-dark-blue mt-1 text-center sm:mt-1">
+                    <div>
+                      <button
+                        disabled={downloading}
+                        onClick={() => {
+                          const url = `${process.env.NEXT_PUBLIC_API_URL}getDownloadableImages?type=${downloadtype}&car_id=${carId}`;
+                          // use fetch to download the zip file
+                          if (window.open(url, '_parent')) {
+                            setDownloading(true);
+                          }
+                        }}
+                        className={`mt-4 ${
+                          downloading ? 'bg-indigo-200' : 'bg-indigo-600'
+                        } ${
+                          images.length ? '' : 'hidden'
+                        } inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                      >
+                        {downloading
+                          ? 'File will be downloaded shortly'
+                          : 'Zip and Download'}
+                      </button>
+                      <br />
+                      <small className={`${images.length ? '' : 'hidden'}`}>
+                        please note that it may take a while to zip all images
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 flex justify-center gap-4 sm:mt-6">
+                  <button
+                    type="button"
+                    // className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-10 py-2.5 text-2xl font-medium"
+                    className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                    onClick={() => {
+                      setRedirectModalOpen(false);
+                    }}
+                    ref={cancelButtonRef}
+                  >
+                    Close X
+                  </button>
+                </div>
+              </div>
+            </Transition.Child>
           </div>
-        </div>
+        </Dialog>
+      </Transition.Root>
+      <div>
+        <TableHeadText id={'page.customer.dashboard.new_cars'} />
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+              <div className="table_top_div flex max-h-[50vh] flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
@@ -106,7 +284,8 @@ const DeliveredCarTab = ({
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+                  <TableHeader tableHeader={carTableHeader} />
                   <tbody>
                     {carsRecords.map((car, index) => (
                       <tr
@@ -116,69 +295,71 @@ const DeliveredCarTab = ({
                           'text-sm'
                         )}
                       >
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="w-[2px] ">
                           {addIndex + index + 1}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          <img
-                            className="max-h-[50px]"
-                            src={car.image}
-                            alt=""
-                          />
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[56px] ">
+                          <Link
+                            key={index}
+                            href={{
+                              pathname: '/customer/dashboard/',
+                              query: { tab: 'tabs-arrived', type: 'store' },
+                            }}
+                          >
+                            <img
+                              className="max-h-[50px]"
+                              src={car.image}
+                              alt=""
+                            />
+                          </Link>
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[180px] ">
                           {car.carMakerName} {car.carModelName} {car.year}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[150px] ">
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          {car.auction_location_name} <br /> {car.auctionTitle}
-                          <br /> {car.region}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[150px] ">
+                          {car.auction_location_name} | {car.auctionTitle}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[154px] ">
+                          <FormattedMessage id="general.buyer_number" />:{' '}
+                          {car.buyer_number}{' '}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[64px] ">
+                          {car.region}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[90px] ">
                           {car.port_name}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.purchasedate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.picked_date}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px]">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setNote(car.picked_car_title_note);
+                              setOpenNote(true);
+                            }}
+                            className={classNames(
+                              !car.picked_car_title_note ? 'hidden' : '',
+                              'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                            )}
+                          >
+                            Notes
+                          </button>
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
                           className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
                         >
                           {car.delivered_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[30px]">
                           {car.delivered_title === '1' ||
                           car.follow_title === '1' ? (
                             <CheckCircleIcon
@@ -191,13 +372,12 @@ const DeliveredCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                          <br />
+                        </TableColumn>
+
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.titleDate}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[30px] ">
                           {car.delivered_car_key === '1' ? (
                             <CheckCircleIcon
                               className="h-6 w-6 text-green-400"
@@ -209,87 +389,75 @@ const DeliveredCarTab = ({
                               aria-hidden="true"
                             />
                           )}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.loaded_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[50px] ">
                           {car.booking_number}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[50px] ">
                           {car.container_number}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.shipping_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[85px] ">
                           {car.arrival_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.receive_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.deliver_create_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[50px] ">
                           {car.total_cost}
-                        </td>
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[65px] ">
                           {car.paymentDate}
-                        </td>
+                        </TableColumn>
                         {type === 'Paid' && (
-                          <td
-                            scope="col"
-                            className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                          >
+                          <TableColumn scope="col" className="min-w-[50px] ">
                             {car.amount_paid}
-                          </td>
+                          </TableColumn>
                         )}
                         {type === 'Paid' && (
-                          <td
-                            scope="col"
-                            className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                          >
+                          <TableColumn scope="col" className="min-w-[50px] ">
                             {car.remaining_amount}
-                          </td>
+                          </TableColumn>
                         )}
-                        <td
-                          scope="col"
-                          className="min-w-[50px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
-                          <img
-                            className="max-h-[50px]"
-                            src={car.image}
-                            alt=""
-                          />
-                        </td>
+                        <TableColumn scope="col" className="min-w-[100px] ">
+                          <div className="row">
+                            <div className="three-icons">
+                              <img
+                                src="/assets/images/warehouseimg.png"
+                                alt=""
+                                onClick={() => {
+                                  GetWarehouseImages(car.car_id, 'warehouse');
+                                }}
+                              />
+                            </div>
+                            <div className="three-icons">
+                              <img
+                                src="/assets/images/loading.png"
+                                alt=""
+                                onClick={() => {
+                                  GetLoadingImages(car.car_id, 'loading');
+                                }}
+                              />
+                            </div>
+                            <div className="three-icons">
+                              <img
+                                src="/assets/images/Arrival_pics.png"
+                                alt=""
+                                onClick={() => {
+                                  GetStoringImages(car.car_id, 'store');
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </TableColumn>
                       </tr>
                     ))}
                   </tbody>

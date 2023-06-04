@@ -1,6 +1,7 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -11,6 +12,9 @@ import {
 } from '@/components/dashboard/pagination';
 import { classNames } from '@/utils/Functions';
 
+import ImagesViewer from '../cars/ImagesViewer';
+import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
 import { ArrivedPortCars } from './arrivedPortCars';
 import { ArrivedStoreCars } from './arrivedStoreCars';
 import { InShippingCars } from './inShippingCars';
@@ -24,41 +28,60 @@ export interface ContainerDetail {
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
+  { name: 'page.customer.dashboard.table.images' },
   {
     name: 'page.customer.container.container_number',
+    order: 'container_number',
+  },
+  {
+    name: 'page.customer.container.invoice',
   },
   {
     name: 'page.customer.container.booking',
+    order: 'booking_number',
+  },
+  {
+    name: 'page.customer.container.departure',
+    order: 'departure',
   },
   {
     name: 'page.customer.container.destination',
+    order: 'destination',
   },
   {
     name: 'page.customer.container.status',
   },
   {
     name: 'page.customer.container.total_cars',
+    order: 'total_cars',
   },
   {
     name: 'page.customer.container.loaded_date',
+    order: 'loaded_date',
   },
   {
     name: 'page.customer.container.etd',
+    order: 'etd',
   },
   {
     name: 'page.customer.container.shipping_date',
+    order: 'shipping_date',
   },
   {
     name: 'page.customer.container.eta',
+    order: 'eta',
   },
   {
     name: 'page.customer.container.arrived_port_date',
+    order: 'arrived_port_date',
   },
   {
     name: 'page.customer.container.arrived_store_date',
+    order: 'arrived_store_date',
   },
   {
     name: 'page.customer.container.cars_shipping_amount',
+    order: 'total_shipping',
   },
 ];
 const ContainersTable = ({
@@ -68,10 +91,17 @@ const ContainersTable = ({
   page = 0,
   limit,
   search = '',
+  order = '',
+  type = '',
 }) => {
-  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&limit=${limit}&page=`;
-  const limitUrl = `/customer/containers?tab=${tab}&page=`;
-
+  const paginationUrl = `/customer/containers?tab=${tab}&search=${search}&type=${type}&order=${order}&limit=${limit}`;
+  const router = useRouter();
+  const exportUrl = `?tab=${tab}&search=${search}&type=${type}&order=${order}&date_from=${
+    router.query?.date_from ? router.query.date_from : ''
+  }&date_to=${router.query?.date_to ? router.query.date_to : ''}&date_type=${
+    router.query?.date_type ? router.query.date_type : ''
+  }&region=${router.query?.region ? router.query.region : ''}`;
+  const limitUrl = `/customer/containers?tab=${tab}&type=${type}&order=${order}&page=`;
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const cancelDetailButtonRef = useRef(null);
   const [containerDetail, setContainerDetail] = useState<ContainerDetail>({
@@ -131,6 +161,10 @@ const ContainersTable = ({
         setDetailModalOpen(true);
       })
       .catch(() => {});
+  };
+
+  const exportExcel = async () => {
+    window.open(`/api/customer/container/export${exportUrl}`, '_blank');
   };
 
   return (
@@ -222,6 +256,14 @@ const ContainersTable = ({
                   </div>
                   <div className="flex">
                     <div className="font-bold">
+                      <FormattedMessage id="page.customer.container.invoice" />:
+                    </div>
+                    <div className="pl-1">
+                      {containerData.current.container_number}
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <div className="font-bold">
                       <FormattedMessage id="page.customer.container.status" />:
                     </div>
                     <div className="pl-1">{containerData.current.status}</div>
@@ -265,24 +307,44 @@ const ContainersTable = ({
       </CustomModal>
       <div className="pt-14">
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+              <button
+                onClick={exportExcel}
+                className="mb-4 flex items-center gap-1 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                type="button"
+              >
+                <i className="material-icons text-xl">&#xef42;</i> Excel
+              </button>
+
+              <div className="overflow-hidden">
+                <table
+                  id="customrContainers"
+                  className="min-w-full divide-y divide-gray-300"
+                >
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableHeader.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-[#005FB7] border-[1px] "
                         >
-                          <FormattedMessage id={th.name} />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.name} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+                  <TableHeader tableHeader={carTableHeader} order={order} />
+
                   <tbody>
                     {records.map((row, index) => (
                       <tr
@@ -292,15 +354,21 @@ const ContainersTable = ({
                           'text-sm'
                         )}
                       >
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {index + 1 + page * (limit === 'all' ? 0 : limit)}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn className="w-[5px]">
+                          <ImagesViewer
+                            loading={true}
+                            warehouse={false}
+                            store={false}
+                            car_id={row.car_id}
+                            container_no={row.container_number}
+                          />
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] cursor-pointer px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                          className="border-dark-blue min-w-[70px] cursor-pointer border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
                         >
                           <span
                             onClick={async () => {
@@ -309,82 +377,81 @@ const ContainersTable = ({
                           >
                             {row.container_number}
                           </span>
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px] ">
+                          {row.all_cars_completed === '1' ? (
+                            <Link
+                              href={{
+                                pathname: '/customer/containers/invoice/',
+                                query: { id: row.container_id },
+                              }}
+                            >
+                              <a target="_blank">{row.invoice_no}</a>
+                            </Link>
+                          ) : (
+                            '-'
+                          )}
+                        </TableColumn>
+
+                        <TableColumn scope="col" className="min-w-[70px] ">
                           {row.booking_number}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[150px] ">
+                          {row.pol_name}
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px] ">
                           {row.destination}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[150px] ">
                           {row.status}
-                        </td>
-                        <td
+                        </TableColumn>
+                        <TableColumn
                           scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
+                          className="min-w-[70px] text-center"
                         >
                           <span
-                            className="bg-dark-blue cursor-pointer rounded-md px-4 py-1 text-white"
+                            className="bg-dark-blue border-dark-blue my-[0.5px] cursor-pointer rounded-md border-[1px] px-3 py-1 text-white"
                             onClick={async () => {
                               getContainerCars(row);
                             }}
                           >
                             {row.total_cars}
                           </span>
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.loaded_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.etd}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.shipping_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.eta}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.arrived_port_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.arrived_store_date}
-                        </td>
-                        <td
-                          scope="col"
-                          className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                        >
+                        </TableColumn>
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.total_shipping}
-                        </td>
+                        </TableColumn>
                       </tr>
                     ))}
+                    {records?.length < 1 ? (
+                      <tr>
+                        <TableColumn
+                          scope="col"
+                          colSpan={carTableHeader.length}
+                          className="min-w-[70px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
+                        >
+                          No records
+                        </TableColumn>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </table>
               </div>

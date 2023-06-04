@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
-import React from 'react';
+
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { Cancelled } from '@/components/dashboard/newCar/cancelled';
@@ -11,6 +11,11 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
+import { Sort } from '@/components/dashboard/sort';
+import NoteModal from '@/components/noteModal';
+
+import TableHeader from '../TableHeader';
+import TableHeadText from '../TableHeadText';
 
 const NewCarTab = ({
   carsRecords,
@@ -19,11 +24,14 @@ const NewCarTab = ({
   type,
   limit,
   search = '',
+  order = '',
 }) => {
   let carTableData;
   if (!type) {
     type = 'unpaid';
   }
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState('');
   if (type === 'paid' || type === 'paid_bycustomer') {
     carTableData = [
       {
@@ -34,22 +42,34 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
+      },
+      {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       { header: 'page.customer.dashboard.table.price' },
       {
         header: 'page.customer.dashboard.table.payment_date',
+        order: 'paymentDate',
       },
       {
         header: 'page.customer.dashboard.table.amount_paid',
@@ -70,24 +90,39 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
+      },
+      {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       {
         header: 'page.customer.dashboard.table.payment_date',
+        order: 'paymentDate',
       },
       {
         header: 'page.customer.dashboard.table.date_pick',
+      },
+      {
+        header: 'picked_car_title_note',
       },
       {
         header: 'page.customer.dashboard.table.eta_to_warehouse',
@@ -102,18 +137,29 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
+      },
+      {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       {
         header: 'page.customer.dashboard.table.date_of_cancellation',
@@ -131,18 +177,29 @@ const NewCarTab = ({
       },
       {
         header: 'page.customer.dashboard.table.detail',
+        order: 'carMakerName',
       },
       {
         header: 'page.customer.dashboard.table.lot_vin',
+        order: 'lotnumber',
       },
       {
         header: 'page.customer.dashboard.table.auction',
+        order: 'auction_location_name',
+      },
+      {
+        header: 'page.customer.dashboard.table.buyer_number',
+      },
+      {
+        header: 'page.customer.dashboard.table.region',
       },
       {
         header: 'page.customer.dashboard.table.destination',
+        order: 'port_name',
       },
       {
         header: 'page.customer.dashboard.table.purchase_date',
+        order: 'purchasedate',
       },
       {
         header: 'page.customer.dashboard.table.last_day_to_pay',
@@ -173,39 +230,48 @@ const NewCarTab = ({
       },
     ];
   }
-  const router = useRouter();
-  const region = router.query.region ? router.query.region : '';
-  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&region=${region}&limit=${limit}&page=`;
-  const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&page=`;
+  const paginationUrl = `/customer/dashboard?tab=tabs-newcar&search=${search}&type=${type}&limit=${limit}&order=${order}`;
+  const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&order=${order}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.new_cars" />
-            </h1>
-          </div>
-        </div>
+      
+      <NoteModal
+        openNote={openNote}
+        note={note}
+        setOpenNote={setOpenNote}
+      ></NoteModal>
+      <div>
+        <TableHeadText id={'page.customer.dashboard.new_cars'} />
         <div className="flex flex-col">
-          <SelectPageRecords url={limitUrl} search={search} />
+          <SelectPageRecords url={limitUrl} />
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden  border border-[#005fb7] md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-white">
+              {/* <div className="overflow-hidden"> */}
+              <div className="table_top_div flex max-h-[50vh] flex-col">
+                <table className="all_tables min-w-full divide-y divide-gray-300">
+                  {/* <thead className="bg-white">
                     <tr>
                       {carTableData.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600"
+                          className="px-3 py-3.5 text-left text-base font-semibold text-blue-600 border-dark-blue border-[1px]"
                         >
-                          <FormattedMessage id={th.header} />
+                          <div className="flex items-center justify-between">
+                            <FormattedMessage id={th.header} />
+                            <Sort
+                              order={order}
+                              elemOrder={th.order}
+                              index={index}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>
-                  </thead>
+                  </thead> */}
+
+                  <TableHeader tableHeader={carTableData} order={order} />
+
                   <tbody>
                     {type === 'paid' && <Paid carsRecords={carsRecords}></Paid>}
                     {type === 'unpaid' && (
@@ -220,7 +286,11 @@ const NewCarTab = ({
                       <Cancelled carsRecords={carsRecords}></Cancelled>
                     )}
                     {type === 'towing' && (
-                      <Towing carsRecords={carsRecords}></Towing>
+                      <Towing
+                        carsRecords={carsRecords}
+                        setOpenNote={setOpenNote}
+                        setNote={setNote}
+                      ></Towing>
                     )}
                   </tbody>
                 </table>

@@ -3,9 +3,17 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import { useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
+import TableColumn from '@/components/TableColumn';
 import { classNames } from '@/utils/Functions';
 
-const Store = ({ carsRecords, GetImages, setDeliveredModalOpen, addIndex }) => {
+const Store = ({
+  carsRecords,
+  GetImages,
+  setDeliveredModalOpen,
+  addIndex,
+  setOpenNote,
+  setNote,
+}) => {
   const { data: session } = useSession();
 
   return carsRecords.map((car, index) => (
@@ -16,72 +24,72 @@ const Store = ({ carsRecords, GetImages, setDeliveredModalOpen, addIndex }) => {
         'text-sm'
       )}
     >
-      <td
-        scope="col"
-        className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      <TableColumn scope="col" className="w-[2px]">
         {addIndex + index + 1}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[56px]">
         <img
-          className="max-h-[50px] cursor-pointer"
+          className="table_auction_img cursor-pointer"
           src={car.image_small}
           alt=""
           onClick={() => {
             GetImages(car.id);
           }}
         />
-      </td>
-      <td
-        scope="col"
-        className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[180px]">
         {car.carMakerName} {car.carModelName} {car.year}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[150px]">
         Lot: {car.lotnumber} <br /> Vin: {car.vin}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+
+      {/* <TableColumn scope="col" className="min-w-[160px]">
         {car.auction_location_name} <br /> {car.aTitle} <br />
+        <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
+        <br />
         {car.region}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn> */}
+      <TableColumn scope="col" className="min-w-[130px]">
+        {car.auction_location_name} | {car.aTitle}{' '}
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[180px]">
+        <FormattedMessage id="general.buyer_number" />: {car.buyer_number}
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[80px]">
+        {car.region}
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[100px]">
         {car.port_name}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.purchasedate}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.picked_date}
-      </td>
-      <td
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[65px]">
+        <button
+          type="button"
+          onClick={() => {
+            setNote(car.picked_car_title_note);
+            setOpenNote(true);
+          }}
+          className={classNames(
+            !car.picked_car_title_note ? 'hidden' : '',
+            'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+          )}
+        >
+          Notes
+        </button>
+      </TableColumn>
+      <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
+        className="min-w-[47px]"
       >
         {car.delivered_date}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[30px]">
         {car.delivered_title === '1' || car.follow_title === '1' ? (
           <CheckCircleIcon
             className="h-6 w-6 text-green-400"
@@ -90,13 +98,11 @@ const Store = ({ carsRecords, GetImages, setDeliveredModalOpen, addIndex }) => {
         ) : (
           <XCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
         )}
-        <br />
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[63px]">
         {car.titleDate}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[30px]">
         {car.delivered_car_key === '1' ? (
           <CheckCircleIcon
             className="h-6 w-6 text-green-400"
@@ -105,54 +111,30 @@ const Store = ({ carsRecords, GetImages, setDeliveredModalOpen, addIndex }) => {
         ) : (
           <XCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
         )}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.loaded_date}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.booking_number}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.container_number}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.shipping_date}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.arrival_date}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.receive_date}
-      </td>
-      <td
-        scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-      >
+      </TableColumn>
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.total_price}
-      </td>
+      </TableColumn>
       {session?.profile[0]?.naj_branch === '1' ? (
-        <td
-          scope="col"
-          className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-        >
+        <TableColumn scope="col" className="min-w-[47px]">
           {car.isUAEPort === '0' ? (
             <button
               type="button"
@@ -165,7 +147,7 @@ const Store = ({ carsRecords, GetImages, setDeliveredModalOpen, addIndex }) => {
               <FormattedMessage id="page.customer.dashboard.table.deliver" />
             </button>
           ) : null}
-        </td>
+        </TableColumn>
       ) : null}
     </tr>
   ));
