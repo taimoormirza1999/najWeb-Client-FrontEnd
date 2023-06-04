@@ -136,6 +136,7 @@ const SelectPageRecords = ({ url }) => {
   const [filters, setFilters] = useState<any>({
     region: router.query?.region ? router.query.region : '',
   });
+  const [initiate, setInitiate] = useState(false);
   const [containerfilters, setContainerFilters] = useState<any>({
     date_from: router.query?.date_from ? router.query.date_from : '',
     date_to: router.query?.date_to ? router.query.date_to : '',
@@ -193,6 +194,10 @@ const SelectPageRecords = ({ url }) => {
   }, []);
 
   useEffect(() => {
+    if (!initiate) {
+      setInitiate(true);
+      return;
+    }
     applyFilters();
   }, [filters, selectedLimit]);
 
