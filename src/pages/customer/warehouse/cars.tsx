@@ -105,6 +105,11 @@ export default function WarehouseTowingCars({
           page,
           search,
         },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
       });
       setTableRecords(res.data?.totalRecords || 0);
       setWarehouseCars(res.data ? res.data.data : []);
@@ -199,6 +204,7 @@ export default function WarehouseTowingCars({
         showOn={formSubmitModal.status}
         initialFocus={closeModalRef}
         onClose={() => {
+          document.documentElement.style.overflow = 'auto';
           setFormSubmitModal({
             status: false,
             type: '',
@@ -226,6 +232,7 @@ export default function WarehouseTowingCars({
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
             ref={closeModalRef}
             onClick={() => {
+              document.documentElement.style.overflow = 'auto';
               setFormSubmitModal({
                 status: false,
                 type: '',
@@ -415,7 +422,7 @@ export default function WarehouseTowingCars({
                                 </>
                               ) : null}
                             </TableColumn>
-                            <TableColumn scope="col" className="min-w-[35px]">
+                            <TableColumn scope="col" className="w-[30px]">
                               {car.car_title === '1' ? (
                                 <CheckCircleIcon
                                   className="h-6 w-6 text-green-400"
@@ -428,7 +435,7 @@ export default function WarehouseTowingCars({
                                 />
                               )}
                             </TableColumn>
-                            <TableColumn scope="col" className="min-w-[35px]">
+                            <TableColumn scope="col" className="w-[30px]">
                               {car.car_key === '1' ? (
                                 <CheckCircleIcon
                                   className="h-6 w-6 text-green-400"
