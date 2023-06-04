@@ -47,6 +47,11 @@ export default async function handler(req, res) {
         page: page || 0,
         search: search || '',
       },
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+        Expires: '0',
+      },
     });
 
     return response?.data
@@ -78,15 +83,16 @@ export default async function handler(req, res) {
 
           const fileStream = fs.createReadStream(file.filepath);
           const fileExt = file?.originalFilename.split('.').pop();
+          const destinationFileName = `${fields.lotnumber}-${file.newFilename}.${fileExt}`;
           const params = {
             Bucket: s3BucketName,
-            Key: `uploads/warehouse_cars/${s3SubKey}/${fields.lotnumber}-${file.newFilename}.${fileExt}`,
+            Key: `uploads/warehouse_cars/${s3SubKey}/${destinationFileName}`,
             Body: fileStream,
             ContentType: file.mimetype,
           };
 
           const result = await s3.upload(params).promise();
-          formData.fields[dbFieldName] = params.Key;
+          formData.fields[dbFieldName] = destinationFileName;
           return result.Location;
         });
 
