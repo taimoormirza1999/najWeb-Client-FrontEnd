@@ -354,7 +354,7 @@ const ContainersTable = ({
                           'text-sm'
                         )}
                       >
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {index + 1 + page * (limit === 'all' ? 0 : limit)}
                         </TableColumn>
                         <TableColumn className="w-[5px]">
@@ -368,7 +368,7 @@ const ContainersTable = ({
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="border-dark-blue w-[2px] cursor-pointer border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                          className="border-dark-blue min-w-[70px] cursor-pointer border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
                         >
                           <span
                             onClick={async () => {
@@ -378,10 +378,7 @@ const ContainersTable = ({
                             {row.container_number}
                           </span>
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px] ">
                           {row.all_cars_completed === '1' ? (
                             <Link
                               href={{
@@ -396,33 +393,24 @@ const ContainersTable = ({
                           )}
                         </TableColumn>
 
-                        <TableColumn
-                          scope="col"
-                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px] ">
                           {row.booking_number}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[150px] ">
                           {row.pol_name}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[70px] ">
                           {row.destination}
                         </TableColumn>
-                        <TableColumn
-                          scope="col"
-                          className="border-dark-blue w-[2px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                        >
+                        <TableColumn scope="col" className="min-w-[150px] ">
                           {row.status}
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn
+                          scope="col"
+                          className="min-w-[70px] text-center"
+                        >
                           <span
-                            className="bg-dark-blue border-dark-blue cursor-pointer rounded-md border-[1px] px-4 py-1 text-white"
+                            className="bg-dark-blue border-dark-blue my-[0.5px] cursor-pointer rounded-md border-[1px] px-3 py-1 text-white"
                             onClick={async () => {
                               getContainerCars(row);
                             }}
@@ -430,25 +418,25 @@ const ContainersTable = ({
                             {row.total_cars}
                           </span>
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.loaded_date}
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.etd}
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.shipping_date}
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.eta}
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.arrived_port_date}
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.arrived_store_date}
                         </TableColumn>
-                        <TableColumn scope="col" className="w-[2px]">
+                        <TableColumn scope="col" className="min-w-[70px]">
                           {row.total_shipping}
                         </TableColumn>
                       </tr>
@@ -458,7 +446,7 @@ const ContainersTable = ({
                         <TableColumn
                           scope="col"
                           colSpan={carTableHeader.length}
-                          className="w-[2px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
+                          className="min-w-[70px] px-3 py-3.5 text-center font-semibold text-[#1C1C1C]"
                         >
                           No records
                         </TableColumn>

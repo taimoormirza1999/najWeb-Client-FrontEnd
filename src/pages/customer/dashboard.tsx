@@ -209,14 +209,14 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
   return (
     <Layout meta={<Meta title="Dashboard" description="" />}>
       <div>
-        <div className="m-8">
+        <div className="m-8 ">
           <div className="flex">
-            <h4 className="text-dark-blue flex-1 pb-8 text-2xl font-semibold sm:text-4xl ">
-              <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
+            <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
+              <i className="material-icons text-dark-blue align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>
               <FormattedMessage id="page.customer.dashboard.cars_summary" />
-            </h4>
+            </h5>
             <SearchLot></SearchLot>
           </div>
           <div>
@@ -229,11 +229,11 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
               >
                 <a
                   className={classNames(
-                    'text-green-600 hover:text-gray-700 mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-green-600 text-sm sm:text-xl'
+                    'text-green-600 hover:text-gray-700 mr-3 px-3 py-2 cursor-pointer font-small rounded-md hover:border-inherit border-2 border-green-600 text-sm sm:text-base'
                   )}
                 >
                   <FormattedMessage id={'page.customer.dashboard.allcars'} />{' '}
-                    {allCarsCount ? `(${allCarsCount})` : ''}
+                  {allCarsCount ? `(${allCarsCount})` : ''}
                 </a>
               </Link>
 
@@ -246,7 +246,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                         tab === tabData.href
                         ? 'bg-[#005FB7] text-white'
                         : 'text-blue-600 hover:text-gray-700',
-                      'mr-3 px-3 py-2 cursor-pointer font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                      'mr-3 px-3 py-2 cursor-pointer font-small rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-base'
                     )}
                     onClick={() => setSubMenu(tabData.href)}
                   >
@@ -267,7 +267,7 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
                           tab === tabData.href
                           ? 'bg-[#005FB7] text-white'
                           : 'text-blue-600 hover:text-gray-700',
-                        'mr-3 px-3 py-2 font-medium rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-xl'
+                        'mr-3 px-3 py-2 font-small rounded-md hover:border-inherit border-2 border-blue-600 text-sm sm:text-base'
                       )}
                       onClick={() => setSubMenu('')}
                     >

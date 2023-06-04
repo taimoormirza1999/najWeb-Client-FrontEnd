@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
+import TableColumn from '../TableColumn';
+
 const carTableHeader = [
   'page.customer.dashboard.table.no',
   'page.customer.dashboard.table.auction_photo',
@@ -51,66 +53,36 @@ const ArrivedPortCars = ({ cars }) => {
                   'text-sm'
                 )}
               >
-                <td
-                  scope="col"
-                  className="w-[2px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                <TableColumn scope="col" className="w-[2px]">
                   {index + 1}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[56px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[56px]">
                   <img className="max-h-[50px]" src={car.image} alt="" />
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[180px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[180px]">
                   {car.carMakerName} {car.carModelName} {car.year}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[130px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[130px]">
                   Lot: {car.lotnumber} <br /> Vin: {car.vin}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[160px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[160px]">
                   {car.auctionLocationName} <br /> {car.auctionTitle} <br />
                   <FormattedMessage id="general.buyer_number" />:{' '}
                   {car.buyer_number} <br />
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[64px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[64px]">
                   {car.portName}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[55px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[55px]">
                   {car.purchasedDate}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[30px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[30px]">
                   {car.pickedDate}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[47px]">
                   {car.arrivedDate}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[60px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[60px]">
                   {car.deliveredTitle === '1' ? (
                     <CheckCircleIcon
                       className="h-6 w-6 text-green-400"
@@ -124,11 +96,8 @@ const ArrivedPortCars = ({ cars }) => {
                   )}
                   <br />
                   {car.titleDate}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[63px] px-3 py-3.5 text-left  font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[63px]">
                   {car.deliveredKey === '1' ? (
                     <CheckCircleIcon
                       className="h-6 w-6 text-green-400"
@@ -141,37 +110,22 @@ const ArrivedPortCars = ({ cars }) => {
                     />
                   )}
                   <br />
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[47px]">
                   {car.loaded_date}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[47px]">
                   {car.booking_number}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[47px]">
                   {car.container_number}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[47px]">
                   {car.shipping_date}
-                </td>
-                <td
-                  scope="col"
-                  className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
-                >
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[47px]">
                   {car.arrival_date}
-                </td>
+                </TableColumn>
               </tr>
             ))}
           </tbody>
