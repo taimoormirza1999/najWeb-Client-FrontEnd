@@ -1,54 +1,80 @@
-import { useRef, useState } from 'react';
-
-import CustomModal from '@/components/customModal';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useRef, useState } from 'react';
 
 const NotesButtonModal = (props) => {
   const { note, title } = props;
-  const cancelButtonRef = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [openNote, setOpenNote] = useState(false);
+  function closeModal() {
+    setOpenNote(false);
+  }
 
   return (
     <>
-      <CustomModal
-        showOn={openNote}
-        initialFocus={cancelButtonRef}
-        onClose={() => {
-          setOpenNote(false);
-        }}
-      >
-        <div>
-          {/* <h1 className="mt-1 text-2xl font-extrabold first-letter:uppercase dark:text-white">
-            {<>{title}</>}
-          </h1> */}
-          <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-xl dark:bg-gray-800">
-            <span className="mr-2 rounded-full bg-indigo-700 px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
-              {title}
-            </span>
-            <span className="inline px-2 leading-loose text-indigo-800 first-letter:uppercase dark:text-gray-300">
-              →
-            </span>
-          </div>
+      <Transition appear show={openNote} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
 
-          <div className="text-dark-blue text-center">
-            <p className=" mt-4 text-xl">{note}</p>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                  <div className="flow-root w-[100%] bg-[#cbd5e1] py-[1px]">
+                    <p className="float-left ml-[12px]">{title}</p>
+                    <p
+                      className="float-right mr-[14px] cursor-pointer text-[18px] font-bold text-[red]"
+                      onClick={closeModal}
+                    >
+                      <FontAwesomeIcon icon={faXmark} />
+                    </p>
+                  </div>
+                  <div className="px-5 pb-5 pt-3">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium leading-6 text-gray-500"
+                    >
+                      {title}
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <p className="text-xl text-gray-900">{note}</p>
+                    </div>
+
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        className="mt-2 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-1 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={closeModal}
+                      >
+                        Got it, Close!
+                      </button>
+                    </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-          <div className="mt-4 mb-3 flex justify-center gap-4">
-            <button
-              type="button"
-              // className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
-              className="border-azure-blue text-azure-blue my-1 inline-block max-w-max rounded-full border-2 px-3 py-1 text-base font-medium"
-              onClick={() => {
-                setOpenNote(false);
-                contentRef?.current?.classList.remove('blur-sm');
-              }}
-              ref={cancelButtonRef}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </CustomModal>
+        </Dialog>
+      </Transition>
       {!props.note || props.note === '-' ? (
         <span>N A</span>
       ) : (

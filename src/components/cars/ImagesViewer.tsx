@@ -43,6 +43,7 @@ export default function ImagesViewer(props) {
           src: img,
         }))
       : [];
+
     setImages(imdata);
     setDownloadType(type);
     NProgress.done();
@@ -87,6 +88,7 @@ export default function ImagesViewer(props) {
             </h1> */}
 
             <Carousel
+              shouldLazyLoad={true}
               images={images}
               style={{ height: '30vw', width: '100%', objectFit: 'cover' }}
               canAutoPlay={true}

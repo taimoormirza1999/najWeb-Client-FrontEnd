@@ -117,7 +117,7 @@ const WarehouseCarTab = ({
                         <TableColumn scope="col" className="min-w-[180px] ">
                           {car.carMakerName} {car.carModelName} {car.year}
                         </TableColumn>
-                        <TableColumn scope="col" className="min-w-[130px] ">
+                        <TableColumn scope="col" className="min-w-[180px] ">
                           Lot: {car.lotnumber} <br /> Vin: {car.vin}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[180px] ">

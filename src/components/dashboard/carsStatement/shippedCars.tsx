@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -218,32 +218,32 @@ const ShippedCars = ({ tableData, lastTotalRow }) => {
           <table className="w-full table-auto">
             <tfoot>
               <tr className="font-semibold">
-                <TableColumn className="w-[4%] p-3"></TableColumn>
-                <TableColumn className="w-[32%] p-3 text-2xl  text-[#1C1C1C]">
+                <TableColumn className="w-[4%] p-3 text-lg"> </TableColumn>
+                <TableColumn className="w-[32%] p-3 text-lg  text-[#1C1C1C]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
                 </TableColumn>
                 {showContainerNumber ? (
-                  <TableColumn className="w-[8%] p-3 "></TableColumn>
+                  <TableColumn className="w-[8%] p-3 text-lg "> </TableColumn>
                 ) : null}
-                <TableColumn className="w-[8%] p-3  ">
+                <TableColumn className="w-[8%] p-3 text-lg  ">
                   {lastTotalRow.storage_fine}
                 </TableColumn>
-                <TableColumn className="w-[8%]  p-3 ">
+                <TableColumn className="w-[8%] p-3 text-lg ">
                   {lastTotalRow.car_price}
                 </TableColumn>
-                <TableColumn className="w-[8%]  p-3 ">
+                <TableColumn className="w-[8%] p-3 text-lg ">
                   {lastTotalRow.shipping_amount}
                 </TableColumn>
-                <TableColumn className="w-[10%] p-3  text-[#0B9A21]">
+                <TableColumn className="w-[10%] p-3 text-lg  text-[#0B9A21]">
                   {lastTotalRow.debit ? lastTotalRow.debit : ''}
                 </TableColumn>
-                <TableColumn className="w-[10%] p-3  text-[#A30000]">
+                <TableColumn className="w-[10%] p-3 text-lg text-[#A30000]">
                   {lastTotalRow.credit ? lastTotalRow.credit : ''}
                 </TableColumn>
-                <TableColumn className="w-[10%]  p-3 ">
+                <TableColumn className="w-[10%]  p-3 text-lg ">
                   {lastTotalRow.remaining}
                 </TableColumn>
-                <TableColumn className="w-[10%]  p-3 ">
+                <TableColumn className="w-[10%] p-3 text-lg ">
                   {lastTotalRow.balance}
                 </TableColumn>
               </tr>
