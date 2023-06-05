@@ -70,8 +70,8 @@ export default function ImagesViewer(props) {
         }}
       >
         {images.length ? (
-          <>
-            <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-2xl dark:bg-gray-800">
+          <div className='dirltr'>
+            <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-2xl dark:bg-gray-800 ">
               <span className="mr-2 rounded-full bg-indigo-700 px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
                 {downloadtype}
               </span>
@@ -137,9 +137,9 @@ export default function ImagesViewer(props) {
                 Close
               </button>
             </div>
-          </>
+          </div>
         ) : (
-          <div>
+          <div className='dirltr'>
             <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-2xl dark:bg-gray-800">
               <span className="mr-1 rounded-full bg-indigo-700 px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
                 {downloadtype}
