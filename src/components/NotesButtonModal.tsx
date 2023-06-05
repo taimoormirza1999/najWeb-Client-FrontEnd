@@ -49,17 +49,11 @@ const NotesButtonModal = (props) => {
                     </p>
                   </div>
                   <div className="px-5 pb-5 pt-3">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium leading-6 text-gray-500"
-                    >
-                      {title}
-                    </Dialog.Title>
                     <div className="mt-2">
-                      <p className="text-xl text-gray-900">{note}</p>
+                      <p className="text-x text-gray-900">{note}</p>
                     </div>
 
-                    <div className="mt-4">
+                    <div className="mt-4 text-center">
                       <button
                         type="button"
                         className="mt-2 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-1 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
