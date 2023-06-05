@@ -64,7 +64,7 @@ const SubMenu = ({ type, subType, dashboardCount }) => {
   }
   return subMenus ? (
     <nav
-      className="mt-[15px] flex max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4"
+      className="mt-[15px] max-w-max flex-wrap gap-2 rounded-md border border-blue-600 px-2 sm:gap-4 py-[7px]"
       aria-label="Tabs"
     >
       {subMenus.map((status, index) => (
@@ -81,7 +81,7 @@ const SubMenu = ({ type, subType, dashboardCount }) => {
               subType === status.href
                 ? ' text-[#0093FF]'
                 : 'text-gray-500 hover:text-gray-700',
-              'px-1 py-0 font-medium text-sm sm:text-base sm:py-2'
+              'px-1 py-0 font-medium text-sm sm:text-base sm:py-2 mx-2'
             )}
           >
             <FormattedMessage id={status.name} /> ({status.count})
