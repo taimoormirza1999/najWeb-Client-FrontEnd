@@ -52,6 +52,9 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.driver_name',
   },
   {
+    name: 'form.driver_email',
+  },
+  {
     name: 'form.driver_address',
   },
   {
@@ -96,6 +99,7 @@ export default function WarehouseTowingCars({
   });
 
   const [carData, setCarData] = useState({});
+  const [tableHeight, setTableHeight] = useState(500);
 
   const getWarehouseCars = async () => {
     try {
@@ -121,6 +125,16 @@ export default function WarehouseTowingCars({
   useEffect(() => {
     getWarehouseCars();
   }, [limit, page, search]);
+
+  useEffect(() => {
+    const calculateTableHeight = () => {
+      const newHeight = window?.innerHeight || 0;
+      setTableHeight(newHeight * 0.67);
+    };
+    calculateTableHeight();
+    window?.addEventListener('resize', calculateTableHeight);
+    return () => window?.removeEventListener('resize', calculateTableHeight);
+  }, []);
 
   const editCar = (id) => {
     axios
@@ -363,7 +377,10 @@ export default function WarehouseTowingCars({
               <FormattedMessage id="page.customer.dashboard.add_new_cars" />
             </button>
           </div>
-          <div className="flex flex-col">
+          <div
+            className="w-[calc(100vw - 285px)] flex flex-col"
+            style={{ maxHeight: tableHeight }}
+          >
             <SelectPageRecords url={limitUrl} />
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -464,6 +481,9 @@ export default function WarehouseTowingCars({
                               {car.driver_number} <br />
                               <FormattedMessage id="form.driver_tin" />:{' '}
                               {car.driver_tin}
+                            </TableColumn>
+                            <TableColumn className="min-w-[50px]">
+                              {car.driver_email}
                             </TableColumn>
                             <TableColumn className="min-w-[75px]">
                               <FormattedMessage id="form.zip_code" />:{' '}
