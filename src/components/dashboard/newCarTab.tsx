@@ -1,6 +1,4 @@
-
 import { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 
 import { Cancelled } from '@/components/dashboard/newCar/cancelled';
 import { Paid } from '@/components/dashboard/newCar/paid';
@@ -11,7 +9,6 @@ import {
   Pagination,
   SelectPageRecords,
 } from '@/components/dashboard/pagination';
-import { Sort } from '@/components/dashboard/sort';
 import NoteModal from '@/components/noteModal';
 
 import TableHeader from '../TableHeader';
@@ -234,7 +231,6 @@ const NewCarTab = ({
   const limitUrl = `/customer/dashboard?tab=tabs-newcar&type=${type}&order=${order}&page=`;
   return (
     <div className="" id="tabs-newcar" role="tabpanel">
-      
       <NoteModal
         openNote={openNote}
         note={note}
@@ -286,11 +282,7 @@ const NewCarTab = ({
                       <Cancelled carsRecords={carsRecords}></Cancelled>
                     )}
                     {type === 'towing' && (
-                      <Towing
-                        carsRecords={carsRecords}
-                        setOpenNote={setOpenNote}
-                        setNote={setNote}
-                      ></Towing>
+                      <Towing carsRecords={carsRecords}></Towing>
                     )}
                   </tbody>
                 </table>

@@ -3,16 +3,11 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import { useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
+import NotesButtonModal from '@/components/NotesButtonModal';
 import TableColumn from '@/components/TableColumn';
 import { classNames } from '@/utils/Functions';
 
-const Port = ({
-  carsRecords,
-  setArrivedStoreModalOpen,
-  addIndex,
-  setOpenNote,
-  setNote,
-}) => {
+const Port = ({ carsRecords, setArrivedStoreModalOpen, addIndex }) => {
   const { data: session } = useSession();
   return carsRecords.map((car, index) => (
     <tr
@@ -52,25 +47,13 @@ const Port = ({
       <TableColumn scope="col" className="min-w-[64px]">
         {car.pickedDate}
       </TableColumn>
-      <TableColumn scope="col" className="min-w-[47px]">
-        <button
-          type="button"
-          onClick={() => {
-            setNote(car.picked_car_title_note);
-            setOpenNote(true);
-          }}
-          className={classNames(
-            !car.picked_car_title_note ? 'hidden' : '',
-            'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-          )}
-        >
-          Notes
-        </button>
+      <TableColumn scope="col" className="min-w-[47px] text-center">
+        <NotesButtonModal
+          note={car.picked_car_title_note}
+          title={'Pick Up Note'}
+        />
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[47px]">
         {car.arrivedDate}
       </TableColumn>
       <TableColumn scope="col" className="min-w-[30px]">

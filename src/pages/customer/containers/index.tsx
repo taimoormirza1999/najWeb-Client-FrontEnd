@@ -74,7 +74,7 @@ const Containers = ({ router, containersData, containersCount }) => {
       <div>
         <div className="m-4">
           <div className="flex">
-          <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
+            <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
               <i className="material-icons text-dark-blue align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>

@@ -3,17 +3,12 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import { useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
+import ImagesViewer from '@/components/cars/ImagesViewer';
+import NotesButtonModal from '@/components/NotesButtonModal';
 import TableColumn from '@/components/TableColumn';
 import { classNames } from '@/utils/Functions';
 
-const Store = ({
-  carsRecords,
-  GetImages,
-  setDeliveredModalOpen,
-  addIndex,
-  setOpenNote,
-  setNote,
-}) => {
+const Store = ({ carsRecords, setDeliveredModalOpen, addIndex }) => {
   const { data: session } = useSession();
 
   return carsRecords.map((car, index) => (
@@ -28,13 +23,13 @@ const Store = ({
         {addIndex + index + 1}
       </TableColumn>
       <TableColumn scope="col" className="min-w-[56px]">
-        <img
-          className="table_auction_img cursor-pointer"
-          src={car.image_small}
-          alt=""
-          onClick={() => {
-            GetImages(car.id);
-          }}
+        <ImagesViewer
+          loading={false}
+          warehouse={false}
+          store={true}
+          car_id={car.car_id}
+          single_image={car.image_small}
+          // container_no={row.container_number}
         />
       </TableColumn>
       <TableColumn scope="col" className="min-w-[180px]">
@@ -43,13 +38,6 @@ const Store = ({
       <TableColumn scope="col" className="min-w-[150px]">
         Lot: {car.lotnumber} <br /> Vin: {car.vin}
       </TableColumn>
-
-      {/* <TableColumn scope="col" className="min-w-[160px]">
-        {car.auction_location_name} <br /> {car.aTitle} <br />
-        <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
-        <br />
-        {car.region}
-      </TableColumn> */}
       <TableColumn scope="col" className="min-w-[130px]">
         {car.auction_location_name} | {car.aTitle}{' '}
       </TableColumn>
@@ -68,25 +56,13 @@ const Store = ({
       <TableColumn scope="col" className="min-w-[65px]">
         {car.picked_date}
       </TableColumn>
-      <TableColumn scope="col" className="min-w-[65px]">
-        <button
-          type="button"
-          onClick={() => {
-            setNote(car.picked_car_title_note);
-            setOpenNote(true);
-          }}
-          className={classNames(
-            !car.picked_car_title_note ? 'hidden' : '',
-            'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-          )}
-        >
-          Notes
-        </button>
+      <TableColumn scope="col" className="min-w-[65px] text-center">
+        <NotesButtonModal
+          note={car.picked_car_title_note}
+          title={'Pickup Note'}
+        />
       </TableColumn>
-      <TableColumn
-        scope="col"
-        className="min-w-[47px]"
-      >
+      <TableColumn scope="col" className="min-w-[65px]">
         {car.delivered_date}
       </TableColumn>
       <TableColumn scope="col" className="min-w-[30px]">
