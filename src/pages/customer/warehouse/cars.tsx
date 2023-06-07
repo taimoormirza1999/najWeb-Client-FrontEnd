@@ -1,5 +1,11 @@
 import { Dialog } from '@headlessui/react';
-import { CheckIcon, PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import {
+  CheckCircleIcon,
+  CheckIcon,
+  PencilIcon,
+  TrashIcon,
+  XCircleIcon,
+} from '@heroicons/react/outline';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -31,6 +37,12 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.lot_vin',
   },
   {
+    name: 'page.customer.dashboard.table.title',
+  },
+  {
+    name: 'page.customer.dashboard.table.key',
+  },
+  {
     name: 'page.customer.dashboard.table.price',
   },
   {
@@ -38,6 +50,9 @@ const carTableHeader = [
   },
   {
     name: 'page.customer.dashboard.table.driver_name',
+  },
+  {
+    name: 'form.driver_email',
   },
   {
     name: 'form.driver_address',
@@ -66,7 +81,7 @@ export default function WarehouseTowingCars({
   ports,
 }) {
   const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}`;
-  const limitUrl = `/customer/warehouse/cars?page=`;
+  const limitUrl = `/customer/warehouse/cars?page=0`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
 
   const [tableRecords, setTableRecords] = useState(0);
@@ -84,6 +99,7 @@ export default function WarehouseTowingCars({
   });
 
   const [carData, setCarData] = useState({});
+  const [tableHeight, setTableHeight] = useState(500);
 
   const getWarehouseCars = async () => {
     try {
@@ -92,6 +108,11 @@ export default function WarehouseTowingCars({
           limit,
           page,
           search,
+        },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '0',
         },
       });
       setTableRecords(res.data?.totalRecords || 0);
@@ -104,6 +125,16 @@ export default function WarehouseTowingCars({
   useEffect(() => {
     getWarehouseCars();
   }, [limit, page, search]);
+
+  useEffect(() => {
+    const calculateTableHeight = () => {
+      const newHeight = window?.innerHeight || 0;
+      setTableHeight(newHeight * 0.67);
+    };
+    calculateTableHeight();
+    window?.addEventListener('resize', calculateTableHeight);
+    return () => window?.removeEventListener('resize', calculateTableHeight);
+  }, []);
 
   const editCar = (id) => {
     axios
@@ -187,6 +218,7 @@ export default function WarehouseTowingCars({
         showOn={formSubmitModal.status}
         initialFocus={closeModalRef}
         onClose={() => {
+          document.documentElement.style.overflow = 'auto';
           setFormSubmitModal({
             status: false,
             type: '',
@@ -214,6 +246,7 @@ export default function WarehouseTowingCars({
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
             ref={closeModalRef}
             onClick={() => {
+              document.documentElement.style.overflow = 'auto';
               setFormSubmitModal({
                 status: false,
                 type: '',
@@ -328,7 +361,7 @@ export default function WarehouseTowingCars({
       />
 
       <div className="mx-auto px-8">
-        <div className="pt-14">
+        <div className="pt-4">
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">
               <h1 className="text-dark-blue text-3xl font-semibold">
@@ -336,7 +369,7 @@ export default function WarehouseTowingCars({
               </h1>
             </div>
             <button
-              className="bg-dark-blue mr-3 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white sm:text-xl"
+              className="bg-dark-blue mb-3 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white sm:text-xl"
               onClick={() => {
                 setNewCarModalOpen(true);
               }}
@@ -344,7 +377,10 @@ export default function WarehouseTowingCars({
               <FormattedMessage id="page.customer.dashboard.add_new_cars" />
             </button>
           </div>
-          <div className="flex flex-col">
+          <div
+            className="w-[calc(100vw - 285px)] flex flex-col"
+            style={{ maxHeight: tableHeight }}
+          >
             <SelectPageRecords url={limitUrl} />
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -364,7 +400,7 @@ export default function WarehouseTowingCars({
                             <TableColumn className="w-[2px]">
                               {addIndex + index + 1}
                             </TableColumn>
-                            <TableColumn className="min-w-[64px]">
+                            <TableColumn className="">
                               {car.car_photo_file !== '' ? (
                                 <Link passHref href={car.car_photo_file}>
                                   <a
@@ -374,15 +410,15 @@ export default function WarehouseTowingCars({
                                   >
                                     <Image
                                       src={car.car_photo_file}
-                                      width={60}
-                                      height={60}
+                                      width={45}
+                                      height={45}
                                       alt={car.lotnumber}
                                     />
                                   </a>
                                 </Link>
                               ) : null}
                             </TableColumn>
-                            <TableColumn className="min-w-[150px]">
+                            <TableColumn className="min-w-[100px]">
                               {car.carMakerName} {car.carModelName} {car.year}
                             </TableColumn>
                             <TableColumn className="min-w-[65px]">
@@ -390,10 +426,6 @@ export default function WarehouseTowingCars({
                               : {car.lotnumber} <br />
                               <FormattedMessage id="page.customer.dashboard.table.vin" />
                               : {car.vin} <br />
-                              <FormattedMessage id="page.customer.dashboard.table.title" />
-                              : {car.car_title === '1' ? 'Yes' : 'No'} <br />
-                              <FormattedMessage id="page.customer.dashboard.table.key" />
-                              : {car.car_key === '1' ? 'Yes' : 'No'} <br />
                               {car.invoice_file !== '' ? (
                                 <>
                                   <i className="material-icons -mt-1 align-middle text-sm lg:ltr:mr-1 lg:rtl:ml-1">
@@ -406,6 +438,32 @@ export default function WarehouseTowingCars({
                                   </Link>
                                 </>
                               ) : null}
+                            </TableColumn>
+                            <TableColumn scope="col" className="w-[30px]">
+                              {car.car_title === '1' ? (
+                                <CheckCircleIcon
+                                  className="h-6 w-6 text-green-400"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <XCircleIcon
+                                  className="h-6 w-6 text-red-400"
+                                  aria-hidden="true"
+                                />
+                              )}
+                            </TableColumn>
+                            <TableColumn scope="col" className="w-[30px]">
+                              {car.car_key === '1' ? (
+                                <CheckCircleIcon
+                                  className="h-6 w-6 text-green-400"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <XCircleIcon
+                                  className="h-6 w-6 text-red-400"
+                                  aria-hidden="true"
+                                />
+                              )}
                             </TableColumn>
                             <TableColumn className="min-w-[65px]">
                               <FormattedMessage id="form.sale_price" />: $
@@ -424,7 +482,10 @@ export default function WarehouseTowingCars({
                               <FormattedMessage id="form.driver_tin" />:{' '}
                               {car.driver_tin}
                             </TableColumn>
-                            <TableColumn className="min-w-[65px]">
+                            <TableColumn className="min-w-[50px]">
+                              {car.driver_email}
+                            </TableColumn>
+                            <TableColumn className="min-w-[75px]">
                               <FormattedMessage id="form.zip_code" />:{' '}
                               {car.driver_zip_code} <br />
                               {car.driver_address}
