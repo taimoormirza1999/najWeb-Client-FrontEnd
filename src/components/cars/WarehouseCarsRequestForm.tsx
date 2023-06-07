@@ -464,6 +464,21 @@ export default function WarehouseCarsRequestForm({
               </div>
             </div>
             <div className="my-4 gap-2 sm:flex">
+              
+              <div className="w-1/2">
+                <label className="text-teal-blue block text-lg rtl:text-right">
+                  <FormattedMessage id="form.driver_email" />
+                  <span className="mx-1 text-lg text-red-500">*</span>
+                </label>
+                <input
+                  className="w-full rounded-md border px-1 text-lg text-gray-700"
+                  type="email"
+                  name="driver_email"
+                  required
+                  onChange={handleChange}
+                  defaultValue={carData.driver_email}
+                />
+              </div>
               <div className="w-1/2">
                 <label className="text-teal-blue block text-lg rtl:text-right">
                   <FormattedMessage id="form.zip_code" />

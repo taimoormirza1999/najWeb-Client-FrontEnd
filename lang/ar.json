@@ -248,6 +248,7 @@
   "form.vin": "VIN",
   "form.zip_code": "الرمز البريدي",
   "form.driver_address": "عنوان السائق",
+  "form.driver_email": "البريد الإلكتروني للسائق",
   "form.driver_name": "اسم السائق",
   "form.driver_number": "رقم السائق",
   "form.driver_tin": "سائق TIN",
