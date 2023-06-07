@@ -368,7 +368,7 @@ const ContainersTable = ({
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="border-dark-blue min-w-[70px] cursor-pointer border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] underline"
+                          className="border-dark-blue min-w-[70px] cursor-pointer text-left font-semibold text-[#1C1C1C] underline"
                         >
                           <span
                             onClick={async () => {
@@ -410,7 +410,7 @@ const ContainersTable = ({
                           className="min-w-[70px] text-center"
                         >
                           <span
-                            className="bg-dark-blue border-dark-blue my-[0.5px] cursor-pointer rounded-md border-[1px] px-3 py-1 text-white"
+                            className="bg-dark-blue border-dark-blue my-[0.5px] cursor-pointer rounded-md border-[1px] px-2 py-1 text-white"
                             onClick={async () => {
                               getContainerCars(row);
                             }}

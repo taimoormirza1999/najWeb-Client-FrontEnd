@@ -12,11 +12,11 @@ const CustomModal = ({
     <Transition.Root show={showOn} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto backdrop-blur-sm"
+        className="fixed inset-0 z-10 overflow-y-auto backdrop-blur-sm "
         initialFocus={initialFocus}
         onClose={onClose}
       >
-        <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex min-h-screen items-end justify-center px-2 pt-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -48,7 +48,7 @@ const CustomModal = ({
             {customSize ? (
               children
             ) : (
-              <div className="absolute top-1/2 left-1/2 inline-block w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5 xl:w-2/5">
+              <div className="absolute top-1/2 left-1/2 inline-block w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5 xl:w-2/5 border-solid border-2 border-indigo-600">
                 {children}
               </div>
             )}

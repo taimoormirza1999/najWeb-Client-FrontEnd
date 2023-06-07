@@ -131,7 +131,7 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
                 <TableColumn className="w-[4%]">{row.index}</TableColumn>
                 <TableColumn className="w-[8%]">{row.date}</TableColumn>
                 <TableColumn className="w-[8%]">{row.reference_no}</TableColumn>
-                <TableColumn className="w-[8%]"></TableColumn>
+                <TableColumn className="w-[8%]"> </TableColumn>
                 <TableColumn className="w-[40%]">{row.description}</TableColumn>
                 <TableColumn className="w-[8%] text-[#0B9A21]">
                   {row.debit}
@@ -151,8 +151,8 @@ const GeneralEntries = ({ tableData, lastTotalRow }) => {
           <table className="w-full table-auto">
             <tfoot>
               <tr className="font-semibold">
-                <TableColumn className="w-[4%] px-6"></TableColumn>
-                <TableColumn className="w-[64%] p-3  text-2xl text-[#1C1C1C]">
+                <TableColumn className="w-[4%] p-3 text-lg"> </TableColumn>
+                <TableColumn className="w-[64%] p-3 text-lg text-[#1C1C1C]">
                   <FormattedMessage id="page.customer.dashboard.table.Total" />
                 </TableColumn>
                 <TableColumn className="w-[8%] p-3 text-lg text-[#0B9A21]">

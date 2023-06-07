@@ -1,9 +1,10 @@
 import { FormattedMessage } from 'react-intl';
 
+import NotesButtonModal from '@/components/NotesButtonModal';
 import TableColumn from '@/components/TableColumn';
 import { classNames } from '@/utils/Functions';
 
-const Towing = ({ carsRecords, setOpenNote, setNote }) => {
+const Towing = ({ carsRecords }) => {
   return carsRecords.map((car, index) => (
     <tr
       key={index}
@@ -24,15 +25,6 @@ const Towing = ({ carsRecords, setOpenNote, setNote }) => {
       <TableColumn scope="col" className="min-w-[140px]">
         Lot: {car.lotnumber} <br /> Vin: {car.vin}
       </TableColumn>
-      {/* <TableColumn
-        scope="col"
-        className="min-w-[160px] "
-      >
-        {car.auctionLocationName} <br /> {car.auctionTitle} <br />
-        <FormattedMessage id="general.buyer_number" />: {car.buyer_number}{' '}
-        <br />
-        {car.region}
-      </TableColumn> */}
       <TableColumn scope="col" className="min-w-[120px] ">
         {car.auctionLocationName} <br /> {car.auctionTitle}
       </TableColumn>
@@ -54,24 +46,15 @@ const Towing = ({ carsRecords, setOpenNote, setNote }) => {
       <TableColumn scope="col" className="min-w-[80px] ">
         {car.pickedDate}
       </TableColumn>
-      <TableColumn scope="col" className="min-w-[47px] ">
-        <button
-          type="button"
-          onClick={() => {
-            setNote(car.picked_car_title_note);
-            setOpenNote(true);
-          }}
-          className={classNames(
-            !car.picked_car_title_note ? 'hidden' : '',
-            'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-          )}
-        >
-          Notes
-        </button>
+      <TableColumn scope="col" className="min-w-[60px] text-center">
+        <NotesButtonModal
+          note={car.picked_car_title_note}
+          title={'Title Note'}
+        />
       </TableColumn>
       <TableColumn
         scope="col"
-        className="min-w-[47px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C] border-dark-blue border-[1px]"
+        className="border-dark-blue min-w-[47px] border-[1px] px-3 py-3.5 text-left font-semibold text-[#1C1C1C]"
       >
         {car.ETableColumn}
       </TableColumn>
