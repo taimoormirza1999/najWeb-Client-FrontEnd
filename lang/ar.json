@@ -295,6 +295,11 @@
   "status.new_jersey": "نيو جيرسي",
   "status.left": "السيارات المسحوبة",
   "statement.filter": "المحددات",
+
+  "statement.filter.currency": "العملة",
+  "statement.filter.start_date": "من",
+  "statement.filter.end_date": "إلى",
+
   "statement.shipped_cars": "السيارات المشحونة",
   "statement.shipped_cars.date": "التاريخ",
   "statement.shipped_cars.shipping_amount": "مبلغ الشحن",

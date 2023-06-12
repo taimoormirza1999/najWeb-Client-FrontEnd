@@ -1,15 +1,20 @@
 import axios from 'axios';
 import { getSession } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Deposits } from '@/components/dashboard/carsStatement/deposits';
 import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntries';
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
 import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
+import CustomSelect from '@/components/forms/CustomSelect';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
+import { CarStatusOptions } from '@/utils/constants/CarStatusOptions';
+import { PaymentStatusOptions } from '@/utils/constants/PaymentStatusOptions';
+import { TransferOptions } from '@/utils/constants/TransferOptions';
+import { CurrencyOptions } from '@/utils/constants/CurrencyOptions';
 
 const Statement = ({
   selectedParams,
@@ -28,9 +33,52 @@ const Statement = ({
   const intl = useIntl();
 
   function handleChange(event) {
-    const { name, value } = event.target;
+    const { name, value } = event.detail.event.target;
     setInputValue((prevState) => ({ ...prevState, [name]: value }));
   }
+
+  const customSelectClassName =
+    'border-medium-grey rounded-md border py-1 text-lg ltr:italic text-gray-700 w-full';
+
+  const CarStatusInputs = {
+    label: 'car.status',
+    name: 'arrived_status',
+    value: inputValue.arrived_status,
+    options: CarStatusOptions,
+    className: customSelectClassName,
+  };
+
+  const PaymentStatusInputs = {
+    label: 'payment.status',
+    name: 'remaining_status',
+    value: inputValue.remaining_status,
+    options: PaymentStatusOptions,
+    className: customSelectClassName,
+  };
+
+  const TransferInputs = {
+    label: 'Transfer',
+    name: 'transfer_status',
+    value: inputValue.transfer_status,
+    options: TransferOptions,
+    className: customSelectClassName,
+  };
+
+  const CurrencyInputs = {
+    label: 'statement.filter.currency',
+    name: 'currency',
+    value: inputValue.currency,
+    options: CurrencyOptions,
+    className: customSelectClassName,
+  };
+
+  useEffect(() => {
+    window.addEventListener('customSelectChanged', handleChange);
+    // Cleanup the event listener when the parent component unmounts
+    return () => {
+      window.removeEventListener('customSelectChanged', handleChange);
+    };
+  }, []);
 
   return (
     <Layout meta={<Meta title="General Statement" description="" />}>
@@ -50,75 +98,67 @@ const Statement = ({
         </p>
 
         <form className="mt-2 mb-12" method="get">
-          <div className="my-2 flex flex-col gap-4 lg:my-8 lg:flex-row lg:gap-10">
-            <select
-              name="arrived_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
-              value={inputValue.arrived_status}
-              onChange={handleChange}
-            >
-              <option value="">
-                {intl.formatMessage({ id: 'car.status' })}
-              </option>
-              <option value="2">All</option>
-              <option value="1">Arrived Cars</option>
-              <option value="0">Not Arrived</option>
-            </select>
-            <select
-              name="remaining_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
-              value={inputValue.remaining_status}
-              onChange={handleChange}
-            >
-              <option value="">
-                {intl.formatMessage({ id: 'payment.status' })}
-              </option>
-              <option value="0">All</option>
-              <option value="1">Paid</option>
-              <option value="2">UnPaid</option>
-            </select>
-            <select
-              name="transfer_status"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
-              value={inputValue.transfer_status}
-              onChange={handleChange}
-            >
-              <option value="">{intl.formatMessage({ id: 'Transfer' })}</option>
-              <option value="0">All</option>
-              <option value="1">Paid</option>
-              <option value="2">UnPaid</option>
-            </select>
-            <select
-              name="currency"
-              className="border-medium-grey basis-[15%] rounded-md border py-1 text-lg ltr:italic text-gray-700"
-              value={inputValue.currency}
-              onChange={handleChange}
-            >
-              <option value="aed">AED</option>
-              <option value="usd">USD</option>
-            </select>
-            <div className="flex basis-[40%] gap-8">
-              <input
-                name="date_from"
-                type="date"
-                className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700"
-                value={inputValue.date_from}
-                onChange={handleChange}
-              />
-              <input
-                name="date_to"
-                type="date"
-                className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700"
-                value={inputValue.date_to}
-                onChange={handleChange}
-              />
+          <div className="my-2 flex flex-col lg:my-8 2xl:flex-row items-en gap-4">
+            <div className="flex flex-col lg:flex-row basis-[58%] gap-4">
+              <div className="flex flex-col sm:flex-row basis-[50%] gap-4">
+                <div className="basis-[50%]">
+                  <CustomSelect inputs={CarStatusInputs}></CustomSelect>
+                </div>
+                <div className="basis-[50%]">
+                  <CustomSelect inputs={PaymentStatusInputs}></CustomSelect>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row basis-[50%] gap-4">
+                <div className="basis-[50%]">
+                  <CustomSelect inputs={TransferInputs}></CustomSelect>
+                </div>
+                <div className="basis-[50%]">
+                  <CustomSelect inputs={CurrencyInputs}></CustomSelect>
+                </div>
+              </div>
             </div>
-            <button
-              type="submit"
-              className="bg-teal-blue block rounded-md py-1 px-4 text-xl font-medium text-white hover:border-0 hover:bg-blue-400"
-            >
-              <FormattedMessage id="general.submit" />
-            </button>
+            <div className="flex flex-col lg:flex-row basis-[42%] gap-4">
+              <div className="flex flex-col sm:flex-row basis-[50%] gap-4">
+                <div className="basis-[50%]">
+                  <div className="w-full">
+                    <label>
+                      <FormattedMessage id="statement.filter.start_date" />
+                    </label>
+                    <input
+                      name="date_from"
+                      type="date"
+                      className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700 w-full"
+                      value={inputValue.date_from}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="basis-[50%]">
+                  <div className="w-full">
+                    <label>
+                      <FormattedMessage id="statement.filter.end_date" />
+                    </label>
+                    <input
+                      name="date_to"
+                      type="date"
+                      className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700 w-full"
+                      value={inputValue.date_to}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-end basis-[50%]">
+                <div className="w-full">
+                  <button
+                    type="submit"
+                    className="bg-teal-blue block rounded-md py-1 px-4 text-xl font-medium text-white hover:border-0 hover:bg-blue-400 w-full"
+                  >
+                    <FormattedMessage id="general.submit" />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
 
