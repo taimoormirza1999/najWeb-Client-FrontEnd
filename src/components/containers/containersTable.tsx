@@ -163,6 +163,48 @@ const ContainersTable = ({
       .catch(() => {});
   };
 
+  const openTracking = async (container) => {
+    // TO-DO:
+    // Put the tracking links in constants file after Ibrahem's merge.
+    const company = parseInt(container.shipping_company_id, 10);
+
+    switch (company) {
+      case 5:
+        window.open(
+          `https://www.maersk.com/tracking/${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 55:
+        window.open(
+          `https://www.hmm21.com/e-service/general/trackNTrace/TrackNTrace.do?cntrNo=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 10:
+        window.open(
+          `https://www.hmm21.com/e-service/general/trackNTrace/TrackNTrace.do?cntrNo=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 23:
+        window.open(
+          `https://www.hapag-lloyd.com/en/online-business/track/track-by-container-solution.html?container=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 9:
+        window.open(
+          `https://ecomm.one-line.com/one-ecom/manage-shipment/cargo-tracking?redir=Y&ctrack-field=${container.container_number}&sessLocale=en&trakNoParam=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      default:
+        getContainerDetail(container.container_id);
+        break;
+    }
+  };
+
   const exportExcel = async () => {
     window.open(`/api/customer/container/export${exportUrl}`, '_blank');
   };
@@ -372,7 +414,7 @@ const ContainersTable = ({
                         >
                           <span
                             onClick={async () => {
-                              getContainerDetail(row.container_id);
+                              openTracking(row);
                             }}
                           >
                             {row.container_number}
