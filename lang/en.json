@@ -273,6 +273,10 @@
   "status.left": "Picked Cars",
   "statement.general_statement": "Left Cars",
   "statement.filter": "Filter",
+  "statement.filter.currency": "Currency",
+  "statement.filter.start_date": "Start Date",
+  "statement.filter.end_date": "End Date",
+
   "statement.shipped_cars": "Shipped Cars",
   "statement.shipped_cars.date": "Date",
   "statement.shipped_cars.shipping_amount": "Shipping Amount",
