@@ -39,6 +39,7 @@ const Layout = (props: IMainProps) => {
   const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
   const [generalNotification, setGeneralNotification] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(true);
   const GetCustomerBalance = async () => {
     const res = await axios.get(`/api/customer/customer_balance/`);
     setCustomerBalance(parseFloat(res.data?.data));
@@ -191,6 +192,14 @@ const Layout = (props: IMainProps) => {
     });
   };
 
+  const toggleSideBar = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const sideBarAnimation = {
+    transition: 'all .3s',
+  };
+
   return (
     <>
       {props.meta}
@@ -339,18 +348,48 @@ const Layout = (props: IMainProps) => {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-[15%] md:flex-col">
+        <div
+          style={sideBarAnimation}
+          className={`relative hidden transition-width duration-800 md:fixed md:inset-y-0 md:flex  md:flex-col ${
+            isExpanded ? 'w-[15%]' : 'w-12'
+          }`}
+        >
+          <button
+            style={sideBarAnimation}
+            type="button"
+            className={`absolute top-2 rounded-full -ml-0.5 -mt-0.5 inline-flex h-10 w-10 items-center justify-center bg-white text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 ${
+              isExpanded ? '-right-5' : 'right-1'
+            } `}
+            onClick={toggleSideBar}
+          >
+            <span className="sr-only">Open sidebar</span>
+            <i
+              className={`material-icons text-sm ${
+                isExpanded ? 'rotate-180' : 'rotate-0'
+              }`}
+            >
+              &#xe5d2;
+            </i>
+          </button>
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200">
+          <div
+            className={`bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200 ${
+              !isExpanded ? 'pt-8' : ''
+            }`}
+          >
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
               <div className="mb-12 mt-4 flex shrink-0 items-center px-2">
                 <Link href="/">
                   <a className="hover:border-0">
-                    <img
-                      className="w-auto"
-                      src={`/assets/images/logo-${locale}.png`}
-                      alt="Nejoum Al Jazeera"
-                    />
+                    {isExpanded ? (
+                      <img
+                        className="w-auto"
+                        src={`/assets/images/logo-${locale}.png`}
+                        alt="Nejoum Al Jazeera"
+                      />
+                    ) : (
+                      <img src="/assets/images/logo-icon-blue.png" />
+                    )}
                   </a>
                 </Link>
               </div>
@@ -366,10 +405,12 @@ const Layout = (props: IMainProps) => {
                       )}
                     >
                       <i
-                        className="material-icons text-3xl ltr:mr-2 rtl:ml-2"
+                        className={`material-icons text-3xl  ${
+                          isExpanded ? 'ltr:mr-2 rtl:ml-2' : ''
+                        } `}
                         dangerouslySetInnerHTML={{ __html: item.gicon }}
                       ></i>
-                      <FormattedMessage id={item.name} />
+                      {isExpanded && <FormattedMessage id={item.name} />}
                     </a>
                   </Link>
                 ))}
@@ -377,39 +418,56 @@ const Layout = (props: IMainProps) => {
             </div>
             <div className="flex shrink-0 border-t border-gray-200 p-4">
               <div className="flex">
-                <div>
-                  <i className="material-icons text-yellow-orange text-3xl ltr:mr-2 rtl:ml-2">
-                    &#xe853;
-                  </i>
-                </div>
-                <div className="">
-                  <Link href="/customer/userprofile">
-                    <a className="group block w-full shrink-0 break-all hover:border-0">
-                      <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 md:text-base lg:text-base">
-                        {profile?.fullName}
-                      </p>
-                    </a>
-                  </Link>
-                  <a
-                    href="#"
-                    className="group mt-1 block w-full shrink-0 hover:border-0 hover:border-inherit"
-                  >
-                    <p
-                      className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
-                      onClick={handleSignOut}
-                    >
-                      <i className="material-icons align-middle text-sm lg:ltr:mr-2 lg:rtl:ml-2">
-                        &#xe9ba;
+                {isExpanded ? (
+                  <div>
+                    <div>
+                      <i className="material-icons text-yellow-orange text-3xl ltr:mr-2 rtl:ml-2">
+                        &#xe853;
                       </i>
-                      {intl.formatMessage({ id: 'general.signout' })}
-                    </p>
-                  </a>
-                </div>
+                    </div>
+                    <div className="">
+                      <Link href="/customer/userprofile">
+                        <a className="group block w-full shrink-0 break-all hover:border-0">
+                          <p className="text-xs font-semibold text-gray-700 group-hover:text-gray-900 md:text-base lg:text-base">
+                            {profile?.fullName}
+                          </p>
+                        </a>
+                      </Link>
+                      <a
+                        href="#"
+                        className="group mt-1 block w-full shrink-0 hover:border-0 hover:border-inherit"
+                      >
+                        <p
+                          className="text-medium-gray text-xs font-medium group-hover:text-gray-700"
+                          onClick={handleSignOut}
+                        >
+                          <i className="material-icons align-middle text-sm lg:ltr:mr-2 lg:rtl:ml-2">
+                            &#xe9ba;
+                          </i>
+                          {intl.formatMessage({ id: 'general.signout' })}
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <p onClick={handleSignOut}>
+                    <i className="material-icons align-middle text-xl lg:ltr:mr-2 lg:rtl:ml-2 cursor-pointer">
+                      &#xe9ba;
+                    </i>
+                  </p>
+                )}
               </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col md:w-[100%] ltr:md:pl-[15%] rtl:md:pr-[15%]">
+        <div
+          style={sideBarAnimation}
+          className={`flex flex-1 flex-col md:w-[100%] ${
+            isExpanded
+              ? 'ltr:md:pl-[15%] rtl:md:pr-[15%]'
+              : 'ltr:md:pl-12 rtl:md:pr-12'
+          }`}
+        >
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"
@@ -443,9 +501,9 @@ const Layout = (props: IMainProps) => {
                     </span>
                   </h2>
                 </div>
-                <div>
-                  <Popover className="relative md:inline-block">
-                    {({ open }) => (
+                <div className="text-right mr-2">
+                  <Popover className="relative inline-block">
+                    {() => (
                       <>
                         <Popover.Button>
                           {notify.length ? (
@@ -498,7 +556,7 @@ const Layout = (props: IMainProps) => {
                                 ))}
                               </div>
                               {notify.length ? (
-                                <div className="border-t-2">
+                                <div className="border-t-2 bg-white">
                                   <button className="p-4">
                                     Mark all as read
                                     <FontAwesomeIcon

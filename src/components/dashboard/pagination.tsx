@@ -203,32 +203,34 @@ const SelectPageRecords = ({ url }) => {
 
   return (
     <div className="mt-[1px]" data-path={router.pathname}>
-      <input
-        type="text"
-        title="Write text and press enter!"
-        placeholder={intl.formatMessage({ id: 'Search' })}
-        className="border-medium-grey basis-1/6 rounded-md border py-1 mr-1  text-lg text-gray-700 ltr:italic md:self-end"
-        value={tableSearch}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            applyFilters();
-          }
-        }}
-        onChange={(e) => {
-          setTableSearch(e.target.value);
-        }}
-      />
-      <i
-        className="material-icons -ml-8 cursor-pointer align-middle text-[1.6rem] text-sm text-gray-800 lg:ltr:mr-1 lg:rtl:ml-1"
-        onClick={applyFilters}
-      >
-        &#xe8b6;
-      </i>
+      <div className="mr-3 mb-3 inline-block">
+        <input
+          type="text"
+          title="Write text and press enter!"
+          placeholder={intl.formatMessage({ id: 'Search' })}
+          className="border-medium-grey basis-1/6 rounded-md border py-1 mr-1  text-lg text-gray-700 ltr:italic md:self-end"
+          value={tableSearch}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              applyFilters();
+            }
+          }}
+          onChange={(e) => {
+            setTableSearch(e.target.value);
+          }}
+        />
+        <i
+          className="material-icons -ml-8 cursor-pointer align-middle text-[1.6rem] text-sm text-gray-800 lg:ltr:mr-1 lg:rtl:ml-1"
+          onClick={applyFilters}
+        >
+          &#xe8b6;
+        </i>
+      </div>
       {!['/customer/warehouse/cars'].includes(router.pathname) ? (
         <select
           name="region"
           title={intl.formatMessage({ id: 'general.region' })}
-          className="border-medium-grey mb-3 ml-3 rounded-md border py-1 text-lg text-gray-700"
+          className="border-medium-grey mb-3 rounded-md border py-1 text-lg text-gray-700"
           value={filters.region}
           onChange={handleFilterChange}
         >
@@ -237,10 +239,10 @@ const SelectPageRecords = ({ url }) => {
           </option>
           {regions
             ? regions.map((region, index) => (
-                <option key={index} value={region.region_id}>
-                  {region.country_shortname} - {region.region_name}
-                </option>
-              ))
+              <option key={index} value={region.region_id}>
+                {region.country_shortname} - {region.region_name}
+              </option>
+            ))
             : null}
         </select>
       ) : null}
@@ -298,9 +300,9 @@ const SelectPageRecords = ({ url }) => {
               })}
             </option>
           </select>
-          <button 
-          onClick={applyFilters}
-          className="bg-azure-blue  mb-3 ml-3 inline-block max-w-max rounded-md px-8 py-1 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
+          <button
+            onClick={applyFilters}
+            className="bg-azure-blue  mb-3 ml-3 inline-block max-w-max rounded-md px-8 py-1 text-xl font-medium text-white hover:border-0 hover:bg-blue-500">
             {intl.formatMessage({ id: 'messages.submit' })}
           </button>
         </>
