@@ -410,15 +410,24 @@ const ContainersTable = ({
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="border-dark-blue min-w-[70px] cursor-pointer text-left font-semibold text-[#1C1C1C] underline"
+                          className="min-w-[120px] cursor-pointer border-dark-blue text-left font-semibold text-[#1C1C1C] underline"
                         >
                           <span
                             onClick={async () => {
-                              openTracking(row);
+                              getContainerDetail(row.container_id);
                             }}
                           >
                             {row.container_number}
                           </span>
+                          <button
+                            onClick={async () => {
+                              openTracking(row);
+                            }}
+                            className="float-right mr-2 inline-block text-dark-blue hover:text-blue-500"
+                            type="button"
+                          >
+                            <i className="material-icons text-xl">&#xe558;</i>{' '}
+                          </button>
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[70px] ">
                           {row.all_cars_completed === '1' ? (
@@ -452,7 +461,7 @@ const ContainersTable = ({
                           className="min-w-[70px] text-center"
                         >
                           <span
-                            className="bg-dark-blue border-dark-blue my-[0.5px] cursor-pointer rounded-md border-[1px] px-2 py-1 text-white"
+                            className="my-[0.5px] cursor-pointer rounded-md border-[1px] border-dark-blue bg-dark-blue px-2 py-1 text-white"
                             onClick={async () => {
                               getContainerCars(row);
                             }}

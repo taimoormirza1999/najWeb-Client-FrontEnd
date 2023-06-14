@@ -357,7 +357,7 @@ const Layout = (props: IMainProps) => {
           <button
             style={sideBarAnimation}
             type="button"
-            className={`absolute top-2 rounded-full -ml-0.5 -mt-0.5 inline-flex h-10 w-10 items-center justify-center bg-white text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 ${
+            className={`absolute top-2 rounded-full -ml-0.5 -mt-0.5 inline-flex h-10 w-10 items-center justify-center bg-white text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-999 ${
               isExpanded ? '-right-5' : 'right-1'
             } `}
             onClick={toggleSideBar}
@@ -451,7 +451,7 @@ const Layout = (props: IMainProps) => {
                   </div>
                 ) : (
                   <p onClick={handleSignOut}>
-                    <i className="material-icons align-middle text-xl lg:ltr:mr-2 lg:rtl:ml-2 cursor-pointer">
+                    <i className="material-icons cursor-pointer align-middle text-xl lg:ltr:mr-2 lg:rtl:ml-2">
                       &#xe9ba;
                     </i>
                   </p>
@@ -501,7 +501,7 @@ const Layout = (props: IMainProps) => {
                     </span>
                   </h2>
                 </div>
-                <div className="text-right mr-2">
+                <div className="mr-2 text-right">
                   <Popover className="relative inline-block">
                     {() => (
                       <>
