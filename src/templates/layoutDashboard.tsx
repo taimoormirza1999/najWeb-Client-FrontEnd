@@ -443,9 +443,9 @@ const Layout = (props: IMainProps) => {
                     </span>
                   </h2>
                 </div>
-                <div>
-                  <Popover className="relative md:inline-block">
-                    {({ open }) => (
+                <div className="text-right mr-2">
+                  <Popover className="relative inline-block">
+                    {() => (
                       <>
                         <Popover.Button>
                           {notify.length ? (
@@ -498,7 +498,7 @@ const Layout = (props: IMainProps) => {
                                 ))}
                               </div>
                               {notify.length ? (
-                                <div className="border-t-2">
+                                <div className="border-t-2 bg-white">
                                   <button className="p-4">
                                     Mark all as read
                                     <FontAwesomeIcon
