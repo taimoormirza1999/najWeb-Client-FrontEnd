@@ -400,6 +400,7 @@ const ContainerInvoice = ({ invoice }) => {
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
                   Total/إجمالي
                 </td>
@@ -418,6 +419,7 @@ const ContainerInvoice = ({ invoice }) => {
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
                   Payment/دفع
                 </td>
@@ -426,6 +428,7 @@ const ContainerInvoice = ({ invoice }) => {
                 </td>
               </tr>
               <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
