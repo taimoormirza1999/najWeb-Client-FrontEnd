@@ -8,6 +8,7 @@ import { useRef, useState } from 'react';
 import Carousel from 'react-gallery-carousel';
 
 import CustomModal from '../customModal';
+import LoaderIcon from '../LoaderIcon';
 
 export default function ImagesViewer(props) {
   const {
@@ -28,16 +29,34 @@ export default function ImagesViewer(props) {
   const cancelButtonRef = useRef(null);
   const [downloading, setDownloading] = useState(false);
   const [imagesModalOpen, setImagesModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const DownloadImages = () => {
+    setIsSubmitting(true);
+    const link = document.createElement('a');
+    // link.href = '/api/customer/dimages/';
+    link.href = `/api/customer/download_images/?type=${downloadtype}&car_id=${carId}&container_no=${props?.container_no}`;
+    link.download = 'images.zip';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 3000);
+  };
 
   const GetImages = async (type) => {
     NProgress.start();
     setDownloading(false);
+    setIsSubmitting(false);
 
     const res = await axios.get(
       `/api/customer/images/?type=${type}&car_id=${carId}&container_no=${props?.container_no}`
     );
 
     const imdatas = res.data.data;
+
     const imdata = res.data.data
       ? imdatas.map((img) => ({
           src: img,
@@ -70,7 +89,7 @@ export default function ImagesViewer(props) {
         }}
       >
         {images.length ? (
-          <div className='dirltr'>
+          <div className="dirltr">
             <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-2xl dark:bg-gray-800 ">
               <span className="mr-2 rounded-full bg-indigo-700 px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
                 {downloadtype}
@@ -79,14 +98,6 @@ export default function ImagesViewer(props) {
                 Images →
               </span>
             </div>
-
-            {/* <h1 className="mt-1 text-4xl font-extrabold first-letter:uppercase dark:text-white">
-              {<>{downloadtype}</>}
-              <small className="ml-2 font-semibold text-gray-500 dark:text-gray-400">
-                Images
-              </small>
-            </h1> */}
-
             <Carousel
               shouldLazyLoad={true}
               images={images}
@@ -122,6 +133,15 @@ export default function ImagesViewer(props) {
                     Please wait while downloading the zip file. This might take
                     several minutes.
                   </small>
+                  <br />
+                  <button
+                    className="mt-2 inline-flex w-[120px] justify-center rounded border border-transparent bg-indigo-600 px-2 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => {
+                      DownloadImages();
+                    }}
+                  >
+                    {isSubmitting ? <LoaderIcon /> : <>Download Option 2</>}
+                  </button>
                 </div>
               </div>
             </div>
@@ -139,7 +159,7 @@ export default function ImagesViewer(props) {
             </div>
           </div>
         ) : (
-          <div className='dirltr'>
+          <div className="dirltr">
             <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-2xl dark:bg-gray-800">
               <span className="mr-1 rounded-full bg-indigo-700 px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
                 {downloadtype}
