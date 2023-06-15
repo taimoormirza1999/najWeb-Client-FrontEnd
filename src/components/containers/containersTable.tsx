@@ -163,8 +163,60 @@ const ContainersTable = ({
       .catch(() => {});
   };
 
+  const openTracking = async (container) => {
+    // TO-DO:
+    // Put the tracking links in constants file after Ibrahem's merge.
+    const company = parseInt(container.shipping_company_id, 10);
+
+    switch (company) {
+      case 5:
+        window.open(
+          `https://www.maersk.com/tracking/${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 55:
+        window.open(
+          `https://www.hmm21.com/e-service/general/trackNTrace/TrackNTrace.do?cntrNo=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 10:
+        window.open(
+          `https://www.hmm21.com/e-service/general/trackNTrace/TrackNTrace.do?cntrNo=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 23:
+        window.open(
+          `https://www.hapag-lloyd.com/en/online-business/track/track-by-container-solution.html?container=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      case 9:
+        window.open(
+          `https://ecomm.one-line.com/one-ecom/manage-shipment/cargo-tracking?redir=Y&ctrack-field=${container.container_number}&sessLocale=en&trakNoParam=${container.container_number}`,
+          '_blank'
+        );
+        break;
+      default:
+        getContainerDetail(container.container_id);
+        break;
+    }
+  };
+
   const exportExcel = async () => {
     window.open(`/api/customer/container/export${exportUrl}`, '_blank');
+  };
+
+  const isTrackingPossible = (container) => {
+    const trackablelines = [5, 55, 10, 23, 9];
+    if (
+      trackablelines.indexOf(parseInt(container.shipping_company_id, 10)) !== -1
+    ) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -368,7 +420,7 @@ const ContainersTable = ({
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="border-dark-blue min-w-[70px] cursor-pointer text-left font-semibold text-[#1C1C1C] underline"
+                          className="min-w-[120px] cursor-pointer border-dark-blue text-left font-semibold text-[#1C1C1C] underline"
                         >
                           <span
                             onClick={async () => {
@@ -377,6 +429,19 @@ const ContainersTable = ({
                           >
                             {row.container_number}
                           </span>
+                          {isTrackingPossible(row) ? (
+                            <button
+                              onClick={async () => {
+                                openTracking(row);
+                              }}
+                              className="float-right mr-2 inline-block text-dark-blue hover:text-blue-500"
+                              type="button"
+                            >
+                              <i className="material-icons text-xl">&#xe558;</i>{' '}
+                            </button>
+                          ) : (
+                            ''
+                          )}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[70px] ">
                           {row.all_cars_completed === '1' ? (
@@ -410,7 +475,7 @@ const ContainersTable = ({
                           className="min-w-[70px] text-center"
                         >
                           <span
-                            className="bg-dark-blue border-dark-blue my-[0.5px] cursor-pointer rounded-md border-[1px] px-2 py-1 text-white"
+                            className="my-[0.5px] cursor-pointer rounded-md border-[1px] border-dark-blue bg-dark-blue px-2 py-1 text-white"
                             onClick={async () => {
                               getContainerCars(row);
                             }}
