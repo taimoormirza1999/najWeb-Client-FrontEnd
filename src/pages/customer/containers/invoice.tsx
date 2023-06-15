@@ -300,6 +300,7 @@ const ContainerInvoice = ({ invoice }) => {
                   تخزين المزاد
                 </th>
                 <th className="border-l-[1px] border-[#c0c0c0]">أخرى</th>
+                <th className="border-l-[1px] border-[#c0c0c0]">الخصم</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">المجموع</th>
               </tr>
               <tr>
@@ -320,6 +321,7 @@ const ContainerInvoice = ({ invoice }) => {
                   Auction Storage
                 </th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Other</th>
+                <th className="border-l-[1px] border-[#c0c0c0]">Discount</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Total</th>
               </tr>
             </thead>
@@ -376,6 +378,9 @@ const ContainerInvoice = ({ invoice }) => {
                   </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.otherAmount || 0}
+                  </td>
+                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
+                    {car?.discount || 0}
                   </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {' '}
