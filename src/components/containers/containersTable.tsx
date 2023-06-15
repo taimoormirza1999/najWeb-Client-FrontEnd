@@ -209,6 +209,16 @@ const ContainersTable = ({
     window.open(`/api/customer/container/export${exportUrl}`, '_blank');
   };
 
+  const isTrackingPossible = (container) => {
+    const trackablelines = [5, 55, 10, 23, 9];
+    if (
+      trackablelines.indexOf(parseInt(container.shipping_company_id, 10)) !== -1
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <div role="tabpanel">
       <CustomModal
@@ -419,15 +429,19 @@ const ContainersTable = ({
                           >
                             {row.container_number}
                           </span>
-                          <button
-                            onClick={async () => {
-                              openTracking(row);
-                            }}
-                            className="float-right mr-2 inline-block text-dark-blue hover:text-blue-500"
-                            type="button"
-                          >
-                            <i className="material-icons text-xl">&#xe558;</i>{' '}
-                          </button>
+                          {isTrackingPossible(row) ? (
+                            <button
+                              onClick={async () => {
+                                openTracking(row);
+                              }}
+                              className="float-right mr-2 inline-block text-dark-blue hover:text-blue-500"
+                              type="button"
+                            >
+                              <i className="material-icons text-xl">&#xe558;</i>{' '}
+                            </button>
+                          ) : (
+                            ''
+                          )}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[70px] ">
                           {row.all_cars_completed === '1' ? (
