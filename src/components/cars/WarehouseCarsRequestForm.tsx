@@ -53,17 +53,6 @@ export default function WarehouseCarsRequestForm({
     setCarData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  useEffect(() => {
-    if (!carData.id_vehicle_type) {
-      setCarData((prevState) => ({ ...prevState, id_vehicle_type: '1' }));
-    }
-    if (!carData.destination) {
-      setCarData((prevState) => ({ ...prevState, destination: '6' }));
-    }
-
-    // console.log('vehicle data', vehicleData ?? vehicleData);
-  }, []);
-
   const carsYear = Array(now - (now - 100))
     .fill('')
     .map((_v, idx) => now - idx);
@@ -107,25 +96,18 @@ export default function WarehouseCarsRequestForm({
       })
       .then((response) => {
         setCarsModel(response.data?.data || []);
-
-        const cModels = response.data?.data;
-
-        const carsModelId = cModels.find(
-          (item) => item.name.toLowerCase() === carData.model_name.toLowerCase()
-        )?.id_car_model;
-        if (carsModelId) {
-          setCarData((prevState) => ({
-            ...prevState,
-            id_car_model: carsModelId,
-          }));
-        } else {
-          setCarData((prevState) => ({
-            ...prevState,
-            id_car_model: '',
-          }));
-        }
       });
-  }, [carData.id_car_make, carData.vin]);
+  }, [carData.id_car_make, carData.model_name]);
+
+
+  useEffect(() => {
+    // console.log(carsModel);
+    const modelId = carsModel.find(
+      (item) => item.name.toLowerCase() === carData.model_name?.toLowerCase()
+    )?.id_car_model;
+    // console.log(modelId);
+    setCarData((prevState) => ({ ...prevState, id_car_model: modelId }));
+  }, [carsModel]);
 
   useEffect(() => {
     axios
@@ -151,12 +133,12 @@ export default function WarehouseCarsRequestForm({
 
           setCarData((prevState) => ({
             ...prevState,
-            year: response.data?.year,
+            year,
             // id_vehicle_type: vehicleType,
             id_car_make: carMaker,
             model_name: model,
           }));
-          if (year) {
+          if (vehicleType) {
             setCarData((prevState) => ({
               ...prevState,
               id_vehicle_type: vehicleType,
@@ -169,6 +151,8 @@ export default function WarehouseCarsRequestForm({
   const emptyCarData = () => {
     setCarData({
       id: '',
+      id_vehicle_type: '1',
+    destination: '6',
     });
   };
 
@@ -810,6 +794,7 @@ export default function WarehouseCarsRequestForm({
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
             ref={closeModalRef}
             onClick={() => {
+              emptyCarData();
               setNewCarModalOpen(false);
               setCarAlreadyExist(false);
             }}
