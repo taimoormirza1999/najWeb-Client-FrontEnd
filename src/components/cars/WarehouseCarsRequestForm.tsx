@@ -42,6 +42,28 @@ export default function WarehouseCarsRequestForm({
       name: '',
     },
   ]);
+  // console.log('cardta', carData || '');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCarData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleReactSelectChange = (name, value) => {
+    setCarData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  useEffect(() => {
+    if (!carData.id_vehicle_type) {
+      setCarData((prevState) => ({ ...prevState, id_vehicle_type: '1' }));
+    }
+    if (!carData.destination) {
+      setCarData((prevState) => ({ ...prevState, destination: '6' }));
+    }
+
+    // console.log('vehicle data', vehicleData ?? vehicleData);
+  }, []);
+
   const carsYear = Array(now - (now - 100))
     .fill('')
     .map((_v, idx) => now - idx);
@@ -85,22 +107,69 @@ export default function WarehouseCarsRequestForm({
       })
       .then((response) => {
         setCarsModel(response.data?.data || []);
+
+        const cModels = response.data?.data;
+
+        const carsModelId = cModels.find(
+          (item) => item.name.toLowerCase() === carData.model_name.toLowerCase()
+        )?.id_car_model;
+        if (carsModelId) {
+          setCarData((prevState) => ({
+            ...prevState,
+            id_car_model: carsModelId,
+          }));
+        } else {
+          setCarData((prevState) => ({
+            ...prevState,
+            id_car_model: '',
+          }));
+        }
       });
-  }, [carData.id_car_make]);
+  }, [carData.id_car_make, carData.vin]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/cars/vehicleDetailApi/`, {
+        params: {
+          vin: carData.vin,
+        },
+      })
+      .then((response) => {
+        if (response.data) {
+          const maker = String(response.data?.make);
+          const type = String(response.data?.type);
+          const year = response.data?.year;
+          const vehicleType = vehiclesType.find(
+            (item) => item.name.toLowerCase() === type.toLowerCase()
+          )?.id_vehicle_type;
+
+          const carMaker = carsMaker.find(
+            (item) => item.name.toLowerCase() === maker.toLowerCase()
+          )?.id_car_make;
+
+          const model = String(response.data?.model);
+
+          setCarData((prevState) => ({
+            ...prevState,
+            year: response.data?.year,
+            // id_vehicle_type: vehicleType,
+            id_car_make: carMaker,
+            model_name: model,
+          }));
+          if (year) {
+            setCarData((prevState) => ({
+              ...prevState,
+              id_vehicle_type: vehicleType,
+            }));
+          }
+        }
+      });
+  }, [carData.vin]);
 
   const emptyCarData = () => {
     setCarData({
       id: '',
     });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCarData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleReactSelectChange = (name, value) => {
-    setCarData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handlePhotoFileChange = (e) => {
@@ -221,7 +290,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_vehicle_type', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.id_vehicle_type
                       ? {
                           value: carData.id_vehicle_type,
@@ -253,7 +322,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('year', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.year
                       ? {
                           value: carData.year,
@@ -285,7 +354,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_car_make', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.id_car_make
                       ? {
                           value: carData.id_car_make,
@@ -316,7 +385,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_car_model', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.id_car_model
                       ? {
                           value: carData.id_car_model,
@@ -464,7 +533,6 @@ export default function WarehouseCarsRequestForm({
               </div>
             </div>
             <div className="my-4 gap-2 sm:flex">
-              
               <div className="w-1/2">
                 <label className="text-teal-blue block text-lg rtl:text-right">
                   <FormattedMessage id="form.driver_email" />
