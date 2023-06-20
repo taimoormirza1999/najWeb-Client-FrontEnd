@@ -106,8 +106,8 @@ export default function WarehouseCarsRequestForm({
       (item) => item.name.toLowerCase() === carData.model_name?.toLowerCase()
     )?.id_car_model;
     // console.log(modelId);
-    setCarData((prevState) => ({ ...prevState, id_car_model: modelId }));
-  }, [carsModel]);
+    setCarData((prevState) => ({ ...prevState, id_car_model: modelId || '' }));
+  }, [carsModel, carData.model_name]);
 
   useEffect(() => {
     axios
@@ -261,6 +261,39 @@ export default function WarehouseCarsRequestForm({
             />
           </div>
           <div className="my-5 mt-10">
+
+          <div className="my-4 gap-2 sm:flex">
+            <div className="w-full">
+                <label className="text-teal-blue block text-lg rtl:text-right">
+                  <FormattedMessage id="form.vin" />
+                  <span className="mx-1 text-lg text-red-500">*</span>
+                </label>
+                <input
+                  className="w-full rounded-md border px-1 text-lg text-gray-700"
+                  type="text"
+                  name="vin"
+                  required
+                  onChange={handleChange}
+                  defaultValue={carData.vin}
+                />
+              </div>
+              <div className="w-full">
+                <label className="text-teal-blue block text-lg rtl:text-right">
+                  <FormattedMessage id="form.lotnumber" />
+                  <span className="mx-1 text-lg text-red-500">*</span>
+                </label>
+                <input
+                  className="w-full rounded-md border px-1 text-lg text-gray-700"
+                  type="text"
+                  name="lotnumber"
+                  required
+                  onChange={handleChange}
+                  defaultValue={carData.lotnumber}
+                />
+              </div>
+            </div>
+
+
             <div className="my-4 gap-2 sm:flex">
               <div className="w-full">
                 <label className="text-teal-blue block text-lg rtl:text-right">
@@ -455,36 +488,6 @@ export default function WarehouseCarsRequestForm({
               </div>
             </div>
 
-            <div className="my-4 gap-2 sm:flex">
-              <div className="w-full">
-                <label className="text-teal-blue block text-lg rtl:text-right">
-                  <FormattedMessage id="form.lotnumber" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="lotnumber"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.lotnumber}
-                />
-              </div>
-              <div className="w-full">
-                <label className="text-teal-blue block text-lg rtl:text-right">
-                  <FormattedMessage id="form.vin" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="vin"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.vin}
-                />
-              </div>
-            </div>
 
             <div className="my-4 gap-2 sm:flex">
               <div className="w-full">
