@@ -10,11 +10,11 @@ import { ShippedCars } from '@/components/dashboard/carsStatement/shippedCars';
 import CustomSelect from '@/components/forms/CustomSelect';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
-import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 import { CarStatusOptions } from '@/utils/constants/CarStatusOptions';
+import { CurrencyOptions } from '@/utils/constants/CurrencyOptions';
 import { PaymentStatusOptions } from '@/utils/constants/PaymentStatusOptions';
 import { TransferOptions } from '@/utils/constants/TransferOptions';
-import { CurrencyOptions } from '@/utils/constants/CurrencyOptions';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 const Statement = ({
   selectedParams,
@@ -33,12 +33,21 @@ const Statement = ({
   const intl = useIntl();
 
   function handleChange(event) {
-    const { name, value } = event.detail.event.target;
+    let target;
+
+    if (event.detail) {
+      target = event.detail.event.target;
+    } else {
+      target = event.target;
+    }
+
+    const { name, value } = target;
+
     setInputValue((prevState) => ({ ...prevState, [name]: value }));
   }
 
   const customSelectClassName =
-    'border-medium-grey rounded-md border py-1 text-lg ltr:italic text-gray-700 w-full';
+    'border-medium-grey rounded-md border py-1 text-lg text-gray-700 w-full';
 
   const CarStatusInputs = {
     label: 'car.status',
@@ -98,9 +107,9 @@ const Statement = ({
         </p>
 
         <form className="mt-2 mb-12" method="get">
-          <div className="my-2 flex flex-col lg:my-8 2xl:flex-row items-en gap-4">
-            <div className="flex flex-col lg:flex-row basis-[58%] gap-4">
-              <div className="flex flex-col sm:flex-row basis-[50%] gap-4">
+          <div className="items-en my-2 flex flex-col gap-4 lg:my-8 2xl:flex-row">
+            <div className="flex basis-[58%] flex-col gap-4 lg:flex-row">
+              <div className="flex basis-[50%] flex-col gap-4 sm:flex-row">
                 <div className="basis-[50%]">
                   <CustomSelect inputs={CarStatusInputs}></CustomSelect>
                 </div>
@@ -108,7 +117,7 @@ const Statement = ({
                   <CustomSelect inputs={PaymentStatusInputs}></CustomSelect>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row basis-[50%] gap-4">
+              <div className="flex basis-[50%] flex-col gap-4 sm:flex-row">
                 <div className="basis-[50%]">
                   <CustomSelect inputs={TransferInputs}></CustomSelect>
                 </div>
@@ -117,8 +126,8 @@ const Statement = ({
                 </div>
               </div>
             </div>
-            <div className="flex flex-col lg:flex-row basis-[42%] gap-4">
-              <div className="flex flex-col sm:flex-row basis-[50%] gap-4">
+            <div className="flex basis-[42%] flex-col gap-4 lg:flex-row">
+              <div className="flex basis-[50%] flex-col gap-4 sm:flex-row">
                 <div className="basis-[50%]">
                   <div className="w-full">
                     <label>
@@ -127,7 +136,7 @@ const Statement = ({
                     <input
                       name="date_from"
                       type="date"
-                      className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700 w-full"
+                      className="border-medium-grey w-full basis-1/2 rounded-md border py-1 text-gray-700"
                       value={inputValue.date_from}
                       onChange={handleChange}
                     />
@@ -141,18 +150,18 @@ const Statement = ({
                     <input
                       name="date_to"
                       type="date"
-                      className="border-medium-grey basis-1/2 rounded-md border py-1 ltr:italic text-gray-700 w-full"
+                      className="border-medium-grey w-full basis-1/2 rounded-md border py-1 text-gray-700"
                       value={inputValue.date_to}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
               </div>
-              <div className="flex items-end basis-[50%]">
+              <div className="flex basis-[50%] items-end">
                 <div className="w-full">
                   <button
                     type="submit"
-                    className="bg-teal-blue block rounded-md py-1 px-4 text-xl font-medium text-white hover:border-0 hover:bg-blue-400 w-full"
+                    className="bg-teal-blue block w-full rounded-md py-1 px-4 text-xl font-medium text-white hover:border-0 hover:bg-blue-400"
                   >
                     <FormattedMessage id="general.submit" />
                   </button>
@@ -204,7 +213,7 @@ export async function getServerSideProps(context) {
     transfer_status: formData.transfer_status || '0',
     currency: formData.currency || 'aed',
     date_from: formData.date_from || `2021-01-01`,
-    date_to: '',
+    date_to: formData.date_to || ``,
   };
   try {
     const [shippedCarsResponse, depositsResponse] = await Promise.all([
