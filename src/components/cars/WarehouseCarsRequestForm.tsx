@@ -42,6 +42,17 @@ export default function WarehouseCarsRequestForm({
       name: '',
     },
   ]);
+  // console.log('cardta', carData || '');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCarData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleReactSelectChange = (name, value) => {
+    setCarData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
   const carsYear = Array(now - (now - 100))
     .fill('')
     .map((_v, idx) => now - idx);
@@ -86,21 +97,63 @@ export default function WarehouseCarsRequestForm({
       .then((response) => {
         setCarsModel(response.data?.data || []);
       });
-  }, [carData.id_car_make]);
+  }, [carData.id_car_make, carData.model_name]);
+
+
+  useEffect(() => {
+    // console.log(carsModel);
+    const modelId = carsModel.find(
+      (item) => item.name.toLowerCase() === carData.model_name?.toLowerCase()
+    )?.id_car_model;
+    // console.log(modelId);
+    setCarData((prevState) => ({ ...prevState, id_car_model: modelId || '' }));
+  }, [carsModel, carData.model_name]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/cars/vehicleDetailApi/`, {
+        params: {
+          vin: carData.vin,
+        },
+      })
+      .then((response) => {
+        if (response.data) {
+          const maker = String(response.data?.make);
+          const type = String(response.data?.type);
+          const year = response.data?.year;
+          const vehicleType = vehiclesType.find(
+            (item) => item.name.toLowerCase() === type.toLowerCase()
+          )?.id_vehicle_type;
+
+          const carMaker = carsMaker.find(
+            (item) => item.name.toLowerCase() === maker.toLowerCase()
+          )?.id_car_make;
+
+          const model = String(response.data?.model);
+
+          setCarData((prevState) => ({
+            ...prevState,
+            year,
+            // id_vehicle_type: vehicleType,
+            id_car_make: carMaker,
+            model_name: model,
+          }));
+          if (vehicleType) {
+            setCarData((prevState) => ({
+              ...prevState,
+              id_vehicle_type: vehicleType,
+            }));
+          }
+        }
+      });
+  }, [carData.vin]);
 
   const emptyCarData = () => {
     setCarData({
       id: '',
+      id_vehicle_type: '1',
+    destination: '6',
     });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCarData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleReactSelectChange = (name, value) => {
-    setCarData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handlePhotoFileChange = (e) => {
@@ -208,6 +261,39 @@ export default function WarehouseCarsRequestForm({
             />
           </div>
           <div className="my-5 mt-10">
+
+          <div className="my-4 gap-2 sm:flex">
+            <div className="w-full">
+                <label className="text-teal-blue block text-lg rtl:text-right">
+                  <FormattedMessage id="form.vin" />
+                  <span className="mx-1 text-lg text-red-500">*</span>
+                </label>
+                <input
+                  className="w-full rounded-md border px-1 text-lg text-gray-700"
+                  type="text"
+                  name="vin"
+                  required
+                  onChange={handleChange}
+                  defaultValue={carData.vin}
+                />
+              </div>
+              <div className="w-full">
+                <label className="text-teal-blue block text-lg rtl:text-right">
+                  <FormattedMessage id="form.lotnumber" />
+                  <span className="mx-1 text-lg text-red-500">*</span>
+                </label>
+                <input
+                  className="w-full rounded-md border px-1 text-lg text-gray-700"
+                  type="text"
+                  name="lotnumber"
+                  required
+                  onChange={handleChange}
+                  defaultValue={carData.lotnumber}
+                />
+              </div>
+            </div>
+
+
             <div className="my-4 gap-2 sm:flex">
               <div className="w-full">
                 <label className="text-teal-blue block text-lg rtl:text-right">
@@ -221,7 +307,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_vehicle_type', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.id_vehicle_type
                       ? {
                           value: carData.id_vehicle_type,
@@ -253,7 +339,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('year', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.year
                       ? {
                           value: carData.year,
@@ -285,7 +371,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_car_make', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.id_car_make
                       ? {
                           value: carData.id_car_make,
@@ -316,7 +402,7 @@ export default function WarehouseCarsRequestForm({
                   onChange={(newOption) => {
                     handleReactSelectChange('id_car_model', newOption.value);
                   }}
-                  defaultValue={
+                  value={
                     carData?.id_car_model
                       ? {
                           value: carData.id_car_model,
@@ -402,36 +488,6 @@ export default function WarehouseCarsRequestForm({
               </div>
             </div>
 
-            <div className="my-4 gap-2 sm:flex">
-              <div className="w-full">
-                <label className="text-teal-blue block text-lg rtl:text-right">
-                  <FormattedMessage id="form.lotnumber" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="lotnumber"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.lotnumber}
-                />
-              </div>
-              <div className="w-full">
-                <label className="text-teal-blue block text-lg rtl:text-right">
-                  <FormattedMessage id="form.vin" />
-                  <span className="mx-1 text-lg text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full rounded-md border px-1 text-lg text-gray-700"
-                  type="text"
-                  name="vin"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.vin}
-                />
-              </div>
-            </div>
 
             <div className="my-4 gap-2 sm:flex">
               <div className="w-full">
@@ -464,7 +520,6 @@ export default function WarehouseCarsRequestForm({
               </div>
             </div>
             <div className="my-4 gap-2 sm:flex">
-              
               <div className="w-1/2">
                 <label className="text-teal-blue block text-lg rtl:text-right">
                   <FormattedMessage id="form.driver_email" />
@@ -742,6 +797,7 @@ export default function WarehouseCarsRequestForm({
             className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-4 py-1  text-lg font-medium md:px-10 md:py-2 lg:text-xl"
             ref={closeModalRef}
             onClick={() => {
+              emptyCarData();
               setNewCarModalOpen(false);
               setCarAlreadyExist(false);
             }}
