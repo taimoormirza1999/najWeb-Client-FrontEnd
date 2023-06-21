@@ -98,7 +98,10 @@ export default function WarehouseTowingCars({
     message: '',
   });
 
-  const [carData, setCarData] = useState({});
+  const [carData, setCarData] = useState({
+    id_vehicle_type: '1',
+    destination: '6',
+  });
   const [tableHeight, setTableHeight] = useState(500);
 
   const getWarehouseCars = async () => {
