@@ -411,5 +411,11 @@
   "dock_receipt": "استلام قفص الاتهام",
   "auction_price": "سعر المزاد",
   "general.buyer_number": "الباير",
-  "picked_car_title_note": "ملاحظات السحب"
+  "picked_car_title_note": "ملاحظات السحب",
+  "new": "الجديدة",
+  "picked": "المسحوبة",
+  "warehouse": "المستودع",
+  "shipping": "الشحن",
+  "port": "الميناء",
+  "store": "المستودع"
 }

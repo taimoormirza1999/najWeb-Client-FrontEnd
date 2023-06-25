@@ -426,5 +426,11 @@
   "auction_invoice": "Auction Invoice",
   "sold": "Sold",
   "general.buyer_number": "Buyer Number",
-  "picked_car_title_note": "Pick up note"
+  "picked_car_title_note": "Pick up note",
+  "new": "NEW",
+  "picked": "PICKED",
+  "warehouse": "WAREHOUSE",
+  "shipping": "SHIPPING",
+  "port": "PORT",
+  "store": "STORE"
 }
