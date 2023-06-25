@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
+import MapChart from '../chart/MapChart';
+
 const carTableHeader = [
   { name: 'status.new_jersey' },
   { name: 'status.texas' },
@@ -103,149 +105,164 @@ const StatesTab = ({ carsRecords }) => {
     },
   ];
   return (
-    <div className="" id="tabs-warehousecar" role="tabpanel">
-      <div className="pt-14">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-dark-blue text-3xl font-semibold">
-              <FormattedMessage id="page.customer.dashboard.states" />
-            </h1>
+    <div className="grid grid-cols-2 gap-4">
+      <div className="" id="tabs-warehousecar" role="tabpanel">
+        <div className="pt-14">
+          <div className="sm:flex sm:items-center">
+            <div className="sm:flex-auto">
+              <h1 className="text-dark-blue text-3xl font-semibold">
+                <FormattedMessage id="page.customer.dashboard.states" />
+              </h1>
+            </div>
           </div>
-        </div>
-        <div className="mt-8 flex flex-col">
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg lg:max-w-[900px]">
-                <table className="w-full divide-y divide-gray-300 ">
-                  <thead className="bg-white">
-                    <tr>
-                      <th></th>
-                      {carTableHeader.map((th, index) => (
-                        <th
-                          key={index}
-                          scope="col"
-                          className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl"
-                        >
-                          <FormattedMessage id={th.name} />
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {carTableData.map((tr, index) => (
-                      <tr
-                        key={index}
-                        className={classNames(
-                          index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
-                          'text-xs sm:text-[17px]'
-                        )}
-                      >
-                        <td className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl">
-                          <FormattedMessage id={tr.name} />
-                        </td>
-                        <td
-                          className={classNames(
-                            tr.ng !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
-                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
-                          )}
-                        >
-                          {tr.ng !== '0' ? (
-                            <Link
-                              href={{
-                                pathname: '/customer/dashboard/',
-                                query: { ...tr.query, region: 4 },
-                              }}
-                            >
-                              <a target={'blank'}>{tr.ng}</a>
-                            </Link>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-                        <td
-                          className={classNames(
-                            tr.tx !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
-                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
-                          )}
-                        >
-                          {tr.tx !== '0' ? (
-                            <Link
-                              href={{
-                                pathname: '/customer/dashboard/',
-                                query: { ...tr.query, region: 2 },
-                              }}
-                            >
-                              <a target={'blank'}>{tr.tx}</a>
-                            </Link>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-                        <td
-                          className={classNames(
-                            tr.ga !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
-                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
-                          )}
-                        >
-                          {tr.ga !== '0' ? (
-                            <Link
-                              href={{
-                                pathname: '/customer/dashboard/',
-                                query: { ...tr.query, region: 1 },
-                              }}
-                            >
-                              <a target={'blank'}>{tr.ga}</a>
-                            </Link>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-                        <td
-                          className={classNames(
-                            tr.wa !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
-                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
-                          )}
-                        >
-                          {tr.wa !== '0' ? (
-                            <Link
-                              href={{
-                                pathname: '/customer/dashboard/',
-                                query: { ...tr.query, region: 5 },
-                              }}
-                            >
-                              <a target={'blank'}>{tr.wa}</a>
-                            </Link>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-                        <td
-                          className={classNames(
-                            tr.ca !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
-                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
-                          )}
-                        >
-                          {tr.ca !== '0' ? (
-                            <Link
-                              href={{
-                                pathname: '/customer/dashboard/',
-                                query: { ...tr.query, region: 3 },
-                              }}
-                            >
-                              <a target={'blank'}>{tr.ca}</a>
-                            </Link>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
+          <div className="mt-8 flex flex-col">
+            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div className="overflow-hidden border border-[#005fb7] md:rounded-lg lg:max-w-[900px]">
+                  <table className="w-full divide-y divide-gray-300 ">
+                    <thead className="bg-white">
+                      <tr>
+                        <th></th>
+                        {carTableHeader.map((th, index) => (
+                          <th
+                            key={index}
+                            scope="col"
+                            className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl"
+                          >
+                            <FormattedMessage id={th.name} />
+                          </th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {carTableData.map((tr, index) => (
+                        <tr
+                          key={index}
+                          className={classNames(
+                            index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
+                            'text-xs sm:text-[17px]'
+                          )}
+                        >
+                          <td className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl">
+                            <FormattedMessage id={tr.name} />
+                          </td>
+                          <td
+                            className={classNames(
+                              tr.ng !== '0'
+                                ? 'text-gray-800'
+                                : 'text-[#1C1C1C]',
+                              'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                            )}
+                          >
+                            {tr.ng !== '0' ? (
+                              <Link
+                                href={{
+                                  pathname: '/customer/dashboard/',
+                                  query: { ...tr.query, region: 4 },
+                                }}
+                              >
+                                <a target={'blank'}>{tr.ng}</a>
+                              </Link>
+                            ) : (
+                              '-'
+                            )}
+                          </td>
+                          <td
+                            className={classNames(
+                              tr.tx !== '0'
+                                ? 'text-gray-800'
+                                : 'text-[#1C1C1C]',
+                              'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                            )}
+                          >
+                            {tr.tx !== '0' ? (
+                              <Link
+                                href={{
+                                  pathname: '/customer/dashboard/',
+                                  query: { ...tr.query, region: 2 },
+                                }}
+                              >
+                                <a target={'blank'}>{tr.tx}</a>
+                              </Link>
+                            ) : (
+                              '-'
+                            )}
+                          </td>
+                          <td
+                            className={classNames(
+                              tr.ga !== '0'
+                                ? 'text-gray-800'
+                                : 'text-[#1C1C1C]',
+                              'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                            )}
+                          >
+                            {tr.ga !== '0' ? (
+                              <Link
+                                href={{
+                                  pathname: '/customer/dashboard/',
+                                  query: { ...tr.query, region: 1 },
+                                }}
+                              >
+                                <a target={'blank'}>{tr.ga}</a>
+                              </Link>
+                            ) : (
+                              '-'
+                            )}
+                          </td>
+                          <td
+                            className={classNames(
+                              tr.wa !== '0'
+                                ? 'text-gray-800'
+                                : 'text-[#1C1C1C]',
+                              'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                            )}
+                          >
+                            {tr.wa !== '0' ? (
+                              <Link
+                                href={{
+                                  pathname: '/customer/dashboard/',
+                                  query: { ...tr.query, region: 5 },
+                                }}
+                              >
+                                <a target={'blank'}>{tr.wa}</a>
+                              </Link>
+                            ) : (
+                              '-'
+                            )}
+                          </td>
+                          <td
+                            className={classNames(
+                              tr.ca !== '0'
+                                ? 'text-gray-800'
+                                : 'text-[#1C1C1C]',
+                              'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
+                            )}
+                          >
+                            {tr.ca !== '0' ? (
+                              <Link
+                                href={{
+                                  pathname: '/customer/dashboard/',
+                                  query: { ...tr.query, region: 3 },
+                                }}
+                              >
+                                <a target={'blank'}>{tr.ca}</a>
+                              </Link>
+                            ) : (
+                              '-'
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div className="mt-[35px]">
+        <MapChart carsRecords={carsRecords} />
       </div>
     </div>
   );
