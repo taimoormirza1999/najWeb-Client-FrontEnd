@@ -548,7 +548,7 @@ export default function WarehouseCarsRequestForm({
             </div>
 
             <div className="my-4 gap-2 sm:flex">
-              <div className="w-full">
+              <div className="relative w-full">
                 <label className="text-teal-blue block text-lg rtl:text-right">
                   <FormattedMessage id="form.driver_name" />
                   <span className="mx-1 text-lg text-red-500">*</span>
