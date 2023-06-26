@@ -7,12 +7,13 @@ import {
   XCircleIcon,
 } from '@heroicons/react/outline';
 import axios from 'axios';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import WarehouseCarsRequestForm from '@/components/cars/WarehouseCarsRequestForm';
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
+import SingleImagesViewer from '@/components/common/SingleImagesViewer';
 import CustomModal from '@/components/customModal';
 import {
   Pagination,
@@ -363,16 +364,16 @@ export default function WarehouseTowingCars({
         setFormSubmitModal={setFormSubmitModal}
       />
 
-      <div className="mx-auto px-8">
-        <div className="pt-4">
-          <div className="sm:flex sm:items-center">
-            <div className="sm:flex-auto">
-              <h1 className="text-dark-blue text-3xl font-semibold">
+      <div className="m-8">
+        <div className="">
+          <div className="relative sm:items-center">
+            {/* <div className="sm:flex-auto">
+              {/* <h1 className="text-dark-blue text-3xl font-semibold">
                 <FormattedMessage id="page.customer.dashboard.warehouse_cars" />
-              </h1>
-            </div>
+              </h1> 
+            </div> */}
             <button
-              className="bg-dark-blue mb-3 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white sm:text-xl"
+              className="bg-dark-blue absolute mt-2 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white ltr:right-2 ltr:float-right rtl:left-2 rtl:float-left sm:text-xl"
               onClick={() => {
                 setNewCarModalOpen(true);
               }}
@@ -380,8 +381,14 @@ export default function WarehouseTowingCars({
               <FormattedMessage id="page.customer.dashboard.add_new_cars" />
             </button>
           </div>
+          <HeadTextWithIcon
+            header={'page.customer.dashboard.warehouse_cars'}
+            gicon={'&#xe531;'}
+            // tagline={'page.complaints.header'}
+          />
+
           <div
-            className="w-[calc(100vw - 285px)] flex flex-col"
+            className="w-[calc(100vw - 285px)] flex flex-col "
             style={{ maxHeight: tableHeight }}
           >
             <SelectPageRecords url={limitUrl} />
@@ -405,7 +412,12 @@ export default function WarehouseTowingCars({
                             </TableColumn>
                             <TableColumn className="">
                               {car.car_photo_file !== '' ? (
-                                <Link passHref href={car.car_photo_file}>
+                                <>
+                                  <SingleImagesViewer
+                                    src={car.car_photo_file}
+                                    title={'Warehouse Car'}
+                                  />
+                                  {/* <Link passHref href={car.car_photo_file}>
                                   <a
                                     target="_blank"
                                     rel="noreferrer"
@@ -418,13 +430,15 @@ export default function WarehouseTowingCars({
                                       alt={car.lotnumber}
                                     />
                                   </a>
-                                </Link>
+                                
+                                </Link> */}
+                                </>
                               ) : null}
                             </TableColumn>
                             <TableColumn className="min-w-[100px]">
                               {car.carMakerName} {car.carModelName} {car.year}
                             </TableColumn>
-                            <TableColumn className="min-w-[65px]">
+                            <TableColumn className="min-w-[155px]">
                               <FormattedMessage id="page.customer.dashboard.table.lot" />
                               : {car.lotnumber} <br />
                               <FormattedMessage id="page.customer.dashboard.table.vin" />
@@ -493,7 +507,7 @@ export default function WarehouseTowingCars({
                               {car.driver_zip_code} <br />
                               {car.driver_address}
                             </TableColumn>
-                            <TableColumn className="min-w-[50px]">
+                            <TableColumn className="min-w-[200px]">
                               <FormattedMessage id="form.account_number" />:{' '}
                               {car.account_number} <br />
                               <FormattedMessage id="form.routing_number" />:{' '}

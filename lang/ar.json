@@ -373,6 +373,10 @@
   "page.customer.container.arrived_port_date": "تاريخ الوصول المنفذ",
   "page.customer.container.arrived_store_date": "تاريخ وصول المتجر",
   "page.customer.container.cars_shipping_amount": "مبلغ شحن السيارات",
+  "page.customer.container.seal_no": "رقم الختم",
+  "page.customer.container.size": " مقاس",
+  "page.customer.container.weight": " وزن",
+  "page.customer.container.bl_file": "ملف BL ",
   "uae.offices": "مكاتب الإمارات",
   "dubai": "دبي",
   "dubai.offices1": "منطقة الجميرا، بناية الحضيبة،",
@@ -411,5 +415,6 @@
   "dock_receipt": "استلام قفص الاتهام",
   "auction_price": "سعر المزاد",
   "general.buyer_number": "الباير",
-  "picked_car_title_note": "ملاحظات السحب"
+  "picked_car_title_note": "ملاحظات السحب",
+  "page.container.cars": "سيارات الحاوية"
 }

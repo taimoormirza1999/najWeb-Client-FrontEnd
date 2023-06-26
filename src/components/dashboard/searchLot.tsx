@@ -18,11 +18,13 @@ const SearchLot = () => {
   };
 
   return (
-    <div className="relative flex-1">
-      <form onSubmit={startTracking}>
-        <input
-          type="text"
-          className="
+    <div className="relative mt-6">
+      <div className="absolute ltr:right-2 ltr:float-right rtl:left-2 rtl:float-left">
+        <div className=" flex-1">
+          <form onSubmit={startTracking}>
+            <input
+              type="text"
+              className="
                       w-[220px]
                       rounded-full
                       border
@@ -34,31 +36,37 @@ const SearchLot = () => {
                       ease-in-out
                       focus:text-gray-700
                       focus:outline-none
-                      ltr:float-right rtl:float-left
+                      
                       rtl:text-sm
                     "
-          name="lotSearch"
-          id="lotSearch"
-          value={searchValue}
-          onInput={(e) => setSearchValue((e.target as HTMLInputElement).value)}
-          placeholder={intl.formatMessage({ id: 'Track.Car.by.Vin.Number' })}
-        />
-        <button type="submit">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="absolute top-2 h-6 w-6 cursor-pointer text-[#0093FF] ltr:right-2 rtl:left-2 rtl:rotate-180"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            {' '}
-            <path
-              fillRule="evenodd"
-              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />{' '}
-          </svg>
-        </button>
-      </form>
+              name="lotSearch"
+              id="lotSearch"
+              value={searchValue}
+              onInput={(e) =>
+                setSearchValue((e.target as HTMLInputElement).value)
+              }
+              placeholder={intl.formatMessage({
+                id: 'Track.Car.by.Vin.Number',
+              })}
+            />
+            <button type="submit">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute top-2 h-6 w-6 cursor-pointer text-[#0093FF] ltr:right-2 rtl:left-2 rtl:rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                {' '}
+                <path
+                  fillRule="evenodd"
+                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />{' '}
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

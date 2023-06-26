@@ -117,14 +117,14 @@ const StatesTab = ({ carsRecords }) => {
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-[#005fb7] md:rounded-lg lg:max-w-[900px]">
                 <table className="w-full divide-y divide-gray-300 ">
-                  <thead className="bg-white">
+                  <thead className="bg-dark-blue">
                     <tr>
                       <th></th>
                       {carTableHeader.map((th, index) => (
                         <th
                           key={index}
                           scope="col"
-                          className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl"
+                          className="px-3 py-3.5 text-left text-sm font-semibold text-white sm:text-xl"
                         >
                           <FormattedMessage id={th.name} />
                         </th>

@@ -13,6 +13,7 @@ import {
 import { classNames } from '@/utils/Functions';
 
 import ImagesViewer from '../cars/ImagesViewer';
+import SingleImagesViewer from '../common/SingleImagesViewer';
 import NotesButtonModal from '../NotesButtonModal';
 import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
@@ -133,10 +134,14 @@ const ShippingCarTab = ({
                           {addIndex + index + 1}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[56px]">
-                          <img
+                          {/* <img
                             className="table_auction_img"
                             src={car.image}
                             alt=""
+                          /> */}
+                          <SingleImagesViewer
+                            src={car.image}
+                            title={'Shipping Car'}
                           />
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[180px]">
