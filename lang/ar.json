@@ -416,5 +416,11 @@
   "auction_price": "سعر المزاد",
   "general.buyer_number": "الباير",
   "picked_car_title_note": "ملاحظات السحب",
-  "page.container.cars": "سيارات الحاوية"
+  "page.container.cars": "سيارات الحاوية",
+  "new": "الجديدة",
+  "picked": "المسحوبة",
+  "warehouse": "المستودع",
+  "shipping": "الشحن",
+  "port": "الميناء",
+  "store": "المستودع"
 }

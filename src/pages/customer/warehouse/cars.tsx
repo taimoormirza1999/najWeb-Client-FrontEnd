@@ -99,6 +99,8 @@ export default function WarehouseTowingCars({
     message: '',
   });
 
+  const [carsDriver, setCarsDriver] = useState<any[]>([]);
+
   const [carData, setCarData] = useState({
     id_vehicle_type: '1',
     destination: '6',
@@ -126,11 +128,41 @@ export default function WarehouseTowingCars({
     }
   };
 
+  const getAllWarehouseCars = async () => {
+    try {
+      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
+        params: {
+          limit: 'all',
+        },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      });
+
+      const listOfTags = res.data ? res.data.data : [];
+      const keys = ['driver_name'];
+      const filtered = listOfTags.filter(
+        (
+          (s) => (o) =>
+            ((k) => !s.has(k) && s.add(k))(keys.map((k) => o[k]).join('|'))
+        )(new Set())
+      );
+      // setCarsDriver(res.data ? res.data.data : []);
+      setCarsDriver(filtered);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getWarehouseCars();
   }, [limit, page, search]);
 
   useEffect(() => {
+    getAllWarehouseCars();
+
     const calculateTableHeight = () => {
       const newHeight = window?.innerHeight || 0;
       setTableHeight(newHeight * 0.67);
@@ -356,6 +388,7 @@ export default function WarehouseTowingCars({
         vehiclesType={vehiclesType}
         carsMaker={carsMaker}
         carsColor={carsColor}
+        carsDriver={carsDriver}
         ports={ports}
         setCarData={setCarData}
         newCarModalOpen={newCarModalOpen}

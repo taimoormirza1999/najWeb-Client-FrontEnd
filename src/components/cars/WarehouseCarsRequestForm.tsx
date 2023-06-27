@@ -21,6 +21,7 @@ export default function WarehouseCarsRequestForm({
   vehiclesType,
   carsMaker,
   carsColor,
+  carsDriver,
   ports,
   setCarData,
   newCarModalOpen,
@@ -40,8 +41,13 @@ export default function WarehouseCarsRequestForm({
     {
       id_car_model: '',
       name: '',
+      driver_name: '',
     },
   ]);
+  const [showPanel, setShowPanel] = useState(false);
+
+  // the search result
+  const [foundDrivers, setFoundDrivers] = useState(carsDriver);
   // console.log('cardta', carData || '');
 
   const handleChange = (e) => {
@@ -99,16 +105,6 @@ export default function WarehouseCarsRequestForm({
       });
   }, [carData.id_car_make, carData.model_name]);
 
-
-  useEffect(() => {
-    // console.log(carsModel);
-    const modelId = carsModel.find(
-      (item) => item.name.toLowerCase() === carData.model_name?.toLowerCase()
-    )?.id_car_model;
-    // console.log(modelId);
-    setCarData((prevState) => ({ ...prevState, id_car_model: modelId || '' }));
-  }, [carsModel, carData.model_name]);
-
   useEffect(() => {
     axios
       .get(`/api/cars/vehicleDetailApi/`, {
@@ -152,7 +148,7 @@ export default function WarehouseCarsRequestForm({
     setCarData({
       id: '',
       id_vehicle_type: '1',
-    destination: '6',
+      destination: '6',
     });
   };
 
@@ -231,6 +227,66 @@ export default function WarehouseCarsRequestForm({
       });
   };
 
+  const filter = (e) => {
+    const keyword = e.target.value;
+
+    if (keyword !== '' && keyword.length > 0) {
+      setShowPanel(true);
+      const results = carsDriver.filter((user) => {
+        return user.driver_name.toLowerCase().startsWith(keyword.toLowerCase());
+        // Use the toLowerCase() method to make it case-insensitive
+      });
+      setFoundDrivers(results);
+    } else {
+      setFoundDrivers(carsDriver);
+      setShowPanel(false);
+      // If the text field is empty, show all users
+    }
+
+    setCarData((prevState) => ({ ...prevState, driver_name: keyword }));
+    // setDName(keyword);
+  };
+
+  const searchClick = (id) => {
+    const driver = carsDriver.find((item) => item.id === id);
+
+    if (driver) {
+      setCarData((prevState) => ({
+        ...prevState,
+        driver_name: driver.driver_name,
+        driver_number: driver.driver_number,
+        driver_email: driver.driver_email,
+        driver_zip_code: driver.driver_zip_code,
+        driver_tin: driver.driver_tin,
+        account_number: driver.account_number,
+        routing_number: driver.routing_number,
+        reference_number: driver.reference_number,
+        driver_address: driver.driver_address,
+      }));
+      // setDName(driver.driver_name);
+    }
+    setShowPanel(false);
+  };
+
+  let driverinput;
+
+  if (showPanel && foundDrivers && foundDrivers.length > 0) {
+    driverinput = foundDrivers.map((item, i) => (
+      <li
+        key={i}
+        onClick={() => {
+          searchClick(item.id);
+        }}
+        className="p-2 hover:bg-slate-300"
+      >
+        <span className="ml-2">{item.driver_name}</span>
+      </li>
+    ));
+  } else if (!showPanel) {
+    driverinput = null;
+  } else {
+    driverinput = <p className="p-2 text-red-500">No results found!</p>;
+  }
   return (
     <CustomModal
       showOn={newCarModalOpen}
@@ -262,8 +318,8 @@ export default function WarehouseCarsRequestForm({
           </div>
           <div className="my-5 mt-10">
 
-          <div className="my-4 gap-2 sm:flex">
-            <div className="w-full">
+            <div className="my-4 gap-2 sm:flex">
+              <div className="w-full">
                 <label className="text-teal-blue block text-lg rtl:text-right">
                   <FormattedMessage id="form.vin" />
                   <span className="mx-1 text-lg text-red-500">*</span>
@@ -305,7 +361,10 @@ export default function WarehouseCarsRequestForm({
                   name="id_vehicle_type"
                   required
                   onChange={(newOption) => {
-                    handleReactSelectChange('id_vehicle_type', newOption.value);
+                    handleReactSelectChange(
+                      'id_vehicle_type',
+                      newOption?.value
+                    );
                   }}
                   value={
                     carData?.id_vehicle_type
@@ -337,7 +396,7 @@ export default function WarehouseCarsRequestForm({
                   name="year"
                   required
                   onChange={(newOption) => {
-                    handleReactSelectChange('year', newOption.value);
+                    handleReactSelectChange('year', newOption?.value);
                   }}
                   value={
                     carData?.year
@@ -369,7 +428,7 @@ export default function WarehouseCarsRequestForm({
                   name="id_car_make"
                   required
                   onChange={(newOption) => {
-                    handleReactSelectChange('id_car_make', newOption.value);
+                    handleReactSelectChange('id_car_make', newOption?.value);
                   }}
                   value={
                     carData?.id_car_make
@@ -400,7 +459,7 @@ export default function WarehouseCarsRequestForm({
                   name="id_car_model"
                   required
                   onChange={(newOption) => {
-                    handleReactSelectChange('id_car_model', newOption.value);
+                    handleReactSelectChange('id_car_model', newOption?.value);
                   }}
                   value={
                     carData?.id_car_model
@@ -434,7 +493,7 @@ export default function WarehouseCarsRequestForm({
                   name="color"
                   required
                   onChange={(newOption) => {
-                    handleReactSelectChange('color', newOption.value);
+                    handleReactSelectChange('color', newOption?.value);
                   }}
                   defaultValue={
                     carData?.color
@@ -465,7 +524,7 @@ export default function WarehouseCarsRequestForm({
                   name="destination"
                   required
                   onChange={(newOption) => {
-                    handleReactSelectChange('destination', newOption.value);
+                    handleReactSelectChange('destination', newOption?.value);
                   }}
                   defaultValue={
                     carData?.destination
@@ -488,9 +547,8 @@ export default function WarehouseCarsRequestForm({
               </div>
             </div>
 
-
             <div className="my-4 gap-2 sm:flex">
-              <div className="w-full">
+              <div className="relative w-full">
                 <label className="text-teal-blue block text-lg rtl:text-right">
                   <FormattedMessage id="form.driver_name" />
                   <span className="mx-1 text-lg text-red-500">*</span>
@@ -498,11 +556,14 @@ export default function WarehouseCarsRequestForm({
                 <input
                   className="w-full rounded-md border px-1 text-lg text-gray-700"
                   type="text"
-                  name="driver_name"
-                  required
-                  onChange={handleChange}
-                  defaultValue={carData.driver_name}
+                  value={carData.driver_name}
+                  onChange={filter}
+                  placeholder="Filter"
                 />
+
+                <div className="absolute w-[280px] list-none rounded-lg bg-slate-200">
+                  {driverinput}
+                </div>
               </div>
               <div className="w-full">
                 <label className="text-teal-blue block text-lg rtl:text-right">
@@ -515,7 +576,7 @@ export default function WarehouseCarsRequestForm({
                   name="driver_number"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.driver_number}
+                  value={carData?.driver_number}
                 />
               </div>
             </div>
@@ -531,7 +592,7 @@ export default function WarehouseCarsRequestForm({
                   name="driver_email"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.driver_email}
+                  value={carData?.driver_email}
                 />
               </div>
               <div className="w-1/2">
@@ -545,7 +606,7 @@ export default function WarehouseCarsRequestForm({
                   name="driver_zip_code"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.driver_zip_code}
+                  value={carData?.driver_zip_code}
                 />
               </div>
             </div>
@@ -561,7 +622,7 @@ export default function WarehouseCarsRequestForm({
                   name="driver_tin"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.driver_tin}
+                  value={carData?.driver_tin}
                 />
               </div>
               <div className="w-full">
@@ -575,7 +636,7 @@ export default function WarehouseCarsRequestForm({
                   name="account_number"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.account_number}
+                  value={carData?.account_number}
                 />
               </div>
             </div>
@@ -591,7 +652,7 @@ export default function WarehouseCarsRequestForm({
                   name="routing_number"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.routing_number}
+                  value={carData?.routing_number}
                 />
               </div>
               <div className="w-full">
@@ -605,7 +666,7 @@ export default function WarehouseCarsRequestForm({
                   name="reference_number"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.reference_number}
+                  value={carData?.reference_number}
                 />
               </div>
             </div>
@@ -621,7 +682,7 @@ export default function WarehouseCarsRequestForm({
                   name="driver_address"
                   required
                   onChange={handleChange}
-                  defaultValue={carData.driver_address}
+                  value={carData?.driver_address}
                 />
               </div>
             </div>
