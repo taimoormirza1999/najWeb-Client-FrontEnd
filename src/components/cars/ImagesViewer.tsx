@@ -143,14 +143,14 @@ export default function ImagesViewer(props) {
                     several minutes.
                   </small>
                   <br />
-                  <button
+                  {/* <button
                     className="mt-2 inline-flex w-[120px] justify-center rounded border border-transparent bg-indigo-600 px-2 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={() => {
                       DownloadImages();
                     }}
                   >
                     {isSubmitting ? <LoaderIcon /> : <>Download Option 2</>}
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
