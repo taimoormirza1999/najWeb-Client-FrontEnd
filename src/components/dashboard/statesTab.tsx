@@ -115,77 +115,29 @@ const StatesTab = ({ carsRecords }) => {
               </h1>
             </div>
           </div>
-        </div>
-        <div className="mt-8 flex flex-col">
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-[#005fb7] md:rounded-lg lg:max-w-[900px]">
-                <table className="w-full divide-y divide-gray-300 ">
+          <div className="mt-8 flex flex-col">
+            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div className="overflow-hidden border border-[#005fb7] md:rounded-lg lg:max-w-[900px]">
+                  <table className="w-full divide-y divide-gray-300 ">
                   <thead className="bg-dark-blue">
-                    <tr>
-                      <th></th>
-                      {carTableHeader.map((th, index) => (
-                        <th
-                          key={index}
-                          scope="col"
+                      <tr>
+                        <th></th>
+                        {carTableHeader.map((th, index) => (
+                          <th
+                            key={index}
+                            scope="col"
                           className="px-3 py-3.5 text-left text-sm font-semibold text-white sm:text-xl"
-                        >
-                          <FormattedMessage id={th.name} />
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {carTableData.map((tr, index) => (
-                      <tr
-                        key={index}
-                        className={classNames(
-                          index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
-                          'text-xs sm:text-[17px]'
-                        )}
-                      >
-                        <td className="text-dark-blue px-3 py-3.5 text-left text-sm font-semibold sm:text-xl">
-                          <FormattedMessage id={tr.name} />
-                        </td>
-                        <td
-                          className={classNames(
-                            tr.ng !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
-                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
-                          )}
-                        >
-                          {tr.ng !== '0' ? (
-                            <Link
-                              href={{
-                                pathname: '/customer/dashboard/',
-                                query: { ...tr.query, region: 4 },
-                              }}
-                            >
-                              <a target={'blank'}>{tr.ng}</a>
-                            </Link>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-                        <td
-                          className={classNames(
-                            tr.tx !== '0' ? 'text-gray-800' : 'text-[#1C1C1C]',
-                            'px-3 py-3.5 text-left text-sm font-semibold  sm:text-xl'
-                          )}
-                        >
-                          {tr.tx !== '0' ? (
-                            <Link
-                              href={{
-                                pathname: '/customer/dashboard/',
-                                query: { ...tr.query, region: 2 },
-                              }}
-                            >
-                              <a target={'blank'}>{tr.tx}</a>
-                            </Link>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-                        <td
+                          >
+                            <FormattedMessage id={th.name} />
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {carTableData.map((tr, index) => (
+                        <tr
+                          key={index}
                           className={classNames(
                             index % 2 === 0 ? 'bg-light-grey' : 'bg-white',
                             'text-xs sm:text-[17px]'
