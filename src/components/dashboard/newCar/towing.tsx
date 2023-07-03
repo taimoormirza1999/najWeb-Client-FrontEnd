@@ -1,5 +1,6 @@
 import { FormattedMessage } from 'react-intl';
 
+import SingleImagesViewer from '@/components/common/SingleImagesViewer';
 import NotesButtonModal from '@/components/NotesButtonModal';
 import TableColumn from '@/components/TableColumn';
 import { classNames } from '@/utils/Functions';
@@ -17,7 +18,9 @@ const Towing = ({ carsRecords }) => {
         {index + 1}
       </TableColumn>
       <TableColumn scope="col" className="min-w-[56px]">
-        <img className="table_auction_img" src={car.image} alt="" />
+        <SingleImagesViewer src={car.image} title={'New Car'} />
+
+        {/* <img className="table_auction_img" src={car.image} alt="" /> */}
       </TableColumn>
       <TableColumn scope="col" className="min-w-[180px]">
         {car.carMakerName} {car.carModelName} {car.year}

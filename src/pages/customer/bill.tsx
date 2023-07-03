@@ -95,7 +95,7 @@ const Bill = ({
                   <td className="text-dark-blue w-[8%] min-w-[60px] p-3 text-xl font-semibold">
                     {index + 1}
                   </td>
-                  <td className="w-[35%] sm:min-w-[320px] p-3 text-lg text-[#1C1C1C]">
+                  <td className="w-[35%] p-3 text-lg text-[#1C1C1C] sm:min-w-[320px]">
                     <span className="mr-2 font-semibold sm:float-left sm:w-[26%]">
                       {row.service_label_en}
                     </span>
@@ -182,7 +182,7 @@ export async function getServerSideProps(context) {
         });
     }
     const billDetails = carsData.data ? carsData.data : [];
-    const amountRemaining = carsData.total ? carsData.total: 0;
+    const amountRemaining = carsData.total ? carsData.total : 0;
     let totalDebit = 0;
     let totalCredit = 0;
     billDetails.forEach((element) => {

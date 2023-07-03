@@ -5,6 +5,7 @@ import { getSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import CustomModal from '@/components/customModal';
 import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
@@ -152,8 +153,8 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
       </CustomModal>
 
       <div className="m-4">
-        <div className="flex">
-          <h4 className="text-dark-blue flex-1 text-2xl font-bold lg:text-3xl xl:text-5xl">
+        {/* <div className="flex">
+          <h4 className="secondary-header">
             <i className="material-icons text-yellow-orange align-middle ltr:mr-2 rtl:ml-2">
               &#xe24a;
             </i>
@@ -161,9 +162,18 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
           </h4>
           <SearchLot></SearchLot>
         </div>
-        <p className="text-dark-blue mb-8 text-left text-xl lg:text-2xl">
+        <p className="secondary-header-text">
           <FormattedMessage id="estimate_calculator_desc" />
-        </p>
+        </p> */}
+
+        <div className="mt-5">
+          <SearchLot></SearchLot>
+          <HeadTextWithIcon
+            header={'page.customer.dashboard.navigation_estimate_calculator'}
+            gicon={'&#xe24a;'}
+            tagline={'estimate_calculator_desc'}
+          />
+        </div>
 
         <div className="flex justify-center ">
           <div className="bg-light-grey border-medium-grey rounded-lg border p-4 sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4">
@@ -251,10 +261,7 @@ const ShippingCalculator = ({ vehicleData, auctionData, countryData }) => {
                 ))}
               </select>
 
-              <button
-                type="submit"
-                className="bg-azure-blue mx-auto my-4 block px-4 py-1 text-lg font-semibold text-white"
-              >
+              <button type="submit" className="submit-button">
                 <FormattedMessage id="Calculate" />
               </button>
             </form>

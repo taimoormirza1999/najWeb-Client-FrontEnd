@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
-import { SearchLot } from '@/components/dashboard/searchLot';
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
@@ -14,7 +14,7 @@ const Lists = ({ lists }) => {
   return (
     <Layout meta={<Meta title="Price List" description="" />}>
       <div className="m-4">
-        <div className="flex">
+        {/* <div className="flex">
           <h4 className="text-dark-blue flex-1 text-xl font-semibold sm:text-4xl">
             <i className="material-icons text-yellow-orange align-middle text-4xl">
               &#xe24a;
@@ -24,8 +24,15 @@ const Lists = ({ lists }) => {
             </span>
           </h4>
           <SearchLot></SearchLot>
-        </div>
-        <p className="text-dark-blue ml-5 text-xl">
+        </div> */}
+
+        <HeadTextWithIcon
+          header={'page.customer.dashboard.navigation_price_lists'}
+          gicon={'&#xf1b6;'}
+          // tagline={'page.complaints.header'}
+        />
+
+        <p className="text-dark-blue mb-8 text-left text-xl lg:text-2xl">
           <FormattedMessage id="Download_latest_price_lists_of" />
           <span className="uppercase"> {todayDateArray[1]} </span>
           {todayDateArray[3]}

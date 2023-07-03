@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import SingleImagesViewer from '@/components/common/SingleImagesViewer';
 import TableColumn from '@/components/TableColumn';
 import { classNames } from '@/utils/Functions';
 
@@ -17,7 +18,8 @@ const Cancelled = ({ carsRecords }) => {
         {index + 1}
       </TableColumn>
       <TableColumn scope="col" className="min-w-[56px] ">
-        <img className="table_auction_img" src={car.image} alt="" />
+        {/* <img className="table_auction_img" src={car.image} alt="" /> */}
+        <SingleImagesViewer src={car.image} title={'New Car'} />
       </TableColumn>
       <TableColumn scope="col" className="min-w-[180px] ">
         {car.carMakerName} {car.carModelName} {car.year}

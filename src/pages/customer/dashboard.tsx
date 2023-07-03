@@ -5,6 +5,7 @@ import { getSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import { ArrivedCarTab } from '@/components/dashboard/arrivedCarTab';
 import { DeliveredCarTab } from '@/components/dashboard/deliveredCarTab';
 import { NewCarTab } from '@/components/dashboard/newCarTab';
@@ -210,15 +211,22 @@ const Dashboard = ({ router, carsData, dashboardCount }) => {
     <Layout meta={<Meta title="Dashboard" description="" />}>
       <div>
         <div className="m-8 ">
-          <div className="flex">
-            <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
+          {/* <div className="flex"> */}
+          {/* <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
               <i className="material-icons text-dark-blue align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
               </i>
               <FormattedMessage id="page.customer.dashboard.cars_summary" />
-            </h5>
+            </h5> */}
+          <div className="my-5">
             <SearchLot></SearchLot>
+            <HeadTextWithIcon
+              header={'page.customer.dashboard.navigation_tracking'}
+              gicon={'&#xe14f;'}
+              // tagline={'page.termsCondition.header'}
+            />
           </div>
+          {/* </div> */}
           <div>
             <nav className="flex flex-wrap gap-2 lg:inline" aria-label="Tabs">
               <Link

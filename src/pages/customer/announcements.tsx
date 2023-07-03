@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import CustomModal from '@/components/customModal';
 import { SearchLot } from '@/components/dashboard/searchLot';
 import { Meta } from '@/layout/Meta';
@@ -84,7 +85,7 @@ const Announcements = ({ announcements }) => {
         </div>
       </CustomModal>
       <div className="m-4">
-        <div className="flex">
+        {/* <div className="flex">
           <h4 className="text-dark-blue flex-1 text-xl font-semibold sm:text-4xl">
             <i className="material-icons text-yellow-orange align-middle text-4xl">
               &#xef49;
@@ -94,7 +95,14 @@ const Announcements = ({ announcements }) => {
             </span>
           </h4>
           <SearchLot></SearchLot>
-        </div>
+        </div> */}
+        <SearchLot></SearchLot>
+
+        <HeadTextWithIcon
+          header={'page.customer.dashboard.announcements'}
+          gicon={'&#xef49;'}
+          // tagline={'page.complaints.header'}
+        />
       </div>
       <div className="mx-auto px-8">
         <div>

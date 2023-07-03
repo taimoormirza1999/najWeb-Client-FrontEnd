@@ -5,6 +5,7 @@ import { getSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import { ContainersTable } from '@/components/containers/containersTable';
 import { SubMenu } from '@/components/containers/SubMenu';
 import { SearchLot } from '@/components/dashboard/searchLot';
@@ -73,7 +74,14 @@ const Containers = ({ router, containersData, containersCount }) => {
     <Layout meta={<Meta title="Containers" description="" />}>
       <div>
         <div className="m-4">
-          <div className="flex">
+          <SearchLot></SearchLot>
+
+          <HeadTextWithIcon
+            header={'page.customer.dashboard.containers'}
+            gicon={'&#xf8ee;'}
+            // tagline={'page.termsCondition.header'}
+          />
+          {/* <div className="flex">
             <h5 className="text-dark-blue text-1xl flex-1 pb-3 font-semibold sm:text-2xl ">
               <i className="material-icons text-dark-blue align-middle ltr:mr-2 rtl:ml-2">
                 &#xe14f;
@@ -81,7 +89,7 @@ const Containers = ({ router, containersData, containersCount }) => {
               <FormattedMessage id="page.customer.dashboard.containers" />
             </h5>
             <SearchLot></SearchLot>
-          </div>
+          </div> */}
           <div>
             <nav className="flex flex-wrap gap-2 lg:inline" aria-label="Tabs">
               {tabs.map((tabData, index) =>

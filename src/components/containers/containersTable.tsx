@@ -1,3 +1,5 @@
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import Link from 'next/link';
@@ -82,6 +84,21 @@ const carTableHeader = [
   {
     name: 'page.customer.container.cars_shipping_amount',
     order: 'total_shipping',
+  },
+];
+
+const ContainerHeader = [
+  {
+    header: 'page.customer.container.seal_no',
+  },
+  {
+    header: 'page.customer.container.size',
+  },
+  {
+    header: 'page.customer.container.weight',
+  },
+  {
+    header: 'page.customer.container.bl_file',
   },
 ];
 const ContainersTable = ({
@@ -229,28 +246,46 @@ const ContainersTable = ({
         }}
       >
         <div className="text-dark-blue">
+        <div
+            className="float-right mr-[14px] mt-[-5px] cursor-pointer text-[25px] font-bold text-red-400"
+            onClick={() => {
+              setDetailModalOpen(false);
+            }}
+            ref={cancelDetailButtonRef}
+          >
+            <FontAwesomeIcon icon={faXmark} />
+          </div>
           <Dialog.Title
             as="h6"
             className="mb-8 text-xl font-bold leading-6 md:text-xl lg:text-2xl"
           >
             <FormattedMessage id="page.container.detail" />
           </Dialog.Title>
+        
           <div className="mt-4">
-            <table className="min-w-full divide-y divide-gray-300">
-              <thead className="bg-white">
+            <table className="all_tables min-w-full divide-y divide-gray-300">
+              {/* <thead className="bg-white">
                 <tr>
                   <th>Seal No</th>
                   <th>Size</th>
                   <th>Weight</th>
                   <th>BL File</th>
                 </tr>
-              </thead>
+              </thead> */}
+              <TableHeader tableHeader={ContainerHeader} />
+
               <tbody>
                 <tr>
-                  <td>{containerDetail.lock_number}</td>
-                  <td>{containerDetail.size}</td>
-                  <td>{containerDetail.weight}</td>
-                  <td>
+                  <TableColumn className="py-2">
+                    {containerDetail.lock_number}
+                  </TableColumn>
+                  <TableColumn className="py-2">
+                    {containerDetail.size}
+                  </TableColumn>
+                  <TableColumn className="py-2">
+                    {containerDetail.weight}
+                  </TableColumn>
+                  <TableColumn className="py-2">
                     {containerDetail.bl_file !== '' ? (
                       <Link href={containerDetail.bl_file} passHref>
                         <a target="_blank">Download</a>
@@ -258,7 +293,7 @@ const ContainersTable = ({
                     ) : (
                       '-'
                     )}
-                  </td>
+                  </TableColumn>
                 </tr>
               </tbody>
             </table>
@@ -267,7 +302,7 @@ const ContainersTable = ({
         <div className="mt-8 flex justify-center gap-4 sm:mt-6">
           <button
             type="button"
-            className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm md:px-5 md:py-2 lg:text-lg"
+            className="close-button"
             onClick={() => {
               setDetailModalOpen(false);
             }}
@@ -293,6 +328,15 @@ const ContainersTable = ({
               className="mb-8 text-xl font-bold leading-6 md:text-xl lg:text-2xl"
             >
               <FormattedMessage id="page.container.cars" />
+              <div
+                className="float-right mr-[14px] mt-2 cursor-pointer text-[25px] font-bold text-red-400"
+                onClick={() => {
+                  setCarsModalOpen(false);
+                }}
+                ref={cancelCarsButtonRef}
+              >
+                <FontAwesomeIcon icon={faXmark} />
+              </div>
             </Dialog.Title>
             <div className="mt-4">
               <div className="my-4">
@@ -346,7 +390,7 @@ const ContainersTable = ({
           <div className="mt-8 flex justify-center gap-4 sm:mt-6">
             <button
               type="button"
-              className="border-azure-blue text-azure-blue my-4 inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm md:px-5 md:py-2 lg:text-lg"
+              className="close-button"
               onClick={() => {
                 setCarsModalOpen(false);
               }}
@@ -420,7 +464,7 @@ const ContainersTable = ({
                         </TableColumn>
                         <TableColumn
                           scope="col"
-                          className="min-w-[120px] cursor-pointer border-dark-blue text-left font-semibold text-[#1C1C1C] underline"
+                          className="border-dark-blue min-w-[120px] cursor-pointer text-left font-semibold text-[#1C1C1C] underline"
                         >
                           <span
                             onClick={async () => {
@@ -434,7 +478,7 @@ const ContainersTable = ({
                               onClick={async () => {
                                 openTracking(row);
                               }}
-                              className="float-right mr-2 inline-block text-dark-blue hover:text-blue-500"
+                              className="text-dark-blue float-right mr-2 inline-block hover:text-blue-500"
                               type="button"
                             >
                               <i className="material-icons text-xl">&#xe558;</i>{' '}
@@ -475,7 +519,7 @@ const ContainersTable = ({
                           className="min-w-[70px] text-center"
                         >
                           <span
-                            className="my-[0.5px] cursor-pointer rounded-md border-[1px] border-dark-blue bg-dark-blue px-2 py-1 text-white"
+                            className="border-dark-blue bg-dark-blue my-[0.5px] cursor-pointer rounded-md border-[1px] px-2 py-1 text-white"
                             onClick={async () => {
                               getContainerCars(row);
                             }}

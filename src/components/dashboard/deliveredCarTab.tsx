@@ -12,6 +12,7 @@ import {
 import { classNames } from '@/utils/Functions';
 
 import ImagesViewer from '../cars/ImagesViewer';
+import SingleImagesViewer from '../common/SingleImagesViewer';
 import NotesButtonModal from '../NotesButtonModal';
 import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
@@ -127,10 +128,14 @@ const DeliveredCarTab = ({
                               query: { tab: 'tabs-arrived', type: 'store' },
                             }}
                           >
-                            <img
+                            {/* <img
                               className="table_auction_img"
                               src={car.image}
                               alt=""
+                            /> */}
+                            <SingleImagesViewer
+                              src={car.image}
+                              title={'Delivered Car'}
                             />
                           </Link>
                         </TableColumn>
