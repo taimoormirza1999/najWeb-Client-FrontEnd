@@ -41,12 +41,12 @@ const NotesButtonModal = (props) => {
                 <Dialog.Panel className="w-full max-w-md overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
                   <div className="flow-root w-[100%] bg-[#cbd5e1] py-[1px]">
                     <p className="float-left ml-[12px]">{title}</p>
-                    <p
+                    <div
                       className="float-right mr-[14px] cursor-pointer text-[18px] font-bold text-[red]"
                       onClick={closeModal}
                     >
                       <FontAwesomeIcon icon={faXmark} />
-                    </p>
+                    </div>
                   </div>
                   <div className="px-5 pb-5 pt-3">
                     <div className="mt-2">

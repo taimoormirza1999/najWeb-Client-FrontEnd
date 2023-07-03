@@ -1,6 +1,6 @@
 import 'react-gallery-carousel/dist/index.css';
 
-import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import NProgress from 'nprogress';
@@ -91,12 +91,21 @@ export default function ImagesViewer(props) {
         {images.length ? (
           <div className="dirltr">
             <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-2xl dark:bg-gray-800 ">
-              <span className="mr-2 rounded-full bg-indigo-700 px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
+              <span className="bg-dark-blue mr-2 rounded-full px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
                 {downloadtype}
               </span>
-              <span className="px-2 leading-loose text-indigo-800 first-letter:uppercase dark:text-gray-300">
+              <span className="text-dark-blue px-2 leading-loose first-letter:uppercase dark:text-gray-300">
                 Images →
               </span>
+            </div>
+            <div
+              className="right-x-button"
+              onClick={() => {
+                setImagesModalOpen(false);
+              }}
+              ref={cancelButtonRef}
+            >
+              <FontAwesomeIcon icon={faXmark} />
             </div>
             <Carousel
               shouldLazyLoad={true}
@@ -134,21 +143,21 @@ export default function ImagesViewer(props) {
                     several minutes.
                   </small>
                   <br />
-                  <button
+                  {/* <button
                     className="mt-2 inline-flex w-[120px] justify-center rounded border border-transparent bg-indigo-600 px-2 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={() => {
                       DownloadImages();
                     }}
                   >
                     {isSubmitting ? <LoaderIcon /> : <>Download Option 2</>}
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
             <div className="mt-1 flex justify-center gap-4 sm:mt-2">
               <button
                 type="button"
-                className="border-azure-blue text-azure-blue my-1 inline-block max-w-max rounded-full border-2 px-3 py-1 text-base font-medium"
+                className="close-button"
                 onClick={() => {
                   setImagesModalOpen(false);
                 }}
@@ -161,10 +170,10 @@ export default function ImagesViewer(props) {
         ) : (
           <div className="dirltr">
             <div className="mb-5 inline-flex items-center rounded-full bg-indigo-100 pl-1 pr-2 text-2xl dark:bg-gray-800">
-              <span className="mr-1 rounded-full bg-indigo-700 px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
+              <span className="bg-dark-blue mr-1 rounded-full px-6 py-px font-bold text-indigo-100 first-letter:uppercase">
                 {downloadtype}
               </span>
-              <span className="inline px-1 leading-loose text-indigo-800 first-letter:uppercase dark:text-gray-300">
+              <span className="text-dark-blue inline px-1 leading-loose first-letter:uppercase dark:text-gray-300">
                 Images →
               </span>
             </div>
@@ -175,7 +184,7 @@ export default function ImagesViewer(props) {
             <div className="mt-1 flex justify-center gap-4 sm:mt-2">
               <button
                 type="button"
-                className="border-azure-blue text-azure-blue my-1 inline-block max-w-max rounded-full border-2 px-3 py-1 text-base font-medium"
+                className="close-button"
                 onClick={() => {
                   setImagesModalOpen(false);
                 }}

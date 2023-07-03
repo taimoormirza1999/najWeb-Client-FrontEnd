@@ -48,7 +48,7 @@ const CustomModal = ({
             {customSize ? (
               children
             ) : (
-              <div className="absolute top-1/2 left-1/2 inline-block w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5 xl:w-2/5 border-solid border-2 border-indigo-600">
+              <div className="absolute top-1/2 left-1/2 inline-block w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg border-2 border-solid border-indigo-600 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5 xl:w-2/5">
                 {children}
               </div>
             )}

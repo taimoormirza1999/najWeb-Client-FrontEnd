@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import { Deposits } from '@/components/dashboard/carsStatement/deposits';
 import { GeneralEntries } from '@/components/dashboard/carsStatement/generalEntries';
 import { InAuctionCars } from '@/components/dashboard/carsStatement/inAuctionCars';
@@ -91,11 +92,16 @@ const Statement = ({
 
   return (
     <Layout meta={<Meta title="General Statement" description="" />}>
-      <div className="mx-auto px-8">
+      <div className="mx-auto px-4">
         <div className="m-4">
-          <h4 className="text-dark-blue py-4 text-center text-2xl font-semibold md:text-3xl xl:text-4xl">
+          {/* <h4 className="text-dark-blue py-4 text-center text-2xl font-semibold md:text-3xl xl:text-4xl">
             <FormattedMessage id="page.customer.dashboard.navigation_statement" />
-          </h4>
+          </h4> */}
+          <HeadTextWithIcon
+            header={'page.customer.dashboard.navigation_statement'}
+            gicon={'&#xe873;'}
+            // tagline={'page.complaints.header'}
+          />
         </div>
         <p className="py-3">
           <i className="material-icons text-yellow-orange align-middle text-2xl lg:text-5xl">
@@ -105,7 +111,6 @@ const Statement = ({
             <FormattedMessage id="statement.filter" />
           </span>
         </p>
-
         <form className="mt-2 mb-12" method="get">
           <div className="items-en my-2 flex flex-col gap-4 lg:my-8 2xl:flex-row">
             <div className="flex basis-[58%] flex-col gap-4 lg:flex-row">

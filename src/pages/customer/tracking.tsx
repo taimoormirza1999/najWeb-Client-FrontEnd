@@ -6,6 +6,7 @@ import NProgress from 'nprogress';
 import { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import CustomModal from '@/components/customModal';
 import {
   ArrivedIcon,
@@ -162,12 +163,18 @@ const Tracking = ({ search, carDetail, errorModal }) => {
       </CustomModal>
       <div className="m-4">
         <div>
-          <h3 className="text-dark-blue pb-8 text-xl font-bold sm:text-3xl">
+          {/* <h3 className="text-dark-blue pb-8 text-xl font-bold sm:text-3xl">
             <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
               &#xe55e;
             </i>
             <FormattedMessage id="page.customer.dashboard.navigation_tracking" />
-          </h3>
+          </h3> */}
+
+          <HeadTextWithIcon
+            header={'page.customer.dashboard.navigation_tracking'}
+            gicon={'&#xf05f;'}
+            // tagline={'page.termsCondition.header'}
+          />
           <div className="m-auto text-center xl:w-3/5">
             <img
               className="m-auto w-auto max-w-[320px]"

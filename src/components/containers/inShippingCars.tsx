@@ -1,11 +1,12 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 
 import { classNames } from '@/utils/Functions';
 
+import SingleImagesViewer from '../common/SingleImagesViewer';
 import TableColumn from '../TableColumn';
+import TableHeader from '../TableHeader';
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -40,6 +41,9 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.title',
   },
   {
+    name: 'page.customer.dashboard.table.title_date',
+  },
+  {
     name: 'page.customer.dashboard.table.key',
   },
   {
@@ -55,10 +59,10 @@ const carTableHeader = [
 
 const InShippingCars = ({ cars }) => {
   return (
-    <div className="pt-4">
-      <div className="overflow-x-auto border border-[#005fb7] md:rounded-lg">
-        <table className="divide-y divide-gray-300">
-          <thead className="bg-white">
+    <div className="pt-3">
+      <div className="table_top_div flex max-h-[50vh] flex-col">
+        <table className="all_tables min-w-full divide-y divide-gray-300">
+          {/* <thead className="bg-white">
             <tr>
               {carTableHeader.map((th, index) => (
                 <th
@@ -70,7 +74,9 @@ const InShippingCars = ({ cars }) => {
                 </th>
               ))}
             </tr>
-          </thead>
+          </thead> */}
+          <TableHeader tableHeader={carTableHeader} />
+
           <tbody>
             {cars.map((car, index) => (
               <tr
@@ -84,11 +90,12 @@ const InShippingCars = ({ cars }) => {
                   {index + 1}
                 </TableColumn>
                 <TableColumn scope="col" className="min-w-[56px]">
-                  <img
+                  {/* <img
                     className="max-h-[50px] cursor-pointer"
                     src={car.image}
                     alt=""
-                  />
+                  />  */}
+                  <SingleImagesViewer src={car.image} title={'Container Car'} />
                 </TableColumn>
                 <TableColumn scope="col" className="min-w-[180px]">
                   {car.carMakerName} {car.carModelName} {car.year}
@@ -120,33 +127,33 @@ const InShippingCars = ({ cars }) => {
                 <TableColumn scope="col" className="min-w-[60px]">
                   {car.delivered_title === '1' || car.follow_title === '1' ? (
                     <CheckCircleIcon
-                      className="h-6 w-6 text-green-400"
+                      className="ml-[25%] h-6 w-6 text-green-400"
                       aria-hidden="true"
                     />
                   ) : (
                     <XCircleIcon
-                      className="h-6 w-6 text-red-400"
+                      className="ml-[25%] h-6 w-6 text-red-400"
                       aria-hidden="true"
                     />
                   )}
-                  <br />
+                  {/* <br />
+                  {car.titleDate} */}
+                </TableColumn>
+                <TableColumn scope="col" className="min-w-[60px]">
                   {car.titleDate}
                 </TableColumn>
-                <TableColumn scope="col" className="min-w-[63px]">
+                <TableColumn scope="col" className="center min-w-[63px]">
                   {car.delivered_car_key === '1' ? (
                     <CheckCircleIcon
-                      className="h-6 w-6 text-green-400"
+                      className="ml-[25%] h-6 w-6 text-green-400"
                       aria-hidden="true"
                     />
                   ) : (
                     <XCircleIcon
-                      className="h-6 w-6 text-red-400"
+                      className="ml-[25%] h-6 w-6 text-red-400"
                       aria-hidden="true"
                     />
                   )}
-                  <br />
-                  <br />
-                  <br />
                 </TableColumn>
                 <TableColumn scope="col" className="min-w-[50px]">
                   {car.etd}

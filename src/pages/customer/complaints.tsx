@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import CustomModal from '@/components/customModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
 import { SearchLot } from '@/components/dashboard/searchLot';
@@ -172,71 +173,93 @@ const Complaints = () => {
         </div>
       </CustomModal>
       <div className="m-4">
-        <div className="flex">
-          <h4 className="text-dark-blue flex-1 text-2xl font-semibold md:text-3xl">
-            <i className="material-icons text-yellow-orange align-middle text-3xl ltr:mr-2 rtl:ml-2">
-              &#xe14f;
-            </i>
-            <span className="pl-1 align-middle">
+        <div className="mt-5">
+          {/* <div className="ltr:mr-2 rtl:ml-2">
+            <FontAwesomeIcon
+              icon={faBuilding}
+              className="secondary-header-icon"
+            />
+            <h4 className="secondary-header">
               <FormattedMessage id="page.complaints.title" />
-            </span>
-          </h4>
+            </h4>
+          </div> */}
           <SearchLot></SearchLot>
+
+          <HeadTextWithIcon
+            header={'page.complaints.title'}
+            gicon={'&#xe560;'}
+            tagline={'page.complaints.header'}
+          />
         </div>
-        <p className="text-dark-blue ml-5 text-xl lg:text-2xl">
+        {/* <p className="text-dark-blue ml-5 text-xl lg:text-2xl">
           <FormattedMessage id="page.complaints.header" />
-        </p>
+        </p> */}
       </div>
       <div className="mx-auto px-8">
-        <form method="post" onSubmit={handleSubmit} className="mt-8 mb-4">
-          <div className="mt-1 ltr:pl-6 rtl:pr-6">
-            <input
-              id="lot_vin"
-              name="lot_vin"
-              type="text"
-              placeholder={intl.formatMessage({ id: 'messages.vin_lot' })}
-              className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm ltr:placeholder:italic focus:border-blue-800 focus:ring-0"
-              value={inputValue.lot_vin}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="relative mt-1 ltr:pl-6 rtl:pr-6">
-            <input
-              id="subject"
-              name="subject"
-              type="text"
-              required
-              placeholder={intl.formatMessage({ id: 'messages.subject' })}
-              className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm ltr:placeholder:italic focus:border-blue-800 focus:ring-0"
-              value={inputValue.subject}
-              onChange={handleChange}
-            />
-            <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
-              *
-            </span>
-          </div>
-          <div className="relative mt-1 ltr:pl-6 rtl:pr-6">
-            <textarea
-              rows={6}
-              className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg ltr:placeholder:italic focus:border-blue-800 focus:ring-0"
-              name="message"
-              placeholder={intl.formatMessage({ id: 'messages.message' })}
-              value={inputValue.message}
-              onChange={handleChange}
-            ></textarea>
-            <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
-              *
-            </span>
-          </div>
+        <div className="flex justify-center">
+          <form method="post" onSubmit={handleSubmit} className="form-head">
+            <div className="mt-1">
+              <div>
+                <span className="">
+                  <FormattedMessage id="messages.vin_lot" />
+                </span>
+              </div>
+              <input
+                id="lot_vin"
+                name="lot_vin"
+                type="text"
+                // placeholder={intl.formatMessage({ id: 'messages.vin_lot' })}
+                className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
+                value={inputValue.lot_vin}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="relative mt-1 ">
+              <div className="mt-3">
+                <span>
+                  <FormattedMessage id="messages.subject" />
+                </span>
+                <span className="right-text font-bold">*</span>
+              </div>
+              <input
+                id="subject"
+                name="subject"
+                type="text"
+                required
+                // placeholder={intl.formatMessage({ id: 'messages.subject' })}
+                className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
+                value={inputValue.subject}
+                onChange={handleChange}
+              />
+              {/* <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
+                *
+              </span> */}
+            </div>
+            <div className="relative mt-1 ">
+              <div className="mt-3">
+                <span>
+                  <FormattedMessage id="messages.message" />
+                </span>
+                <span className="right-text font-bold">*</span>
+              </div>
+              <textarea
+                rows={6}
+                className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
+                name="message"
+                // placeholder={intl.formatMessage({ id: 'messages.message' })}
+                value={inputValue.message}
+                onChange={handleChange}
+              ></textarea>
+              {/* <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
+                *
+              </span> */}
+            </div>
 
-          <button
-            type="submit"
-            className="border-azure-blue bg-azure-blue hover:bg-dark-blue mx-auto my-6 flex justify-center rounded border-2 py-2 px-8 text-xl font-semibold text-white shadow-sm"
-          >
-            {intl.formatMessage({ id: 'general.submit' })}
-          </button>
-        </form>
-
+            <button type="submit" className="submit-button">
+              {intl.formatMessage({ id: 'general.submit' })}
+            </button>
+          </form>
+        </div>
         <div className="my-24 flex flex-col gap-6 lg:flex-row">
           <div className="basis-2/5">
             <div className="border-outer-space overflow-hidden rounded-md border">
@@ -291,6 +314,5 @@ const Complaints = () => {
 export async function getServerSideProps(context) {
   return grantIfLogin(context);
 }
-
 
 export default Complaints;
