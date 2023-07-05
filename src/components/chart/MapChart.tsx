@@ -138,6 +138,22 @@ const MapChart = ({ carsRecords }) => {
     }
   }
 
+  const [hoveredGeo, setHoveredGeo] = useState<{
+    id: string;
+    properties: { name: string };
+  } | null>(null);
+
+  const handleMouseEnter = (geo: {
+    id: string;
+    properties: { name: string };
+  }) => {
+    setHoveredGeo(geo);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredGeo(null);
+  };
+
   return (
     <>
       <Transition appear show={openNote} as={Fragment}>
@@ -243,8 +259,8 @@ const MapChart = ({ carsRecords }) => {
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
-                      // onMouseEnter={() => setActiveGeo(geo.id)}
-                      // onMouseEnter={() => mapPopup(geo.id)}
+                      onMouseEnter={() => handleMouseEnter(d && geo)}
+                      onMouseLeave={handleMouseLeave}
                       onClick={() => mapPopup(geo.id)}
                       // fill={geo.id === activeGeo ? highlight : cur.fill}
                       fill={d ? highlight : cur?.fill}
@@ -255,6 +271,7 @@ const MapChart = ({ carsRecords }) => {
                         hover: { outline: 'none' },
                         pressed: { outline: 'none' },
                       }}
+                      className={d && 'cursor-pointer'}
                     />
                   );
                 })}
@@ -269,17 +286,11 @@ const MapChart = ({ carsRecords }) => {
                         centroid[0] < -67 &&
                         (Object.keys(offsets).indexOf(cur.id) === -1 ? (
                           <Marker coordinates={centroid}>
-                            {/* <text
-                            y="2"
-                            fontSize={14}
-                            textAnchor="middle"
-                            onMouseEnter={() => setActiveGeo(geo.id)}
-                            onMouseLeave={() => setActiveGeo(null)}
-                            style={{ cursor: 'pointer' }}
-                            fill={geo.id === activeGeo ? '#FFFFFF' : textFill}
-                          >
-                            {cur.id}
-                          </text> */}
+                            <text fontSize={14} alignmentBaseline="middle">
+                              {hoveredGeo?.id === cur.val
+                                ? hoveredGeo?.properties.name
+                                : ''}
+                            </text>
                           </Marker>
                         ) : (
                           <Annotation
