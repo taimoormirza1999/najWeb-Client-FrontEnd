@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
+import { useEffect, useState } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
 
@@ -12,6 +13,11 @@ type IMetaProps = {
 
 const Meta = (props: IMetaProps) => {
   const router = useRouter();
+  const [page, setPage] = useState('');
+
+  useEffect(() => {
+    setPage(window.location.pathname);
+  }, []); // Empty dependency array to ensure this runs only once, after the component mounts.
 
   return (
     <>
@@ -58,7 +64,7 @@ const Meta = (props: IMetaProps) => {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
-              page_path: window.location.pathname,
+              page_path: '${page}',
             });
           `,
           }}
