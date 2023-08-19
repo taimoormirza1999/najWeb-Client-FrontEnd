@@ -1,7 +1,7 @@
 import { faBell, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog, Popover, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
+import { ChevronRightIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import Link from 'next/link';
@@ -88,10 +88,19 @@ const Layout = (props: IMainProps) => {
       current: false,
     },
     {
-      name: 'page.customer.dashboard.navigation_warehouse_cars',
-      href: '/customer/warehouse/cars',
+      name: 'page.customer.dashboard.navigation_cars',
       gicon: '&#xe531;',
       current: false,
+      children: [
+        { 
+          name: 'page.customer.dashboard.navigation_towing_cars',
+          href: '/customer/cars/towing',
+        },
+        { 
+          name: 'page.customer.dashboard.navigation_warehouse_cars',
+          href: '/customer/cars/warehouse',
+        },
+      ],
     },
     {
       name: 'page.customer.dashboard.navigation_statement',
@@ -147,8 +156,6 @@ const Layout = (props: IMainProps) => {
   };
   const intl = useIntl();
   const isBulkShippingCustomer = profile?.isBulkShippingCustomer || false;
-  const allowWarehouseCarsRequests =
-    profile?.allowWarehouseCarsRequests || false;
 
   useEffect(() => {
     const membershipId = profile?.membership_id;
@@ -184,8 +191,6 @@ const Layout = (props: IMainProps) => {
   const filterNavigation = () => {
     return navigation.filter((item) => {
       return (
-        (allowWarehouseCarsRequests === true ||
-          item.name !== 'page.customer.dashboard.navigation_warehouse_cars') &&
         (isBulkShippingCustomer === true ||
           item.name !== 'page.customer.dashboard.navigation_containers')
       );
@@ -268,22 +273,69 @@ const Layout = (props: IMainProps) => {
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
                     {filterNavigation().map((item, index) => (
-                      <Link key={index} href={item.href}>
-                        <a
-                          className={classNames(
-                            router.pathname === item.href
-                              ? 'bg-[#CEDAE5] text-[#0D3C8E]'
-                              : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                            'group flex items-center px-2 py-2 text-base rounded-md font-semibold'
-                          )}
-                        >
-                          <i
-                            className="material-icons text-lg ltr:mr-2 rtl:ml-2"
-                            dangerouslySetInnerHTML={{ __html: item.gicon }}
-                          ></i>
-                          <FormattedMessage id={item.name} />
-                        </a>
-                      </Link>
+                      <li key={index} className="list-none">
+                        {!item.children ? (
+                          <Link key={index} href={item.href}>
+                            <a
+                              className={classNames(
+                                router.pathname === item.href
+                                  ? 'bg-[#CEDAE5] text-[#0D3C8E]'
+                                  : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                                'group flex items-center px-2 py-2 text-base rounded-md font-semibold'
+                              )}
+                            >
+                              <i
+                                className="material-icons text-lg ltr:mr-2 rtl:ml-2"
+                                dangerouslySetInnerHTML={{ __html: item.gicon }}
+                              ></i>
+                              <FormattedMessage id={item.name} />
+                            </a>
+                          </Link>
+                        ) : (
+                          <Disclosure as="div">
+                            {({ open }) => (
+                              <>
+                                <Disclosure.Button
+                                  className={classNames(
+                                    router.pathname === item.href ? 'bg-[#CEDAE5] text-[#0D3C8E]' : 'text-gray-600 hover:bg-gray-300 hover:text-gray-900',
+                                    'flex items-center w-full text-left rounded-md pl-1 py-2 text-sm sm:text-xl font-semibold text-gray-700'
+                                  )}
+                                >
+                                  <i
+                                    className="material-icons text-lg ltr:mr-2 rtl:ml-2"
+                                    dangerouslySetInnerHTML={{ __html: item.gicon }}
+                                  ></i>
+                                  {isExpanded && <FormattedMessage id={item.name} />}
+                                  <ChevronRightIcon
+                                    className={classNames(
+                                      open ? 'rotate-90 text-gray-600' : 'text-gray-600',
+                                      'ml-auto h-5 w-5 shrink-0'
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                </Disclosure.Button>
+                                <Disclosure.Panel as="ul" className="mt-1 px-2">
+                                  {item.children.map((subItem, subIndex) => (
+                                    <li key={subIndex}>
+                                      {/* 44px */}
+                                      <Disclosure.Button
+                                        as="a"
+                                        href={subItem.href}
+                                        className={classNames(
+                                          router.pathname === subItem.href ? 'bg-gray-300' : 'hover:bg-gray-300',
+                                          'block hover:border-0 hover:text-gray-900 py-2 pr-2 pl-9 text-sm sm:text-xl font-semibold text-gray-700'
+                                        )}
+                                      >
+                                        <FormattedMessage id={subItem.name} />
+                                      </Disclosure.Button>
+                                    </li>
+                                  ))}
+                                </Disclosure.Panel>
+                              </>
+                            )}
+                          </Disclosure>
+                        )}
+                      </li>
                     ))}
                     {locale === 'en' ? (
                       <a
@@ -350,32 +402,28 @@ const Layout = (props: IMainProps) => {
         {/* Static sidebar for desktop */}
         <div
           style={sideBarAnimation}
-          className={`relative hidden transition-width duration-800 md:fixed md:inset-y-0 md:flex  md:flex-col ${
-            isExpanded ? 'w-[15%]' : 'w-12'
-          }`}
+          className={`relative hidden transition-width duration-800 md:fixed md:inset-y-0 md:flex  md:flex-col ${isExpanded ? 'w-[15%]' : 'w-12'
+            }`}
         >
           <button
             style={sideBarAnimation}
             type="button"
-            className={`absolute top-2 rounded-full -ml-0.5 -mt-0.5 inline-flex h-10 w-10 items-center justify-center bg-white text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-999 ${
-              isExpanded ? '-right-5' : 'right-1'
-            } `}
+            className={`absolute top-2 rounded-full -ml-0.5 -mt-0.5 inline-flex h-10 w-10 items-center justify-center bg-white text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-999 ${isExpanded ? '-right-5' : 'right-1'
+              } `}
             onClick={toggleSideBar}
           >
             <span className="sr-only">Open sidebar</span>
             <i
-              className={`material-icons text-sm ${
-                isExpanded ? 'rotate-180' : 'rotate-0'
-              }`}
+              className={`material-icons text-sm ${isExpanded ? 'rotate-180' : 'rotate-0'
+                }`}
             >
               &#xe5d2;
             </i>
           </button>
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div
-            className={`bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200 ${
-              !isExpanded ? 'pt-8' : ''
-            }`}
+            className={`bg-light-grey flex min-h-0 flex-1 flex-col border-r border-gray-200 ${!isExpanded ? 'pt-8' : ''
+              }`}
           >
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
               <div className="mb-12 mt-4 flex shrink-0 items-center px-2">
@@ -394,26 +442,80 @@ const Layout = (props: IMainProps) => {
                 </Link>
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-1">
-                {filterNavigation().map((item, index) => (
-                  <Link key={index} href={item.href}>
-                    <a
-                      className={classNames(
-                        router.pathname === item.href
-                          ? 'bg-[#CEDAE5] text-[#0D3C8E]'
-                          : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
-                        'group flex items-center pl-1 pr-0 py-2 font-semibold rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
-                      )}
-                    >
-                      <i
-                        className={`material-icons text-3xl  ${
-                          isExpanded ? 'ltr:mr-2 rtl:ml-2' : ''
-                        } `}
-                        dangerouslySetInnerHTML={{ __html: item.gicon }}
-                      ></i>
-                      {isExpanded && <FormattedMessage id={item.name} />}
-                    </a>
-                  </Link>
-                ))}
+                <ul role="list" className="flex flex-1 flex-col gap-y-7">
+                  <li>
+                    <ul role="list" className="space-y-1">
+                      {filterNavigation().map((item, index) => (
+                        <li key={index}>
+                          {!item.children ? (
+                            <Link href={item.href}>
+                              <a
+                                href={item.href}
+                                className={classNames(
+                                  router.pathname === item.href
+                                    ? 'bg-[#CEDAE5] text-[#0D3C8E]'
+                                    : 'text-gray-600 hover:bg-gray-300 hover:text-gray-900',
+                                  'group flex items-center pl-1 pr-0 py-2 font-semibold rounded-md hover:border-inherit text-xs sm:text-xl hover:border-0'
+                                )}
+                              >
+                                <i
+                                  className={`material-icons text-3xl  ${isExpanded ? 'ltr:mr-2 rtl:ml-2' : ''
+                                    } `}
+                                  dangerouslySetInnerHTML={{ __html: item.gicon }}
+                                ></i>
+                                {isExpanded && <FormattedMessage id={item.name} />}
+                              </a>
+                            </Link>
+                          ) : (
+                            <Disclosure as="div">
+                              {({ open }) => (
+                                <>
+                                  <Disclosure.Button
+                                    className={classNames(
+                                      router.pathname === item.href ? 'bg-[#CEDAE5] text-[#0D3C8E]' : 'text-gray-600 hover:bg-gray-300 hover:text-gray-900',
+                                      'flex items-center w-full text-left rounded-md pl-1 py-2 text-sm sm:text-xl font-semibold text-gray-700'
+                                    )}
+                                  >
+                                    <i
+                                      className={`material-icons text-3xl  ${isExpanded ? 'ltr:mr-2 rtl:ml-2' : ''
+                                        } `}
+                                      dangerouslySetInnerHTML={{ __html: item.gicon }}
+                                    ></i>
+                                    {isExpanded && <FormattedMessage id={item.name} />}
+                                    <ChevronRightIcon
+                                      className={classNames(
+                                        open ? 'rotate-90 text-gray-600' : 'text-gray-600',
+                                        'ml-auto h-5 w-5 shrink-0'
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                  </Disclosure.Button>
+                                  <Disclosure.Panel as="ul" className="mt-1 px-2">
+                                    {item.children.map((subItem, subIndex) => (
+                                      <li key={subIndex}>
+                                        {/* 44px */}
+                                        <Disclosure.Button
+                                          as="a"
+                                          href={subItem.href}
+                                          className={classNames(
+                                            router.pathname === item.href ? 'bg-gray-300' : 'hover:bg-gray-300',
+                                            'block hover:border-0 hover:text-gray-900 py-2 pr-2 pl-9 text-sm sm:text-xl font-semibold text-gray-700'
+                                          )}
+                                        >
+                                        <FormattedMessage id={subItem.name} />
+                                        </Disclosure.Button>
+                                      </li>
+                                    ))}
+                                  </Disclosure.Panel>
+                                </>
+                              )}
+                            </Disclosure>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                </ul>
               </nav>
             </div>
             <div className="flex shrink-0 border-t border-gray-200 p-4">
@@ -462,11 +564,10 @@ const Layout = (props: IMainProps) => {
         </div>
         <div
           style={sideBarAnimation}
-          className={`flex flex-1 flex-col md:w-[100%] ${
-            isExpanded
-              ? 'ltr:md:pl-[15%] rtl:md:pr-[15%]'
-              : 'ltr:md:pl-12 rtl:md:pr-12'
-          }`}
+          className={`flex flex-1 flex-col md:w-[100%] ${isExpanded
+            ? 'ltr:md:pl-[15%] rtl:md:pr-[15%]'
+            : 'ltr:md:pl-12 rtl:md:pr-12'
+            }`}
         >
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
@@ -479,7 +580,7 @@ const Layout = (props: IMainProps) => {
             </button>
           </div>
           <main className="flex-1">
-            <div className="bg-dark-blue pb-5 pt-8">
+            <div className="bg-dark-blue pb-2 pt-2">
               <div className="pb-5 ltr:text-right rtl:text-left">
                 {customerBalance > 0 && (
                   <span className="mt-1 mr-8 inline-flex items-center rounded-lg bg-red-100 px-2.5 py-0.5 text-xl font-medium text-[#A30000]">
@@ -492,9 +593,9 @@ const Layout = (props: IMainProps) => {
                   </span>
                 )}
               </div>
-              <div className="ml-6 px-4 pb-6 sm:px-6 sm:pb-4 md:flex md:justify-between md:px-1 lg:pt-1">
+              <div className="ml-2 md:ml-6 px-4 pb-4 px-2 md:px-6 sm:pb-4 md:flex md:justify-between md:px-1 lg:pt-1">
                 <div className="max-w-xl">
-                  <h2 className="text-3xl font-normal text-white sm:tracking-tight">
+                  <h2 className="text-xl lg:text-3xl font-normal text-white sm:tracking-tight">
                     {intl.formatMessage({ id: 'general.welcome' })}{' '}
                     <span className="font-sen font-bold">
                       {profile?.fullName}
@@ -535,7 +636,7 @@ const Layout = (props: IMainProps) => {
                                 {notify.map((item, key) => (
                                   <div
                                     key={item.id}
-                                    className="-m-3 block rounded-md bg-gray-200 p-3 transition duration-150 ease-in-out"
+                                    className="-m-3 block rounded-md bg-gray-200 p-3 transition duration-150 ease-in-out text-left rtl:text-right"
                                   >
                                     <div className="absolute right-[7px] shrink-0">
                                       <XCircleIcon

@@ -400,11 +400,6 @@ export default function WarehouseTowingCars({
       <div className="m-8">
         <div className="">
           <div className="relative sm:items-center">
-            {/* <div className="sm:flex-auto">
-              {/* <h1 className="text-dark-blue text-3xl font-semibold">
-                <FormattedMessage id="page.customer.dashboard.warehouse_cars" />
-              </h1> 
-            </div> */}
             <button
               className="bg-dark-blue absolute mt-2 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white ltr:right-2 ltr:float-right rtl:left-2 rtl:float-left sm:text-xl"
               onClick={() => {
@@ -415,9 +410,8 @@ export default function WarehouseTowingCars({
             </button>
           </div>
           <HeadTextWithIcon
-            header={'page.customer.dashboard.warehouse_cars'}
+            header={'page.customer.dashboard.towing_cars'}
             gicon={'&#xe531;'}
-            // tagline={'page.complaints.header'}
           />
 
           <div
@@ -425,8 +419,8 @@ export default function WarehouseTowingCars({
             style={{ maxHeight: tableHeight }}
           >
             <SelectPageRecords url={limitUrl} />
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div className="mb-1 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full align-middle md:px-6 lg:px-8">
                 <div className="overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-300">
                     <TableHeader tableHeader={carTableHeader} />

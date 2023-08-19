@@ -404,8 +404,8 @@ const ContainersTable = ({
       <div className="pt-14">
         <div className="flex flex-col">
           <SelectPageRecords url={limitUrl} />
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div className="mb-1 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full align-middle md:px-6 lg:px-8">
               <button
                 onClick={exportExcel}
                 className="mb-4 flex items-center gap-1 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
