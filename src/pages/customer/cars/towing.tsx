@@ -149,7 +149,6 @@ export default function WarehouseTowingCars({
             ((k) => !s.has(k) && s.add(k))(keys.map((k) => o[k]).join('|'))
         )(new Set())
       );
-      // setCarsDriver(res.data ? res.data.data : []);
       setCarsDriver(filtered);
     } catch (error) {
       console.log(error);
