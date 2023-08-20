@@ -158,6 +158,8 @@
   "general.cancel": "Cancel",
   "general.naj": "NAJ",
   "general.continue": "Continue",
+  "general.next": "Next",
+  "general.back": "Back",
   "general.home": "Home",
   "Ship cars": "Ship cars",
   "Buy cars": "Buy cars",
@@ -438,6 +440,9 @@
   "picked": "PICKED",
   "warehouse": "WAREHOUSE",
   "shipping": "SHIPPING",
+  "car.towing_detail": "Towing Detail",
+  "car.other_detail": "Other Detail",
+  "car.driver_detail": "Driver Detail",
   "port": "PORT",
   "store": "STORE"
 }
