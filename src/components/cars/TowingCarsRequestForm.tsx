@@ -28,6 +28,7 @@ export default function WarehouseCarsRequestForm({
   carsColor,
   carsDriver,
   ports,
+  regions,
   setCarData,
   newCarModalOpen,
   setNewCarModalOpen,
@@ -56,6 +57,9 @@ export default function WarehouseCarsRequestForm({
       driver_name: '',
     },
   ]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [auctionLocations, setAuctionLocations] = useState([]);
   const [showPanel, setShowPanel] = useState(false);
   const [foundDrivers, setFoundDrivers] = useState(carsDriver);
 
@@ -73,6 +77,7 @@ export default function WarehouseCarsRequestForm({
       'id_vehicle_type',
       'car_title',
       'car_key',
+      'purchaase_date',
     ];
 
     console.log({ allowWarehouseCarsRequests, step: wizardStepIndex.current });
@@ -186,6 +191,22 @@ export default function WarehouseCarsRequestForm({
         setCarsModel(response.data?.data || []);
       });
   }, [carData.id_car_make, carData.model_name]);
+
+  useEffect(() => {
+    if (carData?.region_id === undefined) {
+      return;
+    }
+
+    axios
+      .get('/api/general/states', {
+        params: {
+          region_id: carData.region_id,
+        },
+      })
+      .then((response) => {
+        setStates(response.data?.data || []);
+      });
+  }, [carData.region_id]);
 
   useEffect(() => {
     axios
@@ -436,6 +457,7 @@ export default function WarehouseCarsRequestForm({
           <FormWizard
             shape="square"
             color="#0093ff"
+            startIndex={1}
             onComplete={handleSubmit}
             backButtonTemplate={(handlePrev: () => void) => {
               return (
@@ -589,7 +611,7 @@ export default function WarehouseCarsRequestForm({
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
+                  <div className="w-1/2">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.color" />
                       <span className="mx-1 text-lg text-red-500">*</span>
@@ -621,35 +643,52 @@ export default function WarehouseCarsRequestForm({
                     />
                     {getValidationMessage('color')}
                   </div>
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.year" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <Select
-                      className="w-full rounded-md text-lg text-gray-700"
-                      name="year"
-                      required
-                      onChange={(newOption) => {
-                        handleReactSelectChange('year', newOption?.value);
-                      }}
-                      value={
-                        carData?.year
-                          ? {
-                              value: carData.year,
-                              label: carData.year,
-                            }
-                          : null
-                      }
-                      styles={{
-                        control: ReactSelectStyle,
-                      }}
-                      options={carsYear.map((label) => ({
-                        value: label,
-                        label,
-                      }))}
-                    />
-                    {getValidationMessage('year')}
+                  <div className="w-1/2 gap-2 sm:flex">
+                    <div className="w-3/5">
+                      <label className="text-teal-blue block text-lg rtl:text-right">
+                        <FormattedMessage id="form.purchase_date" />
+                        <span className="mx-1 text-lg text-red-500">*</span>
+                      </label>
+                      <input
+                        className="w-full rounded-md border px-1 text-lg text-gray-700"
+                        type="date"
+                        name="purchaase_date"
+                        required
+                        onChange={handleChange}
+                        defaultValue={carData.purchaase_date}
+                      />
+                      {getValidationMessage('purchaase_date')}
+                    </div>
+                    <div className="w-2/5">
+                      <label className="text-teal-blue block text-lg rtl:text-right">
+                        <FormattedMessage id="form.year" />
+                        <span className="mx-1 text-lg text-red-500">*</span>
+                      </label>
+                      <Select
+                        className="w-full rounded-md text-lg text-gray-700"
+                        name="year"
+                        required
+                        onChange={(newOption) => {
+                          handleReactSelectChange('year', newOption?.value);
+                        }}
+                        value={
+                          carData?.year
+                            ? {
+                                value: carData.year,
+                                label: carData.year,
+                              }
+                            : null
+                        }
+                        styles={{
+                          control: ReactSelectStyle,
+                        }}
+                        options={carsYear.map((label) => ({
+                          value: label,
+                          label,
+                        }))}
+                      />
+                      {getValidationMessage('year')}
+                    </div>
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">
@@ -860,6 +899,72 @@ export default function WarehouseCarsRequestForm({
                       }))}
                     />
                     {getValidationMessage('destination')}
+                  </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.region" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="region_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange('region_id', newOption?.value);
+                      }}
+                      defaultValue={
+                        carData?.region_id
+                          ? {
+                              value: carData.region_id,
+                              label: regions.find(
+                                (item) => item.region_id === carData.region_id
+                              )?.region_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={regions.map((item) => ({
+                        value: item.region_id,
+                        label: item.region_name,
+                      }))}
+                    />
+                    {getValidationMessage('region_id')}
+                  </div>
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.state" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="state_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange('state_id', newOption?.value);
+                      }}
+                      value={
+                        carData?.state_id
+                          ? {
+                              value: carData.state_id,
+                              label: states.find(
+                                (item) => item.state_id === carData.state_id
+                              )?.state_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={states.map((item) => ({
+                        value: item?.state_id,
+                        label: item.state_name,
+                      }))}
+                    />
+                    {getValidationMessage('state_id')}
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">

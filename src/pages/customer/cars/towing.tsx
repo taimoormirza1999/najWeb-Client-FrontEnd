@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import WarehouseCarsRequestForm from '@/components/cars/WarehouseCarsRequestForm';
+import TowingCarsRequestForm from '@/components/cars/TowingCarsRequestForm';
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import SingleImagesViewer from '@/components/common/SingleImagesViewer';
 import CustomModal from '@/components/customModal';
@@ -50,18 +50,6 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.eta',
   },
   {
-    name: 'page.customer.dashboard.table.driver_name',
-  },
-  {
-    name: 'form.driver_email',
-  },
-  {
-    name: 'form.driver_address',
-  },
-  {
-    name: 'form.account_number',
-  },
-  {
     name: 'form.destination',
   },
   {
@@ -80,6 +68,7 @@ export default function WarehouseTowingCars({
   carsMaker,
   carsColor,
   ports,
+  regions,
 }) {
   const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}`;
   const limitUrl = `/customer/warehouse/cars?page=0`;
@@ -114,6 +103,7 @@ export default function WarehouseTowingCars({
           limit,
           page,
           search,
+          externalCar: '1',
         },
         headers: {
           'Cache-Control': 'no-cache',
@@ -128,40 +118,11 @@ export default function WarehouseTowingCars({
     }
   };
 
-  const getAllWarehouseCars = async () => {
-    try {
-      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
-        params: {
-          limit: 'all',
-        },
-        headers: {
-          'Cache-Control': 'no-cache',
-          Pragma: 'no-cache',
-          Expires: '0',
-        },
-      });
-
-      const listOfTags = res.data ? res.data.data : [];
-      const keys = ['driver_name'];
-      const filtered = listOfTags.filter(
-        (
-          (s) => (o) =>
-            ((k) => !s.has(k) && s.add(k))(keys.map((k) => o[k]).join('|'))
-        )(new Set())
-      );
-      setCarsDriver(filtered);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getWarehouseCars();
   }, [limit, page, search]);
 
   useEffect(() => {
-    getAllWarehouseCars();
-
     const calculateTableHeight = () => {
       const newHeight = window?.innerHeight || 0;
       setTableHeight(newHeight * 0.67);
@@ -382,13 +343,14 @@ export default function WarehouseTowingCars({
         </div>
       </CustomModal>
 
-      <WarehouseCarsRequestForm
+      <TowingCarsRequestForm
         carData={carData}
         vehiclesType={vehiclesType}
         carsMaker={carsMaker}
         carsColor={carsColor}
         carsDriver={carsDriver}
         ports={ports}
+        regions={regions}
         setCarData={setCarData}
         newCarModalOpen={newCarModalOpen}
         setNewCarModalOpen={setNewCarModalOpen}
@@ -418,7 +380,7 @@ export default function WarehouseTowingCars({
             style={{ maxHeight: tableHeight }}
           >
             <SelectPageRecords url={limitUrl} />
-            <div className="mb-1 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="-mx-4 mb-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full align-middle md:px-6 lg:px-8">
                 <div className="overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-300">
@@ -516,30 +478,6 @@ export default function WarehouseTowingCars({
                             </TableColumn>
                             <TableColumn className="min-w-[80px]">
                               {car.delivered_date}
-                            </TableColumn>
-                            <TableColumn className="min-w-[47px]">
-                              <FormattedMessage id="form.driver_name" />:{' '}
-                              {car.driver_name} <br />
-                              <FormattedMessage id="form.driver_number" />:{' '}
-                              {car.driver_number} <br />
-                              <FormattedMessage id="form.driver_tin" />:{' '}
-                              {car.driver_tin}
-                            </TableColumn>
-                            <TableColumn className="min-w-[50px]">
-                              {car.driver_email}
-                            </TableColumn>
-                            <TableColumn className="min-w-[75px]">
-                              <FormattedMessage id="form.zip_code" />:{' '}
-                              {car.driver_zip_code} <br />
-                              {car.driver_address}
-                            </TableColumn>
-                            <TableColumn className="min-w-[200px]">
-                              <FormattedMessage id="form.account_number" />:{' '}
-                              {car.account_number} <br />
-                              <FormattedMessage id="form.routing_number" />:{' '}
-                              {car.routing_number} <br />
-                              <FormattedMessage id="form.reference_number" />:{' '}
-                              {car.reference_number}
                             </TableColumn>
                             <TableColumn className="w-[20px]">
                               {car.destination_name}
@@ -660,6 +598,9 @@ export async function getServerSideProps(context) {
   );
   const ports = resPort.data ? resPort.data.data : [];
 
+  const resRegions = await axios.get(`${apiUrl}general/getAuctionsRegions/`);
+  const regions = resRegions.data ? resRegions.data.data : [];
+
   return {
     props: {
       page,
@@ -669,6 +610,7 @@ export async function getServerSideProps(context) {
       carsMaker,
       carsColor,
       ports,
+      regions,
     },
   };
 }

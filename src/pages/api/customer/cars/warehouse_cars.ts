@@ -40,12 +40,13 @@ export default async function handler(req, res) {
         : res.status(500).json({});
     }
 
-    const { limit, page, search } = req.query;
+    const { limit, page, search, externalCar } = req.query;
     const response = await axios.get(`${apiUrl}warehouseCarRequests`, {
       params: {
         limit: limit || 10,
         page: page || 0,
         search: search || '',
+        external_car: externalCar,
       },
       headers: {
         'Cache-Control': 'no-cache',
@@ -59,6 +60,7 @@ export default async function handler(req, res) {
       : res.status(500).json([]);
   }
   if (method === 'POST') {
+    res.status(200).json('');
     try {
       const form = new formidable.IncomingForm();
       form.parse(req, async (err, fields, files) => {

@@ -220,6 +220,7 @@
   "Phone": "Phone No.",
   "Message": "Message",
   "general.submit": "Submit",
+  "general.saving": "Saving",
   "general.submitting": "Submitting",
   "Your.name": "Your name",
   "Your.email": "Your email",
@@ -444,5 +445,8 @@
   "car.other_detail": "Other Detail",
   "car.driver_detail": "Driver Detail",
   "port": "PORT",
+  "form.purchase_date": "Purchase Date",
+  "form.validation.message.required": "This field is required",
+  "form.placeholder.filter_drivers": "Type to filter existing drivers",
   "store": "STORE"
 }

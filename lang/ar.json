@@ -424,5 +424,6 @@
   "warehouse": "المستودع",
   "shipping": "الشحن",
   "port": "الميناء",
+  "form.validation.message.required": "هذه الخانة مطلوبه",
   "store": "المستودع"
 }

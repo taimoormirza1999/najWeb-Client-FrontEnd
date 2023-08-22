@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/outline';
 import axios from 'axios';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import WarehouseCarsRequestForm from '@/components/cars/WarehouseCarsRequestForm';
@@ -21,6 +21,7 @@ import {
 } from '@/components/dashboard/pagination';
 import TableColumn from '@/components/TableColumn';
 import TableHeader from '@/components/TableHeader';
+import { UserContext } from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
@@ -84,6 +85,7 @@ export default function WarehouseTowingCars({
   const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}`;
   const limitUrl = `/customer/warehouse/cars?page=0`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
+  const { profile } = useContext(UserContext);
 
   const [tableRecords, setTableRecords] = useState(0);
   const [warehouseCars, setWarehouseCars] = useState<any[]>([]);
@@ -98,6 +100,9 @@ export default function WarehouseTowingCars({
     type: '',
     message: '',
   });
+
+  const allowWarehouseCarsRequests =
+    profile?.allowWarehouseCarsRequests || false;
 
   const [carsDriver, setCarsDriver] = useState<any[]>([]);
 
@@ -114,6 +119,7 @@ export default function WarehouseTowingCars({
           limit,
           page,
           search,
+          externalCar: '2',
         },
         headers: {
           'Cache-Control': 'no-cache',
@@ -133,6 +139,7 @@ export default function WarehouseTowingCars({
       const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
         params: {
           limit: 'all',
+          external_car: '2',
         },
         headers: {
           'Cache-Control': 'no-cache',
@@ -160,7 +167,9 @@ export default function WarehouseTowingCars({
   }, [limit, page, search]);
 
   useEffect(() => {
-    getAllWarehouseCars();
+    if (allowWarehouseCarsRequests) {
+      getAllWarehouseCars();
+    }
 
     const calculateTableHeight = () => {
       const newHeight = window?.innerHeight || 0;
@@ -418,11 +427,23 @@ export default function WarehouseTowingCars({
             style={{ maxHeight: tableHeight }}
           >
             <SelectPageRecords url={limitUrl} />
-            <div className="mb-1 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="-mx-4 mb-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full align-middle md:px-6 lg:px-8">
                 <div className="overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-300">
-                    <TableHeader tableHeader={carTableHeader} />
+                    <TableHeader
+                      tableHeader={carTableHeader.filter((item) => {
+                        return (
+                          allowWarehouseCarsRequests === true ||
+                          ![
+                            'page.customer.dashboard.table.driver_name',
+                            'form.driver_email',
+                            'form.driver_address',
+                            'form.account_number',
+                          ].includes(item.name)
+                        );
+                      })}
+                    />
                     <tbody>
                       {tableRecords > 0 ? (
                         warehouseCars.map((car, index) => (
@@ -517,30 +538,38 @@ export default function WarehouseTowingCars({
                             <TableColumn className="min-w-[80px]">
                               {car.delivered_date}
                             </TableColumn>
-                            <TableColumn className="min-w-[47px]">
-                              <FormattedMessage id="form.driver_name" />:{' '}
-                              {car.driver_name} <br />
-                              <FormattedMessage id="form.driver_number" />:{' '}
-                              {car.driver_number} <br />
-                              <FormattedMessage id="form.driver_tin" />:{' '}
-                              {car.driver_tin}
-                            </TableColumn>
-                            <TableColumn className="min-w-[50px]">
-                              {car.driver_email}
-                            </TableColumn>
-                            <TableColumn className="min-w-[75px]">
-                              <FormattedMessage id="form.zip_code" />:{' '}
-                              {car.driver_zip_code} <br />
-                              {car.driver_address}
-                            </TableColumn>
-                            <TableColumn className="min-w-[200px]">
-                              <FormattedMessage id="form.account_number" />:{' '}
-                              {car.account_number} <br />
-                              <FormattedMessage id="form.routing_number" />:{' '}
-                              {car.routing_number} <br />
-                              <FormattedMessage id="form.reference_number" />:{' '}
-                              {car.reference_number}
-                            </TableColumn>
+                            {allowWarehouseCarsRequests && (
+                              <TableColumn className="min-w-[47px]">
+                                <FormattedMessage id="form.driver_name" />:{' '}
+                                {car.driver_name} <br />
+                                <FormattedMessage id="form.driver_number" />:{' '}
+                                {car.driver_number} <br />
+                                <FormattedMessage id="form.driver_tin" />:{' '}
+                                {car.driver_tin}
+                              </TableColumn>
+                            )}
+                            {allowWarehouseCarsRequests && (
+                              <TableColumn className="min-w-[50px]">
+                                {car.driver_email}
+                              </TableColumn>
+                            )}
+                            {allowWarehouseCarsRequests && (
+                              <TableColumn className="min-w-[75px]">
+                                <FormattedMessage id="form.zip_code" />:{' '}
+                                {car.driver_zip_code} <br />
+                                {car.driver_address}
+                              </TableColumn>
+                            )}
+                            {allowWarehouseCarsRequests && (
+                              <TableColumn className="min-w-[200px]">
+                                <FormattedMessage id="form.account_number" />:{' '}
+                                {car.account_number} <br />
+                                <FormattedMessage id="form.routing_number" />:{' '}
+                                {car.routing_number} <br />
+                                <FormattedMessage id="form.reference_number" />:{' '}
+                                {car.reference_number}
+                              </TableColumn>
+                            )}
                             <TableColumn className="w-[20px]">
                               {car.destination_name}
                             </TableColumn>
