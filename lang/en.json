@@ -445,7 +445,13 @@
   "car.other_detail": "Other Detail",
   "car.driver_detail": "Driver Detail",
   "port": "PORT",
+  "form.region": "Region",
+  "form.state": "State",
+  "form.city": "City",
+  "form.focal_person_phone": "Focal Person Phone Number",
+  "form.auction_location": "Auction Location",
   "form.purchase_date": "Purchase Date",
+  "form.address": "Address",
   "form.validation.message.required": "This field is required",
   "form.placeholder.filter_drivers": "Type to filter existing drivers",
   "store": "STORE"

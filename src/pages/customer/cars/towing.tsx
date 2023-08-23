@@ -38,6 +38,9 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.lot_vin',
   },
   {
+    name: 'form.purchase_date',
+  },
+  {
     name: 'page.customer.dashboard.table.title',
   },
   {
@@ -47,7 +50,10 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.price',
   },
   {
-    name: 'page.customer.dashboard.table.eta',
+    name: 'form.region',
+  },
+  {
+    name: 'form.address',
   },
   {
     name: 'form.destination',
@@ -70,8 +76,8 @@ export default function WarehouseTowingCars({
   ports,
   regions,
 }) {
-  const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}`;
-  const limitUrl = `/customer/warehouse/cars?page=0`;
+  const paginationUrl = `/customer/cars/towing?search=${search}&limit=${limit}`;
+  const limitUrl = `/customer/cars/towing?page=0`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
 
   const [tableRecords, setTableRecords] = useState(0);
@@ -403,7 +409,7 @@ export default function WarehouseTowingCars({
                                 <>
                                   <SingleImagesViewer
                                     src={car.car_photo_file}
-                                    title={'Warehouse Car'}
+                                    title={'Towing Car'}
                                   />
                                   {/* <Link passHref href={car.car_photo_file}>
                                   <a
@@ -426,7 +432,7 @@ export default function WarehouseTowingCars({
                             <TableColumn className="min-w-[100px]">
                               {car.carMakerName} {car.carModelName} {car.year}
                             </TableColumn>
-                            <TableColumn className="min-w-[155px]">
+                            <TableColumn className="min-w-[50px]">
                               <FormattedMessage id="page.customer.dashboard.table.lot" />
                               : {car.lotnumber} <br />
                               <FormattedMessage id="page.customer.dashboard.table.vin" />
@@ -443,6 +449,9 @@ export default function WarehouseTowingCars({
                                   </Link>
                                 </>
                               ) : null}
+                            </TableColumn>
+                            <TableColumn className="min-w-[80px]">
+                              {car.purchase_date}
                             </TableColumn>
                             <TableColumn scope="col" className="w-[30px]">
                               {car.car_title === '1' ? (
@@ -470,19 +479,22 @@ export default function WarehouseTowingCars({
                                 />
                               )}
                             </TableColumn>
-                            <TableColumn className="min-w-[65px]">
+                            <TableColumn className="min-w-[35px]">
                               <FormattedMessage id="form.sale_price" />: $
                               {car.sale_price} <br />
                               <FormattedMessage id="form.towing_price" />: $
                               {car.towing_price} <br />
                             </TableColumn>
-                            <TableColumn className="min-w-[80px]">
-                              {car.delivered_date}
+                            <TableColumn className="w-[20px]">
+                              {car.region_detail}
+                            </TableColumn>
+                            <TableColumn className="w-[50px]">
+                              {car.region_address}
                             </TableColumn>
                             <TableColumn className="w-[20px]">
                               {car.destination_name}
                             </TableColumn>
-                            <TableColumn className="min-w-[50px]">
+                            <TableColumn className="min-w-[100px]">
                               {car.customer_approved === '1' ? (
                                 <div>
                                   {' '}

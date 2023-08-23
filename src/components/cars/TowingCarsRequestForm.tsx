@@ -21,7 +21,7 @@ const ReactSelectStyle = (baseStyles, state) => ({
   borderColor: state.isFocused ? '#3182ce' : '#a0aec0',
 });
 
-export default function WarehouseCarsRequestForm({
+export default function TowingCarsRequestForm({
   carData,
   vehiclesType,
   carsMaker,
@@ -73,21 +73,23 @@ export default function WarehouseCarsRequestForm({
       'id_car_make',
       'id_car_model',
       'color',
+      'purchase_date',
       'year',
       'id_vehicle_type',
       'car_title',
       'car_key',
-      'purchaase_date',
     ];
-
-    console.log({ allowWarehouseCarsRequests, step: wizardStepIndex.current });
 
     if (wizardStepIndex.current === 2) {
       requiredFields = [
-        'delivered_date',
-        'towing_price',
         'sale_price',
         'destination',
+        'region_id',
+        'state_id',
+        'city_id',
+        'auction_location_id',
+        'region_address',
+        'focal_person_phone',
       ];
 
       // disabled temporariy, Yup validation is not working for these fields
@@ -97,20 +99,7 @@ export default function WarehouseCarsRequestForm({
       requiredValidation.invoice = Yup.mixed().required(
         intl.formatMessage({ id: 'form.validation.message.required' })
       ); */
-    } else if (allowWarehouseCarsRequests && wizardStepIndex.current === 3) {
-      requiredFields = [
-        'driver_name',
-        'driver_number',
-        'driver_email',
-        'driver_tin',
-        'driver_zip_code',
-        'account_number',
-        'routing_number',
-        'reference_number',
-        'driver_address',
-      ];
     }
-
     requiredFields.forEach((fieldKey) => {
       requiredValidation[fieldKey] = Yup.string().required(
         intl.formatMessage({ id: 'form.validation.message.required' })
@@ -190,7 +179,7 @@ export default function WarehouseCarsRequestForm({
       .then((response) => {
         setCarsModel(response.data?.data || []);
       });
-  }, [carData.id_car_make, carData.model_name]);
+  }, [carData.id_car_make]);
 
   useEffect(() => {
     if (carData?.region_id === undefined) {
@@ -209,7 +198,39 @@ export default function WarehouseCarsRequestForm({
   }, [carData.region_id]);
 
   useEffect(() => {
+    if (carData?.state_id === undefined) {
+      return;
+    }
+
     axios
+      .get('/api/general/cities', {
+        params: {
+          state_id: carData.state_id,
+        },
+      })
+      .then((response) => {
+        setCities(response.data?.data || []);
+      });
+  }, [carData.state_id]);
+
+  useEffect(() => {
+    if (carData?.city_id === undefined) {
+      return;
+    }
+
+    axios
+      .get('/api/general/cityAuctionLocations', {
+        params: {
+          city_id: carData.city_id,
+        },
+      })
+      .then((response) => {
+        setAuctionLocations(response.data?.data || []);
+      });
+  }, [carData.city_id]);
+
+  useEffect(() => {
+    /* axios
       .get(`/api/cars/vehicleDetailApi/`, {
         params: {
           vin: carData.vin,
@@ -220,6 +241,7 @@ export default function WarehouseCarsRequestForm({
           const maker = String(response.data?.make);
           const type = String(response.data?.type);
           const year = response.data?.year;
+          const model = String(response.data?.model);
           const vehicleType = vehiclesType.find(
             (item) => item.name.toLowerCase() === type.toLowerCase()
           )?.id_vehicle_type;
@@ -228,13 +250,10 @@ export default function WarehouseCarsRequestForm({
             (item) => item.name.toLowerCase() === maker.toLowerCase()
           )?.id_car_make;
 
-          const model = String(response.data?.model);
-
           setCarData((prevState) => ({
             ...prevState,
             year,
             id_car_make: carMaker,
-            model_name: model,
           }));
           if (vehicleType) {
             setCarData((prevState) => ({
@@ -243,7 +262,7 @@ export default function WarehouseCarsRequestForm({
             }));
           }
         }
-      });
+      }); */
   }, [carData.vin]);
 
   const emptyCarData = () => {
@@ -258,11 +277,11 @@ export default function WarehouseCarsRequestForm({
   };
 
   const validateFormFields = async () => {
+    console.log('validateFormFields started');
     try {
       wizardStepIndex.current += 1;
       const validationSchema = getRequiredvalidationSchema();
       await validationSchema.validate(carData, { abortEarly: false });
-      console.log('form successfull');
       setFormErrors({});
       return true;
     } catch (validationErrors) {
@@ -309,7 +328,6 @@ export default function WarehouseCarsRequestForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (await validateFormFields()) {
-      console.log('form sent');
       setSubmitStarted(true);
 
       const formData = new FormData();
@@ -411,8 +429,6 @@ export default function WarehouseCarsRequestForm({
   }
 
   const handleFormNextStep = async (handleNext) => {
-    console.log('next clicked');
-
     if (await validateFormFields()) {
       handleNext();
     }
@@ -432,7 +448,7 @@ export default function WarehouseCarsRequestForm({
         document.documentElement.style.overflow = 'auto';
       }}
     >
-      <div className="absolute top-1/2 left-1/2 inline-block max-h-[100vh] w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5">
+      <div className="absolute top-1/2 left-1/2 inline-block max-h-[98vh] w-4/5 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5">
         <div className="flex justify-between">
           <Dialog.Title as="h3" className="text-3xl leading-6">
             {intl.formatMessage({ id: 'page.modal.title.new_car' })}{' '}
@@ -452,12 +468,11 @@ export default function WarehouseCarsRequestForm({
           onSubmit={handleSubmit}
           encType="multipart/form-data"
           method="post"
-          className="max-h-[95vh] overflow-y-auto px-2"
+          className="max-h-[90vh] overflow-y-auto px-2"
         >
           <FormWizard
             shape="square"
             color="#0093ff"
-            startIndex={1}
             onComplete={handleSubmit}
             backButtonTemplate={(handlePrev: () => void) => {
               return (
@@ -652,12 +667,12 @@ export default function WarehouseCarsRequestForm({
                       <input
                         className="w-full rounded-md border px-1 text-lg text-gray-700"
                         type="date"
-                        name="purchaase_date"
+                        name="purchase_date"
                         required
                         onChange={handleChange}
-                        defaultValue={carData.purchaase_date}
+                        defaultValue={carData.purchase_date}
                       />
-                      {getValidationMessage('purchaase_date')}
+                      {getValidationMessage('purchase_date')}
                     </div>
                     <div className="w-2/5">
                       <label className="text-teal-blue block text-lg rtl:text-right">
@@ -818,39 +833,6 @@ export default function WarehouseCarsRequestForm({
                 <div className="my-4 gap-2 sm:flex">
                   <div className="w-full">
                     <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.delivered_date" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="date"
-                      name="delivered_date"
-                      required
-                      onChange={handleChange}
-                      defaultValue={carData.delivered_date}
-                    />
-                    {getValidationMessage('delivered_date')}
-                  </div>
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.towing_price" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="number"
-                      step={0.01}
-                      name="towing_price"
-                      required
-                      onChange={handleChange}
-                      defaultValue={carData.towing_price}
-                    />
-                    {getValidationMessage('towing_price')}
-                  </div>
-                </div>
-                <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.sale_price" /> $
                       <span className="mx-1 text-lg text-red-500">*</span>
                     </label>
@@ -965,6 +947,111 @@ export default function WarehouseCarsRequestForm({
                       }))}
                     />
                     {getValidationMessage('state_id')}
+                  </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.city" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="city_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange('city_id', newOption?.value);
+                      }}
+                      defaultValue={
+                        carData?.city_id
+                          ? {
+                              value: carData.city_id,
+                              label: regions.find(
+                                (item) => item.city_id === carData.city_id
+                              )?.city_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={cities.map((item) => ({
+                        value: item.city_id,
+                        label: item.city_name,
+                      }))}
+                    />
+                    {getValidationMessage('city_id')}
+                  </div>
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.auction_location" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="auction_location_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange(
+                          'auction_location_id',
+                          newOption?.value
+                        );
+                      }}
+                      value={
+                        carData?.auction_location_id
+                          ? {
+                              value: carData.auction_location_id,
+                              label: auctionLocations.find(
+                                (item) =>
+                                  item.auction_location_id ===
+                                  carData.auction_location_id
+                              )?.auction_location_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={auctionLocations.map((item) => ({
+                        value: item?.auction_location_id,
+                        label: item.auction_location_name,
+                      }))}
+                    />
+                    {getValidationMessage('auction_location_id')}
+                  </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.address" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <input
+                      className="w-full rounded-md border px-1 text-lg text-gray-700"
+                      type="text"
+                      name="region_address"
+                      required
+                      onChange={handleChange}
+                      defaultValue={carData.region_address}
+                      maxLength={250}
+                    />
+                    {getValidationMessage('region_address')}
+                  </div>
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.focal_person_phone" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <input
+                      className="w-full rounded-md border px-1 text-lg text-gray-700"
+                      type="text"
+                      name="focal_person_phone"
+                      required
+                      onChange={handleChange}
+                      defaultValue={carData.focal_person_phone}
+                      maxLength={20}
+                    />
+                    {getValidationMessage('focal_person_phone')}
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">

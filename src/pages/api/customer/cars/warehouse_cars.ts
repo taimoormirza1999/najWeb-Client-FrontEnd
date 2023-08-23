@@ -70,6 +70,7 @@ export default async function handler(req, res) {
           return;
         }
 
+        const { external_car } = fields;
         const formData = {
           fields,
         };
@@ -86,9 +87,13 @@ export default async function handler(req, res) {
           const fileStream = fs.createReadStream(file.filepath);
           const fileExt = file?.originalFilename.split('.').pop();
           const destinationFileName = `${fields.lotnumber}-${file.newFilename}.${fileExt}`;
+          const s3FileKey =
+            external_car === '1'
+              ? 'uploads/towing_cars'
+              : 'uploads/warehouse_cars';
           const params = {
             Bucket: s3BucketName,
-            Key: `uploads/warehouse_cars/${s3SubKey}/${destinationFileName}`,
+            Key: `${s3FileKey}/${s3SubKey}/${destinationFileName}`,
             Body: fileStream,
             ContentType: file.mimetype,
           };

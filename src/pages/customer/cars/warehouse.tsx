@@ -82,8 +82,8 @@ export default function WarehouseTowingCars({
   carsColor,
   ports,
 }) {
-  const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}`;
-  const limitUrl = `/customer/warehouse/cars?page=0`;
+  const paginationUrl = `/customer/cars/warehouse?search=${search}&limit=${limit}`;
+  const limitUrl = `/customer/cars/warehouse?page=0`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
   const { profile } = useContext(UserContext);
 

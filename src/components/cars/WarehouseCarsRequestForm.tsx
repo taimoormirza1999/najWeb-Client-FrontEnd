@@ -185,7 +185,7 @@ export default function WarehouseCarsRequestForm({
       .then((response) => {
         setCarsModel(response.data?.data || []);
       });
-  }, [carData.id_car_make, carData.model_name]);
+  }, [carData.id_car_make]);
 
   useEffect(() => {
     axios
@@ -207,13 +207,10 @@ export default function WarehouseCarsRequestForm({
             (item) => item.name.toLowerCase() === maker.toLowerCase()
           )?.id_car_make;
 
-          const model = String(response.data?.model);
-
           setCarData((prevState) => ({
             ...prevState,
             year,
             id_car_make: carMaker,
-            model_name: model,
           }));
           if (vehicleType) {
             setCarData((prevState) => ({
@@ -411,7 +408,7 @@ export default function WarehouseCarsRequestForm({
         document.documentElement.style.overflow = 'auto';
       }}
     >
-      <div className="absolute top-1/2 left-1/2 inline-block max-h-[100vh] w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5">
+      <div className="absolute top-1/2 left-1/2 inline-block max-h-[98vh] w-4/5 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-lg transition-all sm:p-6 sm:align-middle lg:w-3/5">
         <div className="flex justify-between">
           <Dialog.Title as="h3" className="text-3xl leading-6">
             {intl.formatMessage({ id: 'page.modal.title.new_car' })}{' '}
