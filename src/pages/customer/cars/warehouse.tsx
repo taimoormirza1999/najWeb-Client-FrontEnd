@@ -9,7 +9,7 @@ import {
 import axios from 'axios';
 import Link from 'next/link';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import WarehouseCarsRequestForm from '@/components/cars/WarehouseCarsRequestForm';
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
@@ -73,7 +73,7 @@ const carTableHeader = [
   },
 ];
 
-export default function WarehouseTowingCars({
+export default function WarehouseCars({
   page = 0,
   limit,
   search = '',
@@ -86,6 +86,7 @@ export default function WarehouseTowingCars({
   const limitUrl = `/customer/cars/warehouse?page=0`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
   const { profile } = useContext(UserContext);
+  const intl = useIntl();
 
   const [tableRecords, setTableRecords] = useState(0);
   const [warehouseCars, setWarehouseCars] = useState<any[]>([]);
@@ -253,8 +254,8 @@ export default function WarehouseTowingCars({
     <Layout
       meta={
         <Meta
-          title="Warehouse Towing Cars"
-          description="Warehouse Towing Cars"
+          title={intl.formatMessage({ id: 'page.title.warehouse_cars' })}
+          description={intl.formatMessage({ id: 'page.desc.warehouse_cars' })}
         />
       }
     >

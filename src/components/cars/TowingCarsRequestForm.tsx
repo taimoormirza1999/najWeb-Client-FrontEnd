@@ -13,7 +13,7 @@ import { ValidationError } from 'yup';
 import { classNames, sentenceCase } from '@/utils/Functions';
 
 import CustomModal from '../customModal';
-import { AccountCircleIcon, CarIcon, SpinnerIcon } from '../themeIcons';
+import { CarIcon, SpinnerIcon } from '../themeIcons';
 import { UserContext } from '../userContext';
 
 const ReactSelectStyle = (baseStyles, state) => ({
@@ -26,7 +26,6 @@ export default function TowingCarsRequestForm({
   vehiclesType,
   carsMaker,
   carsColor,
-  carsDriver,
   ports,
   regions,
   setCarData,
@@ -36,7 +35,7 @@ export default function TowingCarsRequestForm({
   setFormSubmitModal,
 }) {
   const intl = useIntl();
-  const [carAlreadyExist, setCarAlreadyExist] = useState(false);
+  const [, setCarAlreadyExist] = useState(false);
   const [invoiceFile, setInvoiceFile] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
   const closeModalRef = useRef(null);
@@ -48,8 +47,6 @@ export default function TowingCarsRequestForm({
   const wizardStepIndex = useRef(0);
 
   const now = new Date().getUTCFullYear() + 1;
-  const allowWarehouseCarsRequests =
-    profile?.allowWarehouseCarsRequests || false;
   const [carsModel, setCarsModel] = useState([
     {
       id_car_model: '',
@@ -57,11 +54,15 @@ export default function TowingCarsRequestForm({
       driver_name: '',
     },
   ]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [auctionLocations, setAuctionLocations] = useState([]);
-  const [showPanel, setShowPanel] = useState(false);
-  const [foundDrivers, setFoundDrivers] = useState(carsDriver);
+  const [states, setStates] = useState<{ [key: string]: string | number }[]>(
+    []
+  );
+  const [cities, setCities] = useState<{ [key: string]: string | number }[]>(
+    []
+  );
+  const [auctionLocations, setAuctionLocations] = useState<
+    { [key: string]: string | number }[]
+  >([]);
 
   const getRequiredvalidationSchema = () => {
     const requiredValidation: {
@@ -133,7 +134,7 @@ export default function TowingCarsRequestForm({
   useEffect(() => {
     let source = axios.CancelToken.source();
 
-    if (carData.lotnumber === '' && carData.vin === '') {
+    if (!carData.lotnumber && !carData.vin) {
       return;
     }
     setCarAlreadyExist(false);
@@ -230,7 +231,11 @@ export default function TowingCarsRequestForm({
   }, [carData.city_id]);
 
   useEffect(() => {
-    /* axios
+    if (1 === 1) {
+      return true;
+    }
+
+    axios
       .get(`/api/cars/vehicleDetailApi/`, {
         params: {
           vin: carData.vin,
@@ -241,7 +246,6 @@ export default function TowingCarsRequestForm({
           const maker = String(response.data?.make);
           const type = String(response.data?.type);
           const year = response.data?.year;
-          const model = String(response.data?.model);
           const vehicleType = vehiclesType.find(
             (item) => item.name.toLowerCase() === type.toLowerCase()
           )?.id_vehicle_type;
@@ -262,7 +266,7 @@ export default function TowingCarsRequestForm({
             }));
           }
         }
-      }); */
+      });
   }, [carData.vin]);
 
   const emptyCarData = () => {
@@ -277,7 +281,6 @@ export default function TowingCarsRequestForm({
   };
 
   const validateFormFields = async () => {
-    console.log('validateFormFields started');
     try {
       wizardStepIndex.current += 1;
       const validationSchema = getRequiredvalidationSchema();
@@ -327,6 +330,8 @@ export default function TowingCarsRequestForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log('handleSubmit started');
     if (await validateFormFields()) {
       setSubmitStarted(true);
 
@@ -342,91 +347,41 @@ export default function TowingCarsRequestForm({
         formData.append('photoFile', photoFile);
       }
 
-      fetch('/api/customer/cars/warehouse_cars/', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then(() => {
-          getWarehouseCars();
+      console.log('sending post request');
 
-          emptyCarData();
-          setNewCarModalOpen(false);
-          setFormSubmitModal({
-            status: true,
-            type: 'success',
-            message: 'Saved successfully.',
-          });
+      try {
+        fetch('/api/customer/cars/warehouse_cars/', {
+          method: 'POST',
+          body: formData,
         })
-        .catch(() => {
-          setFormSubmitModal({
-            status: true,
-            type: 'error',
-            message: `Unable to save. Something went wrong.`,
+          .then((res) => res.json())
+          .then(() => {
+            getWarehouseCars();
+
+            emptyCarData();
+            setNewCarModalOpen(false);
+            setFormSubmitModal({
+              status: true,
+              type: 'success',
+              message: 'Saved successfully.',
+            });
+          })
+          .catch(() => {
+            setFormSubmitModal({
+              status: true,
+              type: 'error',
+              message: `Unable to save. Something went wrong.`,
+            });
+          })
+          .finally(() => {
+            setSubmitStarted(false);
+            document.documentElement.style.overflow = 'auto';
           });
-        })
-        .finally(() => {
-          setSubmitStarted(false);
-          document.documentElement.style.overflow = 'auto';
-        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-
-  const filter = (e) => {
-    const keyword = e.target.value;
-
-    if (keyword !== '' && keyword.length > 0) {
-      setShowPanel(true);
-      const results = carsDriver.filter((user) => {
-        return user.driver_name.toLowerCase().startsWith(keyword.toLowerCase());
-      });
-      setFoundDrivers(results);
-    } else {
-      setFoundDrivers(carsDriver);
-      setShowPanel(false);
-    }
-
-    setCarData((prevState) => ({ ...prevState, driver_name: keyword }));
-  };
-
-  const searchClick = (id) => {
-    const driver = carsDriver.find((item) => item.id === id);
-
-    if (driver) {
-      setCarData((prevState) => ({
-        ...prevState,
-        driver_name: driver.driver_name,
-        driver_number: driver.driver_number,
-        driver_email: driver.driver_email,
-        driver_zip_code: driver.driver_zip_code,
-        driver_tin: driver.driver_tin,
-        account_number: driver.account_number,
-        routing_number: driver.routing_number,
-        reference_number: driver.reference_number,
-        driver_address: driver.driver_address,
-      }));
-    }
-    setShowPanel(false);
-  };
-
-  let driverinput;
-  if (showPanel && foundDrivers && foundDrivers.length > 0) {
-    driverinput = foundDrivers.map((item, i) => (
-      <li
-        key={i}
-        onClick={() => {
-          searchClick(item.id);
-        }}
-        className="cursor-pointer p-2 hover:bg-slate-300"
-      >
-        <span className="ml-2">{item.driver_name}</span>
-      </li>
-    ));
-  } else if (!showPanel) {
-    driverinput = null;
-  } else {
-    driverinput = <p className="p-2 text-red-500">No results found!</p>;
-  }
 
   const handleFormNextStep = async (handleNext) => {
     if (await validateFormFields()) {
@@ -473,7 +428,6 @@ export default function TowingCarsRequestForm({
           <FormWizard
             shape="square"
             color="#0093ff"
-            onComplete={handleSubmit}
             backButtonTemplate={(handlePrev: () => void) => {
               return (
                 <button
@@ -966,7 +920,7 @@ export default function TowingCarsRequestForm({
                         carData?.city_id
                           ? {
                               value: carData.city_id,
-                              label: regions.find(
+                              label: cities.find(
                                 (item) => item.city_id === carData.city_id
                               )?.city_name,
                             }
@@ -1110,164 +1064,6 @@ export default function TowingCarsRequestForm({
                 </div>
               </div>
             </FormWizard.TabContent>
-            {allowWarehouseCarsRequests && (
-              <FormWizard.TabContent
-                title={intl.formatMessage({ id: 'car.driver_detail' })}
-                icon={<AccountCircleIcon className="h-8 w-8" />}
-              >
-                <div className="text-left">
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="relative w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_name" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        value={carData.driver_name}
-                        onChange={filter}
-                        placeholder={intl.formatMessage({
-                          id: 'form.placeholder.filter_drivers',
-                        })}
-                      />
-                      <div className="absolute w-full list-none rounded-md bg-slate-200">
-                        {driverinput}
-                      </div>
-                      {getValidationMessage('driver_name')}
-                    </div>
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_number}
-                      />
-                      {getValidationMessage('driver_number')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-1/2">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_email" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="email"
-                        name="driver_email"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_email}
-                      />
-                      {getValidationMessage('driver_email')}
-                    </div>
-                    <div className="w-1/2">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.zip_code" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_zip_code"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_zip_code}
-                      />
-                      {getValidationMessage('driver_zip_code')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_tin" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_tin"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_tin}
-                      />
-                      {getValidationMessage('driver_tin')}
-                    </div>
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.account_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="account_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.account_number}
-                      />
-                      {getValidationMessage('account_number')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.routing_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="routing_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.routing_number}
-                      />
-                      {getValidationMessage('routing_number')}
-                    </div>
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.reference_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="reference_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.reference_number}
-                      />
-                      {getValidationMessage('reference_number')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_address" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_address"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_address}
-                      />
-                      {getValidationMessage('driver_address')}
-                    </div>
-                  </div>
-                </div>
-              </FormWizard.TabContent>
-            )}
           </FormWizard>
         </form>
         <style>{`

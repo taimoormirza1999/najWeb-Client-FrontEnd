@@ -139,7 +139,7 @@ export default function WarehouseCarsRequestForm({
   useEffect(() => {
     let source = axios.CancelToken.source();
 
-    if (carData.lotnumber === '' && carData.vin === '') {
+    if (!carData.lotnumber && !carData.vin) {
       return;
     }
     setCarAlreadyExist(false);

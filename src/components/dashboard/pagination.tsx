@@ -188,7 +188,11 @@ const SelectPageRecords = ({ url }) => {
   };
 
   useEffect(() => {
-    if (!['/customer/warehouse/cars'].includes(router.pathname)) {
+    if (
+      !['/customer/cars/warehouse/', '/customer/cars/towing/'].includes(
+        router.pathname
+      )
+    ) {
       getRegions();
     }
   }, []);
@@ -226,7 +230,9 @@ const SelectPageRecords = ({ url }) => {
           &#xe8b6;
         </i>
       </div>
-      {!['/customer/warehouse/cars'].includes(router.pathname) ? (
+      {!['/customer/cars/warehouse', '/customer/cars/towing'].includes(
+        router.pathname
+      ) ? (
         <select
           name="region"
           title={intl.formatMessage({ id: 'general.region' })}

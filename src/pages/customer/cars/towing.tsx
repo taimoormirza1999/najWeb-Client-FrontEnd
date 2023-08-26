@@ -9,7 +9,7 @@ import {
 import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import TowingCarsRequestForm from '@/components/cars/TowingCarsRequestForm';
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
@@ -66,7 +66,7 @@ const carTableHeader = [
   },
 ];
 
-export default function WarehouseTowingCars({
+export default function TowingCars({
   page = 0,
   limit,
   search = '',
@@ -79,6 +79,7 @@ export default function WarehouseTowingCars({
   const paginationUrl = `/customer/cars/towing?search=${search}&limit=${limit}`;
   const limitUrl = `/customer/cars/towing?page=0`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
+  const intl = useIntl();
 
   const [tableRecords, setTableRecords] = useState(0);
   const [warehouseCars, setWarehouseCars] = useState<any[]>([]);
@@ -93,8 +94,6 @@ export default function WarehouseTowingCars({
     type: '',
     message: '',
   });
-
-  const [carsDriver, setCarsDriver] = useState<any[]>([]);
 
   const [carData, setCarData] = useState({
     id_vehicle_type: '1',
@@ -211,8 +210,8 @@ export default function WarehouseTowingCars({
     <Layout
       meta={
         <Meta
-          title="Warehouse Towing Cars"
-          description="Warehouse Towing Cars"
+          title={intl.formatMessage({ id: 'page.title.towing_cars' })}
+          description={intl.formatMessage({ id: 'page.desc.towing_cars' })}
         />
       }
     >
@@ -354,7 +353,6 @@ export default function WarehouseTowingCars({
         vehiclesType={vehiclesType}
         carsMaker={carsMaker}
         carsColor={carsColor}
-        carsDriver={carsDriver}
         ports={ports}
         regions={regions}
         setCarData={setCarData}
@@ -485,10 +483,10 @@ export default function WarehouseTowingCars({
                               <FormattedMessage id="form.towing_price" />: $
                               {car.towing_price} <br />
                             </TableColumn>
-                            <TableColumn className="w-[20px]">
+                            <TableColumn className="w-[50px]">
                               {car.region_detail}
                             </TableColumn>
-                            <TableColumn className="w-[50px]">
+                            <TableColumn className="w-[120px]">
                               {car.region_address}
                             </TableColumn>
                             <TableColumn className="w-[20px]">
