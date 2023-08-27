@@ -1,7 +1,6 @@
 import { Dialog } from '@headlessui/react';
 import {
   CheckCircleIcon,
-  CheckIcon,
   PencilIcon,
   TrashIcon,
   XCircleIcon,
@@ -47,7 +46,7 @@ const carTableHeader = [
     name: 'page.customer.dashboard.table.key',
   },
   {
-    name: 'page.customer.dashboard.table.price',
+    name: 'form.sale_price',
   },
   {
     name: 'form.region',
@@ -57,9 +56,6 @@ const carTableHeader = [
   },
   {
     name: 'form.destination',
-  },
-  {
-    name: 'page.customer.dashboard.table.approve_payment',
   },
   {
     name: 'page.customer.dashboard.table.action',
@@ -96,8 +92,10 @@ export default function TowingCars({
   });
 
   const [carData, setCarData] = useState({
+    external_car: '1',
     id_vehicle_type: '1',
     destination: '6',
+    customer_approved: '1', // auto approved for these cars
   });
   const [tableHeight, setTableHeight] = useState(500);
 
@@ -402,7 +400,7 @@ export default function TowingCars({
                             <TableColumn className="w-[2px]">
                               {addIndex + index + 1}
                             </TableColumn>
-                            <TableColumn className="">
+                            <TableColumn className="w-[50px]">
                               {car.car_photo_file !== '' ? (
                                 <>
                                   <SingleImagesViewer
@@ -478,12 +476,9 @@ export default function TowingCars({
                               )}
                             </TableColumn>
                             <TableColumn className="min-w-[35px]">
-                              <FormattedMessage id="form.sale_price" />: $
-                              {car.sale_price} <br />
-                              <FormattedMessage id="form.towing_price" />: $
-                              {car.towing_price} <br />
+                              ${car.sale_price}
                             </TableColumn>
-                            <TableColumn className="w-[50px]">
+                            <TableColumn className="w-[80px]">
                               {car.region_detail}
                             </TableColumn>
                             <TableColumn className="w-[120px]">
@@ -492,41 +487,9 @@ export default function TowingCars({
                             <TableColumn className="w-[20px]">
                               {car.destination_name}
                             </TableColumn>
-                            <TableColumn className="min-w-[100px]">
-                              {car.customer_approved === '1' ? (
-                                <div>
-                                  {' '}
-                                  Approved on <br />{' '}
-                                  {car.customer_approved_date}
-                                </div>
-                              ) : null}
-
-                              {car.customer_approved === '0' &&
-                              car.car_id > '0' ? (
-                                <button
-                                  className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
-                                  onClick={() => {
-                                    setIdApprove(car.id);
-                                    setApproveCarModalOpen(true);
-                                  }}
-                                >
-                                  <CheckIcon className="text-azure-blue h-3 w-3" />
-                                  <FormattedMessage id="page.customer.dashboard.action.approve" />
-                                </button>
-                              ) : null}
-
-                              {car.customer_approved === '0' &&
-                              car.car_id === '0' ? (
-                                <div className="text-dark-blue font-bold">
-                                  Pending <br />
-                                  From NAJ
-                                </div>
-                              ) : null}
-                            </TableColumn>
                             <TableColumn className="min-w-[47px]">
                               <div className="flex flex-col gap-2">
-                                {car.customer_approved === '0' &&
-                                car.car_id === '0' ? (
+                                {car.car_id === '0' ? (
                                   <>
                                     <button
                                       type="button"
@@ -541,8 +504,7 @@ export default function TowingCars({
                                   </>
                                 ) : null}
 
-                                {car.customer_approved === '0' &&
-                                car.car_id === '0' ? (
+                                {car.car_id === '0' ? (
                                   <button
                                     type="button"
                                     className="inline-block max-w-max rounded-md border-2 border-red-500 px-2 py-1 text-sm  text-red-700"

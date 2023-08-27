@@ -35,7 +35,7 @@ export default function TowingCarsRequestForm({
   setFormSubmitModal,
 }) {
   const intl = useIntl();
-  const [, setCarAlreadyExist] = useState(false);
+  const [carAlreadyExist, setCarAlreadyExist] = useState(false);
   const [invoiceFile, setInvoiceFile] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
   const closeModalRef = useRef(null);
@@ -138,9 +138,9 @@ export default function TowingCarsRequestForm({
       return;
     }
     setCarAlreadyExist(false);
+    setFormErrors((prev) => ({ ...prev, vin: '' }));
 
     if (source) {
-      // Cancel previous request (if any)
       source.cancel('Request cancelled due to new input');
     }
 
@@ -157,11 +157,10 @@ export default function TowingCarsRequestForm({
       .then((response) => {
         if (response.data?.carExist) {
           setCarAlreadyExist(true);
-          setFormSubmitModal({
-            status: true,
-            type: 'error',
-            message: 'Car information already exist!',
-          });
+          setFormErrors((prev) => ({
+            ...prev,
+            vin: intl.formatMessage({ id: 'form.car.exist' }),
+          }));
         }
       });
   }, [carData.lotnumber, carData.vin]);
@@ -231,10 +230,6 @@ export default function TowingCarsRequestForm({
   }, [carData.city_id]);
 
   useEffect(() => {
-    if (1 === 1) {
-      return true;
-    }
-
     axios
       .get(`/api/cars/vehicleDetailApi/`, {
         params: {
@@ -272,8 +267,10 @@ export default function TowingCarsRequestForm({
   const emptyCarData = () => {
     setCarData({
       id: '',
+      external_car: '1',
       id_vehicle_type: '1',
       destination: '6',
+      customer_approved: '1', // auto approved for these cars
     });
     setFormErrors({});
     setSubmitStarted(false);
@@ -303,27 +300,35 @@ export default function TowingCarsRequestForm({
     const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/jpg'];
     if (!allowedTypes.includes(file?.type)) {
       e.target.value = null;
-      setFormSubmitModal({
-        status: true,
-        type: 'error',
-        message: `Only image files are allowed.`,
-      });
+
+      setFormErrors((prev) => ({
+        ...prev,
+        car_photo: intl.formatMessage({ id: 'form.validaton.only_image' }),
+      }));
     } else {
+      setFormErrors((prev) => ({
+        ...prev,
+        car_photo: '',
+      }));
       setPhotoFile(e.target.files[0]);
     }
   };
+
 
   const handleInvoiceFileChange = (e) => {
     const file = e.target.files[0];
     const allowedTypes = ['application/pdf'];
     if (!allowedTypes.includes(file?.type)) {
       e.target.value = null;
-      setFormSubmitModal({
-        status: true,
-        type: 'error',
-        message: `Only pdf files are allowed.`,
-      });
+      setFormErrors((prev) => ({
+        ...prev,
+        invoice: intl.formatMessage({ id: 'form.validaton.only_pdf' }),
+      }));
     } else {
+      setFormErrors((prev) => ({
+        ...prev,
+        invoice: '',
+      }));
       setInvoiceFile(e.target.files[0]);
     }
   };
@@ -331,7 +336,6 @@ export default function TowingCarsRequestForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('handleSubmit started');
     if (await validateFormFields()) {
       setSubmitStarted(true);
 
@@ -346,13 +350,24 @@ export default function TowingCarsRequestForm({
       if (photoFile) {
         formData.append('photoFile', photoFile);
       }
+      if (photoFile) {
+        formData.append('photoFile', photoFile);
+      }
 
-      console.log('sending post request');
+      const headers = {
+        Accept: '*/*',
+        'Accept-Language': 'en-GB,en;q=0.9',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+      };
 
       try {
         fetch('/api/customer/cars/warehouse_cars/', {
           method: 'POST',
           body: formData,
+          cache: 'no-cache',
+          headers,
         })
           .then((res) => res.json())
           .then(() => {
@@ -444,6 +459,7 @@ export default function TowingCarsRequestForm({
               <button
                 className="bg-azure-blue float-right my-4 max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500 rtl:float-left"
                 type="button"
+                disabled={carAlreadyExist}
                 onClick={() => handleFormNextStep(handleNext)}
               >
                 {intl.formatMessage({ id: 'general.next' })}
@@ -1061,7 +1077,7 @@ export default function TowingCarsRequestForm({
                     />
                     {getValidationMessage('invoice')}
                   </div>
-                </div>
+                </div>                
               </div>
             </FormWizard.TabContent>
           </FormWizard>

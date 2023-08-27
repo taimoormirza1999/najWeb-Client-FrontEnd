@@ -81,6 +81,7 @@ export default function WarehouseCars({
   carsMaker,
   carsColor,
   ports,
+  regions,
 }) {
   const paginationUrl = `/customer/cars/warehouse?search=${search}&limit=${limit}`;
   const limitUrl = `/customer/cars/warehouse?page=0`;
@@ -108,6 +109,7 @@ export default function WarehouseCars({
   const [carsDriver, setCarsDriver] = useState<any[]>([]);
 
   const [carData, setCarData] = useState({
+    external_car: '2',
     id_vehicle_type: '1',
     destination: '6',
   });
@@ -399,6 +401,7 @@ export default function WarehouseCars({
         carsColor={carsColor}
         carsDriver={carsDriver}
         ports={ports}
+        regions={regions}
         setCarData={setCarData}
         newCarModalOpen={newCarModalOpen}
         setNewCarModalOpen={setNewCarModalOpen}
@@ -441,6 +444,7 @@ export default function WarehouseCars({
                             'form.driver_email',
                             'form.driver_address',
                             'form.account_number',
+                            'page.customer.dashboard.table.approve_payment',
                           ].includes(item.name)
                         );
                       })}
@@ -458,7 +462,7 @@ export default function WarehouseCars({
                             <TableColumn className="w-[2px]">
                               {addIndex + index + 1}
                             </TableColumn>
-                            <TableColumn className="">
+                            <TableColumn className="w-[50px]">
                               {car.car_photo_file !== '' ? (
                                 <>
                                   <SingleImagesViewer
@@ -540,74 +544,73 @@ export default function WarehouseCars({
                               {car.delivered_date}
                             </TableColumn>
                             {allowWarehouseCarsRequests && (
-                              <TableColumn className="min-w-[47px]">
-                                <FormattedMessage id="form.driver_name" />:{' '}
-                                {car.driver_name} <br />
-                                <FormattedMessage id="form.driver_number" />:{' '}
-                                {car.driver_number} <br />
-                                <FormattedMessage id="form.driver_tin" />:{' '}
-                                {car.driver_tin}
-                              </TableColumn>
-                            )}
-                            {allowWarehouseCarsRequests && (
-                              <TableColumn className="min-w-[50px]">
-                                {car.driver_email}
-                              </TableColumn>
-                            )}
-                            {allowWarehouseCarsRequests && (
-                              <TableColumn className="min-w-[75px]">
-                                <FormattedMessage id="form.zip_code" />:{' '}
-                                {car.driver_zip_code} <br />
-                                {car.driver_address}
-                              </TableColumn>
-                            )}
-                            {allowWarehouseCarsRequests && (
-                              <TableColumn className="min-w-[200px]">
-                                <FormattedMessage id="form.account_number" />:{' '}
-                                {car.account_number} <br />
-                                <FormattedMessage id="form.routing_number" />:{' '}
-                                {car.routing_number} <br />
-                                <FormattedMessage id="form.reference_number" />:{' '}
-                                {car.reference_number}
-                              </TableColumn>
+                              <>
+                                <TableColumn className="min-w-[47px]">
+                                  <FormattedMessage id="form.driver_name" />:{' '}
+                                  {car.driver_name} <br />
+                                  <FormattedMessage id="form.driver_number" />:{' '}
+                                  {car.driver_number} <br />
+                                  <FormattedMessage id="form.driver_tin" />:{' '}
+                                  {car.driver_tin}
+                                </TableColumn>
+                                <TableColumn className="min-w-[50px]">
+                                  {car.driver_email}
+                                </TableColumn>
+                                <TableColumn className="min-w-[75px]">
+                                  <FormattedMessage id="form.zip_code" />:{' '}
+                                  {car.driver_zip_code} <br />
+                                  {car.driver_address}
+                                </TableColumn>
+                                <TableColumn className="min-w-[200px]">
+                                  <FormattedMessage id="form.account_number" />:{' '}
+                                  {car.account_number} <br />
+                                  <FormattedMessage id="form.routing_number" />:{' '}
+                                  {car.routing_number} <br />
+                                  <FormattedMessage id="form.reference_number" />
+                                  : {car.reference_number}
+                                </TableColumn>
+                              </>
                             )}
                             <TableColumn className="w-[20px]">
                               {car.destination_name}
                             </TableColumn>
-                            <TableColumn className="min-w-[50px]">
-                              {car.customer_approved === '1' ? (
-                                <div>
-                                  {' '}
-                                  Approved on <br />{' '}
-                                  {car.customer_approved_date}
-                                </div>
-                              ) : null}
+                            {allowWarehouseCarsRequests && (
+                              <TableColumn className="min-w-[50px]">
+                                {car.customer_approved === '1' ? (
+                                  <div>
+                                    {' '}
+                                    Approved on <br />{' '}
+                                    {car.customer_approved_date}
+                                  </div>
+                                ) : null}
 
-                              {car.customer_approved === '0' &&
-                              car.car_id > '0' ? (
-                                <button
-                                  className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
-                                  onClick={() => {
-                                    setIdApprove(car.id);
-                                    setApproveCarModalOpen(true);
-                                  }}
-                                >
-                                  <CheckIcon className="text-azure-blue h-3 w-3" />
-                                  <FormattedMessage id="page.customer.dashboard.action.approve" />
-                                </button>
-                              ) : null}
+                                {car.customer_approved === '0' &&
+                                car.car_id > '0' ? (
+                                  <button
+                                    className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
+                                    onClick={() => {
+                                      setIdApprove(car.id);
+                                      setApproveCarModalOpen(true);
+                                    }}
+                                  >
+                                    <CheckIcon className="text-azure-blue h-3 w-3" />
+                                    <FormattedMessage id="page.customer.dashboard.action.approve" />
+                                  </button>
+                                ) : null}
 
-                              {car.customer_approved === '0' &&
-                              car.car_id === '0' ? (
-                                <div className="text-dark-blue font-bold">
-                                  Pending <br />
-                                  From NAJ
-                                </div>
-                              ) : null}
-                            </TableColumn>
+                                {car.customer_approved === '0' &&
+                                car.car_id === '0' ? (
+                                  <div className="text-dark-blue font-bold">
+                                    Pending <br />
+                                    From NAJ
+                                  </div>
+                                ) : null}
+                              </TableColumn>
+                            )}
                             <TableColumn className="min-w-[47px]">
                               <div className="flex flex-col gap-2">
-                                {car.customer_approved === '0' &&
+                                {(car.customer_approved === '0' ||
+                                  !allowWarehouseCarsRequests) &&
                                 car.car_id === '0' ? (
                                   <>
                                     <button
@@ -623,7 +626,8 @@ export default function WarehouseCars({
                                   </>
                                 ) : null}
 
-                                {car.customer_approved === '0' &&
+                                {(car.customer_approved === '0' ||
+                                  !allowWarehouseCarsRequests) &&
                                 car.car_id === '0' ? (
                                   <button
                                     type="button"
@@ -690,6 +694,9 @@ export async function getServerSideProps(context) {
   );
   const ports = resPort.data ? resPort.data.data : [];
 
+  const resRegions = await axios.get(`${apiUrl}general/getAuctionsRegions/`);
+  const regions = resRegions.data ? resRegions.data.data : [];
+
   return {
     props: {
       page,
@@ -699,6 +706,7 @@ export async function getServerSideProps(context) {
       carsMaker,
       carsColor,
       ports,
+      regions,
     },
   };
 }

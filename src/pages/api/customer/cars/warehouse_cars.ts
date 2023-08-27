@@ -8,6 +8,11 @@ const s3BucketName = process.env.BUCKET_NAME;
 export default async function handler(req, res) {
   const { method } = req;
   const apiUrl = process.env.API_URL;
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
+
+  process.on('unhandledRejection', (error) => {
+    console.error('Unhandled Promise Rejection:', error);
+  });
 
   /* const fileStream = fs.createReadStream(
     'C:\\Users\\Wajid\\Desktop\\1200px-Copart_logo.png'
@@ -75,15 +80,13 @@ export default async function handler(req, res) {
       ? res.status(200).json(response.data)
       : res.status(500).json([]);
   }
+
   if (method === 'POST') {
     try {
-
-      console.log('POST started');
       const formData = await new Promise((resolve, reject) => {
         const form = new formidable.IncomingForm();
         form.parse(req, (err, fields, files) => {
           if (err) reject(err);
-          console.log('files', files);
           resolve({ fields, files });
         });
       });
@@ -134,10 +137,10 @@ export default async function handler(req, res) {
         formData
       );
 
-      res.status(200).json(response.data);
+      return res.status(200).json(response.data);
     } catch (error) {
       console.error('Error from catch', error);
-      res
+      return res
         .status(500)
         .json({ error: `Error sending form data to API, ${error}` });
     }

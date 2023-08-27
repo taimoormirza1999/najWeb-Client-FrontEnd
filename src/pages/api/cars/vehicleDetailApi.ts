@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   if (method === 'GET') {
     const { vin } = req.query;
     let vehicleData = {};
-    if (vin) {
+    if (vin && vinApiUrl !== undefined) {
       const response = await axios.get(`${vinApiUrl}${vin}?${vinApiKey}`);
       const year = response.data.years[0].year ?? '';
       const type = response.data.categories.vehicleType ?? '';

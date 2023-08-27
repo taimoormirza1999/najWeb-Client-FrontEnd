@@ -28,6 +28,7 @@ export default function WarehouseCarsRequestForm({
   carsColor,
   carsDriver,
   ports,
+  regions,
   setCarData,
   newCarModalOpen,
   setNewCarModalOpen,
@@ -75,8 +76,6 @@ export default function WarehouseCarsRequestForm({
       'car_key',
     ];
 
-    console.log({ allowWarehouseCarsRequests, step: wizardStepIndex.current });
-
     if (wizardStepIndex.current === 2) {
       requiredFields = [
         'delivered_date',
@@ -84,6 +83,10 @@ export default function WarehouseCarsRequestForm({
         'sale_price',
         'destination',
       ];
+
+      if (!allowWarehouseCarsRequests) {
+        requiredFields.push('region_id');
+      }
 
       // disabled temporariy, Yup validation is not working for these fields
       /* requiredValidation.car_photo = Yup.mixed().required(
@@ -143,9 +146,9 @@ export default function WarehouseCarsRequestForm({
       return;
     }
     setCarAlreadyExist(false);
+    setFormErrors((prev) => ({ ...prev, vin: '' }));
 
     if (source) {
-      // Cancel previous request (if any)
       source.cancel('Request cancelled due to new input');
     }
 
@@ -162,11 +165,10 @@ export default function WarehouseCarsRequestForm({
       .then((response) => {
         if (response.data?.carExist) {
           setCarAlreadyExist(true);
-          setFormSubmitModal({
-            status: true,
-            type: 'error',
-            message: 'Car information already exist!',
-          });
+          setFormErrors((prev) => ({
+            ...prev,
+            vin: intl.formatMessage({ id: 'form.car.exist' }),
+          }));
         }
       });
   }, [carData.lotnumber, carData.vin]);
@@ -207,17 +209,21 @@ export default function WarehouseCarsRequestForm({
             (item) => item.name.toLowerCase() === maker.toLowerCase()
           )?.id_car_make;
 
+          const apiFieldsToUpdate: { [key: string]: string } = {};
+          if (carMaker) {
+            apiFieldsToUpdate.id_car_make = carMaker;
+          }
+          if (year) {
+            apiFieldsToUpdate.year = year;
+          }
+          if (vehicleType) {
+            apiFieldsToUpdate.id_vehicle_type = vehicleType;
+          }
+
           setCarData((prevState) => ({
             ...prevState,
-            year,
-            id_car_make: carMaker,
+            ...apiFieldsToUpdate,
           }));
-          if (vehicleType) {
-            setCarData((prevState) => ({
-              ...prevState,
-              id_vehicle_type: vehicleType,
-            }));
-          }
         }
       });
   }, [carData.vin]);
@@ -225,8 +231,10 @@ export default function WarehouseCarsRequestForm({
   const emptyCarData = () => {
     setCarData({
       id: '',
+      external_car: '2',
       id_vehicle_type: '1',
       destination: '6',
+      customer_approved: !allowWarehouseCarsRequests ? 1 : 0, // auto approved for other customers
     });
     setFormErrors({});
     setSubmitStarted(false);
@@ -238,7 +246,6 @@ export default function WarehouseCarsRequestForm({
       wizardStepIndex.current += 1;
       const validationSchema = getRequiredvalidationSchema();
       await validationSchema.validate(carData, { abortEarly: false });
-      console.log('form successfull');
       setFormErrors({});
       return true;
     } catch (validationErrors) {
@@ -257,12 +264,16 @@ export default function WarehouseCarsRequestForm({
     const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/jpg'];
     if (!allowedTypes.includes(file?.type)) {
       e.target.value = null;
-      setFormSubmitModal({
-        status: true,
-        type: 'error',
-        message: `Only image files are allowed.`,
-      });
+
+      setFormErrors((prev) => ({
+        ...prev,
+        car_photo: intl.formatMessage({ id: 'form.validaton.only_image' }),
+      }));
     } else {
+      setFormErrors((prev) => ({
+        ...prev,
+        car_photo: '',
+      }));
       setPhotoFile(e.target.files[0]);
     }
   };
@@ -272,12 +283,15 @@ export default function WarehouseCarsRequestForm({
     const allowedTypes = ['application/pdf'];
     if (!allowedTypes.includes(file?.type)) {
       e.target.value = null;
-      setFormSubmitModal({
-        status: true,
-        type: 'error',
-        message: `Only pdf files are allowed.`,
-      });
+      setFormErrors((prev) => ({
+        ...prev,
+        invoice: intl.formatMessage({ id: 'form.validaton.only_pdf' }),
+      }));
     } else {
+      setFormErrors((prev) => ({
+        ...prev,
+        invoice: '',
+      }));
       setInvoiceFile(e.target.files[0]);
     }
   };
@@ -387,8 +401,6 @@ export default function WarehouseCarsRequestForm({
   }
 
   const handleFormNextStep = async (handleNext) => {
-    console.log('next clicked');
-
     if (await validateFormFields()) {
       handleNext();
     }
@@ -450,6 +462,7 @@ export default function WarehouseCarsRequestForm({
               <button
                 className="bg-azure-blue float-right my-4 max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500 rtl:float-left"
                 type="button"
+                disabled={carAlreadyExist}
                 onClick={() => handleFormNextStep(handleNext)}
               >
                 {intl.formatMessage({ id: 'general.next' })}
@@ -773,6 +786,45 @@ export default function WarehouseCarsRequestForm({
               icon={<InformationCircleIcon className="h-8 w-8" />}
             >
               <div className="text-left">
+                {!allowWarehouseCarsRequests && (
+                  <div className="my-4 gap-2 sm:flex">
+                    <div className="w-1/2">
+                      <label className="text-teal-blue block text-lg rtl:text-right">
+                        <FormattedMessage id="form.region" />
+                        <span className="mx-1 text-lg text-red-500">*</span>
+                      </label>
+                      <Select
+                        className="w-full rounded-md text-lg text-gray-700"
+                        name="region_id"
+                        required
+                        onChange={(newOption) => {
+                          handleReactSelectChange(
+                            'region_id',
+                            newOption?.value
+                          );
+                        }}
+                        defaultValue={
+                          carData?.region_id > 0
+                            ? {
+                                value: carData.region_id,
+                                label: regions.find(
+                                  (item) => item.region_id === carData.region_id
+                                )?.region_name,
+                              }
+                            : null
+                        }
+                        styles={{
+                          control: ReactSelectStyle,
+                        }}
+                        options={regions.map((item) => ({
+                          value: item.region_id,
+                          label: item.region_name,
+                        }))}
+                      />
+                      {getValidationMessage('region_id')}
+                    </div>
+                  </div>
+                )}
                 <div className="my-4 gap-2 sm:flex">
                   <div className="w-full">
                     <label className="text-teal-blue block text-lg rtl:text-right">

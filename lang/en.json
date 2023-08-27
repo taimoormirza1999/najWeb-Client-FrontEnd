@@ -452,11 +452,15 @@
   "form.region": "Region",
   "form.state": "State",
   "form.city": "City",
+  "form.car.exist": "Car record already exist",
+  "form.validaton.only_pdf": "Only pdf files are allowed",
+  "form.validaton.only_image": "Only image files are allowed",
   "form.focal_person_phone": "Focal Person Phone Number",
   "form.auction_location": "Auction Location",
   "form.purchase_date": "Purchase Date",
   "form.address": "Address",
   "form.validation.message.required": "This field is required",
   "form.placeholder.filter_drivers": "Type to filter existing drivers",
+  "form.agency_document": "Agency Document",
   "store": "STORE"
 }
