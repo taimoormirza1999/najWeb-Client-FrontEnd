@@ -515,40 +515,47 @@ const Layout = (props: IMainProps) => {
                                       }}
                                     ></i>
                                     {isExpanded && (
-                                      <FormattedMessage id={item.name} />
-                                    )}
-                                    <ChevronRightIcon
-                                      className={classNames(
-                                        open
-                                          ? 'rotate-90 text-gray-600'
-                                          : 'text-gray-600',
-                                        'ml-auto h-5 w-5 shrink-0'
-                                      )}
-                                      aria-hidden="true"
-                                    />
-                                  </Disclosure.Button>
-                                  <Disclosure.Panel
-                                    as="ul"
-                                    className="mt-1 px-2"
-                                  >
-                                    {item.children.map((subItem, subIndex) => (
-                                      <li key={subIndex}>
-                                        {/* 44px */}
-                                        <Disclosure.Button
-                                          as="a"
-                                          href={subItem.href}
+                                      <>
+                                        <FormattedMessage id={item.name} />
+                                        <ChevronRightIcon
                                           className={classNames(
-                                            router.pathname === subItem.href
-                                              ? 'bg-gray-400'
-                                              : 'hover:bg-gray-300',
-                                            'block hover:border-0 hover:text-gray-900 py-2 pr-2 pl-9 text-sm sm:text-xl font-semibold text-gray-700'
+                                            open
+                                              ? 'rotate-90 text-gray-600'
+                                              : 'text-gray-600',
+                                            'ml-auto h-5 w-5 shrink-0'
                                           )}
-                                        >
-                                          <FormattedMessage id={subItem.name} />
-                                        </Disclosure.Button>
-                                      </li>
-                                    ))}
-                                  </Disclosure.Panel>
+                                          aria-hidden="true"
+                                        />
+                                      </>
+                                    )}
+                                  </Disclosure.Button>
+
+                                  {isExpanded && (
+                                    <Disclosure.Panel
+                                      as="ul"
+                                      className="mt-1 px-2"
+                                    >
+                                      {item.children.map(
+                                        (subItem, subIndex) => (
+                                          <li key={subIndex}>
+                                            <Disclosure.Button
+                                              as="a"
+                                              href={subItem.href}
+                                              className={classNames(
+                                                router.pathname === subItem.href
+                                                  ? 'bg-gray-400'
+                                                  : 'hover:bg-gray-300',
+                                                'block hover:border-0 hover:text-gray-900 py-2 pr-2 pl-9 text-sm sm:text-xl font-semibold text-gray-700'
+                                              )}
+                                            >
+                                              <FormattedMessage
+                                                id={subItem.name}
+                                              />
+                                            </Disclosure.Button>
+                                          </li>
+                                      ))}
+                                    </Disclosure.Panel>
+                                  )}
                                 </>
                               )}
                             </Disclosure>

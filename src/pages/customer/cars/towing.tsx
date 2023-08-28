@@ -53,7 +53,16 @@ const carTableHeader = [
     name: 'form.region',
   },
   {
+    name: 'form.state',
+  },
+  {
+    name: 'form.city',
+  },
+  {
     name: 'form.address',
+  },
+  {
+    name: 'form.focal_person',
   },
   {
     name: 'form.destination',
@@ -508,11 +517,20 @@ export default function TowingCars({
                             <TableColumn className="min-w-[35px]">
                               ${car.sale_price}
                             </TableColumn>
-                            <TableColumn className="w-[80px]">
-                              {car.region_detail}
+                            <TableColumn className="min-w-[30px]">
+                              {car.region_name}
+                            </TableColumn>
+                            <TableColumn className="min-w-[30px]">
+                              {car.state_name}
+                            </TableColumn>
+                            <TableColumn className="min-w-[30px]">
+                              {car.city_name}
                             </TableColumn>
                             <TableColumn className="w-[120px]">
                               {car.region_address}
+                            </TableColumn>
+                            <TableColumn className="w-[20px]">
+                              {car.focal_person_phone}
                             </TableColumn>
                             <TableColumn className="w-[20px]">
                               {car.destination_name}
