@@ -146,7 +146,7 @@ export default function TowingCarsRequestForm({
 
     source = axios.CancelToken.source();
     axios
-      .get(`/api/customer/cars/warehouse_cars_exist/`, {
+      .get(`/api/customer/cars/warehouseCarExist/`, {
         params: {
           id: carData.id,
           lotnumber: carData.lotnumber,
@@ -314,7 +314,6 @@ export default function TowingCarsRequestForm({
     }
   };
 
-
   const handleInvoiceFileChange = (e) => {
     const file = e.target.files[0];
     const allowedTypes = ['application/pdf'];
@@ -363,7 +362,7 @@ export default function TowingCarsRequestForm({
       };
 
       try {
-        fetch('/api/customer/cars/warehouse_cars/', {
+        fetch('/api/customer/cars/warehouseCars/', {
           method: 'POST',
           body: formData,
           cache: 'no-cache',
@@ -1077,7 +1076,7 @@ export default function TowingCarsRequestForm({
                     />
                     {getValidationMessage('invoice')}
                   </div>
-                </div>                
+                </div>
               </div>
             </FormWizard.TabContent>
           </FormWizard>

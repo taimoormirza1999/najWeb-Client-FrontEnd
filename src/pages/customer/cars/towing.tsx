@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import AgencyDocument from '@/components/cars/AgencyDocument';
 import TowingCarsRequestForm from '@/components/cars/TowingCarsRequestForm';
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import SingleImagesViewer from '@/components/common/SingleImagesViewer';
@@ -85,6 +86,8 @@ export default function TowingCars({
   const closeModalRef = useRef(null);
   const [approveCarModalOpen, setApproveCarModalOpen] = useState(false);
   const [newCarModalOpen, setNewCarModalOpen] = useState(false);
+  const [agencyModalOpen, setAgencyModalOpen] = useState(true);
+  const [hasAgencyDocument, setHasAgencyDocument] = useState(true);
   const [formSubmitModal, setFormSubmitModal] = useState({
     status: false,
     type: '',
@@ -101,7 +104,7 @@ export default function TowingCars({
 
   const getWarehouseCars = async () => {
     try {
-      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
+      const res = await axios.get(`/api/customer/cars/warehouseCars/`, {
         params: {
           limit,
           page,
@@ -116,6 +119,24 @@ export default function TowingCars({
       });
       setTableRecords(res.data?.totalRecords || 0);
       setWarehouseCars(res.data ? res.data.data : []);
+
+      if (res.data?.data?.length < 1) {
+        axios // check is agency document uploaded
+          .get(`/api/customer/cars/agencyDocument/`, {
+            params: { funcName: 'hasAgencyDocument' },
+            headers: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
+          })
+          .then(() => {
+            setHasAgencyDocument(true);
+          })
+          .catch(() => {
+            setHasAgencyDocument(false);
+          });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -132,12 +153,13 @@ export default function TowingCars({
     };
     calculateTableHeight();
     window?.addEventListener('resize', calculateTableHeight);
+
     return () => window?.removeEventListener('resize', calculateTableHeight);
   }, []);
 
   const editCar = (id) => {
     axios
-      .get(`/api/customer/cars/warehouse_cars/`, {
+      .get(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
         },
@@ -157,7 +179,7 @@ export default function TowingCars({
 
   const deleteCar = (id) => {
     axios
-      .delete(`/api/customer/cars/warehouse_cars/`, {
+      .delete(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
         },
@@ -181,7 +203,7 @@ export default function TowingCars({
 
   const approveToMakePayment = (id) => {
     axios
-      .get(`/api/customer/cars/warehouse_cars/`, {
+      .get(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
           approve_payment: true,
@@ -359,6 +381,14 @@ export default function TowingCars({
         getWarehouseCars={getWarehouseCars}
         setFormSubmitModal={setFormSubmitModal}
       />
+
+      {!hasAgencyDocument && (
+        <AgencyDocument
+          agencyModalOpen={agencyModalOpen}
+          setAgencyModalOpen={setAgencyModalOpen}
+          setFormSubmitModal={setFormSubmitModal}
+        />
+      )}
 
       <div className="m-8">
         <div className="">

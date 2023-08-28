@@ -462,5 +462,6 @@
   "form.validation.message.required": "This field is required",
   "form.placeholder.filter_drivers": "Type to filter existing drivers",
   "form.agency_document": "Agency Document",
+  "form.agency_document_note": "Please add agency document, its required before adding cars.",
   "store": "STORE"
 }

@@ -26,6 +26,7 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
+import AgencyDocument from '@/components/cars/AgencyDocument';
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -97,6 +98,8 @@ export default function WarehouseCars({
   const closeModalRef = useRef(null);
   const [approveCarModalOpen, setApproveCarModalOpen] = useState(false);
   const [newCarModalOpen, setNewCarModalOpen] = useState(false);
+  const [agencyModalOpen, setAgencyModalOpen] = useState(true);
+  const [hasAgencyDocument, setHasAgencyDocument] = useState(true);
   const [formSubmitModal, setFormSubmitModal] = useState({
     status: false,
     type: '',
@@ -117,7 +120,7 @@ export default function WarehouseCars({
 
   const getWarehouseCars = async () => {
     try {
-      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
+      const res = await axios.get(`/api/customer/cars/warehouseCars/`, {
         params: {
           limit,
           page,
@@ -132,6 +135,24 @@ export default function WarehouseCars({
       });
       setTableRecords(res.data?.totalRecords || 0);
       setWarehouseCars(res.data ? res.data.data : []);
+
+      if (res.data?.data?.length < 1) {
+        axios // check is agency document uploaded
+          .get(`/api/customer/cars/agencyDocument/`, {
+            params: { funcName: 'hasAgencyDocument' },
+            headers: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
+          })
+          .then(() => {
+            setHasAgencyDocument(true);
+          })
+          .catch(() => {
+            setHasAgencyDocument(false);
+          });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +160,7 @@ export default function WarehouseCars({
 
   const getAllWarehouseCars = async () => {
     try {
-      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
+      const res = await axios.get(`/api/customer/cars/warehouseCars/`, {
         params: {
           limit: 'all',
           external_car: '2',
@@ -185,7 +206,7 @@ export default function WarehouseCars({
 
   const editCar = (id) => {
     axios
-      .get(`/api/customer/cars/warehouse_cars/`, {
+      .get(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
         },
@@ -205,7 +226,7 @@ export default function WarehouseCars({
 
   const deleteCar = (id) => {
     axios
-      .delete(`/api/customer/cars/warehouse_cars/`, {
+      .delete(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
         },
@@ -229,7 +250,7 @@ export default function WarehouseCars({
 
   const approveToMakePayment = (id) => {
     axios
-      .get(`/api/customer/cars/warehouse_cars/`, {
+      .get(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
           approve_payment: true,
@@ -408,6 +429,14 @@ export default function WarehouseCars({
         getWarehouseCars={getWarehouseCars}
         setFormSubmitModal={setFormSubmitModal}
       />
+
+      {!hasAgencyDocument && (
+        <AgencyDocument
+          agencyModalOpen={agencyModalOpen}
+          setAgencyModalOpen={setAgencyModalOpen}
+          setFormSubmitModal={setFormSubmitModal}
+        />
+      )}
 
       <div className="m-8">
         <div className="">

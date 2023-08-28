@@ -10,26 +10,6 @@ export default async function handler(req, res) {
   const apiUrl = process.env.API_URL;
   res.setHeader('Cache-Control', 'no-store, max-age=0');
 
-  process.on('unhandledRejection', (error) => {
-    console.error('Unhandled Promise Rejection:', error);
-  });
-
-  /* const fileStream = fs.createReadStream(
-    'C:\\Users\\Wajid\\Desktop\\1200px-Copart_logo.png'
-  );
-  const destinationFileName = `11110000-abc.jpg`;
-  const s3FileKey = 'uploads/towing_cars';
-  const params = {
-    Bucket: s3BucketName,
-    Key: `${s3FileKey}/11110000/${destinationFileName}`,
-    Body: fileStream,
-    ContentType: 'image/png',
-  };
-
-  const s3 = new AWS.S3();
-  const result = await s3.upload(params).promise();
-  console.log(result); */
-
   if (method === 'GET') {
     // customer approval
     if (req.query?.id && req.query.approve_payment) {
@@ -139,74 +119,11 @@ export default async function handler(req, res) {
 
       return res.status(200).json(response.data);
     } catch (error) {
-      console.error('Error from catch', error);
+      console.error(error);
       return res
         .status(500)
         .json({ error: `Error sending form data to API, ${error}` });
     }
-  }
-  if (method === 'POST_1') {
-    try {
-      const form = new formidable.IncomingForm();
-      form.parse(req, async (err, fields, files) => {
-        if (err) {
-          console.error('Error parsing form data:', err);
-          res.status(500).json({ error: 'Error parsing form data' });
-          return;
-        }
-
-        const { external_car: externalCar } = fields;
-        const formData = {
-          fields,
-        };
-
-        const s3 = new AWS.S3();
-        const filesObjecKeys = Object.keys(files);
-
-        const uploadPromises = Object.values(files).map(async (file, i) => {
-          const s3SubKey =
-            filesObjecKeys[i] === 'invoiceFile' ? 'invoices' : 'photos';
-          const dbFieldName =
-            filesObjecKeys[i] === 'invoiceFile' ? 'invoice' : 'car_photo';
-
-          const fileStream = fs.createReadStream(file.filepath);
-          const fileExt = file?.originalFilename.split('.').pop();
-          const destinationFileName = `${fields.lotnumber}-${file.newFilename}.${fileExt}`;
-          const s3FileKey =
-            externalCar === '1'
-              ? 'uploads/towing_cars'
-              : 'uploads/warehouse_cars';
-          const params = {
-            Bucket: s3BucketName,
-            Key: `${s3FileKey}/${s3SubKey}/${destinationFileName}`,
-            Body: fileStream,
-            ContentType: file.mimetype,
-          };
-
-          const result = await s3.upload(params).promise();
-          formData.fields[dbFieldName] = destinationFileName;
-          return result.Location;
-        });
-
-        await Promise.all(uploadPromises);
-
-        const response = await axios.post(
-          `${apiUrl}warehouseCarRequest`,
-          formData
-        );
-
-        res.status(200).json(response.data);
-      });
-
-      return true;
-    } catch (error) {
-      console.error('Error', error);
-      res
-        .status(500)
-        .json({ error: `Error sending form data to API, ${error}` });
-    }
-
-    return false;
   }
   if (method === 'PUT') {
     try {

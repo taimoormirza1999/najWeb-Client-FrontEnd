@@ -154,7 +154,7 @@ export default function WarehouseCarsRequestForm({
 
     source = axios.CancelToken.source();
     axios
-      .get(`/api/customer/cars/warehouse_cars_exist/`, {
+      .get(`/api/customer/cars/warehouseCarExist/`, {
         params: {
           id: carData.id,
           lotnumber: carData.lotnumber,
@@ -314,7 +314,7 @@ export default function WarehouseCarsRequestForm({
         formData.append('photoFile', photoFile);
       }
 
-      fetch('/api/customer/cars/warehouse_cars/', {
+      fetch('/api/customer/cars/warehouseCars/', {
         method: 'POST',
         body: formData,
       })
