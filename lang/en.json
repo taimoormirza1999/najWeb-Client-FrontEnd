@@ -456,6 +456,7 @@
   "form.validaton.only_pdf": "Only pdf files are allowed",
   "form.validaton.only_image": "Only image files are allowed",
   "form.focal_person_phone": "Focal Person Phone Number",
+  "form.focal_person": "Focal Person",
   "form.auction_location": "Auction Location",
   "form.purchase_date": "Purchase Date",
   "form.address": "Address",

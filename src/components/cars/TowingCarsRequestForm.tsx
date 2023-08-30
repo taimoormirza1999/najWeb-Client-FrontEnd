@@ -249,17 +249,21 @@ export default function TowingCarsRequestForm({
             (item) => item.name.toLowerCase() === maker.toLowerCase()
           )?.id_car_make;
 
+          const apiFieldsToUpdate: { [key: string]: string } = {};
+          if (carMaker) {
+            apiFieldsToUpdate.id_car_make = carMaker;
+          }
+          if (year) {
+            apiFieldsToUpdate.year = year;
+          }
+          if (vehicleType) {
+            apiFieldsToUpdate.id_vehicle_type = vehicleType;
+          }
+
           setCarData((prevState) => ({
             ...prevState,
-            year,
-            id_car_make: carMaker,
+            ...apiFieldsToUpdate,
           }));
-          if (vehicleType) {
-            setCarData((prevState) => ({
-              ...prevState,
-              id_vehicle_type: vehicleType,
-            }));
-          }
         }
       });
   }, [carData.vin]);
