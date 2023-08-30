@@ -13,8 +13,8 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     const isBulkShippingCustomer = session?.profile[0]?.bulk_shipLoad === '1';
 
-    const allowWarehouseCarsRequests =
-      session?.profile[0]?.allowWarehouseCarsRequests === '1';
+    // const allowWarehouseCarsRequests = session?.profile[0]?.allowWarehouseCarsRequests === '1'; // disable for now
+    const allowWarehouseCarsRequests = false;
 
     const fullName =
       locale === 'ar'

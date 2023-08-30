@@ -8,8 +8,8 @@ import {
 } from '@heroicons/react/outline';
 import axios from 'axios';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import WarehouseCarsRequestForm from '@/components/cars/WarehouseCarsRequestForm';
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
@@ -21,10 +21,12 @@ import {
 } from '@/components/dashboard/pagination';
 import TableColumn from '@/components/TableColumn';
 import TableHeader from '@/components/TableHeader';
+import { UserContext } from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
+import AgencyDocument from '@/components/cars/AgencyDocument';
 
 const carTableHeader = [
   { name: 'page.customer.dashboard.table.no' },
@@ -72,7 +74,7 @@ const carTableHeader = [
   },
 ];
 
-export default function WarehouseTowingCars({
+export default function WarehouseCars({
   page = 0,
   limit,
   search = '',
@@ -80,10 +82,13 @@ export default function WarehouseTowingCars({
   carsMaker,
   carsColor,
   ports,
+  regions,
 }) {
-  const paginationUrl = `/customer/warehouse/cars?search=${search}&limit=${limit}`;
-  const limitUrl = `/customer/warehouse/cars?page=0`;
+  const paginationUrl = `/customer/cars/warehouse?search=${search}&limit=${limit}`;
+  const limitUrl = `/customer/cars/warehouse?page=0`;
   const addIndex = parseInt(limit, 10) && page ? page * limit : 0;
+  const { profile } = useContext(UserContext);
+  const intl = useIntl();
 
   const [tableRecords, setTableRecords] = useState(0);
   const [warehouseCars, setWarehouseCars] = useState<any[]>([]);
@@ -93,15 +98,21 @@ export default function WarehouseTowingCars({
   const closeModalRef = useRef(null);
   const [approveCarModalOpen, setApproveCarModalOpen] = useState(false);
   const [newCarModalOpen, setNewCarModalOpen] = useState(false);
+  const [agencyModalOpen, setAgencyModalOpen] = useState(true);
+  const [hasAgencyDocument, setHasAgencyDocument] = useState(true);
   const [formSubmitModal, setFormSubmitModal] = useState({
     status: false,
     type: '',
     message: '',
   });
 
+  const allowWarehouseCarsRequests =
+    profile?.allowWarehouseCarsRequests || false;
+
   const [carsDriver, setCarsDriver] = useState<any[]>([]);
 
   const [carData, setCarData] = useState({
+    external_car: '2',
     id_vehicle_type: '1',
     destination: '6',
   });
@@ -109,11 +120,12 @@ export default function WarehouseTowingCars({
 
   const getWarehouseCars = async () => {
     try {
-      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
+      const res = await axios.get(`/api/customer/cars/warehouseCars/`, {
         params: {
           limit,
           page,
           search,
+          externalCar: '2',
         },
         headers: {
           'Cache-Control': 'no-cache',
@@ -123,6 +135,24 @@ export default function WarehouseTowingCars({
       });
       setTableRecords(res.data?.totalRecords || 0);
       setWarehouseCars(res.data ? res.data.data : []);
+
+      if (res.data?.data?.length < 1) {
+        axios // check is agency document uploaded
+          .get(`/api/customer/cars/agencyDocument/`, {
+            params: { funcName: 'hasAgencyDocument' },
+            headers: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
+          })
+          .then(() => {
+            setHasAgencyDocument(true);
+          })
+          .catch(() => {
+            setHasAgencyDocument(false);
+          });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -130,9 +160,10 @@ export default function WarehouseTowingCars({
 
   const getAllWarehouseCars = async () => {
     try {
-      const res = await axios.get(`/api/customer/cars/warehouse_cars/`, {
+      const res = await axios.get(`/api/customer/cars/warehouseCars/`, {
         params: {
           limit: 'all',
+          external_car: '2',
         },
         headers: {
           'Cache-Control': 'no-cache',
@@ -149,7 +180,6 @@ export default function WarehouseTowingCars({
             ((k) => !s.has(k) && s.add(k))(keys.map((k) => o[k]).join('|'))
         )(new Set())
       );
-      // setCarsDriver(res.data ? res.data.data : []);
       setCarsDriver(filtered);
     } catch (error) {
       console.log(error);
@@ -161,7 +191,9 @@ export default function WarehouseTowingCars({
   }, [limit, page, search]);
 
   useEffect(() => {
-    getAllWarehouseCars();
+    if (allowWarehouseCarsRequests) {
+      getAllWarehouseCars();
+    }
 
     const calculateTableHeight = () => {
       const newHeight = window?.innerHeight || 0;
@@ -174,7 +206,7 @@ export default function WarehouseTowingCars({
 
   const editCar = (id) => {
     axios
-      .get(`/api/customer/cars/warehouse_cars/`, {
+      .get(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
         },
@@ -194,7 +226,7 @@ export default function WarehouseTowingCars({
 
   const deleteCar = (id) => {
     axios
-      .delete(`/api/customer/cars/warehouse_cars/`, {
+      .delete(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
         },
@@ -218,7 +250,7 @@ export default function WarehouseTowingCars({
 
   const approveToMakePayment = (id) => {
     axios
-      .get(`/api/customer/cars/warehouse_cars/`, {
+      .get(`/api/customer/cars/warehouseCars/`, {
         params: {
           id,
           approve_payment: true,
@@ -245,8 +277,8 @@ export default function WarehouseTowingCars({
     <Layout
       meta={
         <Meta
-          title="Warehouse Towing Cars"
-          description="Warehouse Towing Cars"
+          title={intl.formatMessage({ id: 'page.title.warehouse_cars' })}
+          description={intl.formatMessage({ id: 'page.desc.warehouse_cars' })}
         />
       }
     >
@@ -390,6 +422,7 @@ export default function WarehouseTowingCars({
         carsColor={carsColor}
         carsDriver={carsDriver}
         ports={ports}
+        regions={regions}
         setCarData={setCarData}
         newCarModalOpen={newCarModalOpen}
         setNewCarModalOpen={setNewCarModalOpen}
@@ -397,14 +430,17 @@ export default function WarehouseTowingCars({
         setFormSubmitModal={setFormSubmitModal}
       />
 
+      {!hasAgencyDocument && (
+        <AgencyDocument
+          agencyModalOpen={agencyModalOpen}
+          setAgencyModalOpen={setAgencyModalOpen}
+          setFormSubmitModal={setFormSubmitModal}
+        />
+      )}
+
       <div className="m-8">
         <div className="">
           <div className="relative sm:items-center">
-            {/* <div className="sm:flex-auto">
-              {/* <h1 className="text-dark-blue text-3xl font-semibold">
-                <FormattedMessage id="page.customer.dashboard.warehouse_cars" />
-              </h1> 
-            </div> */}
             <button
               className="bg-dark-blue absolute mt-2 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white ltr:right-2 ltr:float-right rtl:left-2 rtl:float-left sm:text-xl"
               onClick={() => {
@@ -417,7 +453,6 @@ export default function WarehouseTowingCars({
           <HeadTextWithIcon
             header={'page.customer.dashboard.warehouse_cars'}
             gicon={'&#xe531;'}
-            // tagline={'page.complaints.header'}
           />
 
           <div
@@ -425,11 +460,24 @@ export default function WarehouseTowingCars({
             style={{ maxHeight: tableHeight }}
           >
             <SelectPageRecords url={limitUrl} />
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div className="-mx-4 mb-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full align-middle md:px-6 lg:px-8">
                 <div className="overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-300">
-                    <TableHeader tableHeader={carTableHeader} />
+                    <TableHeader
+                      tableHeader={carTableHeader.filter((item) => {
+                        return (
+                          allowWarehouseCarsRequests === true ||
+                          ![
+                            'page.customer.dashboard.table.driver_name',
+                            'form.driver_email',
+                            'form.driver_address',
+                            'form.account_number',
+                            'page.customer.dashboard.table.approve_payment',
+                          ].includes(item.name)
+                        );
+                      })}
+                    />
                     <tbody>
                       {tableRecords > 0 ? (
                         warehouseCars.map((car, index) => (
@@ -443,7 +491,7 @@ export default function WarehouseTowingCars({
                             <TableColumn className="w-[2px]">
                               {addIndex + index + 1}
                             </TableColumn>
-                            <TableColumn className="">
+                            <TableColumn className="w-[50px]">
                               {car.car_photo_file !== '' ? (
                                 <>
                                   <SingleImagesViewer
@@ -524,67 +572,74 @@ export default function WarehouseTowingCars({
                             <TableColumn className="min-w-[80px]">
                               {car.delivered_date}
                             </TableColumn>
-                            <TableColumn className="min-w-[47px]">
-                              <FormattedMessage id="form.driver_name" />:{' '}
-                              {car.driver_name} <br />
-                              <FormattedMessage id="form.driver_number" />:{' '}
-                              {car.driver_number} <br />
-                              <FormattedMessage id="form.driver_tin" />:{' '}
-                              {car.driver_tin}
-                            </TableColumn>
-                            <TableColumn className="min-w-[50px]">
-                              {car.driver_email}
-                            </TableColumn>
-                            <TableColumn className="min-w-[75px]">
-                              <FormattedMessage id="form.zip_code" />:{' '}
-                              {car.driver_zip_code} <br />
-                              {car.driver_address}
-                            </TableColumn>
-                            <TableColumn className="min-w-[200px]">
-                              <FormattedMessage id="form.account_number" />:{' '}
-                              {car.account_number} <br />
-                              <FormattedMessage id="form.routing_number" />:{' '}
-                              {car.routing_number} <br />
-                              <FormattedMessage id="form.reference_number" />:{' '}
-                              {car.reference_number}
-                            </TableColumn>
+                            {allowWarehouseCarsRequests && (
+                              <>
+                                <TableColumn className="min-w-[47px]">
+                                  <FormattedMessage id="form.driver_name" />:{' '}
+                                  {car.driver_name} <br />
+                                  <FormattedMessage id="form.driver_number" />:{' '}
+                                  {car.driver_number} <br />
+                                  <FormattedMessage id="form.driver_tin" />:{' '}
+                                  {car.driver_tin}
+                                </TableColumn>
+                                <TableColumn className="min-w-[50px]">
+                                  {car.driver_email}
+                                </TableColumn>
+                                <TableColumn className="min-w-[75px]">
+                                  <FormattedMessage id="form.zip_code" />:{' '}
+                                  {car.driver_zip_code} <br />
+                                  {car.driver_address}
+                                </TableColumn>
+                                <TableColumn className="min-w-[200px]">
+                                  <FormattedMessage id="form.account_number" />:{' '}
+                                  {car.account_number} <br />
+                                  <FormattedMessage id="form.routing_number" />:{' '}
+                                  {car.routing_number} <br />
+                                  <FormattedMessage id="form.reference_number" />
+                                  : {car.reference_number}
+                                </TableColumn>
+                              </>
+                            )}
                             <TableColumn className="w-[20px]">
                               {car.destination_name}
                             </TableColumn>
-                            <TableColumn className="min-w-[50px]">
-                              {car.customer_approved === '1' ? (
-                                <div>
-                                  {' '}
-                                  Approved on <br />{' '}
-                                  {car.customer_approved_date}
-                                </div>
-                              ) : null}
+                            {allowWarehouseCarsRequests && (
+                              <TableColumn className="min-w-[50px]">
+                                {car.customer_approved === '1' ? (
+                                  <div>
+                                    {' '}
+                                    Approved on <br />{' '}
+                                    {car.customer_approved_date}
+                                  </div>
+                                ) : null}
 
-                              {car.customer_approved === '0' &&
-                              car.car_id > '0' ? (
-                                <button
-                                  className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
-                                  onClick={() => {
-                                    setIdApprove(car.id);
-                                    setApproveCarModalOpen(true);
-                                  }}
-                                >
-                                  <CheckIcon className="text-azure-blue h-3 w-3" />
-                                  <FormattedMessage id="page.customer.dashboard.action.approve" />
-                                </button>
-                              ) : null}
+                                {car.customer_approved === '0' &&
+                                car.car_id > '0' ? (
+                                  <button
+                                    className="border-azure-blue text-azure-blue inline-block max-w-max rounded-md border-2 px-2 py-1  text-sm"
+                                    onClick={() => {
+                                      setIdApprove(car.id);
+                                      setApproveCarModalOpen(true);
+                                    }}
+                                  >
+                                    <CheckIcon className="text-azure-blue h-3 w-3" />
+                                    <FormattedMessage id="page.customer.dashboard.action.approve" />
+                                  </button>
+                                ) : null}
 
-                              {car.customer_approved === '0' &&
-                              car.car_id === '0' ? (
-                                <div className="text-dark-blue font-bold">
-                                  Pending <br />
-                                  From NAJ
-                                </div>
-                              ) : null}
-                            </TableColumn>
+                                {car.customer_approved === '0' &&
+                                car.car_id === '0' ? (
+                                  <div className="text-dark-blue font-bold">
+                                    Pending <br />
+                                    From NAJ
+                                  </div>
+                                ) : null}
+                              </TableColumn>
+                            )}
                             <TableColumn className="min-w-[47px]">
                               <div className="flex flex-col gap-2">
-                                {car.customer_approved === '0' &&
+                                {(car.customer_approved === '0' ||
+                                  !allowWarehouseCarsRequests) &&
                                 car.car_id === '0' ? (
                                   <>
                                     <button
@@ -600,7 +655,8 @@ export default function WarehouseTowingCars({
                                   </>
                                 ) : null}
 
-                                {car.customer_approved === '0' &&
+                                {(car.customer_approved === '0' ||
+                                  !allowWarehouseCarsRequests) &&
                                 car.car_id === '0' ? (
                                   <button
                                     type="button"
@@ -667,6 +723,9 @@ export async function getServerSideProps(context) {
   );
   const ports = resPort.data ? resPort.data.data : [];
 
+  const resRegions = await axios.get(`${apiUrl}general/getAuctionsRegions/`);
+  const regions = resRegions.data ? resRegions.data.data : [];
+
   return {
     props: {
       page,
@@ -676,6 +735,7 @@ export async function getServerSideProps(context) {
       carsMaker,
       carsColor,
       ports,
+      regions,
     },
   };
 }
