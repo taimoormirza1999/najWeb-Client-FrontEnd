@@ -1,0 +1,11 @@
+.react-form-wizard {
+  padding-bottom: 0;
+}
+
+.react-form-wizard .wizard-tab-content {
+  padding: 20px;
+}
+
+.react-form-wizard .wizard-nav-pills>li>a {
+  border: none !important;
+}
