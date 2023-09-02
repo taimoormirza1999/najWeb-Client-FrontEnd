@@ -17,10 +17,10 @@ const Index = () => {
       <div className="relative">
         <img
           src="/assets/images/slider-bg-min.jpg"
-          className="md:[h-68vh] w-full brightness-50  md:brightness-75 lg:h-[83vh]"
+          className="md:[h-68vh] w-full brightness-50 md:brightness-75 lg:h-[83vh]"
           alt="banner"
         />
-        <div className="absolute top-1/3 max-w-[500px] text-center text-white rtl:text-right md:left-[7%] md:text-left">
+        <div className="absolute top-1/3 max-w-[500px] text-center text-white md:left-[7%] md:text-left rtl:md:text-right">
           <h4 className="text-lg font-bold md:text-xl lg:text-3xl">
             <FormattedMessage id="ship.your.cars.from" />
           </h4>
