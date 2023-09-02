@@ -2,7 +2,9 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { createContext, useEffect, useState } from 'react';
 
-export const UserContext = createContext({});
+export const UserContext = createContext<
+  {} | { profile: Record<string, any> } | undefined
+>(undefined);
 
 export function UserContextProvider({ children }) {
   const [profile, setProfile] = useState({});
