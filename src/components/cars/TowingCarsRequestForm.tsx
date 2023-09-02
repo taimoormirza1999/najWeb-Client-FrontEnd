@@ -91,6 +91,7 @@ export default function TowingCarsRequestForm({
         'auction_location_id',
         'region_address',
         'focal_person_phone',
+        'gate_pass_pin',
       ];
 
       // disabled temporariy, Yup validation is not working for these fields
@@ -857,7 +858,7 @@ export default function TowingCarsRequestForm({
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
+                  <div className="w-3/6">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.region" />
                       <span className="mx-1 text-lg text-red-500">*</span>
@@ -889,7 +890,7 @@ export default function TowingCarsRequestForm({
                     />
                     {getValidationMessage('region_id')}
                   </div>
-                  <div className="w-full">
+                  <div className="w-1/4">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.state" />
                       <span className="mx-1 text-lg text-red-500">*</span>
@@ -921,9 +922,7 @@ export default function TowingCarsRequestForm({
                     />
                     {getValidationMessage('state_id')}
                   </div>
-                </div>
-                <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
+                  <div className="w-1/4">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.city" />
                       <span className="mx-1 text-lg text-red-500">*</span>
@@ -955,6 +954,8 @@ export default function TowingCarsRequestForm({
                     />
                     {getValidationMessage('city_id')}
                   </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
                   <div className="w-full">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.auction_location" />
@@ -992,8 +993,6 @@ export default function TowingCarsRequestForm({
                     />
                     {getValidationMessage('auction_location_id')}
                   </div>
-                </div>
-                <div className="my-4 gap-2 sm:flex">
                   <div className="w-full">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.address" />
@@ -1010,6 +1009,8 @@ export default function TowingCarsRequestForm({
                     />
                     {getValidationMessage('region_address')}
                   </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
                   <div className="w-full">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.focal_person_phone" />
@@ -1025,6 +1026,22 @@ export default function TowingCarsRequestForm({
                       maxLength={20}
                     />
                     {getValidationMessage('focal_person_phone')}
+                  </div>
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.gate_pass_pin" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <input
+                      className="w-full rounded-md border px-1 text-lg text-gray-700"
+                      type="text"
+                      name="gate_pass_pin"
+                      required
+                      onChange={handleChange}
+                      defaultValue={carData.gate_pass_pin}
+                      maxLength={20}
+                    />
+                    {getValidationMessage('gate_pass_pin')}
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">

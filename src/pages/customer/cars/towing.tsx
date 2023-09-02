@@ -466,6 +466,9 @@ export default function TowingCars({
                             </TableColumn>
                             <TableColumn className="min-w-[100px]">
                               {car.carMakerName} {car.carModelName} {car.year}
+                              <br />
+                              <FormattedMessage id="page.table.pin" />:{' '}
+                              {car.gate_pass_pin}
                             </TableColumn>
                             <TableColumn className="min-w-[50px]">
                               <FormattedMessage id="page.customer.dashboard.table.lot" />

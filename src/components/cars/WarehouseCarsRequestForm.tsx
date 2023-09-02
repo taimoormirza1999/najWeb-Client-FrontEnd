@@ -82,6 +82,7 @@ export default function WarehouseCarsRequestForm({
         'towing_price',
         'sale_price',
         'destination',
+        'gate_pass_pin',
       ];
 
       if (!allowWarehouseCarsRequests) {
@@ -786,9 +787,9 @@ export default function WarehouseCarsRequestForm({
               icon={<InformationCircleIcon className="h-8 w-8" />}
             >
               <div className="text-left">
-                {!allowWarehouseCarsRequests && (
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-1/2">
+                <div className="my-4 gap-2 sm:flex">
+                  {!allowWarehouseCarsRequests && (
+                    <div className="w-full">
                       <label className="text-teal-blue block text-lg rtl:text-right">
                         <FormattedMessage id="form.region" />
                         <span className="mx-1 text-lg text-red-500">*</span>
@@ -823,8 +824,24 @@ export default function WarehouseCarsRequestForm({
                       />
                       {getValidationMessage('region_id')}
                     </div>
+                  )}
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.gate_pass_pin" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <input
+                      className="w-full rounded-md border px-1 text-lg text-gray-700"
+                      type="text"
+                      name="gate_pass_pin"
+                      required
+                      onChange={handleChange}
+                      defaultValue={carData.gate_pass_pin}
+                      maxLength={20}
+                    />
+                    {getValidationMessage('gate_pass_pin')}
                   </div>
-                )}
+                </div>
                 <div className="my-4 gap-2 sm:flex">
                   <div className="w-full">
                     <label className="text-teal-blue block text-lg rtl:text-right">
