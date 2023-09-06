@@ -142,9 +142,11 @@ const Bill = ({
                 <td className="w-[35%] p-3 text-lg font-semibold text-[#1C1C1C]  sm:min-w-[320px]">
                   <FormattedMessage id="page.customer.dashboard.table.amount_remaining" />
                 </td>
-                <td className="w-[8%] p-3 text-lg text-[green] "></td>
+                <td className="w-[8%] p-3 text-lg text-[green] ">
+                  {amountRemaining >= 0 ? amountRemaining : ''}
+                </td>
                 <td className="text-dark-blue w-[8%] p-3 text-lg">
-                  {amountRemaining}
+                  {amountRemaining < 0 ? amountRemaining : ''}
                 </td>
                 <td className="w-[68%] p-3 text-lg text-[#1C1C1C]"></td>
               </tr>
