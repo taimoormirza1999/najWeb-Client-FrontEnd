@@ -453,6 +453,8 @@
   "page.desc.warehouse_cars": "Warehouse Cars",
   "page.title.towing_cars": "Towing Cars",
   "page.title.warehouse_cars": "Warehouse Cars",
+  "form.gate_pass_pin": "Gate Pass Pin",
+  "page.table.pin": "PIN",
   "form.agency_document": "Agency Document",
   "form.agency_document_note": "Please add agency document, its required before adding cars.",
   "store": "المستودع"

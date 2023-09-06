@@ -518,6 +518,9 @@ export default function WarehouseCars({
                             </TableColumn>
                             <TableColumn className="min-w-[100px]">
                               {car.carMakerName} {car.carModelName} {car.year}
+                              <br />
+                              <FormattedMessage id="page.table.pin" />:{' '}
+                              {car.gate_pass_pin}
                             </TableColumn>
                             <TableColumn className="min-w-[155px]">
                               <FormattedMessage id="page.customer.dashboard.table.lot" />
