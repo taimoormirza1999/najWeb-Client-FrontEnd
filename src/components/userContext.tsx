@@ -2,7 +2,9 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { createContext, useEffect, useState } from 'react';
 
-export const UserContext = createContext({});
+export const UserContext = createContext<
+  {} | { profile: Record<string, any> } | undefined
+>(undefined);
 
 export function UserContextProvider({ children }) {
   const [profile, setProfile] = useState({});
@@ -13,8 +15,8 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     const isBulkShippingCustomer = session?.profile[0]?.bulk_shipLoad === '1';
 
-    const allowWarehouseCarsRequests =
-      session?.profile[0]?.allowWarehouseCarsRequests === '1';
+    // const allowWarehouseCarsRequests = session?.profile[0]?.allowWarehouseCarsRequests === '1'; // disable for now
+    const allowWarehouseCarsRequests = false;
 
     const fullName =
       locale === 'ar'

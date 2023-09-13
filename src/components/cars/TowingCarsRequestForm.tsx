@@ -13,7 +13,7 @@ import { ValidationError } from 'yup';
 import { classNames, sentenceCase } from '@/utils/Functions';
 
 import CustomModal from '../customModal';
-import { AccountCircleIcon, CarIcon, SpinnerIcon } from '../themeIcons';
+import { CarIcon, SpinnerIcon } from '../themeIcons';
 import { UserContext } from '../userContext';
 
 const ReactSelectStyle = (baseStyles, state) => ({
@@ -21,12 +21,11 @@ const ReactSelectStyle = (baseStyles, state) => ({
   borderColor: state.isFocused ? '#3182ce' : '#a0aec0',
 });
 
-export default function WarehouseCarsRequestForm({
+export default function TowingCarsRequestForm({
   carData,
   vehiclesType,
   carsMaker,
   carsColor,
-  carsDriver,
   ports,
   regions,
   setCarData,
@@ -48,8 +47,6 @@ export default function WarehouseCarsRequestForm({
   const wizardStepIndex = useRef(0);
 
   const now = new Date().getUTCFullYear() + 1;
-  const allowWarehouseCarsRequests =
-    profile?.allowWarehouseCarsRequests || false;
   const [carsModel, setCarsModel] = useState([
     {
       id_car_model: '',
@@ -57,8 +54,15 @@ export default function WarehouseCarsRequestForm({
       driver_name: '',
     },
   ]);
-  const [showPanel, setShowPanel] = useState(false);
-  const [foundDrivers, setFoundDrivers] = useState(carsDriver);
+  const [states, setStates] = useState<{ [key: string]: string | number }[]>(
+    []
+  );
+  const [cities, setCities] = useState<{ [key: string]: string | number }[]>(
+    []
+  );
+  const [auctionLocations, setAuctionLocations] = useState<
+    { [key: string]: string | number }[]
+  >([]);
 
   const getRequiredvalidationSchema = () => {
     const requiredValidation: {
@@ -70,6 +74,7 @@ export default function WarehouseCarsRequestForm({
       'id_car_make',
       'id_car_model',
       'color',
+      'purchase_date',
       'year',
       'id_vehicle_type',
       'car_title',
@@ -78,16 +83,16 @@ export default function WarehouseCarsRequestForm({
 
     if (wizardStepIndex.current === 2) {
       requiredFields = [
-        'delivered_date',
-        'towing_price',
         'sale_price',
         'destination',
+        'region_id',
+        'state_id',
+        'city_id',
+        'auction_location_id',
+        'region_address',
+        'focal_person_phone',
         'gate_pass_pin',
       ];
-
-      if (!allowWarehouseCarsRequests) {
-        requiredFields.push('region_id');
-      }
 
       // disabled temporariy, Yup validation is not working for these fields
       /* requiredValidation.car_photo = Yup.mixed().required(
@@ -96,20 +101,7 @@ export default function WarehouseCarsRequestForm({
       requiredValidation.invoice = Yup.mixed().required(
         intl.formatMessage({ id: 'form.validation.message.required' })
       ); */
-    } else if (allowWarehouseCarsRequests && wizardStepIndex.current === 3) {
-      requiredFields = [
-        'driver_name',
-        'driver_number',
-        'driver_email',
-        'driver_tin',
-        'driver_zip_code',
-        'account_number',
-        'routing_number',
-        'reference_number',
-        'driver_address',
-      ];
     }
-
     requiredFields.forEach((fieldKey) => {
       requiredValidation[fieldKey] = Yup.string().required(
         intl.formatMessage({ id: 'form.validation.message.required' })
@@ -191,6 +183,54 @@ export default function WarehouseCarsRequestForm({
   }, [carData.id_car_make]);
 
   useEffect(() => {
+    if (carData?.region_id === undefined) {
+      return;
+    }
+
+    axios
+      .get('/api/general/states', {
+        params: {
+          region_id: carData.region_id,
+        },
+      })
+      .then((response) => {
+        setStates(response.data?.data || []);
+      });
+  }, [carData.region_id]);
+
+  useEffect(() => {
+    if (carData?.state_id === undefined) {
+      return;
+    }
+
+    axios
+      .get('/api/general/cities', {
+        params: {
+          state_id: carData.state_id,
+        },
+      })
+      .then((response) => {
+        setCities(response.data?.data || []);
+      });
+  }, [carData.state_id]);
+
+  useEffect(() => {
+    if (carData?.city_id === undefined) {
+      return;
+    }
+
+    axios
+      .get('/api/general/cityAuctionLocations', {
+        params: {
+          city_id: carData.city_id,
+        },
+      })
+      .then((response) => {
+        setAuctionLocations(response.data?.data || []);
+      });
+  }, [carData.city_id]);
+
+  useEffect(() => {
     axios
       .get(`/api/cars/vehicleDetailApi/`, {
         params: {
@@ -232,10 +272,10 @@ export default function WarehouseCarsRequestForm({
   const emptyCarData = () => {
     setCarData({
       id: '',
-      external_car: '2',
+      external_car: '1',
       id_vehicle_type: '1',
       destination: '6',
-      customer_approved: !allowWarehouseCarsRequests ? 1 : 0, // auto approved for other customers
+      customer_approved: '1', // auto approved for these cars
     });
     setFormErrors({});
     setSubmitStarted(false);
@@ -299,8 +339,8 @@ export default function WarehouseCarsRequestForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (await validateFormFields()) {
-      console.log('form sent');
       setSubmitStarted(true);
 
       const formData = new FormData();
@@ -314,92 +354,53 @@ export default function WarehouseCarsRequestForm({
       if (photoFile) {
         formData.append('photoFile', photoFile);
       }
+      if (photoFile) {
+        formData.append('photoFile', photoFile);
+      }
 
-      fetch('/api/customer/cars/warehouseCars/', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then(() => {
-          getWarehouseCars();
+      const headers = {
+        Accept: '*/*',
+        'Accept-Language': 'en-GB,en;q=0.9',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+      };
 
-          emptyCarData();
-          setNewCarModalOpen(false);
-          setFormSubmitModal({
-            status: true,
-            type: 'success',
-            message: 'Saved successfully.',
-          });
+      try {
+        fetch('/api/customer/cars/warehouseCars/', {
+          method: 'POST',
+          body: formData,
+          cache: 'no-cache',
+          headers,
         })
-        .catch(() => {
-          setFormSubmitModal({
-            status: true,
-            type: 'error',
-            message: `Unable to save. Something went wrong.`,
+          .then((res) => res.json())
+          .then(() => {
+            getWarehouseCars();
+
+            emptyCarData();
+            setNewCarModalOpen(false);
+            setFormSubmitModal({
+              status: true,
+              type: 'success',
+              message: 'Saved successfully.',
+            });
+          })
+          .catch(() => {
+            setFormSubmitModal({
+              status: true,
+              type: 'error',
+              message: `Unable to save. Something went wrong.`,
+            });
+          })
+          .finally(() => {
+            setSubmitStarted(false);
+            document.documentElement.style.overflow = 'auto';
           });
-        })
-        .finally(() => {
-          setSubmitStarted(false);
-          document.documentElement.style.overflow = 'auto';
-        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-
-  const filter = (e) => {
-    const keyword = e.target.value;
-
-    if (keyword !== '' && keyword.length > 0) {
-      setShowPanel(true);
-      const results = carsDriver.filter((user) => {
-        return user.driver_name.toLowerCase().startsWith(keyword.toLowerCase());
-      });
-      setFoundDrivers(results);
-    } else {
-      setFoundDrivers(carsDriver);
-      setShowPanel(false);
-    }
-
-    setCarData((prevState) => ({ ...prevState, driver_name: keyword }));
-  };
-
-  const searchClick = (id) => {
-    const driver = carsDriver.find((item) => item.id === id);
-
-    if (driver) {
-      setCarData((prevState) => ({
-        ...prevState,
-        driver_name: driver.driver_name,
-        driver_number: driver.driver_number,
-        driver_email: driver.driver_email,
-        driver_zip_code: driver.driver_zip_code,
-        driver_tin: driver.driver_tin,
-        account_number: driver.account_number,
-        routing_number: driver.routing_number,
-        reference_number: driver.reference_number,
-        driver_address: driver.driver_address,
-      }));
-    }
-    setShowPanel(false);
-  };
-
-  let driverinput;
-  if (showPanel && foundDrivers && foundDrivers.length > 0) {
-    driverinput = foundDrivers.map((item, i) => (
-      <li
-        key={i}
-        onClick={() => {
-          searchClick(item.id);
-        }}
-        className="cursor-pointer p-2 hover:bg-slate-300"
-      >
-        <span className="ml-2">{item.driver_name}</span>
-      </li>
-    ));
-  } else if (!showPanel) {
-    driverinput = null;
-  } else {
-    driverinput = <p className="p-2 text-red-500">No results found!</p>;
-  }
 
   const handleFormNextStep = async (handleNext) => {
     if (await validateFormFields()) {
@@ -441,12 +442,11 @@ export default function WarehouseCarsRequestForm({
           onSubmit={handleSubmit}
           encType="multipart/form-data"
           method="post"
-          className="max-h-[95vh] overflow-y-auto px-2"
+          className="max-h-[90vh] overflow-y-auto px-2"
         >
           <FormWizard
             shape="square"
             color="#0093ff"
-            onComplete={handleSubmit}
             backButtonTemplate={(handlePrev: () => void) => {
               return (
                 <button
@@ -600,7 +600,7 @@ export default function WarehouseCarsRequestForm({
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
+                  <div className="w-1/2">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.color" />
                       <span className="mx-1 text-lg text-red-500">*</span>
@@ -632,35 +632,52 @@ export default function WarehouseCarsRequestForm({
                     />
                     {getValidationMessage('color')}
                   </div>
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.year" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <Select
-                      className="w-full rounded-md text-lg text-gray-700"
-                      name="year"
-                      required
-                      onChange={(newOption) => {
-                        handleReactSelectChange('year', newOption?.value);
-                      }}
-                      value={
-                        carData?.year
-                          ? {
-                              value: carData.year,
-                              label: carData.year,
-                            }
-                          : null
-                      }
-                      styles={{
-                        control: ReactSelectStyle,
-                      }}
-                      options={carsYear.map((label) => ({
-                        value: label,
-                        label,
-                      }))}
-                    />
-                    {getValidationMessage('year')}
+                  <div className="w-1/2 gap-2 sm:flex">
+                    <div className="w-3/5">
+                      <label className="text-teal-blue block text-lg rtl:text-right">
+                        <FormattedMessage id="form.purchase_date" />
+                        <span className="mx-1 text-lg text-red-500">*</span>
+                      </label>
+                      <input
+                        className="w-full rounded-md border px-1 text-lg text-gray-700"
+                        type="date"
+                        name="purchase_date"
+                        required
+                        onChange={handleChange}
+                        defaultValue={carData.purchase_date}
+                      />
+                      {getValidationMessage('purchase_date')}
+                    </div>
+                    <div className="w-2/5">
+                      <label className="text-teal-blue block text-lg rtl:text-right">
+                        <FormattedMessage id="form.year" />
+                        <span className="mx-1 text-lg text-red-500">*</span>
+                      </label>
+                      <Select
+                        className="w-full rounded-md text-lg text-gray-700"
+                        name="year"
+                        required
+                        onChange={(newOption) => {
+                          handleReactSelectChange('year', newOption?.value);
+                        }}
+                        value={
+                          carData?.year
+                            ? {
+                                value: carData.year,
+                                label: carData.year,
+                              }
+                            : null
+                        }
+                        styles={{
+                          control: ReactSelectStyle,
+                        }}
+                        options={carsYear.map((label) => ({
+                          value: label,
+                          label,
+                        }))}
+                      />
+                      {getValidationMessage('year')}
+                    </div>
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">
@@ -788,94 +805,6 @@ export default function WarehouseCarsRequestForm({
             >
               <div className="text-left">
                 <div className="my-4 gap-2 sm:flex">
-                  {!allowWarehouseCarsRequests && (
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.region" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <Select
-                        className="w-full rounded-md text-lg text-gray-700"
-                        name="region_id"
-                        required
-                        onChange={(newOption) => {
-                          handleReactSelectChange(
-                            'region_id',
-                            newOption?.value
-                          );
-                        }}
-                        defaultValue={
-                          carData?.region_id > 0
-                            ? {
-                                value: carData.region_id,
-                                label: regions.find(
-                                  (item) => item.region_id === carData.region_id
-                                )?.region_name,
-                              }
-                            : null
-                        }
-                        styles={{
-                          control: ReactSelectStyle,
-                        }}
-                        options={regions.map((item) => ({
-                          value: item.region_id,
-                          label: item.region_name,
-                        }))}
-                      />
-                      {getValidationMessage('region_id')}
-                    </div>
-                  )}
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.gate_pass_pin" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="text"
-                      name="gate_pass_pin"
-                      required
-                      onChange={handleChange}
-                      defaultValue={carData.gate_pass_pin}
-                      maxLength={20}
-                    />
-                    {getValidationMessage('gate_pass_pin')}
-                  </div>
-                </div>
-                <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.delivered_date" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="date"
-                      name="delivered_date"
-                      required
-                      onChange={handleChange}
-                      defaultValue={carData.delivered_date}
-                    />
-                    {getValidationMessage('delivered_date')}
-                  </div>
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.towing_price" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="number"
-                      step={0.01}
-                      name="towing_price"
-                      required
-                      onChange={handleChange}
-                      defaultValue={carData.towing_price}
-                    />
-                    {getValidationMessage('towing_price')}
-                  </div>
-                </div>
-                <div className="my-4 gap-2 sm:flex">
                   <div className="w-full">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.sale_price" /> $
@@ -926,6 +855,193 @@ export default function WarehouseCarsRequestForm({
                       }))}
                     />
                     {getValidationMessage('destination')}
+                  </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
+                  <div className="w-3/6">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.region" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="region_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange('region_id', newOption?.value);
+                      }}
+                      defaultValue={
+                        carData?.region_id
+                          ? {
+                              value: carData.region_id,
+                              label: regions.find(
+                                (item) => item.region_id === carData.region_id
+                              )?.region_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={regions.map((item) => ({
+                        value: item.region_id,
+                        label: item.region_name,
+                      }))}
+                    />
+                    {getValidationMessage('region_id')}
+                  </div>
+                  <div className="w-1/4">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.state" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="state_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange('state_id', newOption?.value);
+                      }}
+                      value={
+                        carData?.state_id
+                          ? {
+                              value: carData.state_id,
+                              label: states.find(
+                                (item) => item.state_id === carData.state_id
+                              )?.state_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={states.map((item) => ({
+                        value: item?.state_id,
+                        label: item.state_name,
+                      }))}
+                    />
+                    {getValidationMessage('state_id')}
+                  </div>
+                  <div className="w-1/4">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.city" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="city_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange('city_id', newOption?.value);
+                      }}
+                      defaultValue={
+                        carData?.city_id
+                          ? {
+                              value: carData.city_id,
+                              label: cities.find(
+                                (item) => item.city_id === carData.city_id
+                              )?.city_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={cities.map((item) => ({
+                        value: item.city_id,
+                        label: item.city_name,
+                      }))}
+                    />
+                    {getValidationMessage('city_id')}
+                  </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.auction_location" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <Select
+                      className="w-full rounded-md text-lg text-gray-700"
+                      name="auction_location_id"
+                      required
+                      onChange={(newOption) => {
+                        handleReactSelectChange(
+                          'auction_location_id',
+                          newOption?.value
+                        );
+                      }}
+                      value={
+                        carData?.auction_location_id
+                          ? {
+                              value: carData.auction_location_id,
+                              label: auctionLocations.find(
+                                (item) =>
+                                  item.auction_location_id ===
+                                  carData.auction_location_id
+                              )?.auction_location_name,
+                            }
+                          : null
+                      }
+                      styles={{
+                        control: ReactSelectStyle,
+                      }}
+                      options={auctionLocations.map((item) => ({
+                        value: item?.auction_location_id,
+                        label: item.auction_location_name,
+                      }))}
+                    />
+                    {getValidationMessage('auction_location_id')}
+                  </div>
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.address" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <input
+                      className="w-full rounded-md border px-1 text-lg text-gray-700"
+                      type="text"
+                      name="region_address"
+                      required
+                      onChange={handleChange}
+                      defaultValue={carData.region_address}
+                      maxLength={250}
+                    />
+                    {getValidationMessage('region_address')}
+                  </div>
+                </div>
+                <div className="my-4 gap-2 sm:flex">
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.focal_person_phone" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <input
+                      className="w-full rounded-md border px-1 text-lg text-gray-700"
+                      type="text"
+                      name="focal_person_phone"
+                      required
+                      onChange={handleChange}
+                      defaultValue={carData.focal_person_phone}
+                      maxLength={20}
+                    />
+                    {getValidationMessage('focal_person_phone')}
+                  </div>
+                  <div className="w-full">
+                    <label className="text-teal-blue block text-lg rtl:text-right">
+                      <FormattedMessage id="form.gate_pass_pin" />
+                      <span className="mx-1 text-lg text-red-500">*</span>
+                    </label>
+                    <input
+                      className="w-full rounded-md border px-1 text-lg text-gray-700"
+                      type="text"
+                      name="gate_pass_pin"
+                      required
+                      onChange={handleChange}
+                      defaultValue={carData.gate_pass_pin}
+                      maxLength={20}
+                    />
+                    {getValidationMessage('gate_pass_pin')}
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">
@@ -984,164 +1100,6 @@ export default function WarehouseCarsRequestForm({
                 </div>
               </div>
             </FormWizard.TabContent>
-            {allowWarehouseCarsRequests && (
-              <FormWizard.TabContent
-                title={intl.formatMessage({ id: 'car.driver_detail' })}
-                icon={<AccountCircleIcon className="h-8 w-8" />}
-              >
-                <div className="text-left">
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="relative w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_name" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        value={carData.driver_name}
-                        onChange={filter}
-                        placeholder={intl.formatMessage({
-                          id: 'form.placeholder.filter_drivers',
-                        })}
-                      />
-                      <div className="absolute w-full list-none rounded-md bg-slate-200">
-                        {driverinput}
-                      </div>
-                      {getValidationMessage('driver_name')}
-                    </div>
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_number}
-                      />
-                      {getValidationMessage('driver_number')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-1/2">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_email" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="email"
-                        name="driver_email"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_email}
-                      />
-                      {getValidationMessage('driver_email')}
-                    </div>
-                    <div className="w-1/2">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.zip_code" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_zip_code"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_zip_code}
-                      />
-                      {getValidationMessage('driver_zip_code')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_tin" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_tin"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_tin}
-                      />
-                      {getValidationMessage('driver_tin')}
-                    </div>
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.account_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="account_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.account_number}
-                      />
-                      {getValidationMessage('account_number')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.routing_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="routing_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.routing_number}
-                      />
-                      {getValidationMessage('routing_number')}
-                    </div>
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.reference_number" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="reference_number"
-                        required
-                        onChange={handleChange}
-                        value={carData?.reference_number}
-                      />
-                      {getValidationMessage('reference_number')}
-                    </div>
-                  </div>
-                  <div className="my-4 gap-2 sm:flex">
-                    <div className="w-full">
-                      <label className="text-teal-blue block text-lg rtl:text-right">
-                        <FormattedMessage id="form.driver_address" />
-                        <span className="mx-1 text-lg text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full rounded-md border px-1 text-lg text-gray-700"
-                        type="text"
-                        name="driver_address"
-                        required
-                        onChange={handleChange}
-                        value={carData?.driver_address}
-                      />
-                      {getValidationMessage('driver_address')}
-                    </div>
-                  </div>
-                </div>
-              </FormWizard.TabContent>
-            )}
           </FormWizard>
         </form>
         <style>{`

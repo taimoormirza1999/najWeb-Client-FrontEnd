@@ -1,12 +1,13 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import CustomModal from '@/components/customModal';
 import ComplaintMessages from '@/components/dashboard/complaints/complaintMessages';
 import { SearchLot } from '@/components/dashboard/searchLot';
+import { UserContext } from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
@@ -23,6 +24,11 @@ export interface Complaint {
 
 const Complaints = () => {
   const intl = useIntl();
+  const userContextData = useContext(UserContext) as
+    | { profile?: Record<string, any> }
+    | undefined;
+  const { profile } = userContextData || {};
+
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [messages, setMessages] = useState([]);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
@@ -39,8 +45,9 @@ const Complaints = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = {
+      customer_id: profile?.customer_id,
       lot_vin: event.target.lot_vin.value,
-      title: event.target.subject.value,
+      subject: event.target.subject.value,
       message: event.target.message.value,
     };
 
@@ -208,6 +215,7 @@ const Complaints = () => {
                 id="lot_vin"
                 name="lot_vin"
                 type="text"
+                required
                 // placeholder={intl.formatMessage({ id: 'messages.vin_lot' })}
                 className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 value={inputValue.lot_vin}
@@ -244,6 +252,7 @@ const Complaints = () => {
               </div>
               <textarea
                 rows={6}
+                required
                 className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 name="message"
                 // placeholder={intl.formatMessage({ id: 'messages.message' })}

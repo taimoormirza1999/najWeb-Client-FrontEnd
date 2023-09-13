@@ -16,17 +16,16 @@ const Index = () => {
     <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
       <div className="relative">
         <img
-          src="/assets/images/slider-bg.jpg"
-          className="md:[h-68vh] w-full lg:h-[83vh]"
+          src="/assets/images/slider-bg-min.jpg"
+          className="md:[h-68vh] w-full brightness-50 md:brightness-75 lg:h-[83vh]"
           alt="banner"
         />
-        <div className="absolute left-[7%] top-1/3 max-w-[500px] text-white">
-          <h4 className="text-base font-semibold md:text-xl lg:text-3xl">
-            <FormattedMessage id="ship.your.cars.from" /> <br />
-            <FormattedMessage id="all.american.auctions" />
+        <div className="absolute top-1/3 max-w-[500px] text-center text-white md:left-[7%] md:text-left rtl:md:text-right">
+          <h4 className="text-lg font-bold md:text-xl lg:text-3xl">
+            <FormattedMessage id="ship.your.cars.from" />
           </h4>
 
-          <p className="text-sm md:mt-[10px] md:text-base lg:text-xl">
+          <p className="text-md md:mt-[10px] md:text-base lg:text-xl">
             <FormattedMessage id="working.day.night" />
           </p>
         </div>

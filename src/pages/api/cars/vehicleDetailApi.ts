@@ -7,8 +7,8 @@ export default async function handler(req, res) {
 
   if (method === 'GET') {
     const { vin } = req.query;
-    let vehicleData = [];
-    if (vin && vin.length === 17) {  
+    let vehicleData = {};
+    if (vin && vinApiUrl !== undefined) {
       const response = await axios.get(`${vinApiUrl}${vin}?${vinApiKey}`);
       const year = response.data.years[0].year ?? '';
       const type = response.data.categories.vehicleType ?? '';
@@ -19,15 +19,10 @@ export default async function handler(req, res) {
         year,
         type,
         make,
-        model
+        model,
       };
     }
-    console.log(vehicleData);
     return res.status(200).json(vehicleData);
-    // console.log(vindata);
-    // return response?.data
-    //   ? res.status(200).json(response.data, vehicle_data)
-    //   : res.status(500).json([]);
   }
   return res.status(500).json([]);
 }
