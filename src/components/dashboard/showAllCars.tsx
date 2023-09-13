@@ -140,6 +140,7 @@ const ShowAllCars = ({
 
   const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&order=${order}`;
   const limitUrl = `/customer/dashboard?tab=showAllCars&order=${order}&page=`;
+
   const changeReceiverName = async (car_id, value) => {
     try {
       const response = await fetch('/api/cars/changeReceiverName', {
@@ -225,14 +226,16 @@ const ShowAllCars = ({
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[64px]">
                           {car.port_name}
-                          <InputModal
-                            title={'changeReceiveMsg'}
-                            buttonTitle={'changeReceiver'}
-                            extraInfo={car.vin}
-                            onSubmit={(value) => {
-                              changeReceiverName(car.car_id, value);
-                            }}
-                          />
+                          {car.port_name.toLowerCase().includes('qaser') && (
+                            <InputModal
+                              title={'changeReceiveMsg'}
+                              buttonTitle={'changeReceiver'}
+                              extraInfo={car.vin}
+                              onSubmit={(value) => {
+                                changeReceiverName(car.car_id, value);
+                              }}
+                            />
+                          )}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[55px]">
                           {car.purchasedate}
