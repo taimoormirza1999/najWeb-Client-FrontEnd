@@ -226,7 +226,7 @@ const ShowAllCars = ({
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[64px]">
                           {car.port_name}
-                          {car.port_name.toLowerCase().includes('qaser') && (
+                          {car.port_name.toLowerCase().includes('qasr') && (
                             <InputModal
                               title={'changeReceiveMsg'}
                               buttonTitle={'changeReceiver'}
