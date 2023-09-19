@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   const vinApiKey = process.env.VIN_API_KEY;
 
   if (method === 'GET') {
+    return res.status(200).json([]);
     const { vin } = req.query;
     let vehicleData = {};
     if (vin && vinApiUrl !== undefined) {
