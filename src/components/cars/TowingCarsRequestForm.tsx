@@ -354,10 +354,6 @@ export default function TowingCarsRequestForm({
       if (photoFile) {
         formData.append('photoFile', photoFile);
       }
-      if (photoFile) {
-        formData.append('photoFile', photoFile);
-      }
-
       const headers = {
         Accept: '*/*',
         'Accept-Language': 'en-GB,en;q=0.9',
@@ -447,6 +443,7 @@ export default function TowingCarsRequestForm({
           <FormWizard
             shape="square"
             color="#0093ff"
+            onComplete={handleSubmit}
             backButtonTemplate={(handlePrev: () => void) => {
               return (
                 <button
