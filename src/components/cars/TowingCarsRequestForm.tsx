@@ -367,7 +367,7 @@ export default function TowingCarsRequestForm({
           method: 'POST',
           body: formData,
           cache: 'no-cache',
-          headers,
+          // headers,
         })
           .then((res) => res.json())
           .then(() => {
