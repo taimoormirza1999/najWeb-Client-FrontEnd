@@ -129,7 +129,7 @@ export default function TowingCars({
       setTableRecords(res.data?.totalRecords || 0);
       setWarehouseCars(res.data ? res.data.data : []);
 
-      if (res.data?.data?.length < 1) {
+      if (res.data?.data?.length < 1 && false) {
         axios // check is agency document uploaded
           .get(`/api/customer/cars/agencyDocument/`, {
             params: { funcName: 'hasAgencyDocument' },
