@@ -290,7 +290,7 @@ const Layout = (props: IMainProps) => {
                   ) : (
                     <>
                       <Link href="/login">
-                        <a className="border-azure-blue bg-azure-blue whitespace-nowrap rounded-sm border py-[6px] px-2 text-white hover:border">
+                        <a className="border-azure-blue bg-azure-blue mx-2 whitespace-nowrap rounded-sm border py-[6px] px-2 text-white hover:border">
                           <FormattedMessage id="sign.in" />
                         </a>
                       </Link>
@@ -410,7 +410,7 @@ const Layout = (props: IMainProps) => {
                   defaultValue={locale}
                   className={classNames(
                     headerFixed ? 'text-dark-blue' : ' text-white',
-                    'border-0 bg-transparent focus:outline-none focus:ring-0 ltr:ml-2 rtl:mr-2'
+                    'border-0 bg-transparent focus:outline-none focus:ring-0 ltr:ml-2 rtl:pl-10 rtl:mr-2'
                   )}
                   title="Select language"
                   name="language"
@@ -628,6 +628,13 @@ const Layout = (props: IMainProps) => {
                         <Link href="/about/vision">
                           <a className="text-white hover:border-b-0">
                             <FormattedMessage id="general.about" />
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/privacy-policy">
+                          <a className="text-white hover:border-b-0">
+                            <FormattedMessage id="privacy_policy.title" />
                           </a>
                         </Link>
                       </li>
