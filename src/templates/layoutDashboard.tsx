@@ -38,11 +38,18 @@ const Layout = (props: IMainProps) => {
   const { profile } = useContext(UserContext);
   const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
+  const [isDebit, setIsDebit] = useState(0);
   const [generalNotification, setGeneralNotification] = useState(0);
   const [isExpanded, setIsExpanded] = useState(true);
   const GetCustomerBalance = async () => {
     const res = await axios.get(`/api/customer/customer_balance/`);
     setCustomerBalance(parseFloat(res.data?.data));
+    if (customerBalance > 0) {
+      setIsDebit(1);
+    } else {
+      setCustomerBalance(0 - customerBalance);
+      setIsDebit(0);
+    }
   };
   const getGeneralNotification = async () => {
     const res = await axios.get(`/api/customer/getnotifications`);
@@ -631,14 +638,14 @@ const Layout = (props: IMainProps) => {
           <main className="flex-1">
             <div className="bg-dark-blue py-2">
               <div className="pb-5 ltr:text-right rtl:text-left">
-                {customerBalance > 0 && (
+                {isDebit > 0 && (
                   <span className="mt-1 mr-8 inline-flex items-center rounded-lg bg-red-100 px-2.5 py-0.5 text-xl font-medium text-[#A30000]">
-                    {customerBalance} AED
+                    {customerBalance.toLocaleString('hi-IN')} AED
                   </span>
                 )}
-                {customerBalance < 0 && (
+                {isDebit === 0 && (
                   <span className="mt-1 inline-flex items-center rounded-lg bg-green-100 px-2.5 py-0.5 text-xl font-medium text-green-800">
-                    {0 - customerBalance} AED
+                    {customerBalance.toLocaleString('hi-IN')} AED
                   </span>
                 )}
               </div>
