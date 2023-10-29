@@ -344,56 +344,54 @@ export default function TowingCarsRequestForm({
       setSubmitStarted(true);
 
       const formData = new FormData();
+
       formData.append('customer_id', profile?.customer_id);
       Object.entries(carData).forEach(([key, value]) => {
         formData.append(key, value);
       });
+
       if (invoiceFile) {
         formData.append('invoiceFile', invoiceFile);
       }
+
       if (photoFile) {
         formData.append('photoFile', photoFile);
       }
-      const headers = {
-        Accept: '*/*',
-        'Accept-Language': 'en-GB,en;q=0.9',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-      };
-
       try {
-        fetch('/api/customer/cars/warehouseCars/', {
+        const response = await fetch('/api/customer/cars/warehouseCars/', {
           method: 'POST',
           body: formData,
           cache: 'no-cache',
           // headers,
-        })
-          .then((res) => res.json())
-          .then(() => {
-            getWarehouseCars();
+        });
 
-            emptyCarData();
-            setNewCarModalOpen(false);
-            setFormSubmitModal({
-              status: true,
-              type: 'success',
-              message: 'Saved successfully.',
-            });
-          })
-          .catch(() => {
-            setFormSubmitModal({
-              status: true,
-              type: 'error',
-              message: `Unable to save. Something went wrong.`,
-            });
-          })
-          .finally(() => {
-            setSubmitStarted(false);
-            document.documentElement.style.overflow = 'auto';
-          });
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+
+        await response.json(); // Assuming the server returns JSON
+
+        // Perform actions based on successful response
+        getWarehouseCars();
+        emptyCarData();
+        setNewCarModalOpen(false);
+        setFormSubmitModal({
+          status: true,
+          type: 'success',
+          message: 'Saved successfully.',
+        });
+
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setFormSubmitModal({
+          status: true,
+          type: 'error',
+          message: `Unable to save. Something went wrong: ${error.message}`,
+        });
+
+      } finally {
+        setSubmitStarted(false);
+        document.documentElement.style.overflow = 'auto';
       }
     }
   };
