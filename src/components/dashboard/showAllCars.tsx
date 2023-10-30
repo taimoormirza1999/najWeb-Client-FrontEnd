@@ -19,6 +19,28 @@ import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
 import TableHeadText from '../TableHeadText';
 
+
+
+export const changeReceiverName = async (car_id, value) => {
+  try {
+    const response = await fetch('/api/cars/changeReceiverName', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ car_id, receiverName: value }),
+    });
+
+    await response.json();
+    if (!response.ok) {
+      toast.error('Failed to change the receiver name 500.');
+    }
+    toast.success('The receiver name has been changed successfully.');
+  } catch (error) {
+    toast.error('Failed to change the receiver name 404.');
+  }
+};
+
 const ShowAllCars = ({
   carsRecords,
   totalRecords,
@@ -141,25 +163,7 @@ const ShowAllCars = ({
   const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&order=${order}`;
   const limitUrl = `/customer/dashboard?tab=showAllCars&order=${order}&page=`;
 
-  const changeReceiverName = async (car_id, value) => {
-    try {
-      const response = await fetch('/api/cars/changeReceiverName', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ car_id, receiverName: value }),
-      });
 
-      await response.json();
-      if (!response.ok) {
-        toast.error('Failed to change the receiver name 500.');
-      }
-      toast.success('The receiver name has been changed successfully.');
-    } catch (error) {
-      toast.error('Failed to change the receiver name 404.');
-    }
-  };
 
   return (
     <div className="" id="tabs-allcars" role="tabpanel">
@@ -236,8 +240,8 @@ const ShowAllCars = ({
                                 title={'changeReceiveMsg'}
                                 buttonTitle={'changeReceiver'}
                                 extraInfo={car.vin}
-                                onSubmit={(value) => {
-                                  changeReceiverName(car.car_id, value);
+                                onSubmit={async (value) => {
+                                  await changeReceiverName(car.car_id, value);
                                 }}
                               />
                             )}
