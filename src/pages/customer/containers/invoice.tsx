@@ -445,29 +445,31 @@ const ContainerInvoice = ({ invoice }) => {
                   {totalAmount.toFixed(2)}
                 </td>
               </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                {!isTareekAlInsaf && (
-                  <>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </>
-                )}
-                <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
-                  Payment/دفع
-                </td>
-                <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
-                  {paidAmount.toFixed(2)}
-                </td>
-              </tr>
+              {!isTareekAlInsaf && (
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  {!isTareekAlInsaf && (
+                    <>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </>
+                  )}
+                  <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
+                    Payment/دفع
+                  </td>
+                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
+                    {paidAmount.toFixed(2)}
+                  </td>
+                </tr>
+              )}
               <tr>
                 <td></td>
                 <td></td>
