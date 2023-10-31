@@ -233,7 +233,7 @@ const ShowAllCars = ({
                                 buttonTitle={'changeReceiver'}
                                 extraInfo={car.vin}
                                 onSubmit={async (value) => {
-                                  await changeReceiverName(car.car_id, value);
+                                  await changeReceiverName(car.carId, value);
                                 }}
                               />
                             )}
