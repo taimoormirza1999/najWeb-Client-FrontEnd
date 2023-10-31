@@ -19,8 +19,6 @@ import TableColumn from '../TableColumn';
 import TableHeader from '../TableHeader';
 import TableHeadText from '../TableHeadText';
 
-
-
 export const changeReceiverName = async (car_id, value) => {
   try {
     const response = await fetch('/api/cars/changeReceiverName', {
@@ -163,8 +161,6 @@ const ShowAllCars = ({
   const paginationUrl = `/customer/dashboard?tab=showAllCars&search=${search}&limit=${limit}&order=${order}`;
   const limitUrl = `/customer/dashboard?tab=showAllCars&order=${order}&page=`;
 
-
-
   return (
     <div className="" id="tabs-allcars" role="tabpanel">
       <div>
@@ -178,10 +174,6 @@ const ShowAllCars = ({
                   <TableHeader tableHeader={carTableHeader} order={order} />
                   <tbody>
                     {carsRecords.map((car, index) => {
-                      const showChangeReceiver =
-                        car.port_name.toLowerCase().includes('qasr') &&
-                        car.car_loading_status === '0' &&
-                        car.car_shipping_status === '0';
                       return (
                         <tr
                           key={index}
@@ -235,7 +227,7 @@ const ShowAllCars = ({
                           </TableColumn>
                           <TableColumn scope="col" className="min-w-[64px]">
                             {car.port_name}
-                            {showChangeReceiver && (
+                            {car.showReceiverChange && (
                               <InputModal
                                 title={'changeReceiveMsg'}
                                 buttonTitle={'changeReceiver'}
