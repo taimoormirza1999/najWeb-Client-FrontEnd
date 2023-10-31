@@ -9,10 +9,6 @@ import { classNames } from '@/utils/Functions';
 
 const PaidByCustomer = ({ carsRecords }) => {
   return carsRecords.map((car, index) => {
-    const showChangeReceiver =
-      car.port_name.toLowerCase().includes('qasr') &&
-      car.car_loading_status === '0' &&
-      car.car_shipping_status === '0';
     return (
       <tr
         key={index}
@@ -52,13 +48,13 @@ const PaidByCustomer = ({ carsRecords }) => {
           {car.region}
         </TableColumn>
         <TableColumn scope="col" className="min-w-[64px]">
-          {showChangeReceiver && (
+          {car.showReceiverChange && (
             <InputModal
               title={'changeReceiveMsg'}
               buttonTitle={'changeReceiver'}
               extraInfo={car.vin}
               onSubmit={async (value) => {
-                await changeReceiverName(car.car_id, value);
+                await changeReceiverName(car.carId, value);
               }}
             />
           )}
