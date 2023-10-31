@@ -1,0 +1,42 @@
+name: Deploy to AWS
+# Controls when the workflow will run
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [closed]
+    branches: [main]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: connecting to the server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.AWS_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            echo 'connected to the server'
+            echo 'changing directory'
+            cd /var/www/website
+            echo 'fetching all branches'
+            git fetch --all
+            echo 'resetting the branch'
+            git reset --hard origin/main
+            echo 'pulling the branch'
+            git pull origin main --force
+            echo 'checking out the branch'
+            git checkout main --force
+            echo 'updating dependencies'
+            npm install --legacy-peer-deps || { echo 'npm install failed' ; exit 1; }
+            echo 'building the app'
+            npm run build || { echo 'npm run build failed' ; exit 1; }
+            echo 'restarting the server'
+            pm2 restart all || { echo 'pm2 restart all failed' ; exit 1; }
+            echo 'task completed'
