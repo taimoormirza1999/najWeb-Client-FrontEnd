@@ -450,7 +450,9 @@ const ContainerInvoice = ({ invoice }) => {
                   Total/إجمالي
                 </td>
                 <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
-                  {totalAmount.toFixed(2)}
+                  {!isTareekAlInsaf
+                    ? totalAmount.toFixed(2)
+                    : balance.toFixed(2)}
                 </td>
               </tr>
               {!isTareekAlInsaf && (
