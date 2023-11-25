@@ -83,7 +83,7 @@ const ContainerInvoice = ({ invoice }) => {
             <option value="aed">UAE Dirham</option>
             <option value="usd">US Dollar</option>
           </select>
-          <span className="float-left">+971 6 544 0202</span>
+          <span className="float-left">600 565 686</span>
           <span className="float-right">/NejoumAljazeera</span> <br />
           <span className="float-left">info@naj.ae</span>
           <span className="float-right">www.naj.ae</span> <br />
