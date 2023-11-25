@@ -17,7 +17,7 @@ const ContactDetails = () => {
               href="tel:+971 600 565 686"
               className="text-azure-blue text-lg hover:border-0 md:text-2xl lg:text-3xl"
             >
-              +971 600 565 686 (Njoum)
+              600 565 686 (Njoum)
             </a>
           </div>
           <h4 className="text-dark-blue mt-6 py-3 text-xl font-semibold md:text-2xl lg:text-3xl">
