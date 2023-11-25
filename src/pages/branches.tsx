@@ -108,10 +108,10 @@ const Branches = () => {
                   <FormattedMessage id="Sharjah, Industrial Area 4" />
                 </p>
                 <a
-                  href="tel:+971 6 544 0202"
+                  href="tel:600 565 686"
                   className="text-azure-blue my-2 block text-2xl hover:border-0"
                 >
-                  Tel: +971 6 544 0202
+                  Tel: 600 565 686
                 </a>
                 <a
                   href="mailto:info@naj.ae"
