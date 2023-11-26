@@ -678,7 +678,7 @@ const Layout = (props: IMainProps) => {
                   <span className="py-1 text-white">
                     <FormattedMessage id="follow.us" />
                   </span>
-                  <Link href="https://www.facebook.com/nejoum.ae" passHref>
+                  <Link href="https://www.facebook.com/people/Nejoum-Al-Jazeera/100091505176068/" passHref>
                     <a className="hover:border-0" target="_blank">
                       <FontAwesomeIcon
                         icon={faFacebookSquare}
