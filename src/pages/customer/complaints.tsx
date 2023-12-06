@@ -1,6 +1,8 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { getSession } from 'next-auth/react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
@@ -11,7 +13,7 @@ import { UserContext } from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
-import { grantIfLogin, postData } from '@/utils/network';
+import { checkIfLoggedIn, NetworkStatus, postData } from '@/utils/network';
 
 export interface Complaint {
   complaint_message_id: string;
@@ -22,8 +24,10 @@ export interface Complaint {
   readable_create_date: string;
 }
 
-const Complaints = () => {
+const Complaints = ({ complaintTypes }) => {
   const intl = useIntl();
+  const router = useRouter();
+  const { locale } = router;
   const userContextData = useContext(UserContext) as
     | { profile?: Record<string, any> }
     | undefined;
@@ -40,6 +44,7 @@ const Complaints = () => {
     lot_vin: '',
     subject: '',
     message: '',
+    complaint_type: '',
   });
 
   const handleSubmit = async (event) => {
@@ -63,6 +68,7 @@ const Complaints = () => {
         lot_vin: '',
         subject: '',
         message: '',
+        complaint_type: '',
       }));
     } else {
       setErrorModalOpen(true);
@@ -198,9 +204,6 @@ const Complaints = () => {
             tagline={'page.complaints.header'}
           />
         </div>
-        {/* <p className="text-dark-blue ml-5 text-xl lg:text-2xl">
-          <FormattedMessage id="page.complaints.header" />
-        </p> */}
       </div>
       <div className="mx-auto px-8">
         <div className="flex justify-center">
@@ -208,7 +211,7 @@ const Complaints = () => {
             <div className="mt-1">
               <div>
                 <span className="">
-                  <FormattedMessage id="messages.vin_lot" />
+                  <FormattedMessage id="messages.lot" />
                 </span>
               </div>
               <input
@@ -216,10 +219,11 @@ const Complaints = () => {
                 name="lot_vin"
                 type="text"
                 required
-                // placeholder={intl.formatMessage({ id: 'messages.vin_lot' })}
                 className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 value={inputValue.lot_vin}
                 onChange={handleChange}
+                maxLength={12}
+                minLength={6}
               />
             </div>
             <div className="relative mt-1 ">
@@ -234,14 +238,35 @@ const Complaints = () => {
                 name="subject"
                 type="text"
                 required
-                // placeholder={intl.formatMessage({ id: 'messages.subject' })}
                 className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 value={inputValue.subject}
                 onChange={handleChange}
               />
-              {/* <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
-                *
-              </span> */}
+            </div>
+            <div className="w-full">
+              <div className="mt-3">
+                <span>
+                  <FormattedMessage id="form.complaint_type" />
+                </span>
+                <span className="right-text font-bold">*</span>
+              </div>
+              <select
+                required
+                className="w-full rounded-md border px-1 text-lg text-gray-700"
+                name="complaint_type"
+                onChange={handleChange}
+                value={inputValue.complaint_type}
+              >
+                {complaintTypes ? (
+                  complaintTypes.map((type, i) => (
+                    <option key={i} value={type.id}>
+                      {type[`title_${locale}`]}
+                    </option>
+                  ))
+                ) : (
+                  <option value={0}></option>
+                )}
+              </select>
             </div>
             <div className="relative mt-1 ">
               <div className="mt-3">
@@ -255,13 +280,9 @@ const Complaints = () => {
                 required
                 className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 name="message"
-                // placeholder={intl.formatMessage({ id: 'messages.message' })}
                 value={inputValue.message}
                 onChange={handleChange}
               ></textarea>
-              {/* <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
-                *
-              </span> */}
             </div>
 
             <button type="submit" className="submit-button">
@@ -321,7 +342,34 @@ const Complaints = () => {
   );
 };
 export async function getServerSideProps(context) {
-  return grantIfLogin(context);
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+  const session: any = await getSession(context);
+
+  axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
+  axios.defaults.timeout = 300000;
+  const apiUrl = process.env.API_URL;
+  let complaintTypes = {};
+  try {
+    if (session && session.token && session.token.access_token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
+      await axios
+        .get(`${apiUrl}complaintTypes`, {})
+        .then((response) => {
+          complaintTypes = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    return {
+      props: {
+        complaintTypes,
+      },
+    };
+  } catch (err) {
+    return NetworkStatus.LOGIN_PAGE;
+  }
 }
 
 export default Complaints;
