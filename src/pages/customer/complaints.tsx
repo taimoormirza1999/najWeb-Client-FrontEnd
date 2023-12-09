@@ -13,7 +13,7 @@ import { UserContext } from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
-import { checkIfLoggedIn, NetworkStatus, postData } from '@/utils/network';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 export interface Complaint {
   complaint_message_id: string;
@@ -35,11 +35,17 @@ const Complaints = ({ complaintTypes }) => {
 
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [messages, setMessages] = useState([]);
+  const [complaintTrackingNo, setComplaintTrackingNo] = useState(0);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const okButtonRef = useRef(null);
-  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState({
+    status: false,
+    message: '',
+  });
   const okButtonErrorRef = useRef(null);
   const [newComplaint, setNewComplaint] = useState(0);
+  const [complaintFile, setComplaintFile] = useState(null);
+  const fileInputRef = useRef(null);
   const [inputValue, setInputValue] = useState({
     lot_vin: '',
     subject: '',
@@ -47,32 +53,59 @@ const Complaints = ({ complaintTypes }) => {
     complaint_type: '',
   });
 
+  const handleComplaintFileChange = (e) => {
+    const file = e.target.files[0];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/jpg'];
+    if (!allowedTypes.includes(file?.type)) {
+      e.target.value = null;
+
+      setErrorModalOpen({
+        status: true,
+        message: intl.formatMessage({ id: 'form.validaton.only_image' }),
+      });
+    } else {
+      setComplaintFile(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = {
-      customer_id: profile?.customer_id,
-      lot_vin: event.target.lot_vin.value,
-      subject: event.target.subject.value,
-      message: event.target.message.value,
-    };
+    const formData = new FormData();
+    formData.append('customer_id', profile?.customer_id);
+    Object.entries(inputValue).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
-    const response = await postData(
-      '/api/customer/complaint/submitComplaint',
-      formData
-    );
-
-    if (response.success === true) {
-      setNewComplaint(newComplaint + 1);
-      setSubmitModalOpen(true);
-      setInputValue(() => ({
-        lot_vin: '',
-        subject: '',
-        message: '',
-        complaint_type: '',
-      }));
-    } else {
-      setErrorModalOpen(true);
+    if (complaintFile) {
+      formData.append('complaintFile', complaintFile);
     }
+
+    fetch('/api/customer/complaint/submitComplaint/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setNewComplaint(newComplaint + 1);
+        setComplaintTrackingNo(res.complaint_no);
+        setSubmitModalOpen(true);
+        setInputValue(() => ({
+          lot_vin: '',
+          subject: '',
+          message: '',
+          complaint_type: '',
+        }));
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      })
+      .catch(() => {
+        setErrorModalOpen({
+          status: true,
+          message: intl.formatMessage({ id: 'general.technicalErr' }),
+        });
+      });
   };
 
   function handleChange(event) {
@@ -114,7 +147,10 @@ const Complaints = ({ complaintTypes }) => {
       })
       .catch(() => {
         setMessages([]);
-        setErrorModalOpen(true);
+        setErrorModalOpen({
+          status: true,
+          message: intl.formatMessage({ id: 'general.technicalErr' }),
+        });
       });
   };
 
@@ -136,6 +172,11 @@ const Complaints = ({ complaintTypes }) => {
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-6 text-xl">
+              <b>
+                {intl.formatMessage({ id: 'messages.tracking_no' })}
+                {': '}
+              </b>
+              {complaintTrackingNo} <br />{' '}
               {intl.formatMessage({ id: 'messages.receivedmsg' })} <br />{' '}
               {intl.formatMessage({ id: 'messages.getbacksoon' })}
             </p>
@@ -155,10 +196,10 @@ const Complaints = ({ complaintTypes }) => {
         </div>
       </CustomModal>
       <CustomModal
-        showOn={errorModalOpen}
+        showOn={errorModalOpen.status}
         initialFocus={okButtonErrorRef}
         onClose={() => {
-          setErrorModalOpen(false);
+          setErrorModalOpen({ status: false, message: '' });
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -167,9 +208,7 @@ const Complaints = ({ complaintTypes }) => {
             {intl.formatMessage({ id: 'general.sorry' })}
           </Dialog.Title>
           <div className="mt-2">
-            <p className="mb-4 py-6 text-2xl">
-              {intl.formatMessage({ id: 'general.technicalErr' })}
-            </p>
+            <p className="mb-4 py-6 text-2xl">{errorModalOpen.message}</p>
           </div>
         </div>
         <div className="mt-5 flex justify-center gap-4 sm:mt-6">
@@ -177,7 +216,7 @@ const Complaints = ({ complaintTypes }) => {
             type="button"
             className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
             onClick={() => {
-              setErrorModalOpen(false);
+              setErrorModalOpen({ status: false, message: '' });
             }}
             ref={okButtonErrorRef}
           >
@@ -207,7 +246,12 @@ const Complaints = ({ complaintTypes }) => {
       </div>
       <div className="mx-auto px-8">
         <div className="flex justify-center">
-          <form method="post" onSubmit={handleSubmit} className="form-head">
+          <form
+            method="post"
+            onSubmit={handleSubmit}
+            className="form-head"
+            encType="multipart/form-data"
+          >
             <div className="mt-1">
               <div>
                 <span className="">
@@ -257,6 +301,9 @@ const Complaints = ({ complaintTypes }) => {
                 onChange={handleChange}
                 value={inputValue.complaint_type}
               >
+                <option value="">
+                  {intl.formatMessage({ id: 'form.select' })}
+                </option>
                 {complaintTypes ? (
                   complaintTypes.map((type, i) => (
                     <option key={i} value={type.id}>
@@ -267,6 +314,23 @@ const Complaints = ({ complaintTypes }) => {
                   <option value={0}></option>
                 )}
               </select>
+            </div>
+            <div className="relative mt-1 ">
+              <div className="mt-3">
+                <span>
+                  <FormattedMessage id="form.attachment" />
+                </span>
+                <span className="right-text font-bold">*</span>
+              </div>
+              <input
+                id="complaint_file"
+                name="complaint_file"
+                type="file"
+                className="border-medium-grey text-outer-space block w-full appearance-none rounded border p-1 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
+                accept="image/png, image/gif, image/jpeg"
+                ref={fileInputRef}
+                onChange={handleComplaintFileChange}
+              />
             </div>
             <div className="relative mt-1 ">
               <div className="mt-3">
