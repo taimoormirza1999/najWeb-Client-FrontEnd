@@ -21,6 +21,7 @@ export interface Complaint {
   title: string;
   lot_vin: string;
   message: string;
+  complaint_type: string;
   readable_create_date: string;
 }
 
@@ -381,7 +382,12 @@ const Complaints = ({ complaintTypes }) => {
                     </div>
                     <hr className="mt-2" />
                     <div className="flex justify-between px-3 py-2">
-                      <small>Complaint # {row.complaint_no}</small>
+                      <div className="flex w-2/3">
+                        <small>Complaint # {row.complaint_no}</small>
+                        {row.complaint_type > '' ? (
+                          <small>, {row[`complaint_type_${locale}`]}</small>
+                        ) : null}
+                      </div>
                       <small>{row.readable_create_date}</small>
                     </div>
                   </div>

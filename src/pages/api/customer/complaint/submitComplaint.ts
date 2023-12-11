@@ -72,6 +72,14 @@ const handlePostRequest = async (req, res) => {
 
     console.log('Form data parsed successfully:');
 
+    if (formData.files.length === 0) {
+      const response = await axios.post(
+        `${apiUrl}submitComplaint`,
+        formData.fields
+      );
+      return res.status(200).json(response.data);
+    }
+
     const s3Client = new S3Client({ region: s3Region });
     const uploadPromises = Object.values(formData.files).map(
       async (file) => {
