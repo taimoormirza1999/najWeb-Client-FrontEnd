@@ -1060,7 +1060,7 @@ export default function TowingCarsRequestForm({
                       required={
                         !carData.id &&
                         carData.id !== '' &&
-                        wizardStepIndex.current === 2 // in which field is shown
+                        wizardStepIndex.current >= 1 // in which field is shown
                       }
                       onChange={handlePhotoFileChange}
                     />
@@ -1086,7 +1086,7 @@ export default function TowingCarsRequestForm({
                       required={
                         !carData.id &&
                         carData.id !== '' &&
-                        wizardStepIndex.current === 2 // in which field is shown
+                        wizardStepIndex.current >= 1 // in which field is shown
                       }
                       onChange={handleInvoiceFileChange}
                     />
