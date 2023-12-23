@@ -3,7 +3,11 @@ import { useSession } from 'next-auth/react';
 import { createContext, useEffect, useState } from 'react';
 
 export const UserContext = createContext<
-  {} | { profile: Record<string, any> } | undefined
+  | {
+      profile: Record<string, any>;
+      updateUserProfile: (data: Record<string, any>) => void;
+    }
+  | undefined
 >(undefined);
 
 export function UserContextProvider({ children }) {
@@ -14,9 +18,7 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     const isBulkShippingCustomer = session?.profile[0]?.bulk_shipLoad === '1';
-
-    // const allowWarehouseCarsRequests = session?.profile[0]?.allowWarehouseCarsRequests === '1'; // disable for now
-    const allowWarehouseCarsRequests = false;
+    const allowWarehouseCarsRequests = false; // Change this line to enable/disable based on your requirements
 
     const fullName =
       locale === 'ar'
@@ -31,7 +33,16 @@ export function UserContextProvider({ children }) {
     });
   }, [session?.profile]);
 
+  const updateUserProfile = (data) => {
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      ...data,
+    }));
+  };
+
   return (
-    <UserContext.Provider value={{ profile }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ profile, updateUserProfile }}>
+      {children}
+    </UserContext.Provider>
   );
 }

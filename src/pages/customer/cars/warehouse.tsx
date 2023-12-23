@@ -98,8 +98,7 @@ export default function WarehouseCars({
   const closeModalRef = useRef(null);
   const [approveCarModalOpen, setApproveCarModalOpen] = useState(false);
   const [newCarModalOpen, setNewCarModalOpen] = useState(false);
-  const [agencyModalOpen, setAgencyModalOpen] = useState(true);
-  const [hasAgencyDocument, setHasAgencyDocument] = useState(true);
+  const [agencyModalOpen, setAgencyModalOpen] = useState(false);
   const [formSubmitModal, setFormSubmitModal] = useState({
     status: false,
     type: '',
@@ -135,24 +134,6 @@ export default function WarehouseCars({
       });
       setTableRecords(res.data?.totalRecords || 0);
       setWarehouseCars(res.data ? res.data.data : []);
-
-      if (res.data?.data?.length < 1) {
-        axios // check is agency document uploaded
-          .get(`/api/customer/cars/agencyDocument/`, {
-            params: { funcName: 'hasAgencyDocument' },
-            headers: {
-              'Cache-Control': 'no-cache',
-              Pragma: 'no-cache',
-              Expires: '0',
-            },
-          })
-          .then(() => {
-            setHasAgencyDocument(true);
-          })
-          .catch(() => {
-            setHasAgencyDocument(false);
-          });
-      }
     } catch (error) {
       console.log(error);
     }
@@ -430,24 +411,30 @@ export default function WarehouseCars({
         setFormSubmitModal={setFormSubmitModal}
       />
 
-      {!hasAgencyDocument && (
-        <AgencyDocument
-          agencyModalOpen={agencyModalOpen}
-          setAgencyModalOpen={setAgencyModalOpen}
-          setFormSubmitModal={setFormSubmitModal}
-        />
-      )}
+      <AgencyDocument
+        agencyModalOpen={agencyModalOpen}
+        setAgencyModalOpen={setAgencyModalOpen}
+        setFormSubmitModal={setFormSubmitModal}
+      />
 
       <div className="m-8">
         <div className="">
           <div className="relative sm:items-center">
             <button
-              className="bg-dark-blue absolute mt-2 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white ltr:right-2 ltr:float-right rtl:left-2 rtl:float-left sm:text-xl"
+              className="bg-dark-blue absolute mt-2 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white ltr:right-[12rem] ltr:float-right rtl:left-[12rem] rtl:float-left sm:text-xl"
               onClick={() => {
                 setNewCarModalOpen(true);
               }}
             >
               <FormattedMessage id="page.customer.dashboard.add_new_cars" />
+            </button>
+            <button
+              className="bg-outer-space absolute mt-2 rounded-md border-2 border-gray-600 px-3 py-1 text-sm font-medium text-white ltr:right-2 ltr:float-left rtl:left-2 rtl:float-right sm:text-xl"
+              onClick={() => {
+                setAgencyModalOpen(true);
+              }}
+            >
+              <FormattedMessage id="page.modal.title.agency_details" />
             </button>
           </div>
           <HeadTextWithIcon
