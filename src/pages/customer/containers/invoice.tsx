@@ -22,6 +22,7 @@ const ContainerInvoice = ({ invoice }) => {
   const {
     invoice_no,
     container_number,
+    container_size,
     invoice_create_date,
     port_arrival_date,
     due_date,
@@ -260,7 +261,9 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Contatiner/حاوية</h5>
               </td>
               <td>
-                <h5>{container_number}</h5>
+                <h5>
+                  {container_number} ({container_size}&apos;)
+                </h5>
               </td>
             </tr>
             <tr>
@@ -287,9 +290,7 @@ const ContainerInvoice = ({ invoice }) => {
               <tr>
                 <th>وصف</th>
                 <th className="border-l-[1px] border-[#c0c0c0]"> المزاد</th>
-                {!isTareekAlInsaf && (
-                  <th className="border-l-[1px] border-[#c0c0c0]">سعر</th>
-                )}
+                <th className="border-l-[1px] border-[#c0c0c0]">سعر</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   {' '}
                   النقل الداخلي
@@ -303,11 +304,7 @@ const ContainerInvoice = ({ invoice }) => {
                   التأخر في السداد
                 </th>
                 {/*  */}
-                {!isTareekAlInsaf && (
-                  <th className="border-l-[1px] border-[#c0c0c0]">
-                    رافعة شوكية
-                  </th>
-                )}
+                <th className="border-l-[1px] border-[#c0c0c0]">رافعة شوكية</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   تخزين المزاد
                 </th>
@@ -322,9 +319,7 @@ const ContainerInvoice = ({ invoice }) => {
               <tr>
                 <th>Description</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Auction</th>
-                {!isTareekAlInsaf && (
-                  <th className="border-l-[1px] border-[#c0c0c0]">Price</th>
-                )}
+                <th className="border-l-[1px] border-[#c0c0c0]">Price</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Towing</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Shipping</th>
                 {!isTareekAlInsaf && (
@@ -336,20 +331,14 @@ const ContainerInvoice = ({ invoice }) => {
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   Late Payment
                 </th>
-                {!isTareekAlInsaf && (
-                  <th className="border-l-[1px] border-[#c0c0c0]">Forklift</th>
-                )}
+                <th className="border-l-[1px] border-[#c0c0c0]">Forklift</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   Auction Storage
                 </th>
                 {!isTareekAlInsaf && (
-                  <>
-                    <th className="border-l-[1px] border-[#c0c0c0]">Other</th>
-                    <th className="border-l-[1px] border-[#c0c0c0]">
-                      Discount
-                    </th>
-                  </>
+                  <th className="border-l-[1px] border-[#c0c0c0]">Other</th>
                 )}
+                <th className="border-l-[1px] border-[#c0c0c0]">Discount</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Total</th>
               </tr>
             </thead>
@@ -380,18 +369,14 @@ const ContainerInvoice = ({ invoice }) => {
                       ? `, ${car.auction_location_state}`
                       : ''}
                   </td>
-                  {!isTareekAlInsaf && (
-                    <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
-                      {car.car_cost}
-                    </td>
-                  )}
+                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
+                    {car.car_cost}
+                  </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.towingAmount || 0}
                   </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
-                    {isTareekAlInsaf
-                      ? (car?.shippingAmount || 0) - (car?.discount || 0)
-                      : car?.shippingAmount || 0}
+                    {car?.shippingAmount || 0}
                   </td>
                   {!isTareekAlInsaf && (
                     <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
@@ -404,24 +389,20 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.latePaymentAmount || 0}
                   </td>
-                  {!isTareekAlInsaf && (
-                    <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
-                      {car?.forkliftAmount || 0}
-                    </td>
-                  )}
+                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
+                    {car?.forkliftAmount || 0}
+                  </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.auctionFineAmount || 0}
                   </td>
                   {!isTareekAlInsaf && (
-                    <>
-                      <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
-                        {car?.otherAmount || 0}
-                      </td>
-                      <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
-                        {car?.discount || 0}
-                      </td>
-                    </>
+                    <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
+                      {car?.otherAmount || 0}
+                    </td>
                   )}
+                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
+                    {car?.discount || 0}
+                  </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {' '}
                     {car?.totalAmount || 0}
@@ -436,11 +417,11 @@ const ContainerInvoice = ({ invoice }) => {
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 {!isTareekAlInsaf && (
                   <>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                   </>
@@ -463,11 +444,11 @@ const ContainerInvoice = ({ invoice }) => {
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   {!isTareekAlInsaf && (
                     <>
-                      <td></td>
-                      <td></td>
-                      <td></td>
                       <td></td>
                       <td></td>
                     </>
@@ -487,11 +468,11 @@ const ContainerInvoice = ({ invoice }) => {
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 {!isTareekAlInsaf && (
                   <>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                   </>
