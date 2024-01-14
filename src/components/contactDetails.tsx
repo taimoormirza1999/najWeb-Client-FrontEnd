@@ -41,7 +41,7 @@ const ContactDetails = () => {
               href="tel:600 565 686"
               className="text-azure-blue text-lg hover:border-0 md:text-2xl lg:text-3xl"
             >
-              600 565 686
+              600 565 686 (Njoum)
             </a>
           </div>
         </div>
