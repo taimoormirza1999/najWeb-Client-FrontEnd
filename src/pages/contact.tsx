@@ -321,7 +321,7 @@ const Contact = () => {
             <FormattedMessage id="WhatsApp" />
           </p>
           <a
-            href="https://wa.me/+971600565686?text=welcome to Nejoum aljazeera"
+            href="https://wa.me/+971589311465?text=welcome to Nejoum aljazeera"
             target="_blank"
             rel="noreferrer"
             className="bg-azure-blue my-2 inline-block rounded-lg px-5 py-2 text-lg font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:text-xl"

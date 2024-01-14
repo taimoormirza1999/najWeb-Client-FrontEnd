@@ -687,7 +687,7 @@ const Layout = (props: IMainProps) => {
                     </a>
                   </Link>
                   <Link
-                    href="https://www.instagram.com/nejoumaljazeera/"
+                    href="https://www.instagram.com/nejoumaljazeeraautoshipping/"
                     passHref
                   >
                     <a className="hover:border-0" target="_blank">
