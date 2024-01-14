@@ -38,10 +38,10 @@ const ContactDetails = () => {
           </h4>
           <div className="dirltr rtl:text-right">
             <a
-              href="tel:+971 58 931 1461"
+              href="tel:600 565 686"
               className="text-azure-blue text-lg hover:border-0 md:text-2xl lg:text-3xl"
             >
-              +971 58 931 1461
+              600 565 686
             </a>
           </div>
         </div>
