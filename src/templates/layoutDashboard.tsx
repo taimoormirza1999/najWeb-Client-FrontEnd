@@ -273,7 +273,7 @@ const Layout = (props: IMainProps) => {
                         <img
                           className="h-8 w-auto"
                           src={`/assets/images/logo-${locale}.png`}
-                          alt="Nejoum Al Jazeera"
+                          alt="Nejoum Aljazeera - Auto Shipping"
                         />
                       </a>
                     </Link>
@@ -456,7 +456,7 @@ const Layout = (props: IMainProps) => {
                       <img
                         className="w-auto"
                         src={`/assets/images/logo-${locale}.png`}
-                        alt="Nejoum Al Jazeera"
+                        alt="Nejoum Aljazeera - Auto Shipping"
                       />
                     ) : (
                       <img src="/assets/images/logo-icon-blue.png" />

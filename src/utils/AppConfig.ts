@@ -1,6 +1,6 @@
 export const AppConfig = {
   site_name: '',
-  title: 'Nejoum Al Jazeera',
+  title: 'Nejoum Aljazeera - Auto Shipping',
   description: '',
   locale: 'en',
 };
