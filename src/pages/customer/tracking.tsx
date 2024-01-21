@@ -179,7 +179,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
             <img
               className="m-auto w-auto max-w-[320px]"
               src="/assets/images/Full_Logo.png"
-              alt="Nejoum Al Jazeera"
+              alt="Nejoum Aljazeera - Auto Shipping"
             />
             <div className="relative m-auto">
               <form method="post" onSubmit={startTracking}>

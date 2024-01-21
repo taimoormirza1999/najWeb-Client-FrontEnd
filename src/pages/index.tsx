@@ -13,7 +13,9 @@ const apiUrl = process.env.API_URL;
 const Index = () => {
   const { locale } = useRouter();
   return (
-    <Layout meta={<Meta title="" description="Nejoum Al Jazeera" />}>
+    <Layout
+      meta={<Meta title="" description="Nejoum Aljazeera - Auto Shipping" />}
+    >
       <div className="relative">
         <img
           src="/assets/images/slider-bg-min.jpg"

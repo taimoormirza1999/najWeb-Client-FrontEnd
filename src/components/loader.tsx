@@ -8,7 +8,7 @@ const Loader = () => {
           src="/assets/images/loading-new.gif"
         ></img>
         <p className="text-azure-blue mt-8 animate-pulse whitespace-nowrap text-sm">
-          Nejoum Al Jazeera
+          Nejoum Aljazeera - Auto Shipping
         </p>
       </div>
     </div>
