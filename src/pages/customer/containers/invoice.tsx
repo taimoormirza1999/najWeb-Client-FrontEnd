@@ -14,8 +14,8 @@ const { API_URL } = process.env;
 const ContainerInvoice = ({ invoice }) => {
   const router = useRouter();
   const { profile } = useContext(UserContext);
-  const isTareekAlInsaf =
-    invoice.container.full_name_en === 'Tareq Al Insaf Used Cars'; // later change to id
+  const isTareekAlInsaf = false;
+  // invoice.container.full_name_en === 'Tareq Al Insaf Used Cars'; // later change to id
 
   const { bankName, bankAddress, accountName, iban, accountNumber, swiftCode } =
     invoice.bankDetail;
