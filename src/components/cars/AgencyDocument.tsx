@@ -1,6 +1,8 @@
 import 'react-form-wizard-component/dist/style.css';
 
-import { InformationCircleIcon } from '@heroicons/react/outline';
+import { Dialog } from '@headlessui/react';
+import { InformationCircleIcon, XCircleIcon } from '@heroicons/react/outline';
+import axios from 'axios';
 import { useContext, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -15,7 +17,9 @@ export default function AgencyDocument({
 }) {
   const [agencyFile, setAgencyFile] = useState(null);
   const intl = useIntl();
-  const { profile } = useContext(UserContext);
+  const { profile, updateUserProfile } = useContext(UserContext);
+  const [inputsData, setInputsData] = useState({});
+  const [hasAgencyDocument, setHasAgencyDocument] = useState(false);
   const [submitStarted, setSubmitStarted] = useState(false);
   const closeModalRef = useRef(null);
   const [formErrors, setFormErrors] = useState<{
@@ -48,6 +52,29 @@ export default function AgencyDocument({
     );
   };
 
+  const getAgencyDocument = () => {
+    axios // check is agency document uploaded
+      .get(`/api/customer/cars/agencyDocument/`, {
+        params: { funcName: 'hasAgencyDocument' },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      })
+      .then(() => {
+        setHasAgencyDocument(true);
+      })
+      .catch(() => {
+        setHasAgencyDocument(false);
+      });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputsData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -55,6 +82,9 @@ export default function AgencyDocument({
 
     const formData = new FormData();
     formData.append('customer_id', profile?.customer_id);
+    Object.entries(inputsData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
     if (agencyFile) {
       formData.append('agencyFile', agencyFile);
@@ -77,6 +107,10 @@ export default function AgencyDocument({
       })
         .then((res) => res.json())
         .then(() => {
+          updateUserProfile({
+            ...profile,
+            external_car_contact: inputsData?.external_car_contact,
+          });
           setFormSubmitModal({
             status: true,
             type: 'success',
@@ -108,7 +142,20 @@ export default function AgencyDocument({
         document.documentElement.style.overflow = 'auto';
       }}
     >
-      <div className="mt-3 flex w-full gap-4">
+      <div className="mt-3 flex w-full flex-col gap-4">
+        <div className="flex justify-between">
+          <Dialog.Title as="h3" className="text-3xl leading-6">
+            {intl.formatMessage({ id: 'page.modal.title.agency_details' })}{' '}
+          </Dialog.Title>
+          <XCircleIcon
+            className="h-8 w-8 cursor-pointer text-red-500"
+            ref={closeModalRef}
+            onClick={() => {
+              setAgencyModalOpen(false);
+            }}
+          />
+        </div>
+
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
@@ -116,17 +163,33 @@ export default function AgencyDocument({
           className="max-h-[90vh] overflow-y-auto px-2"
         >
           <div className="my-4 gap-2 sm:flex">
-            <div className="w-full">
+            <div className="w-2/3">
+              <label className="text-teal-blue block text-lg rtl:text-right">
+                <FormattedMessage id="form.contact_number" />
+                <span className="mx-1 text-lg text-red-500">*</span>
+              </label>
+              <input
+                className="w-full rounded-md border px-1 text-lg text-gray-700"
+                type="text"
+                name="external_car_contact"
+                required
+                onChange={handleChange}
+                defaultValue={profile?.external_car_contact}
+                maxLength={20}
+              />
+              {getValidationMessage('external_car_contact')}
+            </div>
+          </div>
+          <div className="my-4 gap-2 sm:flex">
+            <div className="w-2/3">
               <label className="text-teal-blue block text-lg rtl:text-right">
                 <FormattedMessage id="form.agency_document" />
-                <span className="mx-1 text-lg text-red-500">*</span>
               </label>
               <input
                 className="my-2 w-full rounded-md border py-1 text-lg text-gray-700 focus:outline-none"
                 type="file"
                 name="agency_file"
                 accept="application/pdf"
-                required={true}
                 onChange={handleAgencyFileChange}
               />
               {getValidationMessage('agency_file')}

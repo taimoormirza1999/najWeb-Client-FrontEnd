@@ -4,20 +4,25 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import styles from '@/components/containers/invoicePrint.module.css';
+import { UserContext } from '@/components/userContext';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 const { API_URL } = process.env;
 const ContainerInvoice = ({ invoice }) => {
   const router = useRouter();
+  const { profile } = useContext(UserContext);
+  const isTareekAlInsaf = false;
+  // invoice.container.full_name_en === 'Tareq Al Insaf Used Cars'; // later change to id
 
   const { bankName, bankAddress, accountName, iban, accountNumber, swiftCode } =
     invoice.bankDetail;
   const {
     invoice_no,
     container_number,
+    container_size,
     invoice_create_date,
     port_arrival_date,
     due_date,
@@ -73,14 +78,13 @@ const ContainerInvoice = ({ invoice }) => {
           <select
             name="currency"
             onChange={handleCurrencyChange}
-            className="border-dark-blue -mt-5 mb-2 hidden border px-3 py-[2px] pr-8 print:hidden"
+            defaultValue={'usd'}
+            className="border-dark-blue -mt-5 mb-4 border px-3 py-[2px] pr-8 print:hidden"
           >
-            <option defaultValue={'aed'} value="aed">
-              UAE Dirham
-            </option>
+            <option value="aed">UAE Dirham</option>
             <option value="usd">US Dollar</option>
           </select>
-          <span className="float-left">+971 6 544 0202</span>
+          <span className="float-left">600 565 686</span>
           <span className="float-right">/NejoumAljazeera</span> <br />
           <span className="float-left">info@naj.ae</span>
           <span className="float-right">www.naj.ae</span> <br />
@@ -257,7 +261,9 @@ const ContainerInvoice = ({ invoice }) => {
                 <h5>Contatiner/حاوية</h5>
               </td>
               <td>
-                <h5>{container_number}</h5>
+                <h5>
+                  {container_number} ({container_size}&apos;)
+                </h5>
               </td>
             </tr>
             <tr>
@@ -290,17 +296,24 @@ const ContainerInvoice = ({ invoice }) => {
                   النقل الداخلي
                 </th>
                 <th className="border-l-[1px] border-[#c0c0c0]">شحن</th>
-                <th className="border-l-[1px] border-[#c0c0c0]">تخليص</th>
+                {!isTareekAlInsaf && (
+                  <th className="border-l-[1px] border-[#c0c0c0]">تخليص</th>
+                )}
                 <th className="border-l-[1px] border-[#c0c0c0]">كود خاص</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   التأخر في السداد
                 </th>
+                {/*  */}
                 <th className="border-l-[1px] border-[#c0c0c0]">رافعة شوكية</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   تخزين المزاد
                 </th>
-                <th className="border-l-[1px] border-[#c0c0c0]">أخرى</th>
-                <th className="border-l-[1px] border-[#c0c0c0]">الخصم</th>
+                {!isTareekAlInsaf && (
+                  <>
+                    <th className="border-l-[1px] border-[#c0c0c0]">أخرى</th>
+                    <th className="border-l-[1px] border-[#c0c0c0]">الخصم</th>
+                  </>
+                )}
                 <th className="border-l-[1px] border-[#c0c0c0]">المجموع</th>
               </tr>
               <tr>
@@ -309,7 +322,9 @@ const ContainerInvoice = ({ invoice }) => {
                 <th className="border-l-[1px] border-[#c0c0c0]">Price</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Towing</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Shipping</th>
-                <th className="border-l-[1px] border-[#c0c0c0]">Clearance</th>
+                {!isTareekAlInsaf && (
+                  <th className="border-l-[1px] border-[#c0c0c0]">Clearance</th>
+                )}
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   Special Code
                 </th>
@@ -320,7 +335,9 @@ const ContainerInvoice = ({ invoice }) => {
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   Auction Storage
                 </th>
-                <th className="border-l-[1px] border-[#c0c0c0]">Other</th>
+                {!isTareekAlInsaf && (
+                  <th className="border-l-[1px] border-[#c0c0c0]">Other</th>
+                )}
                 <th className="border-l-[1px] border-[#c0c0c0]">Discount</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Total</th>
               </tr>
@@ -361,9 +378,11 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.shippingAmount || 0}
                   </td>
-                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
-                    {car?.clearanceAmount || 0}
-                  </td>
+                  {!isTareekAlInsaf && (
+                    <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
+                      {car?.clearanceAmount || 0}
+                    </td>
+                  )}
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.specialCodeAmount || 0}
                   </td>
@@ -376,9 +395,11 @@ const ContainerInvoice = ({ invoice }) => {
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.auctionFineAmount || 0}
                   </td>
-                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
-                    {car?.otherAmount || 0}
-                  </td>
+                  {!isTareekAlInsaf && (
+                    <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
+                      {car?.otherAmount || 0}
+                    </td>
+                  )}
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.discount || 0}
                   </td>
@@ -399,15 +420,47 @@ const ContainerInvoice = ({ invoice }) => {
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                {!isTareekAlInsaf && (
+                  <>
+                    <td></td>
+                    <td></td>
+                  </>
+                )}
+
                 <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
                   Total/إجمالي
                 </td>
                 <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
-                  {totalAmount.toFixed(2)}
+                  {!isTareekAlInsaf
+                    ? totalAmount.toFixed(2)
+                    : balance.toFixed(2)}
                 </td>
               </tr>
+              {!isTareekAlInsaf && (
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  {!isTareekAlInsaf && (
+                    <>
+                      <td></td>
+                      <td></td>
+                    </>
+                  )}
+                  <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
+                    Payment/دفع
+                  </td>
+                  <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
+                    {paidAmount.toFixed(2)}
+                  </td>
+                </tr>
+              )}
               <tr>
                 <td></td>
                 <td></td>
@@ -418,27 +471,12 @@ const ContainerInvoice = ({ invoice }) => {
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
-                  Payment/دفع
-                </td>
-                <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
-                  {paidAmount.toFixed(2)}
-                </td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                {!isTareekAlInsaf && (
+                  <>
+                    <td></td>
+                    <td></td>
+                  </>
+                )}
                 <td className="border-x-[1px] border-b-[1px] border-[#c0c0c0] text-left">
                   Balance Due/الرصيد المستحق
                 </td>
@@ -490,7 +528,7 @@ export async function getServerSideProps(context) {
 
   const session: any = await getSession(context);
   const containerId = context.query?.id || 0;
-  const currency = context.query?.currency || 'aed';
+  const currency = context.query?.currency || 'usd';
 
   axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
   const response = await axios.get(`${API_URL}customer/container/invoice`, {

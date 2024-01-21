@@ -44,12 +44,6 @@ const Layout = (props: IMainProps) => {
   const GetCustomerBalance = async () => {
     const res = await axios.get(`/api/customer/customer_balance/`);
     setCustomerBalance(parseFloat(res.data?.data));
-    if (customerBalance > 0) {
-      setIsDebit(1);
-    } else {
-      setCustomerBalance(0 - customerBalance);
-      setIsDebit(0);
-    }
   };
   const getGeneralNotification = async () => {
     const res = await axios.get(`/api/customer/getnotifications`);
@@ -72,6 +66,12 @@ const Layout = (props: IMainProps) => {
   useEffect(() => {
     if (mountedRef.current) {
       GetCustomerBalance();
+      if (customerBalance > 0) {
+        setIsDebit(1);
+      } else {
+        setCustomerBalance(0 - customerBalance);
+        setIsDebit(0);
+      }
       if (generalNotification === 0) {
         getGeneralNotification();
       }

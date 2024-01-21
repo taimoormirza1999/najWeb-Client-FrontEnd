@@ -1,13 +1,124 @@
-import AWS from 'aws-sdk';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'; // Import AWS SDK v3
 import axios from 'axios';
 import formidable from 'formidable';
 import fs from 'fs';
+import {NextApiRequest} from "next";
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+const s3Region = 'me-south-1';
 const s3BucketName = process.env.BUCKET_NAME;
+const apiUrl = process.env.API_URL;
 
-export default async function handler(req, res) {
+const parseForm = (req) =>
+  new Promise((resolve, reject) => {
+    const form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files) => {
+      if (err) reject(err);
+      resolve({ fields, files });
+    });
+  });
+
+const uploadFileToS3 = async (
+  s3Client,
+  file,
+  s3SubKey,
+  dbFieldName,
+  formData
+) => {
+  const fileStream = fs.createReadStream(file.filepath);
+  const fileExt = file.originalFilename.split('.').pop();
+  const destinationFileName = `${formData.fields.lotnumber}-${file.newFilename}.${fileExt}`;
+  const s3FileKey =
+    formData.fields.external_car === '1'
+      ? 'uploads/towing_cars'
+      : 'uploads/warehouse_cars';
+  const params = {
+    Bucket: s3BucketName,
+    Key: `${s3FileKey}/${s3SubKey}/${destinationFileName}`,
+    Body: fileStream,
+    ContentType: file.mimetype,
+  };
+  const command = new PutObjectCommand(params);
+
+  try {
+    const result = await s3Client.send(command);
+    formData.fields[dbFieldName] = destinationFileName;
+    return result.Location;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const handlePostRequest = async (req, res) => {
+  try {
+    const formData = await Promise.race([
+      parseForm(req),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Form parsing timed out')), 5000)
+      ),
+    ]);
+
+    if (!formData) {
+      console.error('Error parsing form data or operation timed out');
+      return res
+        .status(500)
+        .json({ error: 'Error parsing form data or operation timed out' });
+    }
+
+    console.log('Form data parsed successfully:', formData);
+
+    const filesObjectKeys = Object.keys(formData.files);
+    const s3Client = new S3Client({ region: s3Region });
+
+    console.log('Uploading files to S3...');
+    const uploadPromises = Object.values(formData.files).map(
+      async (file, i) => {
+        const s3SubKey =
+          filesObjectKeys[i] === 'invoiceFile' ? 'invoices' : 'photos';
+        const dbFieldName =
+          filesObjectKeys[i] === 'invoiceFile' ? 'invoice' : 'car_photo';
+        return uploadFileToS3(s3Client, file, s3SubKey, dbFieldName, formData);
+      }
+    );
+
+    const uploadResults = await Promise.allSettled(uploadPromises);
+    const failedUploads = uploadResults.filter(
+      (result) => result.status === 'rejected'
+    );
+
+    if (failedUploads.length > 0) {
+      console.error('Some file uploads failed:', failedUploads);
+      return res.status(500).json({ error: 'Some file uploads failed' });
+    }
+
+    console.log('Files uploaded successfully:', uploadResults);
+
+    console.log('Sending request to API...');
+    const response = await axios.post(
+      `${apiUrl}warehouseCarRequest`,
+      formData,
+      { timeout: 5000 }
+    );
+
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error:', error.message, error.stack);
+    return res
+      .status(500)
+      .json({ error: `Error sending form data to API, ${error.message}` });
+  }
+};
+
+export default async function handler(req: NextApiRequest, res) {
+  console.log('Handling 111 REQUEST...');
+
   const { method } = req;
-  const apiUrl = process.env.API_URL;
   res.setHeader('Cache-Control', 'no-store, max-age=0');
 
   if (method === 'GET') {
@@ -61,69 +172,9 @@ export default async function handler(req, res) {
       : res.status(500).json([]);
   }
 
-  if (method === 'POST') {
-    try {
-      const formData = await new Promise((resolve, reject) => {
-        const form = new formidable.IncomingForm();
-        form.parse(req, (err, fields, files) => {
-          if (err) reject(err);
-          resolve({ fields, files });
-        });
-      });
-
-      if (!formData) {
-        return res.status(500).json({ error: 'Error parsing form data' });
-      }
-
-      const { external_car: externalCar } = formData.fields;
-
-      const s3 = new AWS.S3();
-      const filesObjecKeys = Object.keys(formData.files);
-
-      const uploadFileToS3 = async (file, s3SubKey, dbFieldName) => {
-        const fileStream = fs.createReadStream(file.filepath);
-        const fileExt = file.originalFilename.split('.').pop();
-        const destinationFileName = `${formData.fields.lotnumber}-${file.newFilename}.${fileExt}`;
-        const s3FileKey =
-          externalCar === '1'
-            ? 'uploads/towing_cars'
-            : 'uploads/warehouse_cars';
-        const params = {
-          Bucket: s3BucketName,
-          Key: `${s3FileKey}/${s3SubKey}/${destinationFileName}`,
-          Body: fileStream,
-          ContentType: file.mimetype,
-        };
-
-        const result = await s3.upload(params).promise();
-        formData.fields[dbFieldName] = destinationFileName;
-        return result.Location;
-      };
-
-      const uploadPromises = Object.values(formData.files).map(
-        async (file, i) => {
-          const s3SubKey =
-            filesObjecKeys[i] === 'invoiceFile' ? 'invoices' : 'photos';
-          const dbFieldName =
-            filesObjecKeys[i] === 'invoiceFile' ? 'invoice' : 'car_photo';
-          return uploadFileToS3(file, s3SubKey, dbFieldName);
-        }
-      );
-
-      await Promise.all(uploadPromises);
-
-      const response = await axios.post(
-        `${apiUrl}warehouseCarRequest`,
-        formData
-      );
-
-      return res.status(200).json(response.data);
-    } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json({ error: `Error sending form data to API, ${error}` });
-    }
+  if (req.method === 'POST') {
+    console.log('Handli 2222 ng POST request...');
+    return handlePostRequest(req, res);
   }
   if (method === 'PUT') {
     try {
@@ -153,8 +204,4 @@ export default async function handler(req, res) {
   return res.status(500).json([]);
 }
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+

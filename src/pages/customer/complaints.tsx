@@ -1,6 +1,8 @@
 import { Dialog } from '@headlessui/react';
 import axios from 'axios';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { getSession } from 'next-auth/react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
@@ -11,7 +13,7 @@ import { UserContext } from '@/components/userContext';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
 import { classNames } from '@/utils/Functions';
-import { grantIfLogin, postData } from '@/utils/network';
+import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 export interface Complaint {
   complaint_message_id: string;
@@ -19,11 +21,14 @@ export interface Complaint {
   title: string;
   lot_vin: string;
   message: string;
+  complaint_type: string;
   readable_create_date: string;
 }
 
-const Complaints = () => {
+const Complaints = ({ complaintTypes }) => {
   const intl = useIntl();
+  const router = useRouter();
+  const { locale } = router;
   const userContextData = useContext(UserContext) as
     | { profile?: Record<string, any> }
     | undefined;
@@ -31,42 +36,77 @@ const Complaints = () => {
 
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [messages, setMessages] = useState([]);
+  const [complaintTrackingNo, setComplaintTrackingNo] = useState(0);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const okButtonRef = useRef(null);
-  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState({
+    status: false,
+    message: '',
+  });
   const okButtonErrorRef = useRef(null);
   const [newComplaint, setNewComplaint] = useState(0);
+  const [complaintFile, setComplaintFile] = useState(null);
+  const fileInputRef = useRef(null);
   const [inputValue, setInputValue] = useState({
     lot_vin: '',
     subject: '',
     message: '',
+    complaint_type: '',
   });
+
+  const handleComplaintFileChange = (e) => {
+    const file = e.target.files[0];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/jpg'];
+    if (!allowedTypes.includes(file?.type)) {
+      e.target.value = null;
+
+      setErrorModalOpen({
+        status: true,
+        message: intl.formatMessage({ id: 'form.validaton.only_image' }),
+      });
+    } else {
+      setComplaintFile(e.target.files[0]);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = {
-      customer_id: profile?.customer_id,
-      lot_vin: event.target.lot_vin.value,
-      subject: event.target.subject.value,
-      message: event.target.message.value,
-    };
+    const formData = new FormData();
+    formData.append('customer_id', profile?.customer_id);
+    Object.entries(inputValue).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
-    const response = await postData(
-      '/api/customer/complaint/submitComplaint',
-      formData
-    );
-
-    if (response.success === true) {
-      setNewComplaint(newComplaint + 1);
-      setSubmitModalOpen(true);
-      setInputValue(() => ({
-        lot_vin: '',
-        subject: '',
-        message: '',
-      }));
-    } else {
-      setErrorModalOpen(true);
+    if (complaintFile) {
+      formData.append('complaintFile', complaintFile);
     }
+
+    fetch('/api/customer/complaint/submitComplaint/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setNewComplaint(newComplaint + 1);
+        setComplaintTrackingNo(res.complaint_no);
+        setSubmitModalOpen(true);
+        setInputValue(() => ({
+          lot_vin: '',
+          subject: '',
+          message: '',
+          complaint_type: '',
+        }));
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      })
+      .catch(() => {
+        setErrorModalOpen({
+          status: true,
+          message: intl.formatMessage({ id: 'general.technicalErr' }),
+        });
+      });
   };
 
   function handleChange(event) {
@@ -108,7 +148,10 @@ const Complaints = () => {
       })
       .catch(() => {
         setMessages([]);
-        setErrorModalOpen(true);
+        setErrorModalOpen({
+          status: true,
+          message: intl.formatMessage({ id: 'general.technicalErr' }),
+        });
       });
   };
 
@@ -130,6 +173,11 @@ const Complaints = () => {
           </Dialog.Title>
           <div className="mt-2">
             <p className="mb-4 py-6 text-xl">
+              <b>
+                {intl.formatMessage({ id: 'messages.tracking_no' })}
+                {': '}
+              </b>
+              {complaintTrackingNo} <br />{' '}
               {intl.formatMessage({ id: 'messages.receivedmsg' })} <br />{' '}
               {intl.formatMessage({ id: 'messages.getbacksoon' })}
             </p>
@@ -149,10 +197,10 @@ const Complaints = () => {
         </div>
       </CustomModal>
       <CustomModal
-        showOn={errorModalOpen}
+        showOn={errorModalOpen.status}
         initialFocus={okButtonErrorRef}
         onClose={() => {
-          setErrorModalOpen(false);
+          setErrorModalOpen({ status: false, message: '' });
         }}
       >
         <div className="text-dark-blue mt-6 text-center sm:mt-16">
@@ -161,9 +209,7 @@ const Complaints = () => {
             {intl.formatMessage({ id: 'general.sorry' })}
           </Dialog.Title>
           <div className="mt-2">
-            <p className="mb-4 py-6 text-2xl">
-              {intl.formatMessage({ id: 'general.technicalErr' })}
-            </p>
+            <p className="mb-4 py-6 text-2xl">{errorModalOpen.message}</p>
           </div>
         </div>
         <div className="mt-5 flex justify-center gap-4 sm:mt-6">
@@ -171,7 +217,7 @@ const Complaints = () => {
             type="button"
             className="bg-azure-blue my-4 inline-block max-w-max rounded-md px-8 py-2 text-xl font-medium text-white hover:border-0 hover:bg-blue-500"
             onClick={() => {
-              setErrorModalOpen(false);
+              setErrorModalOpen({ status: false, message: '' });
             }}
             ref={okButtonErrorRef}
           >
@@ -198,17 +244,19 @@ const Complaints = () => {
             tagline={'page.complaints.header'}
           />
         </div>
-        {/* <p className="text-dark-blue ml-5 text-xl lg:text-2xl">
-          <FormattedMessage id="page.complaints.header" />
-        </p> */}
       </div>
       <div className="mx-auto px-8">
         <div className="flex justify-center">
-          <form method="post" onSubmit={handleSubmit} className="form-head">
+          <form
+            method="post"
+            onSubmit={handleSubmit}
+            className="form-head"
+            encType="multipart/form-data"
+          >
             <div className="mt-1">
               <div>
                 <span className="">
-                  <FormattedMessage id="messages.vin_lot" />
+                  <FormattedMessage id="messages.lot" />
                 </span>
               </div>
               <input
@@ -216,10 +264,11 @@ const Complaints = () => {
                 name="lot_vin"
                 type="text"
                 required
-                // placeholder={intl.formatMessage({ id: 'messages.vin_lot' })}
                 className="placeholder:text-outer-space border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 value={inputValue.lot_vin}
                 onChange={handleChange}
+                maxLength={12}
+                minLength={6}
               />
             </div>
             <div className="relative mt-1 ">
@@ -234,14 +283,55 @@ const Complaints = () => {
                 name="subject"
                 type="text"
                 required
-                // placeholder={intl.formatMessage({ id: 'messages.subject' })}
                 className="border-medium-grey text-outer-space block w-full appearance-none rounded border px-3 py-2 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 value={inputValue.subject}
                 onChange={handleChange}
               />
-              {/* <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
-                *
-              </span> */}
+            </div>
+            <div className="w-full">
+              <div className="mt-3">
+                <span>
+                  <FormattedMessage id="form.complaint_type" />
+                </span>
+                <span className="right-text font-bold">*</span>
+              </div>
+              <select
+                required
+                className="w-full rounded-md border px-1 text-lg text-gray-700"
+                name="complaint_type"
+                onChange={handleChange}
+                value={inputValue.complaint_type}
+              >
+                <option value="">
+                  {intl.formatMessage({ id: 'form.select' })}
+                </option>
+                {complaintTypes ? (
+                  complaintTypes.map((type, i) => (
+                    <option key={i} value={type.id}>
+                      {type[`title_${locale}`]}
+                    </option>
+                  ))
+                ) : (
+                  <option value={0}></option>
+                )}
+              </select>
+            </div>
+            <div className="relative mt-1 ">
+              <div className="mt-3">
+                <span>
+                  <FormattedMessage id="form.attachment" />
+                </span>
+                <span className="right-text font-bold">*</span>
+              </div>
+              <input
+                id="complaint_file"
+                name="complaint_file"
+                type="file"
+                className="border-medium-grey text-outer-space block w-full appearance-none rounded border p-1 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
+                accept="image/png, image/gif, image/jpeg"
+                ref={fileInputRef}
+                onChange={handleComplaintFileChange}
+              />
             </div>
             <div className="relative mt-1 ">
               <div className="mt-3">
@@ -255,13 +345,9 @@ const Complaints = () => {
                 required
                 className="text-outer-space border-medium-grey w-full resize-none rounded border text-lg focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
                 name="message"
-                // placeholder={intl.formatMessage({ id: 'messages.message' })}
                 value={inputValue.message}
                 onChange={handleChange}
               ></textarea>
-              {/* <span className="text-yellow-orange absolute top-0 text-xl font-bold ltr:left-0 rtl:right-0">
-                *
-              </span> */}
             </div>
 
             <button type="submit" className="submit-button">
@@ -296,7 +382,12 @@ const Complaints = () => {
                     </div>
                     <hr className="mt-2" />
                     <div className="flex justify-between px-3 py-2">
-                      <small>Complaint # {row.complaint_no}</small>
+                      <div className="flex w-2/3">
+                        <small>Complaint # {row.complaint_no}</small>
+                        {row.complaint_type > '' ? (
+                          <small>, {row[`complaint_type_${locale}`]}</small>
+                        ) : null}
+                      </div>
                       <small>{row.readable_create_date}</small>
                     </div>
                   </div>
@@ -321,7 +412,34 @@ const Complaints = () => {
   );
 };
 export async function getServerSideProps(context) {
-  return grantIfLogin(context);
+  if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
+  const session: any = await getSession(context);
+
+  axios.defaults.headers.common.Authorization = `Bearer ${session?.token.access_token}`;
+  axios.defaults.timeout = 300000;
+  const apiUrl = process.env.API_URL;
+  let complaintTypes = {};
+  try {
+    if (session && session.token && session.token.access_token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${session.token.access_token}`;
+      await axios
+        .get(`${apiUrl}complaintTypes`, {})
+        .then((response) => {
+          complaintTypes = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    return {
+      props: {
+        complaintTypes,
+      },
+    };
+  } catch (err) {
+    return NetworkStatus.LOGIN_PAGE;
+  }
 }
 
 export default Complaints;
