@@ -640,12 +640,12 @@ const Layout = (props: IMainProps) => {
               <div className="pb-5 ltr:text-right rtl:text-left">
                 {isDebit > 0 && (
                   <span className="mt-1 mr-8 inline-flex items-center rounded-lg bg-red-100 px-2.5 py-0.5 text-xl font-medium text-[#A30000]">
-                    {customerBalance.toLocaleString('hi-IN')} AED
+                    {customerBalance.toLocaleString()} AED
                   </span>
                 )}
                 {isDebit === 0 && (
                   <span className="mt-1 inline-flex items-center rounded-lg bg-green-100 px-2.5 py-0.5 text-xl font-medium text-green-800">
-                    {customerBalance.toLocaleString('hi-IN')} AED
+                    {customerBalance.toLocaleString()} AED
                   </span>
                 )}
               </div>
