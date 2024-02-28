@@ -79,7 +79,6 @@ export default function WarehouseCarsRequestForm({
     if (wizardStepIndex.current === 2) {
       requiredFields = [
         'delivered_date',
-        'towing_price',
         'sale_price',
         'destination',
         'gate_pass_pin',
@@ -98,6 +97,7 @@ export default function WarehouseCarsRequestForm({
       ); */
     } else if (allowWarehouseCarsRequests && wizardStepIndex.current === 3) {
       requiredFields = [
+        'towing_price',
         'driver_name',
         'driver_number',
         'driver_email',
@@ -825,7 +825,7 @@ export default function WarehouseCarsRequestForm({
                       {getValidationMessage('region_id')}
                     </div>
                   )}
-                  <div className="w-full">
+                  <div className="w-1/2">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.gate_pass_pin" />
                       <span className="mx-1 text-lg text-red-500">*</span>
@@ -841,9 +841,7 @@ export default function WarehouseCarsRequestForm({
                     />
                     {getValidationMessage('gate_pass_pin')}
                   </div>
-                </div>
-                <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
+                  <div className="w-1/2">
                     <label className="text-teal-blue block text-lg rtl:text-right">
                       <FormattedMessage id="form.delivered_date" />
                       <span className="mx-1 text-lg text-red-500">*</span>
@@ -857,22 +855,6 @@ export default function WarehouseCarsRequestForm({
                       defaultValue={carData.delivered_date}
                     />
                     {getValidationMessage('delivered_date')}
-                  </div>
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.towing_price" />
-                      <span className="mx-1 text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="number"
-                      step={0.01}
-                      name="towing_price"
-                      required
-                      onChange={handleChange}
-                      defaultValue={carData.towing_price}
-                    />
-                    {getValidationMessage('towing_price')}
                   </div>
                 </div>
                 <div className="my-4 gap-2 sm:flex">
@@ -1137,6 +1119,22 @@ export default function WarehouseCarsRequestForm({
                         value={carData?.driver_address}
                       />
                       {getValidationMessage('driver_address')}
+                    </div>
+                    <div className="w-full">
+                      <label className="text-teal-blue block text-lg rtl:text-right">
+                        <FormattedMessage id="form.towing_price" />
+                        <span className="mx-1 text-lg text-red-500">*</span>
+                      </label>
+                      <input
+                        className="w-full rounded-md border px-1 text-lg text-gray-700"
+                        type="number"
+                        step={0.01}
+                        name="towing_price"
+                        required
+                        onChange={handleChange}
+                        defaultValue={carData.towing_price}
+                      />
+                      {getValidationMessage('towing_price')}
                     </div>
                   </div>
                 </div>
