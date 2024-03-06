@@ -33,7 +33,9 @@ const uploadFileToS3 = async (
 ) => {
   const fileStream = fs.createReadStream(file.filepath);
   const fileExt = file.originalFilename.split('.').pop();
-  const destinationFileName = `${formData.fields.lotnumber}-${file.newFilename}.${fileExt}`;
+  const destinationFileName = `${formData.fields.lotnumber.trim()}-${
+    file.newFilename
+  }.${fileExt}`;
   const s3FileKey =
     formData.fields.external_car === '1'
       ? 'uploads/towing_cars'

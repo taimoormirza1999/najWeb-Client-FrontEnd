@@ -121,7 +121,7 @@ export default function TowingCarsRequestForm({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCarData((prevState) => ({ ...prevState, [name]: value }));
+    setCarData((prevState) => ({ ...prevState, [name]: value.trim() }));
   };
 
   const handleReactSelectChange = (name, value) => {
