@@ -3,6 +3,7 @@ import axios from 'axios';
 import formidable from 'formidable';
 import fs from 'fs';
 import {NextApiRequest} from "next";
+import path from 'path';
 
 export const config = {
   api: {
@@ -100,6 +101,22 @@ const handlePostRequest = async (req, res) => {
     console.log('Files uploaded successfully:', uploadResults);
 
     console.log('Sending request to API...');
+
+    // temporary log request START
+    const folderPath = `./public/car-requests/${
+      formData?.fields?.customer_id || 0
+    }`;
+    const logFileName = `${Date.now()}-${Math.floor(Math.random() * 99999999)}`;
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath);
+    }
+
+    const filePath2 = path.join(folderPath, logFileName);
+    if (!fs.existsSync(filePath2)) {
+      fs.writeFileSync(filePath2, JSON.stringify(formData));
+    }
+    // temporary log request END
+
     const response = await axios.post(
       `${apiUrl}warehouseCarRequest`,
       formData,
@@ -116,8 +133,6 @@ const handlePostRequest = async (req, res) => {
 };
 
 export default async function handler(req: NextApiRequest, res) {
-  console.log('Handling 111 REQUEST...');
-
   const { method } = req;
   res.setHeader('Cache-Control', 'no-store, max-age=0');
 
@@ -173,7 +188,6 @@ export default async function handler(req: NextApiRequest, res) {
   }
 
   if (req.method === 'POST') {
-    console.log('Handli 2222 ng POST request...');
     return handlePostRequest(req, res);
   }
   if (method === 'PUT') {
