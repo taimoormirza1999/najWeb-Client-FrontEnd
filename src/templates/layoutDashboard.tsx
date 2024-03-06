@@ -1,7 +1,7 @@
 import { faBell, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
-import { ChevronRightIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon, MenuIcon, XIcon, RefreshIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import Link from 'next/link';
@@ -38,15 +38,20 @@ const Layout = (props: IMainProps) => {
   const { profile } = useContext(UserContext);
   const [notify, setNotify] = useState([]);
   const [customerBalance, setCustomerBalance] = useState(0);
-  const [isDebit, setIsDebit] = useState(0);
+  const [isBalanceLoaded, setIsBalanceLoaded] = useState(-1);
   const [generalNotification, setGeneralNotification] = useState(0);
   const [isExpanded, setIsExpanded] = useState(true);
   const GetCustomerBalance = async () => {
     const res = await axios.get(`/api/customer/customer_balance/`);
     setCustomerBalance(parseFloat(res.data?.data));
+    setIsBalanceLoaded(1);
   };
   const getGeneralNotification = async () => {
-    const res = await axios.get(`/api/customer/getnotifications`);
+    const res = await axios.get('/api/customer/getnotifications', {
+      headers: {
+        'Cache-Control': 'max-age=300', // 5 minutes
+      },
+    });
     setNotify(res.data.data ? res.data.data : []);
     setGeneralNotification(1);
   };
@@ -65,13 +70,6 @@ const Layout = (props: IMainProps) => {
 
   useEffect(() => {
     if (mountedRef.current) {
-      GetCustomerBalance();
-      if (customerBalance > 0) {
-        setIsDebit(1);
-      } else {
-        setCustomerBalance(0 - customerBalance);
-        setIsDebit(0);
-      }
       if (generalNotification === 0) {
         getGeneralNotification();
       }
@@ -638,7 +636,30 @@ const Layout = (props: IMainProps) => {
           <main className="flex-1">
             <div className="bg-dark-blue py-2">
               <div className="pb-5 ltr:text-right rtl:text-left">
-                {isDebit > 0 && (
+                <span
+                  className={classNames(
+                    customerBalance > 0
+                      ? 'text-red bg-red-100'
+                      : 'text-green-800 bg-green-100',
+                    'mt-1 inline-flex cursor-pointer items-center rounded-lg px-2.5 py-0.5 text-xl font-medium'
+                  )}
+                  onClick={() => {
+                    setIsBalanceLoaded(0);
+                    GetCustomerBalance();
+                  }}
+                >
+                  {isBalanceLoaded === 1
+                    ? customerBalance.toLocaleString()
+                    : intl.formatMessage({ id: 'general.show_balance' })}
+                  <RefreshIcon
+                    className={classNames(
+                      isBalanceLoaded === 0 ? 'animate-spin' : '',
+                      'ml-1 h-4 w-4 rtl:mr-1'
+                    )}
+                    aria-hidden="true"
+                  />
+                </span>
+                {/* {isDebit > 0 && (
                   <span className="mt-1 mr-8 inline-flex items-center rounded-lg bg-red-100 px-2.5 py-0.5 text-xl font-medium text-[#A30000]">
                     {customerBalance.toLocaleString()} AED
                   </span>
@@ -647,7 +668,7 @@ const Layout = (props: IMainProps) => {
                   <span className="mt-1 inline-flex items-center rounded-lg bg-green-100 px-2.5 py-0.5 text-xl font-medium text-green-800">
                     {customerBalance.toLocaleString()} AED
                   </span>
-                )}
+                )} */}
               </div>
               <div className="ml-2 pb-4 sm:pb-4 md:ml-6 md:flex md:justify-between md:px-1 lg:pt-1">
                 <div className="max-w-xl">
