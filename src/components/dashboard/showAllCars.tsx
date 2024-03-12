@@ -213,7 +213,14 @@ const ShowAllCars = ({
                             {car.carMakerName} {car.carModelName} {car.year}
                           </TableColumn>
                           <TableColumn scope="col" className="min-w-[135px]">
-                            Lot: {car.lotnumber} <br /> Vin: {car.vin}
+                            Lot: {car.lotnumber} <br /> Vin: {car.vin} <br />
+                            {car.port_receiver_customer_name > '' && (
+                              <>
+                                <FormattedMessage id="port.receiver_name" />
+                                {': '}
+                                {car.port_receiver_customer_name}
+                              </>
+                            )}
                           </TableColumn>
                           <TableColumn scope="col" className="min-w-[200px]">
                             {car.auction_location_name}
