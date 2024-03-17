@@ -299,7 +299,8 @@ export default function WarehouseCarsRequestForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ((await validateFormFields()) && !submitStarted) {
+    if (await validateFormFields()) {
+      console.log('form sent');
       setSubmitStarted(true);
 
       const formData = new FormData();

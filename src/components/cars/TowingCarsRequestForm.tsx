@@ -340,7 +340,7 @@ export default function TowingCarsRequestForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ((await validateFormFields()) && !submitStarted) {
+    if (await validateFormFields()) {
       setSubmitStarted(true);
 
       const formData = new FormData();
