@@ -443,6 +443,7 @@
   "shipping": "الشحن",
   "port": "الميناء",
   "store": "المستودع",
+  "change_destination": "تغيير الميناء",
   "changeReceiver": "تغيير المستلم",
   "changeReceiveMsg": "تغيير اسم المستلم لهذه السيارة",
   "form.validation.message.required": "هذه الخانة مطلوبه",

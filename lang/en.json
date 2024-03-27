@@ -465,6 +465,7 @@
   "car.driver_detail": "Driver Detail",
   "port": "PORT",
   "store": "STORE",
+  "change_destination": "Change Destination",
   "changeReceiver": "Change receiver",
   "changeReceiveMsg": "Change the receiver name of the car",
   "page.title.towing_cars": "Towing Cars",
