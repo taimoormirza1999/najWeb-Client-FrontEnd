@@ -4,7 +4,8 @@ export default async function handler(req, res) {
   await axios
     .get(`${process.env.API_URL}general/getCountryPorts`, {
       params: {
-        country_id: req.query.country_id,
+        country_id: req.query.country_id || null,
+        limit: req.query.limit || 10,
       },
     })
     .then((response) => {
