@@ -157,7 +157,7 @@ const ShippingCarTab = ({
       name: 'dock_receipt',
     },
   ];
-  if (session?.profile[0]?.naj_branch === '1') {
+  if (session?.profile[0]?.allow_arrived_to_port === '1') {
     carTableHeader.push({
       name: 'page.customer.dashboard.table.arrived_to_port',
     });
@@ -443,7 +443,7 @@ const ShippingCarTab = ({
                             <span>NA</span>
                           )}
                         </TableColumn>
-                        {session?.profile[0]?.naj_branch === '1' ? (
+                        {session?.profile[0]?.allow_arrived_to_port === '1' ? (
                           <TableColumn scope="col" className="min-w-[47px]">
                             {car.isUAEPort === '0' ? (
                               <button
