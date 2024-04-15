@@ -287,7 +287,7 @@ const ContainerInvoice = ({ invoice }) => {
           </tbody>
         </table>
 
-        {cars && cars.length > 1 ? (
+        {cars && cars.length > 0 ? (
           <table className="my-1 w-full font-bold">
             <thead className="text-dark-blue rounded-xl border-[1px] border-[#c0c0c0] p-2 text-[9px]">
               <tr>
