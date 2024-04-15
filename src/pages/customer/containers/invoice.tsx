@@ -14,6 +14,7 @@ const { API_URL } = process.env;
 const ContainerInvoice = ({ invoice }) => {
   const router = useRouter();
   const { profile } = useContext(UserContext);
+  const currencyLabel = router.query?.currency === 'aed' ? 'AED' : '$';
   const isTareekAlInsaf = false;
   // invoice.container.full_name_en === 'Tareq Al Insaf Used Cars'; // later change to id
 
@@ -168,7 +169,9 @@ const ContainerInvoice = ({ invoice }) => {
               </thead>
               <tbody className="text-dark-blue border-dark-blue border">
                 <tr>
-                  <td className="border-dark-blue border-r">{balance}</td>
+                  <td className="border-dark-blue border-r">
+                    {currencyLabel} {balance}
+                  </td>
                   <td></td>
                 </tr>
               </tbody>
@@ -180,14 +183,14 @@ const ContainerInvoice = ({ invoice }) => {
           <p>Please detatch top portion and return with your payment.</p>
         </div>
         <div>
-          <div className="border-light-grey mt-[20px] w-[97%] border-2 border-dashed"></div>
+          <div className="border-light-grey mt-[15px] w-[97%] border-2 border-dashed"></div>
           <ScissorsIcon
-            className="text-light-grey float-right mt-[-14px] h-6 w-6 rotate-180"
+            className="text-light-grey float-right mt-[-15px] h-6 w-6 rotate-180"
             aria-hidden="true"
           />
         </div>
 
-        <div className="text-dark-blue border-dark-blue mt-[30px] flex  justify-between rounded-xl border-2 p-2 text-[12px] font-bold">
+        <div className="text-dark-blue border-dark-blue mt-[15px] flex  justify-between rounded-xl border-2 p-2 text-[12px] font-bold">
           <h4>Bill Information</h4>
           <h4> تفاصيل الفاتورة</h4>
         </div>
@@ -214,13 +217,13 @@ const ContainerInvoice = ({ invoice }) => {
           </div>
         </div>
 
-        <div className="text-dark-blue border-dark-blue mt-5 flex justify-between rounded-xl border-2 p-2 text-[12px] font-bold">
+        <div className="text-dark-blue border-dark-blue my-2 flex justify-between rounded-xl border-2 p-2 text-[12px] font-bold">
           <h4 className="w-1/3">Cargo Information</h4>
           <h4 className="w-1/3 text-center">{container_number}</h4>
           <h4 className="w-1/3 text-right">معلومات الحاوية </h4>
         </div>
 
-        <table className="ml-2 w-full ">
+        <table className="ml-2 mb-1 w-full">
           <tbody>
             <tr>
               <td>
@@ -285,8 +288,8 @@ const ContainerInvoice = ({ invoice }) => {
         </table>
 
         {cars && cars.length > 1 ? (
-          <table className="' my-1 mt-[20px] w-full font-bold">
-            <thead className="text-dark-blue mt-1 rounded-xl border-[1px] border-[#c0c0c0] p-2 ">
+          <table className="my-1 w-full font-bold">
+            <thead className="text-dark-blue rounded-xl border-[1px] border-[#c0c0c0] p-2 text-[9px]">
               <tr>
                 <th>وصف</th>
                 <th className="border-l-[1px] border-[#c0c0c0]"> المزاد</th>
@@ -319,27 +322,65 @@ const ContainerInvoice = ({ invoice }) => {
               <tr>
                 <th>Description</th>
                 <th className="border-l-[1px] border-[#c0c0c0]">Auction</th>
-                <th className="border-l-[1px] border-[#c0c0c0]">Price</th>
-                <th className="border-l-[1px] border-[#c0c0c0]">Towing</th>
-                <th className="border-l-[1px] border-[#c0c0c0]">Shipping</th>
+                <th className="border-l-[1px] border-[#c0c0c0]">
+                  Price
+                  <br />
+                  <small>{currencyLabel}</small>
+                </th>
+                <th className="border-l-[1px] border-[#c0c0c0]">
+                  Towing
+                  <br />
+                  <small>{currencyLabel}</small>
+                </th>
+                <th className="border-l-[1px] border-[#c0c0c0] ">
+                  Shipping
+                  <br />
+                  <small>{currencyLabel}</small>
+                </th>
                 {!isTareekAlInsaf && (
-                  <th className="border-l-[1px] border-[#c0c0c0]">Clearance</th>
+                  <th className="border-l-[1px] border-[#c0c0c0]">
+                    Clearance
+                    <br />
+                    <small>{currencyLabel}</small>
+                  </th>
                 )}
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   Special Code
+                  <br />
+                  <small>{currencyLabel}</small>
                 </th>
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   Late Payment
+                  <br />
+                  <small>{currencyLabel}</small>
                 </th>
-                <th className="border-l-[1px] border-[#c0c0c0]">Forklift</th>
+                <th className="border-l-[1px] border-[#c0c0c0]">
+                  Forklift
+                  <br />
+                  <small>{currencyLabel}</small>
+                </th>
                 <th className="border-l-[1px] border-[#c0c0c0]">
                   Auction Storage
+                  <br />
+                  <small>{currencyLabel}</small>
                 </th>
                 {!isTareekAlInsaf && (
-                  <th className="border-l-[1px] border-[#c0c0c0]">Other</th>
+                  <th className="border-l-[1px] border-[#c0c0c0]">
+                    Other
+                    <br />
+                    <small>{currencyLabel}</small>
+                  </th>
                 )}
-                <th className="border-l-[1px] border-[#c0c0c0]">Discount</th>
-                <th className="border-l-[1px] border-[#c0c0c0]">Total</th>
+                <th className="border-l-[1px] border-[#c0c0c0]">
+                  Discount
+                  <br />
+                  <small>{currencyLabel}</small>
+                </th>
+                <th className="border-l-[1px] border-[#c0c0c0]">
+                  Total
+                  <br />
+                  <small>{currencyLabel}</small>
+                </th>
               </tr>
             </thead>
 
@@ -374,13 +415,43 @@ const ContainerInvoice = ({ invoice }) => {
                   </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.towingAmount || 0}
+                    {car?.notes?.posted_notes > '' ? (
+                      <small>
+                        <br />
+                        {car.notes.posted_notes}
+                      </small>
+                    ) : null}
                   </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.shippingAmount || 0}
+                    {car?.notes?.shipping_notes > '' ? (
+                      <small>
+                        <br />
+                        {car.notes.shipping_notes}
+                      </small>
+                    ) : null}
+                    {car?.notes?.loading2_notes > '' ? (
+                      <small>
+                        <br />
+                        {car.notes.loading2_notes}
+                      </small>
+                    ) : null}
                   </td>
                   {!isTareekAlInsaf && (
                     <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                       {car?.clearanceAmount || 0}
+                      {car?.notes?.clearance_notes > '' ? (
+                        <small>
+                          <br />
+                          {car.notes.clearance_notes}
+                        </small>
+                      ) : null}
+                      {car?.notes?.transportation_notes > '' ? (
+                        <small>
+                          <br />
+                          {car.notes.transportation_notes}
+                        </small>
+                      ) : null}
                     </td>
                   )}
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
@@ -398,10 +469,22 @@ const ContainerInvoice = ({ invoice }) => {
                   {!isTareekAlInsaf && (
                     <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                       {car?.otherAmount || 0}
+                      {car?.notes?.generalextra_notes > '' ? (
+                        <small>
+                          <br />
+                          {car.notes.generalextra_notes}
+                        </small>
+                      ) : null}
                     </td>
                   )}
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {car?.discount || 0}
+                    {car?.notes?.discount_notes > '' ? (
+                      <small>
+                        <br />
+                        {car.notes.discount_notes}
+                      </small>
+                    ) : null}
                   </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0]">
                     {' '}
@@ -431,6 +514,7 @@ const ContainerInvoice = ({ invoice }) => {
                   Total/إجمالي
                 </td>
                 <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
+                  {currencyLabel}{' '}
                   {!isTareekAlInsaf
                     ? totalAmount.toFixed(2)
                     : balance.toFixed(2)}
@@ -457,7 +541,7 @@ const ContainerInvoice = ({ invoice }) => {
                     Payment/دفع
                   </td>
                   <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
-                    {paidAmount.toFixed(2)}
+                    {currencyLabel} {paidAmount.toFixed(2)}
                   </td>
                 </tr>
               )}
@@ -481,7 +565,7 @@ const ContainerInvoice = ({ invoice }) => {
                   Balance Due/الرصيد المستحق
                 </td>
                 <td className="border-b-[1px] border-r-[1px] border-[#c0c0c0] text-center">
-                  {balance.toFixed(2)}
+                  {currencyLabel} {balance.toFixed(2)}
                 </td>
               </tr>
             </tbody>
