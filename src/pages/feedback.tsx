@@ -219,53 +219,27 @@ export default function Feedback({ validLink }) {
                             <FormattedMessage id="form.very_high_effort" />
                           </p>
                         </div>
-                        <div
-                          className={classNames(
-                            inputValue.question_1 === '2'
-                              ? 'border-blue-700'
-                              : 'border-transparent',
-                            'cursor-pointer border-2 p-1 min-w-[70px] text-center hover:border-blue-700'
-                          )}
-                          onClick={() => updateRating('question_1', '2')}
-                        >
-                          <Image
-                            src="/assets/images/smiley/mood-bad.png"
-                            alt="Bad"
-                            width={36}
-                            height={36}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            inputValue.question_1 === '3'
-                              ? 'border-blue-700'
-                              : 'border-transparent',
-                            'cursor-pointer border-2  p-1 min-w-[70px] text-center hover:border-blue-700'
-                          )}
-                          onClick={() => updateRating('question_1', '3')}
-                        >
-                          <Image
-                            src="/assets/images/smiley/mood-average.png"
-                            alt="Very Average"
-                            width={36}
-                            height={36}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            inputValue.question_1 === '4'
-                              ? 'border-blue-700'
-                              : 'border-transparent',
-                            'cursor-pointer border-2 p-1 min-w-[70px] text-center hover:border-blue-700'
-                          )}
-                          onClick={() => updateRating('question_1', '4')}
-                        >
-                          <Image
-                            src="/assets/images/smiley/mood-good.png"
-                            alt="Good"
-                            width={36}
-                            height={36}
-                          />
+                        <div className="text-center">
+                          <div
+                            className={classNames(
+                              inputValue.question_1 === '3'
+                                ? 'border-blue-700'
+                                : 'border-transparent',
+                              'cursor-pointer border-2  p-1 hover:border-blue-700'
+                            )}
+                            onClick={() => updateRating('question_1', '3')}
+                          >
+                            <Image
+                              src="/assets/images/smiley/mood-average.png"
+                              alt="Average"
+                              width={36}
+                              height={36}
+                              className=""
+                            />
+                          </div>
+                          <p className="text-center text-xs">
+                            <FormattedMessage id="form.average" />
+                          </p>
                         </div>
                         <div>
                           <div
@@ -320,53 +294,26 @@ export default function Feedback({ validLink }) {
                             <FormattedMessage id="form.very_high_effort" />
                           </p>
                         </div>
-                        <div
-                          className={classNames(
-                            inputValue.question_2 === '2'
-                              ? 'border-blue-700'
-                              : 'border-transparent',
-                            'cursor-pointer border-2 p-1 min-w-[70px] text-center hover:border-blue-700'
-                          )}
-                          onClick={() => updateRating('question_2', '2')}
-                        >
-                          <Image
-                            src="/assets/images/smiley/mood-bad.png"
-                            alt="Bad"
-                            width={36}
-                            height={36}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            inputValue.question_2 === '3'
-                              ? 'border-blue-700'
-                              : 'border-transparent',
-                            'cursor-pointer border-2  p-1 min-w-[70px] text-center hover:border-blue-700'
-                          )}
-                          onClick={() => updateRating('question_2', '3')}
-                        >
-                          <Image
-                            src="/assets/images/smiley/mood-average.png"
-                            alt="Very Average"
-                            width={36}
-                            height={36}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            inputValue.question_2 === '4'
-                              ? 'border-blue-700'
-                              : 'border-transparent',
-                            'cursor-pointer border-2 p-1 min-w-[70px] text-center hover:border-blue-700'
-                          )}
-                          onClick={() => updateRating('question_2', '4')}
-                        >
-                          <Image
-                            src="/assets/images/smiley/mood-good.png"
-                            alt="Good"
-                            width={36}
-                            height={36}
-                          />
+                        <div className="text-center">
+                          <div
+                            className={classNames(
+                              inputValue.question_2 === '3'
+                                ? 'border-blue-700'
+                                : 'border-transparent',
+                              'cursor-pointer border-2  p-1 min-w-[70px] text-center hover:border-blue-700'
+                            )}
+                            onClick={() => updateRating('question_2', '3')}
+                          >
+                            <Image
+                              src="/assets/images/smiley/mood-average.png"
+                              alt="Average"
+                              width={36}
+                              height={36}
+                            />
+                          </div>
+                          <p className="text-center text-xs">
+                            <FormattedMessage id="form.average" />
+                          </p>
                         </div>
                         <div>
                           <div
