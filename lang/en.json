@@ -495,6 +495,7 @@
   "form.feedback.question_2": "How satisfied are you with the overall experience while availing the service?",
   "form.feedback.comment": "Do you have any suggestions or feedback to help us improve our service?",
   "form.very_high_effort": "Very High Effort",
+  "form.average": "Neutral",
   "form.minimal_effort": "Minimal Effort",
   "message.thank_you_for_feedback": "Thank you for taking the time to share your feedback with us",
   "message.thank_you_for_feedback_2": "We truly appreciate your input!",
