@@ -250,6 +250,7 @@
   "page.customer.dashboard.table.shipping_image": "تاريخ الشحن",
   "page.customer.dashboard.table.eta": "الزمن المتوقع للوصول",
   "page.customer.dashboard.table.etd": "الزمن المتوقع للمغادرة",
+  "page.customer.dashboard.table.tracking": "تتبع",
   "page.customer.bill.shipping.title": "بيان الشحن",
   "form.attachment": "ملف",
   "form.complaint_type": "نوع الشكوى",

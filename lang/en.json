@@ -380,6 +380,7 @@
   "page.customer.delete_car": "Delete Car",
   "page.customer.approve_payment": "Approve Payment",
   "page.customer.confirm_proceed": "You want to proceed?",
+  "page.customer.dashboard.table.tracking": "Tracking",
   "page.modal.title.new_car": "New Car",
   "page.modal.title.agency_details": "Agency Details",
   "messages.submit": "Submit",
