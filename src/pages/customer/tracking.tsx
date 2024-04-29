@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
 import { Dialog } from '@headlessui/react';
+import { InformationCircleIcon } from '@heroicons/react/outline';
 import axios from 'axios';
 import { getSession, useSession } from 'next-auth/react';
 import NProgress from 'nprogress';
@@ -19,12 +20,12 @@ import {
 } from '@/components/dashboard/trackingIcons';
 import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutDashboard';
+import { OPERATION_CONSTANTS } from '@/utils/constants/OperationConstants';
 import { classNames } from '@/utils/Functions';
 import { checkIfLoggedIn, NetworkStatus } from '@/utils/network';
 
 export async function getServerSideProps(context) {
   if (!(await checkIfLoggedIn(context))) return NetworkStatus.LOGIN_PAGE;
-
 
   const search = context.query.search ? context.query.search : '';
   const session: any = await getSession(context);
@@ -378,6 +379,26 @@ const Tracking = ({ search, carDetail, errorModal }) => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="text-teal-blue mt-2">
+              {carDetail.auction.status_of_issue === '1' ? (
+                <div className="flex items-center justify-center gap-2 text-lg">
+                  <InformationCircleIcon
+                    className="h-6 w-6 text-red-600"
+                    aria-hidden="true"
+                  />
+                  <p className="text-red-600">
+                    <b>
+                      <FormattedMessage id="tracking.car_on_hold" />
+                    </b>{' '}
+                    {
+                      carDetail.notes[OPERATION_CONSTANTS.NOTES.ISSUE_NOTES]
+                        .note
+                    }
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
