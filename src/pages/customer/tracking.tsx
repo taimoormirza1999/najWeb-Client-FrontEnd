@@ -382,7 +382,7 @@ const Tracking = ({ search, carDetail, errorModal }) => {
             </div>
 
             <div className="text-teal-blue mt-2">
-              {carDetail.auction.status_of_issue === '1' ? (
+              {carDetail?.car_data?.status_of_issue === '1' ? (
                 <div className="flex items-center justify-center gap-2 text-lg">
                   <InformationCircleIcon
                     className="h-6 w-6 text-red-600"
