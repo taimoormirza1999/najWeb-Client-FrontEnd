@@ -321,6 +321,7 @@
   "tracking.port": "Port",
   "tracking.store": "Store",
   "tracking.delivered": "Delivered",
+  "tracking.car_on_hold": "[Car On Hold]",
   "Car_Profile": "Car Profile",
   "receive_account": "Receive Account...",
   "Cargo_Tracking": "Cargo Tracking",
