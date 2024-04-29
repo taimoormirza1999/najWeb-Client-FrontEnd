@@ -341,6 +341,7 @@
   "tracking.port": "الميناء",
   "tracking.store": "المخزن",
   "tracking.delivered": "استلمها العميل",
+  "tracking.car_on_hold": "[السيارات المعلقة]",
   "Car_Profile": "معلومات السيارة",
   "receive_account": "طلب حساب...",
   "Cargo_Tracking": "تتبع الشاحنات",
