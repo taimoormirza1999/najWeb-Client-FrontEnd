@@ -73,6 +73,11 @@ const handlePostRequest = async (req, res) => {
         .status(500)
         .json({ error: 'Error parsing form data or operation timed out' });
     }
+    // check if customer_id is not empty
+    if (!formData.fields.customer_id) {
+      console.error('customer_id is required');
+      return res.status(400).json({ error: 'session expired' });
+    }
 
     console.log('Form data parsed successfully:', formData);
 
