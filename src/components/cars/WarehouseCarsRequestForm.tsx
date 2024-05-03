@@ -299,6 +299,17 @@ export default function WarehouseCarsRequestForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await fetch('/api/auth/session');
+
+    if (!profile || !profile.customer_id) {
+      setFormSubmitModal({
+        status: true,
+        type: 'error',
+        message: 'Session expired. Please refresh and try again .',
+      });
+      return;
+    }
+
     if (await validateFormFields()) {
       console.log('form sent');
       setSubmitStarted(true);

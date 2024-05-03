@@ -339,7 +339,16 @@ export default function TowingCarsRequestForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // refresh next-auth session
+    await fetch('/api/auth/session');
+    if (!profile || !profile.customer_id) {
+      setFormSubmitModal({
+        status: true,
+        type: 'error',
+        message: 'Session expired. Please refresh and try again .',
+      });
+      return;
+    }
     if (await validateFormFields()) {
       setSubmitStarted(true);
 
