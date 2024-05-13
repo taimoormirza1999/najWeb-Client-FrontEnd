@@ -25,6 +25,8 @@ Sentry.init({
       // Additional Replay configuration goes in here, for example:
       maskAllText: true,
       blockAllMedia: true,
+      networkDetailAllowUrls: [window.location.origin],
+      networkCaptureBodies: true,
     }),
   ],
 });
