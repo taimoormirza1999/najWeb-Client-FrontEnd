@@ -15,7 +15,7 @@ import { classNames, sentenceCase } from '@/utils/Functions';
 import CustomModal from '../customModal';
 import { CarIcon, SpinnerIcon } from '../themeIcons';
 import { UserContext } from '../userContext';
-
+import { useRouter } from 'next/router';
 const ReactSelectStyle = (baseStyles, state) => ({
   ...baseStyles,
   borderColor: state.isFocused ? '#3182ce' : '#a0aec0',
@@ -35,6 +35,7 @@ export default function TowingCarsRequestForm({
   setFormSubmitModal,
 }) {
   const intl = useIntl();
+  const router = useRouter();
   const [carAlreadyExist, setCarAlreadyExist] = useState(false);
   const [invoiceFile, setInvoiceFile] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
@@ -339,9 +340,23 @@ export default function TowingCarsRequestForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+   
     // refresh next-auth session
+    // alert("profile.customer_id: "+profile.customer_id)
     await fetch('/api/auth/session');
-    if (!profile || !profile.customer_id) {
+    
+    const checkSessionResponse = await fetch('/api/customer/checksession_exp');
+  const { expired } = await checkSessionResponse.json();
+
+  if (expired) {
+    // Redirect to the login page if the session is expired
+    router.push('/login');
+    return;
+  }
+    alert("Profile:", profile); // Add this line
+    // console.log("Profile Customer ID:", profile?.customer_id); // Add this line
+      // Enhanced validation: Check if profile or customer_id is null/undefined or 0
+    if (!profile || !profile.customer_id || profile.customer_id == 0) {
       setFormSubmitModal({
         status: true,
         type: 'error',
@@ -354,7 +369,7 @@ export default function TowingCarsRequestForm({
 
       const formData = new FormData();
 
-      formData.append('customer_id', profile?.customer_id);
+      formData.append('customer_id', profile.customer_id);
       Object.entries(carData).forEach(([key, value]) => {
         formData.append(key, value);
       });
@@ -366,15 +381,20 @@ export default function TowingCarsRequestForm({
       if (photoFile) {
         formData.append('photoFile', photoFile);
       }
+      // Log formData entries
+    for (let pair of formData.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]);
+    }
       try {
         const response = await fetch('/api/customer/cars/warehouseCars/', {
           method: 'POST',
           body: formData,
-          cache: 'no-cache',
+          // cache: 'no-cache',
           // headers,
         });
 
         if (!response.ok) {
+          // console.log("Response status: ", response.status+ " Response message: ", response.message);
           throw new Error(`Server responded with ${response.status}`);
         }
 
@@ -1048,60 +1068,7 @@ export default function TowingCarsRequestForm({
                     {getValidationMessage('gate_pass_pin')}
                   </div>
                 </div>
-                <div className="my-4 gap-2 sm:flex">
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.car_photo" />
-                      <span
-                        className={classNames(
-                          carData.id ? 'hidden' : '',
-                          'mx-1 text-lg text-red-500'
-                        )}
-                      >
-                        *
-                      </span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="file"
-                      name="car_photo"
-                      accept="image/png, image/gif, image/jpeg"
-                      required={
-                        !carData.id &&
-                        carData.id !== '' &&
-                        wizardStepIndex.current >= 1 // in which field is shown
-                      }
-                      onChange={handlePhotoFileChange}
-                    />
-                    {getValidationMessage('car_photo')}
-                  </div>
-                  <div className="w-full">
-                    <label className="text-teal-blue block text-lg rtl:text-right">
-                      <FormattedMessage id="form.invoice" />
-                      <span
-                        className={classNames(
-                          carData.id ? 'hidden' : '',
-                          'mx-1 text-lg text-red-500'
-                        )}
-                      >
-                        *
-                      </span>
-                    </label>
-                    <input
-                      className="w-full rounded-md border px-1 text-lg text-gray-700"
-                      type="file"
-                      name="invoice"
-                      accept="application/pdf"
-                      required={
-                        !carData.id &&
-                        carData.id !== '' &&
-                        wizardStepIndex.current >= 1 // in which field is shown
-                      }
-                      onChange={handleInvoiceFileChange}
-                    />
-                    {getValidationMessage('invoice')}
-                  </div>
-                </div>
+              
               </div>
             </FormWizard.TabContent>
           </FormWizard>
