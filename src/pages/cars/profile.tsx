@@ -14,7 +14,6 @@ export async function getServerSideProps(context) {
       params: { car_id: context.query.id?context.query.id:1469 },
     });
     const carData = res.data ? res.data.data : {};
-    console.log("Car Data:", carData[0]); // Logging the carData
     return {
       props: { carProfileData: carData },
     };
