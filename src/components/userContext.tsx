@@ -17,6 +17,7 @@ export function UserContextProvider({ children }) {
   const { locale } = router;
 
   useEffect(() => {
+      if (session?.profile && session.profile.length > 0) {
     const isBulkShippingCustomer = session?.profile[0]?.bulk_shipLoad === '1';
     const allowWarehouseCarsRequests = false; // Change this line to enable/disable based on your requirements
 
@@ -31,6 +32,7 @@ export function UserContextProvider({ children }) {
       isBulkShippingCustomer,
       allowWarehouseCarsRequests,
     });
+  }
   }, [session?.profile]);
 
   const updateUserProfile = (data) => {
