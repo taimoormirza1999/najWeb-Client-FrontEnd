@@ -353,7 +353,7 @@ export default function TowingCarsRequestForm({
     router.push('/login');
     return;
   }
-    alert("Profile:", profile); // Add this line
+    // alert("Profile:", profile); // Add this line
     // console.log("Profile Customer ID:", profile?.customer_id); // Add this line
       // Enhanced validation: Check if profile or customer_id is null/undefined or 0
     if (!profile || !profile.customer_id || profile.customer_id == 0) {
@@ -602,7 +602,7 @@ export default function TowingCarsRequestForm({
                         );
                       }}
                       value={
-                        carData?.id_car_model
+                        carData && carData.id_car_model
                           ? {
                               value: carData.id_car_model,
                               label: carsModel.find(
