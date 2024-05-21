@@ -81,7 +81,8 @@ const ArrivedCarTab = ({
       'page.customer.dashboard.table.date_arrived_store',
       'page.customer.dashboard.table.Total',
     ];
-    if (session?.profile?[0]?.naj_branch === '1') {
+      if (session?.profile && session.profile[0]?.naj_branch === '1') {
+
       carTableHeader.push(
         'page.customer.dashboard.table.delivered_to_customer'
       );
