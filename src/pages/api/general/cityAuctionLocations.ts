@@ -10,6 +10,12 @@ export default async function handler(req, res) {
     params.auction_id = req.query.auction_id;
   }
 
+  if (!process.env.API_URL) {
+    console.error('API URL is not defined');
+    res.status(500).json([]); 
+    return; 
+  }
+
   await axios
     .get(`${process.env.API_URL}general/getAuctionLocations`, {
       params,
@@ -19,6 +25,6 @@ export default async function handler(req, res) {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).end([]);
+      res.status(500).end(JSON.stringify([]));
     });
 }
