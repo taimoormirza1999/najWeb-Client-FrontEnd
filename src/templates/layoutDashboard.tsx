@@ -187,9 +187,10 @@ const Layout = (props: IMainProps) => {
   }, []);
 
   const handleSignOut = async () => {
+    'use server';
     localStorage.setItem(localStorageCustomerKey, '-');
     await signOut({
-      callbackUrl: `${window.location.origin}`,
+      callbackUrl: `/`,
     });
   };
 

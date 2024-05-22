@@ -70,13 +70,15 @@ const Layout = (props: IMainProps) => {
 
   const changeLanguage = (selectedLocale) => {
     document.cookie = `NEXT_LOCALE=${selectedLocale};path=/`;
-    router.push(router.pathname, router.asPath, { locale: selectedLocale });
-  };
+    router.replace(router.pathname, router.asPath, { locale: selectedLocale });
+};
 
   const handleSignOut = async () => {
+    'use server';
     localStorage.setItem('customer', '');
+    // alert("sign out with not origin set")
     await signOut({
-      callbackUrl: `${window.location.origin}`,
+      callbackUrl: `${'/'}`,
     });
   };
 
@@ -133,69 +135,6 @@ const Layout = (props: IMainProps) => {
       </CustomModal>
       <div>
         {props.meta}
-
-        {/* {props.announcements ? (
-          <div className="bg-light-grey mb-5 xl:flex">
-            <div className="bg-teal-blue relative flex basis-1/3 items-center justify-center p-2 before:absolute before:top-0 before:border-t-[#ebebeb] ltr:before:right-0 ltr:before:border-l-[#005fb7] rtl:before:left-0 rtl:before:border-r-[#005fb7] xl:before:border-t-[105px] ltr:xl:before:border-l-[100px] rtl:xl:before:border-r-[100px] 2xl:before:border-t-[76px]">
-              <h3 className="text-center text-xl font-semibold text-white sm:text-2xl md:text-3xl">
-                Important Anouncements
-              </h3>
-            </div>
-            <div className="text-dark-blue basis-2/3">
-              <AnnouncementsCarousel>
-                {props.announcements.map((row, index) => (
-                  <div
-                    className="relative flex-1"
-                    style={{ flex: '0 0 100%' }}
-                    key={index}
-                  >
-                    <div className="pb-9 xl:pb-0">
-                      <p className="p-2 pr-2 text-[14px] rtl:text-right md:text-xl xl:pr-6">
-                        <span className="font-bold">
-                          {locale === 'ar'
-                            ? row.title_arabic
-                            : row.title_english}
-                          .{' '}
-                        </span>
-                        {locale === 'ar'
-                          ? `${row.body_arabic.substring(0, 200)} ...`
-                          : `${row.body_english.substring(0, 220)} ...`}
-                        {row.announcement_type === '1' ? (
-                          <span
-                            className="ml-2 cursor-pointer text-lg font-semibold italic"
-                            onClick={() => {
-                              setAnouncementDetail(row);
-                              setAnouncementModalOpen(true);
-                            }}
-                          >
-                            (<FormattedMessage id="read.more" />)
-                          </span>
-                        ) : (
-                          <Link
-                            href={
-                              process.env.NEXT_PUBLIC_SERVER_URL +
-                              row.file_path.substring(1)
-                            }
-                            passHref
-                          >
-                            <a
-                              target="_blank"
-                              className="ml-2 cursor-pointer text-lg font-semibold italic"
-                            >
-                              (<FormattedMessage id="read.more" />)
-                            </a>
-                          </Link>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </AnnouncementsCarousel>
-            </div>
-          </div>
-        ) : (
-          <div className="my-5"></div>
-        )} */}
         <Popover
           className={classNames(
             headerFixed ? 'sticky header-fixed shadow-xl top-0 z-50 ' : '',
