@@ -19,7 +19,7 @@ const Career = () => {
       meta={
         <Meta
           title="Career"
-          description="Join the journey of NEJOUM ALJAZEERA  in Logistics and Car Business"
+          description="Join the journey of NEJOUM ALJAZEERA  in Logistics and Car Business "
         />
       }
     >
