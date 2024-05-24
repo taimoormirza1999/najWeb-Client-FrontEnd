@@ -49,13 +49,13 @@ const CarProfile = ({ carProfileData }) => {
             <SRLWrapper>
               <div className="flex basis-1/2 flex-col gap-4">
                 <img
-                  src={photos.length > 0 ? photos[0] : ''}
+                  src={photos && photos.length > 0 ? photos[0] : ''}
                   alt="Car profile"
                   className="h-[500px] w-full cursor-pointer object-cover"
                 />
                 <div className="flex basis-1/3 justify-between">
                   <div className="my-4 grid grid-cols-3 flex-wrap gap-1 md:grid-cols-6">
-                    {photos.length > 0
+                    {photos && photos.length > 0
                       ? photos.map((object, index) => {
                           return index > 5 ? (
                             <img
