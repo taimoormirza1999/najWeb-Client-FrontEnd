@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog } from '@headlessui/react';
 import React, { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-
+import axios from 'axios';
 import Breadcrumbs from '@/components/breadcrumbs';
 import ContactDetails from '@/components/contactDetails';
 import CustomModal from '@/components/customModal';
@@ -26,28 +26,34 @@ const Contact = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
     const formData = {
       name: event.target.name.value,
       email: event.target.email.value,
       phone: event.target.phone.value,
       message: event.target.message.value,
     };
-
-    const response = await postData('/api/contactus', formData);
-
-    if (response.success === true) {
-      setSubmitModalOpen(true);
-      setInputValue(() => ({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-      }));
-    } else {
+  
+    try {
+      const response = await axios.post('/api/contactus', formData);
+  
+      if (response.status === 200 && response.data.success) {
+        setSubmitModalOpen(true);
+        setInputValue({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+      } else {
+        console.error('Error response from API:', response.data);
+        setErrorModalOpen(true);
+      }
+    } catch (error) {
+      console.error('Error submitting contact form:', error.message);
       setErrorModalOpen(true);
     }
   };
-
   function handleChange(event) {
     const { name, value } = event.target;
     setInputValue((prevState) => ({ ...prevState, [name]: value }));
