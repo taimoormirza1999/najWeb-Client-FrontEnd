@@ -403,8 +403,8 @@ export default function App({ carsMakerData, YearData }) {
         <div className="my-4 grid gap-4 gap-x-8 gap-y-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {issues.length > 0
             ? issues.map((object) => {
-                return object.data.length > 0
-                  ? object.data.map((obj, index2) => {
+               return Array.isArray(object.data) && object.data.length > 0
+        ? object.data.map((obj, index2) => {
                       return (
                         <Link
                           href={{

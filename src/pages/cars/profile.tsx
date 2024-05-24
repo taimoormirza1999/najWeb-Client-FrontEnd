@@ -9,13 +9,20 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutHome';
 
 export async function getServerSideProps(context) {
-  const res = await axios.get(`${process.env.API_URL}CarsForSaleDetails`, {
-    params: { car_id: context.query.id },
-  });
-  const carData = res.data ? res.data.data : {};
-  return {
-    props: { carProfileData: carData },
-  };
+  try {
+    const res = await axios.get(`${process.env.API_URL}CarsForSaleDetails`, {
+      params: { car_id: context.query.id?context.query.id:1469 },
+    });
+    const carData = res.data ? res.data.data : {};
+    return {
+      props: { carProfileData: carData },
+    };
+  } catch (error) {
+    console.error("Error fetching car data:", error);
+    return {
+      props: { carProfileData: {} }, // return empty object if error occurs
+    };
+  }
 }
 
 const CarProfile = ({ carProfileData }) => {
