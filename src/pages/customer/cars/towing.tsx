@@ -111,7 +111,6 @@ export default function TowingCars({
   const [tableHeight, setTableHeight] = useState(500);
 
   const getWarehouseCars = async () => {
-    try {
       const res = await axios.get(`/api/customer/cars/warehouseCars/`, {
         params: {
           limit,
@@ -128,9 +127,7 @@ export default function TowingCars({
       setTableRecords(res.data?.totalRecords || 0);
       setWarehouseCars(res.data ? res.data.data : []);
 
-    } catch (error) {
-      console.log(error);
-    }
+    
   };
 
   useEffect(() => {

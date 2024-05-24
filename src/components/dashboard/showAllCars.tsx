@@ -53,7 +53,9 @@ const ShowAllCars = ({
 }) => {
   const { data: session } = useSession();
   const intl = useIntl();
-  const allowArrivedToPort = session?.profile[0]?.allow_arrived_to_port === '1';
+  const allowArrivedToPort = session?.profile && session.profile.length > 0
+  ? session.profile[0]?.allow_arrived_to_port === '1'
+  : false;
   const [carsArray, setCarsArray] = useState(carsRecords);
   const [arrivedPortModalOpen, setArrivedPortModalOpen] = useState(false);
   const [arrivedPortModalSuccess, setArrivedPortModalSuccess] = useState(false);

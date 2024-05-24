@@ -9,13 +9,20 @@ import { Meta } from '@/layout/Meta';
 import { Layout } from '@/templates/layoutHome';
 
 export async function getServerSideProps(context) {
-  const res = await axios.get(`${process.env.API_URL}CarsForSaleDetails`, {
-    params: { car_id: context.query.id },
-  });
-  const carData = res.data ? res.data.data : {};
-  return {
-    props: { carProfileData: carData },
-  };
+  try {
+    const res = await axios.get(`${process.env.API_URL}CarsForSaleDetails`, {
+      params: { car_id: context.query.id?context.query.id:1469 },
+    });
+    const carData = res.data ? res.data.data : {};
+    return {
+      props: { carProfileData: carData },
+    };
+  } catch (error) {
+    console.error("Error fetching car data:", error);
+    return {
+      props: { carProfileData: {} }, // return empty object if error occurs
+    };
+  }
 }
 
 const CarProfile = ({ carProfileData }) => {
@@ -49,13 +56,13 @@ const CarProfile = ({ carProfileData }) => {
             <SRLWrapper>
               <div className="flex basis-1/2 flex-col gap-4">
                 <img
-                  src={photos.length > 0 ? photos[0] : ''}
+                  src={photos && photos.length > 0 ? photos[0] : ''}
                   alt="Car profile"
                   className="h-[500px] w-full cursor-pointer object-cover"
                 />
                 <div className="flex basis-1/3 justify-between">
                   <div className="my-4 grid grid-cols-3 flex-wrap gap-1 md:grid-cols-6">
-                    {photos.length > 0
+                    {photos && photos.length > 0
                       ? photos.map((object, index) => {
                           return index > 5 ? (
                             <img

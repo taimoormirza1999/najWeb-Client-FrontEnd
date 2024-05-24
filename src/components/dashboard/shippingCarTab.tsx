@@ -157,9 +157,9 @@ const ShippingCarTab = ({
       name: 'dock_receipt',
     },
   ];
-  if (session?.profile[0]?.allow_arrived_to_port === '1') {
-    carTableHeader.push({
-      name: 'page.customer.dashboard.table.arrived_to_port',
+  if (session?.profile && session.profile.length > 0 && session.profile[0]?.allow_arrived_to_port  === '1') {
+    carTableHeader. push({
+      name: 'page.customer.dashboard.table.arrived_to_port' ,
     });
   }
 

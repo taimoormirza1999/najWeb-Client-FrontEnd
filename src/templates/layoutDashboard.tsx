@@ -47,13 +47,17 @@ const Layout = (props: IMainProps) => {
     setIsBalanceLoaded(1);
   };
   const getGeneralNotification = async () => {
-    const res = await axios.get('/api/customer/getnotifications', {
-      headers: {
-        'Cache-Control': 'max-age=300', // 5 minutes
-      },
-    });
-    setNotify(res.data.data ? res.data.data : []);
-    setGeneralNotification(1);
+    try {
+      const res = await axios.get('/api/customer/getnotifications', {
+        headers: {
+          'Cache-Control': 'max-age=300', // 5 minutes
+        },
+      });
+      setNotify(res.data.data ? res.data.data : []);
+      setGeneralNotification(1);
+    } catch (error) {
+      console.error("Error fetching general notifications:", error);
+    }
   };
   const setSeenNotification = async (id, index) => {
     if (notify[index]) {
@@ -187,9 +191,10 @@ const Layout = (props: IMainProps) => {
   }, []);
 
   const handleSignOut = async () => {
+    'use server';
     localStorage.setItem(localStorageCustomerKey, '-');
     await signOut({
-      callbackUrl: `${window.location.origin}`,
+      callbackUrl: `/`,
     });
   };
 
