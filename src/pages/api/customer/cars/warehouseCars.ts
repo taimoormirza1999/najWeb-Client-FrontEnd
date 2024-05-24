@@ -2,7 +2,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'; // Import AWS S
 import axios from 'axios';
 import formidable from 'formidable';
 import fs from 'fs';
-import {NextApiRequest} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import path from 'path';
 
 export const config = {
@@ -53,7 +53,7 @@ const uploadFileToS3 = async (
     formData.fields[dbFieldName] = destinationFileName;
     return result.Location;
   } catch (error) {
-    console.error(error);
+    console.error('Error uploading file to S3:', error);
     throw error;
   }
 };
@@ -139,90 +139,98 @@ const handlePostRequest = async (req, res) => {
   }
 };
 
-export default async function handler(req: NextApiRequest, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
   res.setHeader('Cache-Control', 'no-store, max-age=0');
 
-  if (method === 'GET') {
-    // customer approval
-    if (req.query?.id && req.query.approve_payment) {
-      const { id } = req.query;
+  try {
+    if (method === 'GET') {
+      // customer approval
+      if (req.query?.id && req.query.approve_payment) {
+        const { id } = req.query;
 
-      const response = await axios.post(
-        `${apiUrl}warehouseCarRequest/customer/approve`,
-        {
-          id,
-        }
-      );
+        const response = await axios.post(
+          `${apiUrl}warehouseCarRequest/customer/approve`,
+          {
+            id,
+          }
+        );
 
-      return response?.data
-        ? res.status(200).json(response.data)
-        : res.status(500).json({});
-    }
-    // edit request
-    if (req.query?.id) {
-      const { id } = req.query;
+        return response?.data
+          ? res.status(200).json(response.data)
+          : res.status(500).json({});
+      }
+      // edit request
+      if (req.query?.id) {
+        const { id } = req.query;
 
-      const response = await axios.get(`${apiUrl}warehouseCarRequest`, {
+        const response = await axios.get(`${apiUrl}warehouseCarRequest`, {
+          params: {
+            id,
+          },
+        });
+
+        return response?.data
+          ? res.status(200).json(response.data)
+          : res.status(500).json({});
+      }
+
+      const { limit, page, search, externalCar } = req.query;
+      const response = await axios.get(`${apiUrl}warehouseCarRequests`, {
         params: {
-          id,
+          limit: limit || 10,
+          page: page || 0,
+          search: search || '',
+          external_car: externalCar,
+        },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '0',
         },
       });
 
       return response?.data
         ? res.status(200).json(response.data)
-        : res.status(500).json({});
+        : res.status(500).json([]);
     }
 
-    const { limit, page, search, externalCar } = req.query;
-    const response = await axios.get(`${apiUrl}warehouseCarRequests`, {
-      params: {
-        limit: limit || 10,
-        page: page || 0,
-        search: search || '',
-        external_car: externalCar,
-      },
-      headers: {
-        'Cache-Control': 'no-cache',
-        Pragma: 'no-cache',
-        Expires: '0',
-      },
-    });
+    if (req.method === 'POST') {
+      return handlePostRequest(req, res);
+    }
 
-    return response?.data
-      ? res.status(200).json(response.data)
-      : res.status(500).json([]);
-  }
+    if (method === 'PUT') {
+      try {
+        const { id } = req.body;
+        const response = await axios.post(
+          `${apiUrl}warehouseCarRequest/customer/approve`,
+          { id }
+        );
+        return res.status(200).json(response.data);
+      } catch (error) {
+        console.error('PUT request error:', error.message, error.stack);
+        return res.status(500).json({ error: 'Error sending form data to API' });
+      }
+    }
 
-  if (req.method === 'POST') {
-    return handlePostRequest(req, res);
-  }
-  if (method === 'PUT') {
-    try {
-      const { id } = req.body;
-      const response = await axios.post(
-        `${apiUrl}warehouseCarRequest/customer/approve`,
-        { id }
-      );
-      return res.status(200).json(response.data);
-    } catch (error) {
-      return res.status(500).json({ error: `Error sending form data to API` });
+    if (method === 'DELETE') {
+      if (!req.query.id) {
+        return res.status(400).json({ error: 'ID parameter is required' });
+      }
+      const { id } = req.query;
+      const response = await axios.delete(`${apiUrl}warehouseCarRequest`, {
+        data: { id },
+      });
+      if (response.status === 200) {
+        return res.status(200).json(response.data);
+      }
+      console.error('DELETE request failed:', response.data);
+      return res.status(500).json(response.data);
     }
+
+    res.status(405).json({ error: `Method ${method} not allowed` });
+  } catch (error) {
+    console.error('Handler error:', error.message, error.stack);
+    res.status(500).json({ error: `Internal Server Error: ${error.message}` });
   }
-  if (method === 'DELETE') {
-    if (!req.query.id) {
-      return res.status(500).json([]);
-    }
-    const { id } = req.query;
-    const response = await axios.delete(`${apiUrl}warehouseCarRequest`, {
-      data: { id },
-    });
-    if (response.status === 200) {
-      return res.status(200).json(response.data);
-    }
-    return res.status(500).json(response.data);
-  }
-  return res.status(500).json([]);
 }
-
-
