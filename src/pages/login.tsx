@@ -23,35 +23,95 @@ const errors = {
     'Sign in failed. Check the details you provided are correct.',
   default: 'Unable to sign in.',
 };
-const SignInError = ({ error, className }) => {
-  const errorMessage = error && (errors[error] ?? errors.default);
+const SignInError = ({ error, className, textError }) => {
+  const errorMessage = error ? (errors[error] ?? errors.default) : textError;
   return <div className={className}>{errorMessage}</div>;
 };
 
 export default function Login({ locale }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fError, setFError] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const router = useRouter();
-  const { error } = useRouter().query;
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const { error } = useRouter().query;
 
-  /*   useEffect(() => {
-      if (!loading && session) {
-        router.push('/');
-      }
-    }, [loading, session]); */
+  const handleSignIn = async (e) => {
 
-  const handleSignIn = async (e: any) => {
     e.preventDefault();
+
     setIsSubmitting(true);
-    const result =await signIn('credentials', {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: `${locale !== 'en' ? `/${locale}` : ''}/customer/dashboard`,
-    });
-    console.log("=>(login.tsx:52) result", result);
+
+    
+
+    if (!email || !password) {
+
+      setIsSubmitting(false);
+
+      setFError('Please fill in both email and password.');
+
+      setShowError(true);
+
+      return;
+
+    }
+
+    
+
+    setFError('');
+
+    setShowError(false);
+
+
+
+    try {
+
+      const result = await signIn('credentials', {
+
+        email,
+
+        password,
+
+        redirect: false,
+
+        callbackUrl: `${locale !== 'en' ? `/${locale}` : ''}/customer/dashboard`,
+
+      });
+
+
+
+      if (!result.ok) {
+
+        setError(result.error);
+
+        setShowError(true);
+
+        setIsSubmitting(false);
+
+      } else {
+
+        setError('');
+
+        setShowError(false);
+
+        router.push(result.url);
+
+      }
+
+    } catch (error) {
+
+      console.error('Error during sign-in:', error);
+
+      setError('An unexpected error occurred. Please try again.');
+
+      setShowError(true);
+
+      setIsSubmitting(false);
+
+    }
 
   };
 
@@ -104,12 +164,25 @@ export default function Login({ locale }) {
               </h2>
             </div>
             <div className="p-4 shadow sm:rounded-lg sm:px-10">
-              {error && (
+            {
+              showError&&(
+                <>
+            {error &&(
                 <SignInError
-                  error={error}
+                  error={error} 
                   className="py-4 text-center text-red-400"
-                />
+                  />
               )}
+            {fError &&(
+                <SignInError
+                  textError={fError}
+                  className="py-4 text-center text-red-400"
+                  />
+              )}
+                  </>         
+            )
+            }
+           
 
               <form onSubmit={(e) => handleSignIn(e)}>
                 <div>
@@ -128,7 +201,7 @@ export default function Login({ locale }) {
                       autoComplete="email"
                       required
                       className="border-dark-blue block w-full appearance-none rounded-md border-2 px-3 py-2 shadow-sm placeholder:text-gray-600 focus:border-azure-blue focus:outline-none sm:text-sm"
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {setEmail(e.target.value);setFError('');setShowError(false);}}
                     />
                   </div>
                 </div>
@@ -149,7 +222,7 @@ export default function Login({ locale }) {
                       autoComplete="current-password"
                       required
                       className="border-dark-blue block w-full appearance-none rounded-md border-2 px-3 py-2 shadow-sm placeholder:text-gray-600 focus:border-azure-blue focus:outline-none sm:text-sm"
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {setPassword(e.target.value);setFError('');setShowError(false);}}
                     />
                   </div>
                 </div>
@@ -157,6 +230,7 @@ export default function Login({ locale }) {
                 <div className="mt-6">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="border-azure-blue bg-azure-blue hover:bg-dark-blue flex w-full justify-center rounded-md border-2 py-2 px-4 text-base font-semibold text-white shadow-sm"
                     onClick={handleSignIn}
                   >
@@ -166,7 +240,6 @@ export default function Login({ locale }) {
                       <FormattedMessage id="sign.in" />
                     )}
                   </button>
-
                   <Link href="/auth/newAccount">
                     <a className="border-azure-blue text-azure-blue hover:bg-dark-blue my-4 flex w-full justify-center rounded-md border-2 bg-white py-2 px-4 text-base font-semibold shadow-sm">
                       <FormattedMessage id="general.apply_for_account" />
