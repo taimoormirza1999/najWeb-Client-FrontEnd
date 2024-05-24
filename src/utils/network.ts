@@ -6,7 +6,7 @@ async function FetchApi(
   url: Request | string,
   data: any,
   requestType: REQUEST_TYPE,
-  raw
+  raw: boolean
 ) {
   const response = await fetch(url, {
     method: requestType, // *GET, POST, PUT, DELETE, etc.
@@ -21,9 +21,19 @@ async function FetchApi(
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data),
   });
-  return raw ? response : response.json();
-}
 
+  if (raw) {
+    return response;
+  }
+
+  try {
+    const text = await response.text();
+    return JSON.parse(text);
+  } catch (error) {
+    console.error('Error parsing JSON response:', error);
+    throw new Error('Failed to parse JSON response');
+  }
+}
 export async function postData(
   url: Request | string = '',
   data: any = {},
