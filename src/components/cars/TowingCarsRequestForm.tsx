@@ -164,6 +164,8 @@ export default function TowingCarsRequestForm({
             vin: intl.formatMessage({ id: 'form.car.exist' }),
           }));
         }
+      }).catch((error) => {
+        console.error("Error request on existing car:", error);
       });
   }, [carData.lotnumber, carData.vin]);
 
