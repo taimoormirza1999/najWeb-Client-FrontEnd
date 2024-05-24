@@ -147,7 +147,7 @@ export default async function handler(req, res) {
     });
   let excelBuffer = null;
   // Create a worksheet from the processed data
-  if (processedData) {
+  if (processedData && processedData.length > 0) {
     const columns = Object.keys(processedData[0]);
     const worksheetData = [columns];
 
