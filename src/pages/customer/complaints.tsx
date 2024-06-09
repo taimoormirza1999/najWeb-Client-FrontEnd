@@ -56,7 +56,13 @@ const Complaints = ({ complaintTypes }) => {
 
   const handleComplaintFileChange = (e) => {
     const file = e.target.files[0];
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/jpg'];
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/bmp',
+      'image/jpg',
+      'application/pdf',
+    ];
     if (!allowedTypes.includes(file?.type)) {
       e.target.value = null;
 
@@ -328,7 +334,7 @@ const Complaints = ({ complaintTypes }) => {
                 name="complaint_file"
                 type="file"
                 className="border-medium-grey text-outer-space block w-full appearance-none rounded border p-1 text-lg shadow-sm focus:border-blue-800 focus:ring-0 ltr:placeholder:italic"
-                accept="image/png, image/gif, image/jpeg"
+                accept="image/png, image/gif, image/jpeg, application/pdf"
                 ref={fileInputRef}
                 onChange={handleComplaintFileChange}
               />
