@@ -153,6 +153,12 @@ const Layout = (props: IMainProps) => {
       gicon: '&#xe048;',
       current: false,
     },
+    {
+      name: 'page.customer.dashboard.navigation_damage_requests',
+      href: '/customer/cars/damageRequests',
+      gicon: '&#xe99a;',
+      current: false,
+    },
   ];
   const { locale } = router;
   if (typeof window !== 'undefined') {
@@ -431,6 +437,36 @@ const Layout = (props: IMainProps) => {
           className={`relative hidden transition-width duration-800 md:fixed md:inset-y-0 md:flex  md:flex-col ${isExpanded ? 'w-[15%]' : 'w-12'
             }`}
         >
+          <button
+            style={sideBarAnimation}
+            type="button"
+            className={`absolute top-2 rounded-full -ml-0.5 -mt-0.5 inline-flex h-10 w-10 items-center justify-center bg-white text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-999 ${isExpanded ? '-right-5' : 'right-1'
+            } `}
+            onClick={toggleSideBar}
+          >
+            <span className="sr-only">Open sidebar</span>
+            <i
+              className={`material-icons text-sm ${isExpanded ? 'rotate-180' : 'rotate-0'
+              }`}
+            >
+              &#xe5d2;
+            </i>
+          </button>
+          <button
+            style={sideBarAnimation}
+            type="button"
+            className={`absolute top-2 rounded-full -ml-0.5 -mt-0.5 inline-flex h-10 w-10 items-center justify-center bg-white text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-999 ${isExpanded ? '-right-5' : 'right-1'
+            } `}
+            onClick={toggleSideBar}
+          >
+            <span className="sr-only">Open sidebar</span>
+            <i
+              className={`material-icons text-sm ${isExpanded ? 'rotate-180' : 'rotate-0'
+              }`}
+            >
+              &#xe5d2;
+            </i>
+          </button>
           <button
             style={sideBarAnimation}
             type="button"

@@ -126,7 +126,12 @@ a:hover {
 .text-azure-blue{
   color: var(--color-azure-blue)
 }
-
+.css-9tvrq8-multiValue{
+  background-color: var(--color-azure-blue)!important;
+}
+.css-16py0e7-MultiValueGeneric{
+  color: #fff!important;
+}
 .text-yellow-orange{
   color: var(--color-yellow-orange)
 }
@@ -214,7 +219,9 @@ body[dir="ltr"] .right-text{
   margin-right: 9px;
 
 }
-
+.react-form-wizard .wizard-nav-pills>li>a{
+  border-bottom: none;
+}
 
 @layer components {
   .close-button {
