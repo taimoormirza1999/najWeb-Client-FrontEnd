@@ -15,8 +15,8 @@ import FormWizard from "react-form-wizard-component";
 import 'react-form-wizard-component/dist/style.css';
 import { InformationCircleIcon, XCircleIcon } from '@heroicons/react/outline';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
-// import { CarIcon, SpinnerIcon } from ';
 import { Dialog } from '@headlessui/react';
+import { useSession } from 'next-auth/react';
 import {
   Pagination,
   SelectPageRecords,
@@ -68,15 +68,15 @@ const colourStyles: StylesConfig<ColourOption, true> = {
     backgroundColor: isDisabled
       ? undefined
       : isSelected
-      ? '#3182ce' // Background color of the selected option
-      : isFocused
-      ? '#ebf8ff' // Background color of the focused option
-      : undefined,
+        ? '#3182ce' // Background color of the selected option
+        : isFocused
+          ? '#ebf8ff' // Background color of the focused option
+          : undefined,
     color: isDisabled
       ? '#ccc' // Color for disabled options
       : isSelected
-      ? 'white' // Text color for selected options
-      : 'black', // Text color for other options
+        ? 'white' // Text color for selected options
+        : 'black', // Text color for other options
     cursor: isDisabled ? 'not-allowed' : 'default',
 
     ':active': {
@@ -115,7 +115,7 @@ const DamageRequests = () => {
   const [lotNumbers, setLotNumbers] = useState([]);
   const closeModalRef = useRef(null);
   const [damageModalOpen, setDamageModalOpen] = useState(false);
-
+  const { data: session } = useSession();
   const damageParts = [
     { id: 1, name: 'Front Bumper' },
     { id: 2, name: 'Rear Windshield' },
@@ -125,8 +125,8 @@ const DamageRequests = () => {
     { id: 6, name: 'Trunk Lid' },
   ];
   const [selectedDamageParts, setSelectedDamageParts] = useState([]);
-
   const [selectedLot, setSelectedLot] = useState(null);
+  const [carData, setcarData] = useState(null);
   const carTableHeader = [
     { name: 'page.customer.dashboard.table.no' },
     { name: 'form.car_photo' },
@@ -141,48 +141,60 @@ const DamageRequests = () => {
     { name: 'customer.date' },
     { name: 'page.customer.dashboard.table.created_date' },
   ];
+  const fetchDamageRequestData = async (customerId) => {
+    try {
+      const url = '/api/customer/damageCar/damageRequests';
+      const response = await axios.get(url, {
+        params: { customer_id: customerId } // Ensure the parameter name matches
+      });
+      setWarehouseCars(response.data.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  const fetchLotNumbersDamageData = async (customerId) => {
+    try {
+      const url = `/api/customer/damageCar/lotNumbersDamage?customer_id=${customerId}`;
+      const response = await axios.get(url);
+      setLotNumbers(response.data.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
   useEffect(() => {
-    const fetchDamageRequestData = async () => {
-      try {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}getAllDamageRequest?customer_id=2449`;
-        const response = await axios.get(url);
-        setWarehouseCars(response.data.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('Fetch error:', error);
-      }
-    };
-    const fetchLotNumbersDamageData = async () => {
-      try {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}getLotNumbersDamage?customer_id=2449`;
-        const response = await axios.get(url);
-        setLotNumbers(response.data.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('Fetch error:', error);
-      }
-    };
-    fetchDamageRequestData();
-    fetchLotNumbersDamageData();
+    // if (session?.profile && session.profile.length > 0) {
+    const customerId = 2449;
+    fetchDamageRequestData(customerId);
+    fetchLotNumbersDamageData(customerId);
+    // }
   }, []);
+  useEffect(() => {
+    getCarInfo(selectedLot?.value);
+  }, [selectedLot]);
 
 
 
   const getCarInfo = async (valTo) => {
-    // setLoader(true);
-    var Url =  `${process.env.NEXT_PUBLIC_API_URL}getCarInfo?car_id=${valTo}`;
     try {
-        const response = await fetch(Url);
-        const json = await response.json();
-        // setcarData(json.data[0]);
+      const url = `/api/customer/damageCar/carInfo?car_id=${valTo}`;
+      const response = await fetch(url);
+      const json = await response.json();
+      setcarData(json.data[0]);
+      // console.log(carData)
     } catch (error) {
-        Alert.alert(error.toString());
+      console.error('Fetch error:', error);
     }
-    // setLoader(false);
-};
+  };
+
 
   const handleLotChange = (option) => {
     setSelectedLot(option);
+
+    console.log("Selected Lot")
+    console.log(selectedLot.value)
   };
 
   const handleDamagePartsChange = (options) => {
@@ -291,7 +303,7 @@ const DamageRequests = () => {
         <div className="mt-3 flex w-full flex-col gap-4">
           <div className="flex justify-between">
             <Dialog.Title as="h3" className="text-3xl leading-6">
-              {intl.formatMessage({ id: 'page.customer.dashboard.navigation_add_damage_request_details' }) }{' '}
+              {intl.formatMessage({ id: 'page.customer.dashboard.navigation_add_damage_request_details' })}{' '}
             </Dialog.Title>
             <XCircleIcon
               className="h-8 w-8 cursor-pointer text-red-500"
@@ -312,10 +324,10 @@ const DamageRequests = () => {
 
 
 
-            <FormWizard    shape="square"
-            color="#0093ff"
-             onComplete={handleComplete} onTabChange={tabChanged}>
-              <FormWizard.TabContent title="Car Detail"  icon={<CarIcon className="h-8 w-8" />}>
+            <FormWizard shape="square"
+              color="#0093ff"
+              onComplete={handleComplete} onTabChange={tabChanged}>
+              <FormWizard.TabContent title="Car Detail" icon={<CarIcon className="h-8 w-8" />}>
                 {/* <div className="p-8"> */}
                 {/* Lot Number Dropdown */}
                 <div className="mb-6 w-full ">
@@ -342,37 +354,37 @@ const DamageRequests = () => {
                     src="https://via.placeholder.com/150"
                     alt="Car Image"
                   />
-                   <div className="flex flex-col justify-between p-4 leading-normal w-full">
-          <h6 className="mb-2 text-xl font-bold tracking-tight text-[#0093ff] text-left">Car Name</h6>
-          <div className="flex justify-between w-full p-2 rounded-md">
-            <div>
-              <p className="mb-1 text-sm text-gray-700 text-left">
-                <span className="text-blue-600">Lot Number:</span> {selectedLot?.name}
-              </p>
-              <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Chassis No:</span> ABC123XYZ</p>
-            </div>
-            <div>
-              <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Model:</span> Model XYZ</p>
-              <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Maker:</span> CarMaker</p>
-            </div>
-            <div>
-              <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Year:</span> 2021</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Select
-    isMulti
-    value={selectedDamageParts}
-    onChange={handleDamagePartsChange}
-    options={damageParts.map((part) => ({
-      value: part,
-      label: part.name,
-    }))}
-    styles={colourStyles}
-    placeholder="Select Damage Parts"
-    className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-left shadow-md focus:outline-none mb-6"
-  />
+                  <div className="flex flex-col justify-between p-4 leading-normal w-full">
+                    <h6 className="mb-2 text-xl font-bold tracking-tight text-[#0093ff] text-left">Car Name</h6>
+                    <div className="flex justify-between w-full p-2 rounded-md">
+                      <div>
+                        <p className="mb-1 text-sm text-gray-700 text-left">
+                          <span className="text-blue-600">Lot Number:</span> {selectedLot?.name}
+                        </p>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Chassis No:</span> ABC123XYZ</p>
+                      </div>
+                      <div>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Model:</span> Model XYZ</p>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Maker:</span> CarMaker</p>
+                      </div>
+                      <div>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Year:</span> 2021</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <Select
+                  isMulti
+                  value={selectedDamageParts}
+                  onChange={handleDamagePartsChange}
+                  options={damageParts.map((part) => ({
+                    value: part,
+                    label: part.name,
+                  }))}
+                  styles={colourStyles}
+                  placeholder="Select Damage Parts"
+                  className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-left shadow-md focus:outline-none mb-6"
+                />
               </FormWizard.TabContent>
               <FormWizard.TabContent title="Warehouse Images" icon="ti-check">
                 {/* Warehouse Images Grid */}
@@ -387,7 +399,7 @@ const DamageRequests = () => {
                   ))}
                 </div>
               </FormWizard.TabContent>
-              <FormWizard.TabContent title="Other Details" icon="ti-check"  className="hover:border-none">
+              <FormWizard.TabContent title="Other Details" icon="ti-check" className="hover:border-none">
                 {/* Comment Textarea */}
                 <div className="mb-6">
                   <label className="block mb-2 text-lg font-medium text-gray-700 text-left" htmlFor="comment">
@@ -427,10 +439,10 @@ const DamageRequests = () => {
                 > */}
 
                 {/* </button> */}
-                </FormWizard.TabContent>
-                </FormWizard>
-              </form>
-            </div>
+              </FormWizard.TabContent>
+            </FormWizard>
+          </form>
+        </div>
       </CustomModal>
     </Layout>
   );
