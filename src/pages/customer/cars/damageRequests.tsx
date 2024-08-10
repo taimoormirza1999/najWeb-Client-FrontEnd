@@ -113,17 +113,13 @@ const DamageRequests = () => {
   const intl = useIntl();
   const [warehouseCars, setWarehouseCars] = useState([]);
   const [lotNumbers, setLotNumbers] = useState([]);
+  const [damageParts, setDamageParts] = useState([]);
+  const [warehouseImages, setWarehouseImages] = useState([]);
   const closeModalRef = useRef(null);
   const [damageModalOpen, setDamageModalOpen] = useState(false);
   const { data: session } = useSession();
-  const damageParts = [
-    { id: 1, name: 'Front Bumper' },
-    { id: 2, name: 'Rear Windshield' },
-    { id: 3, name: 'Left Front Door' },
-    { id: 4, name: 'Right Rear Tire' },
-    { id: 5, name: 'Hood' },
-    { id: 6, name: 'Trunk Lid' },
-  ];
+  const [selectedImages, setSelectedImages] = useState([]);
+
   const [selectedDamageParts, setSelectedDamageParts] = useState([]);
   const [selectedLot, setSelectedLot] = useState(null);
   const [carData, setcarData] = useState(null);
@@ -154,6 +150,16 @@ const DamageRequests = () => {
     }
   };
 
+  const fetchDamageParts = async () => {
+    try {
+      const response = await fetch('/api/customer/damageCar/getDamageParts');
+      const result = await response.json();
+      setDamageParts(result.data);
+      // console.log(result.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   const fetchLotNumbersDamageData = async (customerId) => {
     try {
       const url = `/api/customer/damageCar/lotNumbersDamage?customer_id=${customerId}`;
@@ -169,10 +175,12 @@ const DamageRequests = () => {
     const customerId = 2449;
     fetchDamageRequestData(customerId);
     fetchLotNumbersDamageData(customerId);
+    fetchDamageParts();
     // }
   }, []);
   useEffect(() => {
     getCarInfo(selectedLot?.value);
+    fetchImages(selectedLot?.value)
   }, [selectedLot]);
 
 
@@ -189,12 +197,31 @@ const DamageRequests = () => {
     }
   };
 
+  const fetchImages = async (valTo) => {
+    var type = 'damagewarehouse';
+    try {
+      const response = await fetch(`/api/customer/damageCar/getImages?car_id=${valTo}&type=${type}`);
+      const result = await response.json();
+      if (result?.images?.length > 0) {
+        setWarehouseImages(result.images);
+      } else {
+        // Handle the case when there are no images
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const handleImageClick = (image) => {
+    setSelectedImages((prevSelected) =>
+      prevSelected.includes(image)
+        ? prevSelected.filter((img) => img !== image)
+        : [...prevSelected, image]
+    );
+  };
 
   const handleLotChange = (option) => {
     setSelectedLot(option);
-
-    console.log("Selected Lot")
-    console.log(selectedLot.value)
   };
 
   const handleDamagePartsChange = (options) => {
@@ -330,8 +357,12 @@ const DamageRequests = () => {
               <FormWizard.TabContent title="Car Detail" icon={<CarIcon className="h-8 w-8" />}>
                 {/* <div className="p-8"> */}
                 {/* Lot Number Dropdown */}
-                <div className="mb-6 w-full ">
+                <div className="mb-6 w-full">
+                  <label htmlFor="lot-select" className="text-left block text-lg font-medium text-blue-600 mb-2">
+                    Lot Number
+                  </label>
                   <Select
+                    id="lot-select" // Add an ID for the label to associate with the Select component
                     value={selectedLot}
                     onChange={handleLotChange}
                     options={lotNumbers.map((lot) => ({
@@ -344,62 +375,73 @@ const DamageRequests = () => {
                     placeholder="Select Lot number"
                     className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-left shadow-md focus:outline-none"
                   />
-
                 </div>
 
                 {/* Car Details Card */}
-                <div className="mb-6 flex flex-col items-center rounded-lg border shadow-md md:flex-row">
+                {carData && (<div className="mb-6 flex flex-col items-center rounded-lg border shadow-md md:flex-row">
                   <img
-                    className="h-32 w-full rounded-t-lg object-cover md:h-auto md:w-32 md:rounded-none md:rounded-l-lg"
-                    src="https://via.placeholder.com/150"
+                    className="pl-3 h-36 w-full rounded-t-lg object-cover md:h-auto md:w-32 shadow rounded "
+                    src={`${carData.photo ? carData.photo : 'https://via.placeholder.com/150'}`}
                     alt="Car Image"
                   />
                   <div className="flex flex-col justify-between p-4 leading-normal w-full">
-                    <h6 className="mb-2 text-xl font-bold tracking-tight text-[#0093ff] text-left">Car Name</h6>
+                    <h6 className="mb-2 text-xl font-bold tracking-tight text-[#0093ff] text-left">{carData.year + " " + carData.carMakerName + " " + carData.carModelName}</h6>
                     <div className="flex justify-between w-full p-2 rounded-md">
                       <div>
                         <p className="mb-1 text-sm text-gray-700 text-left">
                           <span className="text-blue-600">Lot Number:</span> {selectedLot?.name}
                         </p>
-                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Chassis No:</span> ABC123XYZ</p>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Chassis No:</span> {carData.vin}</p>
                       </div>
                       <div>
-                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Model:</span> Model XYZ</p>
-                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Maker:</span> CarMaker</p>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Model:</span> {carData.carModelName}</p>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Maker:</span> {carData.carMakerName}</p>
                       </div>
                       <div>
-                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Year:</span> 2021</p>
+                        <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Year:</span>  {carData.year}</p>
                       </div>
                     </div>
                   </div>
+                </div>)}
+                <div className="mb-6 w-full">
+                  <label htmlFor="lot-select" className="text-left block text-lg font-medium text-blue-600 mb-2">
+                    Damage Parts
+                  </label>
+                  <Select
+                    isMulti
+                    value={selectedDamageParts}
+                    onChange={handleDamagePartsChange}
+                    options={damageParts.map((part) => ({
+                      value: part.key,
+                      label: part.value,
+                    }))}
+                    styles={colourStyles}
+                    placeholder="Select Damage Parts"
+                    className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-left shadow-md focus:outline-none mb-6"
+                  />
                 </div>
-                <Select
-                  isMulti
-                  value={selectedDamageParts}
-                  onChange={handleDamagePartsChange}
-                  options={damageParts.map((part) => ({
-                    value: part,
-                    label: part.name,
-                  }))}
-                  styles={colourStyles}
-                  placeholder="Select Damage Parts"
-                  className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-left shadow-md focus:outline-none mb-6"
-                />
               </FormWizard.TabContent>
-              <FormWizard.TabContent title="Warehouse Images" icon="ti-check">
+              <FormWizard.TabContent title="Warehouse Images" icon={<CarIcon className="h-8 w-8" />}>
                 {/* Warehouse Images Grid */}
                 <div className="mb-6 grid grid-cols-3 gap-4">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <img
+                  {warehouseImages.length > 0 ? (
+                    warehouseImages.map((image, index) => (
+                      <img
                       key={index}
-                      className="h-32 w-full rounded-lg object-cover"
-                      src={`https://via.placeholder.com/200?text=Warehouse+Image+${index + 1}`}
+                      className={`h-32 w-full rounded-lg object-cover cursor-pointer ${
+                        selectedImages.includes(image) ? 'border-4 border-blue-500' : ''
+                      }`}
+                      src={image.image}  // Assuming `image` object has a `url` property
                       alt={`Warehouse ${index + 1}`}
+                      onClick={() => handleImageClick(image)}
                     />
-                  ))}
+                    ))
+                  ) : (
+                    <p>No images available.</p>
+                  )}
                 </div>
               </FormWizard.TabContent>
-              <FormWizard.TabContent title="Other Details" icon="ti-check" className="hover:border-none">
+              <FormWizard.TabContent title="Other Details" icon={<CarIcon className="h-8 w-8" />} className="hover:border-none">
                 {/* Comment Textarea */}
                 <div className="mb-6">
                   <label className="block mb-2 text-lg font-medium text-gray-700 text-left" htmlFor="comment">
