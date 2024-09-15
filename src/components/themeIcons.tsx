@@ -138,14 +138,14 @@ const CarIcon = ({ className }) => {
   );
 };
 
-const SpinnerIcon = ({ className }) => {
+const SpinnerIcon = ({ className,color }) => {
   return (
     <svg
       aria-hidden="true"
       role="status"
       viewBox="0 0 100 101"
       xmlns="http://www.w3.org/2000/svg"
-      className={`inline text-white animate-spin animate-spin text-white ${className}`}
+      className={`inline animate-spin animate-spin ${color?color:'text-white'} ${className}`}
       fill="none"
     >
       <path

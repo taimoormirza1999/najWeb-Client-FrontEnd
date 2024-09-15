@@ -1,6 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
+
+import { faClock, faTimes, faLock, faPlus, faWarehouse, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { FormattedMessage, useIntl } from 'react-intl';
 import HeadTextWithIcon from '@/components/common/HeadTextWithIcon';
 import { Listbox } from '@headlessui/react';
@@ -17,6 +22,8 @@ import { InformationCircleIcon, XCircleIcon } from '@heroicons/react/outline';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Dialog } from '@headlessui/react';
 import { useSession } from 'next-auth/react';
+import { UserContext } from '@/components/userContext';
+
 import {
   Pagination,
   SelectPageRecords,
@@ -57,6 +64,7 @@ const ReactSelectStyle = (baseStyles, state) => ({
   }),
 });
 import { StylesConfig } from 'react-select';
+import ImageUploader from '@/components/ImageUploader';
 
 const colourStyles: StylesConfig<ColourOption, true> = {
   control: (styles) => ({
@@ -106,8 +114,6 @@ const colourStyles: StylesConfig<ColourOption, true> = {
   }),
 };
 
-
-
 const DamageRequests = () => {
 
   const intl = useIntl();
@@ -119,10 +125,15 @@ const DamageRequests = () => {
   const [damageModalOpen, setDamageModalOpen] = useState(false);
   const { data: session } = useSession();
   const [selectedImages, setSelectedImages] = useState([]);
-
+  const [attachments, setAttachments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedDamageParts, setSelectedDamageParts] = useState([]);
   const [selectedLot, setSelectedLot] = useState(null);
   const [carData, setcarData] = useState(null);
+  const [comments, setComments] = useState('');
+  const userContextData = useContext(UserContext);
+
+  const { profile } = userContextData || {};
   const carTableHeader = [
     { name: 'page.customer.dashboard.table.no' },
     { name: 'form.car_photo' },
@@ -137,14 +148,16 @@ const DamageRequests = () => {
     { name: 'customer.date' },
     { name: 'page.customer.dashboard.table.created_date' },
   ];
+
   const fetchDamageRequestData = async (customerId) => {
     try {
       const url = '/api/customer/damageCar/damageRequests';
       const response = await axios.get(url, {
         params: { customer_id: customerId } // Ensure the parameter name matches
       });
-      setWarehouseCars(response.data.data);
-      console.log(response.data);
+      setLoading(false);
+      setWarehouseCars(response?.data.data);
+      // console.log(response.data);
     } catch (error) {
       console.error('Fetch error:', error);
     }
@@ -165,19 +178,20 @@ const DamageRequests = () => {
       const url = `/api/customer/damageCar/lotNumbersDamage?customer_id=${customerId}`;
       const response = await axios.get(url);
       setLotNumbers(response.data.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error('Fetch error:', error);
     }
   };
   useEffect(() => {
-    // if (session?.profile && session.profile.length > 0) {
-    const customerId = 2449;
-    fetchDamageRequestData(customerId);
-    fetchLotNumbersDamageData(customerId);
-    fetchDamageParts();
-    // }
-  }, []);
+    if (profile && profile.customer_id) {
+      const customerId = profile.customer_id;
+
+      fetchDamageRequestData(customerId);
+      fetchLotNumbersDamageData(customerId);
+      fetchDamageParts();
+    }
+  }, [profile]);
   useEffect(() => {
     getCarInfo(selectedLot?.value);
     fetchImages(selectedLot?.value)
@@ -191,7 +205,6 @@ const DamageRequests = () => {
       const response = await fetch(url);
       const json = await response.json();
       setcarData(json.data[0]);
-      // console.log(carData)
     } catch (error) {
       console.error('Fetch error:', error);
     }
@@ -204,6 +217,7 @@ const DamageRequests = () => {
       const result = await response.json();
       if (result?.images?.length > 0) {
         setWarehouseImages(result.images);
+        // console.log(result.images)
       } else {
         // Handle the case when there are no images
       }
@@ -211,15 +225,18 @@ const DamageRequests = () => {
       console.error('Error fetching data:', error);
     }
   };
-
-  const handleImageClick = (image) => {
-    setSelectedImages((prevSelected) =>
-      prevSelected.includes(image)
-        ? prevSelected.filter((img) => img !== image)
-        : [...prevSelected, image]
-    );
+  const handleImageClick = (id) => {
+    setSelectedImages((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((imgId) => imgId !== id);
+      } else {
+        return [...prevSelected, id];
+      }
+    });
   };
-
+  const handleImagesChange = (newImages) => {
+    setAttachments(newImages);
+  };
   const handleLotChange = (option) => {
     setSelectedLot(option);
   };
@@ -227,10 +244,7 @@ const DamageRequests = () => {
   const handleDamagePartsChange = (options) => {
     setSelectedDamageParts(options);
   };
-  const handleComplete = () => {
-    console.log("Form completed!");
-    // Handle form completion logic here
-  };
+
   const tabChanged = ({
     prevIndex,
     nextIndex,
@@ -238,23 +252,62 @@ const DamageRequests = () => {
     prevIndex: number;
     nextIndex: number;
   }) => {
-    console.log("prevIndex", prevIndex);
-    console.log("nextIndex", nextIndex);
   };
+
+  const handleSubmit = () => {
+    // Validate the form inputs
+    if (!selectedLot) {
+      alert('Please select a lot number.');
+      return;
+    }
+
+    // Create form data object to send to API
+    const formData = new FormData();
+    formData.append('lotNumber', selectedLot.value);
+    formData.append('comments', comments);
+
+    selectedDamageParts.forEach((part, index) => {
+      formData.append(`damageParts[${index}]`, part.value);
+    });
+
+    selectedImages.forEach((image, index) => {
+      formData.append(`selectedImages[${index}]`, image.image);
+    });
+
+    // Array.from(uploadFiles).forEach((file, index) => {
+    //     formData.append(`uploadFiles[${index}]`, file);
+    // });
+
+    // Simulate API call
+    console.log('Submitting form with data:', {
+      lotNumber: selectedLot.value,
+      damageParts: selectedDamageParts.map(part => part.value),
+      selectedImages: selectedImages.map(image => image),
+      'cu_notes': comments,
+      attachments,
+    });
+    formData.append('file_type', 'image');
+    // Reset form after submission
+    // setSelectedLot(null);
+    // setSelectedDamageParts([]);
+    // setSelectedImages([]);
+    // setComments('');
+    // setUploadFiles([]);
+  };
+
   return (
     <Layout>
 
       <div className="m-8">
-        {/* <HeadTextWithIcon header={intl.formatMessage({ id: 'page.customer.dashboard.navigation_damage_requests' })} gicon={'&#xe531;'} /> */}
         <div className="flex justify-between  align-middle items-center" >
-          <HeadTextWithIcon header={intl.formatMessage({ id: 'page.customer.dashboard.navigation_damage_requests' })} gicon={'&#xe531;'} />
+          <HeadTextWithIcon header={'page.customer.dashboard.navigation_damage_requests'} gicon={'&#xe531;'} />
           <button
-            className="h-12 bg-dark-blue  mt-2 rounded-md border-2 border-blue-600 px-3 py-1 text-sm font-medium text-white ltr:right-[12rem] sm:text-xl"
+            className="h-11 bg-dark-blue  mt-2 rounded-md border-2 text-sm border-blue-800 px-3 py-1 text-sm font-medium text-white ltr:right-[12rem] sm:text-xl"
             onClick={() => {
               setDamageModalOpen(true);
             }}
-          >
-            <FormattedMessage id="page.customer.dashboard.add_new_cars" />
+          ><FontAwesomeIcon icon={faPlus} /> &nbsp;&nbsp;
+            <FormattedMessage id="page.customer.dashboard.add_new_request" />
           </button>
         </div>
         <div className="w-[calc(100vw - 285px)] flex flex-col">
@@ -262,6 +315,7 @@ const DamageRequests = () => {
           <div className="-mx-4 mb-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden">
+
                 <table className="min-w-full divide-y divide-gray-300">
                   <TableHeader tableHeader={carTableHeader} />
                   <tbody>
@@ -295,20 +349,23 @@ const DamageRequests = () => {
                           {car.carMakerName} {car.carModelName} {car.year}
                         </TableColumn>
                         <TableColumn scope="col" className="min-w-[10px] ">{car.purchasedate}</TableColumn>
-                        <TableColumn scope="col" className="w-[2px] ">{car.request_number}</TableColumn>
-                        <TableColumn scope="col" className="w-[2px] ">{car.customer_price ? car.customer_price : intl.formatMessage({ id: 'page.customer.dashboard.table.no' })}</TableColumn>
-                        <TableColumn scope="col" className="w-[2px] ">{car.customer_status == 0 ? intl.formatMessage({ id: 'in.progress' }) : car.customer_status == 1 ? intl.formatMessage({ id: 'closed' }) : intl.formatMessage({ id: 'rejected' })}</TableColumn>
+                        <TableColumn scope="col" className="w-[30px] ">{car.request_number}</TableColumn>
+                        <TableColumn scope="col" className="w-[30px] ">{car.customer_price ? car.customer_price : intl.formatMessage({ id: 'page.customer.dashboard.table.no' })}</TableColumn>
+                        <TableColumn scope="col" className="w-[30px] mx-auto"><span className={`font-medium text-${car.customer_status == 0 ? 'blue' : car.customer_status == 1 ? 'green' : 'red'}-600`}                        >{car.customer_status == 0 ?  <FontAwesomeIcon icon={faClock} size="2x" />  : car.customer_status == 1 ? intl.formatMessage({ id: 'closed' }) : intl.formatMessage({ id: 'rejected' })}</span></TableColumn>
                         <TableColumn scope="col" className="min-w-[56px] ">{car.notes}</TableColumn>
-                        <TableColumn scope="col" className="w-[2px] ">{car.currency == 1 ? 'AED' : '$'}</TableColumn>
-                        <TableColumn scope="col" className="w-[2px] ">{car.customer_date ? car.customer_date : intl.formatMessage({ id: 'page.customer.dashboard.table.no' })}</TableColumn>
+                        <TableColumn scope="col" className="w-[30px] ">{car.currency == 1 ? 'AED' : '$'}</TableColumn>
+                        <TableColumn scope="col" className="w-[30px] ">{car.customer_date ? car.customer_date : intl.formatMessage({ id: 'page.customer.dashboard.table.no' })}</TableColumn>
                         <TableColumn scope="col" className="min-w-[10px] ">{car.created_date}</TableColumn>
-                        {/* <td> */}
-                        {/* Add action buttons or links here */}
-                        {/* </td> */}
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                {loading && (
+                  <div className=" mt-5 flex justify-center items-center mx-auto" >
+                    <SpinnerIcon className="mr-3 h-7 w-7" color='text-blue-900' />
+                    <span className="text-blue-700">Loading...</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -342,27 +399,22 @@ const DamageRequests = () => {
           </div>
 
           <form
-            // onSubmit={handleSubmit}
+
             encType="multipart/form-data"
             method="post"
             className="max-h-[90vh] overflow-y-auto px-2"
           >
-            {/* <div className="my-4 gap-2 sm:flex"> */}
-
-
-
             <FormWizard shape="square"
               color="#0093ff"
-              onComplete={handleComplete} onTabChange={tabChanged}>
+              onComplete={handleSubmit} onTabChange={tabChanged}>
               <FormWizard.TabContent title="Car Detail" icon={<CarIcon className="h-8 w-8" />}>
-                {/* <div className="p-8"> */}
                 {/* Lot Number Dropdown */}
-                <div className="mb-6 w-full">
+                <div className="mb-3 w-full">
                   <label htmlFor="lot-select" className="text-left block text-lg font-medium text-blue-600 mb-2">
                     Lot Number
                   </label>
                   <Select
-                    id="lot-select" // Add an ID for the label to associate with the Select component
+                    id="lot-select"
                     value={selectedLot}
                     onChange={handleLotChange}
                     options={lotNumbers.map((lot) => ({
@@ -378,18 +430,18 @@ const DamageRequests = () => {
                 </div>
 
                 {/* Car Details Card */}
-                {carData && (<div className="mb-6 flex flex-col items-center rounded-lg border shadow-md md:flex-row">
+                {carData && (<div className="mb-3 flex flex-col items-center rounded-lg border shadow-md md:flex-row">
                   <img
-                    className="pl-3 h-36 w-full rounded-t-lg object-cover md:h-auto md:w-32 shadow rounded "
+                    className="pl-2 h-36 w-full  object-cover md:h-auto md:w-36 shadow rounded "
                     src={`${carData.photo ? carData.photo : 'https://via.placeholder.com/150'}`}
                     alt="Car Image"
                   />
-                  <div className="flex flex-col justify-between p-4 leading-normal w-full">
-                    <h6 className="mb-2 text-xl font-bold tracking-tight text-[#0093ff] text-left">{carData.year + " " + carData.carMakerName + " " + carData.carModelName}</h6>
+                  <div className="flex flex-col justify-between px-4 py-2 leading-normal w-full">
+                    <h6 className="mb-2 text-xl font-semibold tracking-tight text-[#0093ff] text-left">{carData.year + " " + carData.carMakerName + " " + carData.carModelName}</h6>
                     <div className="flex justify-between w-full p-2 rounded-md">
                       <div>
                         <p className="mb-1 text-sm text-gray-700 text-left">
-                          <span className="text-blue-600">Lot Number:</span> {selectedLot?.name}
+                          <span className="text-blue-600">Lot Number:</span> #{selectedLot?.value}
                         </p>
                         <p className="mb-1 text-sm text-gray-700 text-left"><span className="text-blue-600">Chassis No:</span> {carData.vin}</p>
                       </div>
@@ -411,7 +463,7 @@ const DamageRequests = () => {
                     isMulti
                     value={selectedDamageParts}
                     onChange={handleDamagePartsChange}
-                    options={damageParts.map((part) => ({
+                    options={damageParts?.map((part) => ({
                       value: part.key,
                       label: part.value,
                     }))}
@@ -423,18 +475,17 @@ const DamageRequests = () => {
               </FormWizard.TabContent>
               <FormWizard.TabContent title="Warehouse Images" icon={<CarIcon className="h-8 w-8" />}>
                 {/* Warehouse Images Grid */}
-                <div className="mb-6 grid grid-cols-3 gap-4">
+                <div className="mb-6 grid grid-cols-3 gap-3">
                   {warehouseImages.length > 0 ? (
                     warehouseImages.map((image, index) => (
                       <img
-                      key={index}
-                      className={`h-32 w-full rounded-lg object-cover cursor-pointer ${
-                        selectedImages.includes(image) ? 'border-4 border-blue-500' : ''
-                      }`}
-                      src={image.image}  // Assuming `image` object has a `url` property
-                      alt={`Warehouse ${index + 1}`}
-                      onClick={() => handleImageClick(image)}
-                    />
+                        key={index}
+                        className={`h-32 w-full rounded-lg shadow object-cover cursor-pointer ${selectedImages.includes(image.id) ? 'border-4 border-blue-500' : ''
+                          }`}
+                        src={image.image}
+                        alt={`Warehouse ${index + 1}`}
+                        onClick={() => handleImageClick(image.id)}
+                      />
                     ))
                   ) : (
                     <p>No images available.</p>
@@ -451,6 +502,8 @@ const DamageRequests = () => {
                     id="comment"
                     className="w-full rounded-lg border border-gray-300 p-2 text-gray-700"
                     rows="4"
+                    value={comments}
+                    onChange={(e) => setComments(e.target.value)}
                     placeholder="Write your comments here..."
                   ></textarea>
                 </div>
@@ -459,12 +512,13 @@ const DamageRequests = () => {
                   <label className="block mb-2 text-lg font-medium text-gray-700 text-left" htmlFor="upload">
                     Attach Images
                   </label>
-                  <input
+                  {/* <input
                     id="upload"
                     type="file"
                     className="block w-full text-sm text-gray-500"
                     multiple
-                  />
+                  /> */}
+                  <ImageUploader onImagesChange={handleImagesChange} />
                 </div>
 
                 {/* Submit Button */}

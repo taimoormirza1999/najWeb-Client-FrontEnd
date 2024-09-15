@@ -43,6 +43,7 @@
     "nprogress": "^0.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-dropzone": "^14.2.3",
     "react-form-wizard-component": "^0.1.7",
     "react-gallery-carousel": "^0.4.0",
     "react-html-table-to-excel": "^2.0.0",

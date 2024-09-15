@@ -29,8 +29,8 @@ const SignInError = ({ error, className, textError }) => {
 };
 
 export default function Login({ locale }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('insafusedcar@gmail.com');
+  const [password, setPassword] = useState('nejoum2020');
   const [fError, setFError] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -197,6 +197,7 @@ export default function Login({ locale }) {
                       id="email"
                       name="email"
                       type="email"
+                      value={email}
                       placeholder="Example@mail.com"
                       autoComplete="email"
                       required
@@ -221,6 +222,7 @@ export default function Login({ locale }) {
                       placeholder="**********"
                       autoComplete="current-password"
                       required
+                      value={password}
                       className="border-dark-blue block w-full appearance-none rounded-md border-2 px-3 py-2 shadow-sm placeholder:text-gray-600 focus:border-azure-blue focus:outline-none sm:text-sm"
                       onChange={(e) => {setPassword(e.target.value);setFError('');setShowError(false);}}
                     />
