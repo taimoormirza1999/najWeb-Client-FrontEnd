@@ -358,8 +358,9 @@ const DamageRequests = () => {
                         <TableColumn scope="col" className="min-w-[10px] ">{car.created_date}</TableColumn>
                       </tr>
                     ))}
+                    
                   </tbody>
-                  
+
                 </table>
                 {loading && (
                   <div className=" mt-5 flex justify-center items-center mx-auto" >
