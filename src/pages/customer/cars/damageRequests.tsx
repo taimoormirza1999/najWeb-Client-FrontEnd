@@ -359,6 +359,7 @@ const DamageRequests = () => {
                       </tr>
                     ))}
                   </tbody>
+                  
                 </table>
                 {loading && (
                   <div className=" mt-5 flex justify-center items-center mx-auto" >
